@@ -18,6 +18,25 @@ FlowTask là một app desktop dành cho những người muốn quản lý các
 ### Installation
 
 ### Usage
-- Project Structure
+- Project Structure 
+├── src
+│   ├── Main.java
+│   ├── Controller
+│   │   ├── TaskController.java
+│   │   ├── ProjectController.java
+│   │   └── AuthController.java
+│   │   └── NotificationCotroller.java
+│   │
+│   ├── Model
+│   │   ├── UserProject.java
+│   │   ├── Task.java
+│   │   ├── Project.java
+│   │   ├── User.java
+│   │   ├── Invite.java
+│   │   ├── Notification.java
+│   │
+│   ├── View
+
+  
 
 ### Link demo 
