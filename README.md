@@ -31,23 +31,31 @@ Sau khi tạo, dự án sẽ được lưu vào hệ thống và hiển thị tr
 ### Usage
 - Project Structure 
 ```bash
-├── src
-│   ├── Main.java
-│   ├── Controller
-│   │   ├── TaskController.java
-│   │   ├── ProjectController.java
-│   │   └── AuthController.java
-│   │   └── NotificationCotroller.java
-│   │
-│   ├── Model
-│   │   ├── UserProject.java
-│   │   ├── Task.java
-│   │   ├── Project.java
-│   │   ├── User.java
-│   │   ├── Invite.java
-│   │   ├── Notification.java
-│   │
-│   ├── View
+src
+ ├── model
+ │     User.java
+ │     Project.java
+ │     Task.java
+ │     Notification.java
+ │
+ ├── controller
+ │     AuthController.java
+ │     ProjectController.java
+ │     TaskController.java
+ │     NotificationController.java
+ │
+ ├── view
+ │     login.fxml
+ │     dashboard.fxml
+ │     project.fxml
+ │     task.fxml
+ │
+ ├── repository
+ │     UserRepository.java
+ │     ProjectRepository.java
+ │     TaskRepository.java
+ │
+ └── Main.java
 ```
 
 ### Link demo 
