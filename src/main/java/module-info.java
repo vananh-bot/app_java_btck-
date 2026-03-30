@@ -2,7 +2,8 @@ module com.example.flowtask {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
-    requires com.example.flowtask; // Thêm dòng này để dùng JDBC
+    requires com.example.flowtask;
+    requires java.desktop; // Thêm dòng này để dùng JDBC
 
     opens Test to javafx.graphics, javafx.fxml;
     opens Controller to javafx.fxml;
