@@ -19,7 +19,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="764.0" styleClass="white-pane" stylesheets="@../css/auth.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AuthCotroller">
    <children>
-      <HBox alignment="CENTER" layoutX="50.0" layoutY="59.0" prefHeight="356.0" prefWidth="665.0" spacing="30.0">
+       <HBox alignment="CENTER" layoutX="51.0" layoutY="66.0" prefHeight="356.0" prefWidth="664.0" spacing="30.0">
          <children>
             <VBox prefHeight="326.0" prefWidth="452.0">
                <children>
@@ -68,21 +68,23 @@
                </styleClass>
                <children>
                   <Label />
-                  <Label prefHeight="28.0" prefWidth="230.0" text="      FlowTask">
+                  <Label prefHeight="8.0" prefWidth="224.0" text="      FlowTask">
                      <font>
-                        <Font name="Calibri Bold" size="19.0" />
+                         <Font name="Calibri Bold" size="19.0" />
                      </font>
                   </Label>
-                  <Label prefHeight="22.0" prefWidth="230.0" text="         Tạo tài khoản mới" textOverrun="CLIP">
+                  <Label prefHeight="4.0" prefWidth="224.0" text="         Tạo tài khoản mới" textOverrun="CLIP">
                      <font>
                         <Font name="Tahoma" size="9.0" />
                      </font>
                   </Label>
-                  <Label />
                   <Label prefHeight="13.0" prefWidth="230.0" text="          Tên đăng nhập" textAlignment="JUSTIFY">
                      <font>
                         <Font name="Segoe UI" size="10.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
                   </Label>
                   <StackPane prefHeight="20.0" prefWidth="170.0" styleClass="stack-pane">
                      <children>
@@ -202,9 +204,10 @@
                         <Insets left="30.0" right="30.0" />
                      </VBox.margin>
                   </StackPane>
+                  <Label prefHeight="18.0" prefWidth="238.0" styleClass="error-label" />
                   <Button fx:id="signin" mnemonicParsing="false" prefHeight="29.0" prefWidth="170.0" text="Đăng kí -&gt;" textFill="WHITE">
                      <VBox.margin>
-                        <Insets left="30.0" right="20.0" top="10.0" />
+                        <Insets left="30.0" right="20.0" top="5.0" />
                      </VBox.margin>
                      <font>
                         <Font name="Monospaced Regular" size="10.0" />
@@ -214,10 +217,9 @@
                         <String fx:value="btn-login" />
                      </styleClass>
                   </Button>
-                  <Label prefHeight="18.0" prefWidth="238.0" />
                   <Line endX="68.0" opacity="0.05" startX="-100.0">
                      <VBox.margin>
-                        <Insets left="30.0" />
+                        <Insets left="30.0" top="8.0" />
                      </VBox.margin>
                   </Line>
                   <StackPane prefHeight="24.0" prefWidth="230.0">
