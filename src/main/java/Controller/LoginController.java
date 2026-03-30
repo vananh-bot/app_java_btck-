@@ -56,6 +56,8 @@ public class LoginController {
 
     @FXML
     void hiddenPassword(MouseEvent event) {
+        password.setText(passwordvisible.getText());
+
         password.setVisible(true);
         passwordvisible.setVisible(false);
 
@@ -65,6 +67,8 @@ public class LoginController {
 
     @FXML
     void showPassword(MouseEvent event) {
+        passwordvisible.setText(password.getText());
+
         password.setVisible(false);
         passwordvisible.setVisible(true);
 
