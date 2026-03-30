@@ -19,13 +19,42 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="764.0" styleClass="white-pane" stylesheets="@../css/auth.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AuthCotroller">
    <children>
-      <HBox alignment="CENTER" layoutX="50.0" layoutY="66.0" prefHeight="356.0" prefWidth="665.0" spacing="30.0">
+      <HBox alignment="CENTER" layoutX="51.0" layoutY="66.0" prefHeight="356.0" prefWidth="664.0" spacing="30.0">
          <children>
-            <ImageView fitHeight="326.0" fitWidth="339.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/app_banner-login.jpg" />
-               </image>
-            </ImageView>
+            <VBox prefHeight="326.0" prefWidth="452.0">
+               <children>
+                  <Label prefHeight="34.0" prefWidth="311.0" text="Chào mừng!">
+                     <font>
+                        <Font name="Segoe UI Bold" size="23.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="30.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="20.0" top="15.0" />
+                     </padding>
+                  </Label>
+                  <Label prefHeight="13.0" prefWidth="345.0" text="Quản lý các dự án cùng với nhóm của bạn">
+                     <font>
+                        <Font name="Segoe UI" size="12.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" top="5.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets left="30.0" />
+                     </VBox.margin>
+                  </Label>
+                  <ImageView cache="true" fitHeight="234.0" fitWidth="296.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/app_banner_login.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets left="40.0" top="10.0" />
+                     </VBox.margin>
+                  </ImageView>
+               </children>
+            </VBox>
             <VBox prefHeight="328.0" prefWidth="289.0">
                <HBox.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
