@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+.logo-text {
+    -fx-text-fill: #5208e8;
+}
+
+.login-hbox-border {
+    -fx-border-radius: 8px;         /* Bo tròn góc 8px (cho hiện đại) */
+
+    -fx-padding: 15px;              /* Tạo khoảng cách giữa viền và nội dung bên trong */
+
+    -fx-background-color: #F0F2F5;
+    -fx-background-radius: 8px; /* Bo góc nền trùng với bo góc viền */
+
+}
+
+.white-pane {
+    -fx-background-color: #ffffff;
+}
+
+.box-border {
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+}
+
+.box2-border {
+    -fx-border-radius: 8px;
+    -fx-background-radius: 30px;
+    -fx-background-color: #5208e8;
+    -fx-font-family: "Inter";
+    -fx-font-weight: 700;
+    -fx-font-size: 10px;
+}
+
+.btn-login:hover {
+    -fx-font-weight: bold;      /* Chữ trong nút đậm lên */
+    -fx-background-color: #2b39a1; /* Nền nút tối lại một chút để tạo cảm giác nhấn */
+
+    /* Mẹo: Có thể thêm hiệu ứng phóng to nhẹ cho xịn */
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+.link-signup:hover {
+    -fx-font-weight: bold;    /* Chữ sẽ đậm lên */
+    -fx-text-fill: #2b39a1;   /* Đổi sang màu đậm hơn một chút cho đẹp */
+    -fx-underline: true;     /* Có thể hiện thêm gạch chân nếu muốn */
+}
+
+.shadow {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 30, 0, 0, 10);
+}
+
+.stack-pane {
+    -fx-background-color: #F0F2F5; /* Màu xám nền bạn thích */
+    -fx-background-radius: 20;     /* Bo góc cho cái hộp */
+    -fx-border-radius: 20;
+    -fx-border-color: #DCDCDC;     /* Màu viền xám mảnh bao quanh hộp */
+    -fx-border-width: 1;
+}
+.text-field, .password-field{
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 11px;
+    -fx-background-radius: 20px; /* Bo góc ô nhập liệu */
+    /*-fx-border-color: #cccccc;  !* Màu viền xám nhẹ *!*/
+    /*-fx-border-radius: 20px;
+    /*-fx-padding: 5px 10px;      !* Tạo khoảng trống bên trong ô cho dễ nhìn *!*/
+    -fx-border-color: transparent;
+}
+
+.text-field .prompt-text, .password-field .prompt-text {
+    -fx-text-fill: #999999;
+
+}
+
+/* Hiệu ứng khi click vào ô */
+.text-field:focused, .password-field:focused {
+    -fx-background-color: white;
+    -fx-border-color: #DCDCDC;     /* Viền xám mảnh khi focus */
+    -fx-border-width: 1;
+}
+
+.error-label {
+    -fx-text-fill: #ff3333;
+    -fx-font-family: "Roboto";
+    -fx-font-size: 9px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 0 30px;
+    -fx-visibility: hidden;
+}
