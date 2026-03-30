@@ -87,3 +87,12 @@
     -fx-padding: 0 0 0 30px;
     -fx-visibility: hidden;
 }
+.scroll-pane .scroll-bar:vertical {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+}
+
+.scroll-pane .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-pref-height: 0;
+}

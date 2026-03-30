@@ -16,6 +16,10 @@ public class RegisterController {
     public RegisterController(RegisterService registerService){
         this.registerService = registerService;
     }
+    @FXML
+    private TextField name;
+    @FXML
+    private TextField email;
 
     @FXML
     private ImageView eyeclose1;
@@ -39,13 +43,13 @@ public class RegisterController {
     private PasswordField password2;
 
     @FXML
-    private TextField passwordvisible;
-
-    @FXML
     private TextField passwordvisible1;
 
     @FXML
-    private Button signin;
+    private TextField passwordvisible2;
+
+    @FXML
+    private Button signup;
 
     @FXML
     void hiddenPassword1(MouseEvent event) {
