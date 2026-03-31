@@ -161,7 +161,13 @@
                               <Insets left="30.0" right="30.0" />
                            </VBox.margin>
                         </StackPane>
-                        <Label prefHeight="18.0" prefWidth="273.0" styleClass="error-label" />
+                        <Label prefHeight="18.0" prefWidth="273.0" styleClass="error-label">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="30.0" top="6.0" />
+                           </padding></Label>
                         <Button fx:id="signin" mnemonicParsing="false" onAction="#handleLogin" prefHeight="29.0" prefWidth="170.0" text="Đăng nhập -&gt;" textFill="WHITE">
                            <VBox.margin>
                               <Insets left="30.0" right="20.0" top="10.0" />
