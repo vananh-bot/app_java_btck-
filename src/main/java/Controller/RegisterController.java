@@ -61,8 +61,11 @@ public class RegisterController {
         passwordvisible1.setVisible(false);
         passwordvisible2.setVisible(false);
 
-        eyeclose1.setVisible(false);
-        eyeclose2.setVisible(false);
+        eyeclose1.setVisible(true);
+        eyeclose2.setVisible(true);
+
+        eyeopen1.setVisible(false);
+        eyeopen2.setVisible(false);
 
         passwordvisible1.textProperty().bindBidirectional(password1.textProperty());
         passwordvisible2.textProperty().bindBidirectional(password2.textProperty());
