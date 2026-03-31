@@ -169,7 +169,7 @@
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </StackPane.margin>
                                           </ImageView>
-                                          <TextField fx:id="passwordvisible" prefHeight="23.0" prefWidth="113.0">
+                                          <TextField fx:id="passwordvisible1"  prefHeight="23.0" prefWidth="113.0">
                                              <StackPane.margin>
                                                 <Insets left="25.0" right="25.0" />
                                              </StackPane.margin>
@@ -217,7 +217,7 @@
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </StackPane.margin>
                                           </ImageView>
-                                          <TextField fx:id="passwordvisible1" prefHeight="23.0" prefWidth="113.0">
+                                          <TextField fx:id="passwordvisible2"  prefHeight="23.0" prefWidth="113.0">
                                              <StackPane.margin>
                                                 <Insets left="25.0" right="25.0" />
                                              </StackPane.margin>
@@ -259,7 +259,7 @@
                   </ScrollPane>
                   <Label prefHeight="18.0" prefWidth="238.0" styleClass="error-label">
                      <graphic>
-                        <Button fx:id="signup" mnemonicParsing="false" prefHeight="29.0" prefWidth="170.0" text="Đăng kí -&gt;" textFill="WHITE">
+                        <Button fx:id="signup" mnemonicParsing="false" onAction="#handleRegister" prefHeight="29.0" prefWidth="170.0" text="Đăng kí -&gt;" textFill="WHITE">
                            <font>
                               <Font name="Monospaced Regular" size="10.0" />
                            </font>
@@ -285,7 +285,7 @@
                               <Insets left="50.0" />
                            </StackPane.margin>
                         </Label>
-                        <Hyperlink fx:id="login" styleClass="logo-text" text="Đăng nhập" textFill="#4f08e8">
+                        <Hyperlink fx:id="login" onAction="#handleGoToLogin" styleClass="logo-text" text="Đăng nhập" textFill="#4f08e8">
                            <StackPane.margin>
                               <Insets left="80.0" />
                            </StackPane.margin>

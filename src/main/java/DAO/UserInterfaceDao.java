@@ -1,5 +1,7 @@
 package DAO;
 
+import Model.User;
+
 import java.util.List;
 
 public interface UserInterfaceDao <T>{
@@ -7,6 +9,7 @@ public interface UserInterfaceDao <T>{
     int update(T t);
     int deleteById(int id);
     List<T> selectAll();
-    T selectById(int id);
-    T selectByEmail(String email);
+    T findByName(String name);
+    T findByEmail(String email);
+    T findById(int id);
 }

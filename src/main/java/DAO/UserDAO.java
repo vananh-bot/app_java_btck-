@@ -1,23 +1,14 @@
 package DAO;
 
-import DAO.UserInterfaceDao;
 import Model.User;
 import database.JDBCUtil;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO implements UserInterfaceDao<User> {
-
-    private static final UserDAO instance = new UserDAO();
-    public static UserDAO getInstance() {
-        return instance;
-    }
-
-    private UserDAO() {}
-
-
     @Override
     public int insert(User user) {
         String sql = "INSERT INTO users(email, password, name, is_verified) VALUES (?, ?, ?, ?)";
@@ -34,11 +25,9 @@ public class UserDAO implements UserInterfaceDao<User> {
             return ps.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Insert user failed", e);
         }
-        return 0;
     }
-
 
     @Override
     public int update(User user) {
@@ -55,11 +44,9 @@ public class UserDAO implements UserInterfaceDao<User> {
             return ps.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Update user failed", e);
         }
-        return 0;
     }
-
 
     @Override
     public int deleteById(int id) {
@@ -73,12 +60,9 @@ public class UserDAO implements UserInterfaceDao<User> {
             return ps.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Delete user failed", e);
         }
-        return 0;
     }
-
-
     @Override
     public List<User> selectAll() {
         List<User> list = new ArrayList<>();
@@ -94,14 +78,14 @@ public class UserDAO implements UserInterfaceDao<User> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Find all users failed", e);
         }
+
         return list;
     }
 
-
     @Override
-    public User selectById(int id) {
+    public User findById(int id) {
         String sql = "SELECT * FROM users WHERE id=?";
 
         try (
@@ -117,13 +101,14 @@ public class UserDAO implements UserInterfaceDao<User> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Find user by id failed", e);
         }
+
         return null;
     }
 
     @Override
-    public User selectByEmail(String email) {
+    public User findByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email=?";
 
         try (
@@ -139,13 +124,37 @@ public class UserDAO implements UserInterfaceDao<User> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Find user by email failed", e);
         }
+
+        return null;
+    }
+
+    @Override
+    public User findByName(String name) {
+        String sql = "SELECT * FROM users WHERE name=?";
+
+        try (
+                Connection con = JDBCUtil.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)
+        ) {
+            ps.setString(1, name);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapResultSet(rs);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Find user by name failed", e);
+        }
+
         return null;
     }
 
     public User login(String email, String password) {
-        User user = selectByEmail(email);
+        User user = findByEmail(email);
 
         if (user != null && user.checkPassword(password)) {
             return user;
@@ -154,14 +163,20 @@ public class UserDAO implements UserInterfaceDao<User> {
     }
 
     private User mapResultSet(ResultSet rs) throws SQLException {
+
+        Timestamp createdTs = rs.getTimestamp("created_at");
+        Timestamp updatedTs = rs.getTimestamp("updated_at");
+        LocalDateTime createdAt = (createdTs != null) ? createdTs.toLocalDateTime() : null;
+        LocalDateTime updatedAt = (updatedTs != null) ? updatedTs.toLocalDateTime() : null;
+
         return new User(
                 rs.getInt("id"),
                 rs.getString("email"),
                 rs.getString("password"),
                 rs.getString("name"),
                 rs.getBoolean("is_verified"),
-                rs.getTimestamp("created_at").toLocalDateTime(),
-                rs.getTimestamp("updated_at").toLocalDateTime()
+                createdAt,
+                updatedAt
         );
     }
 }

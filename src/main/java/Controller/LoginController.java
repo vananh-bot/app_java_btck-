@@ -11,10 +11,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 public class LoginController {
+
     private LoginService loginService;
 
     public LoginController(LoginService loginService){
         this.loginService = loginService;
+    }
+
+    public LoginController() {
     }
 
     @FXML

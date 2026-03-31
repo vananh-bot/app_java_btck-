@@ -1,12 +1,31 @@
 package Test;
 
-import java.sql.Connection;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class Main {
-    static void main(String[] args) {
-        Connection connection = database.JDBCUtil.getConnection();
-        System.out.println(connection);
-        database.JDBCUtil.closeConnection(connection);
-        System.out.println(connection);
+public class Main extends Application {
+
+    @Override
+    public void start(Stage stage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/auth/register.fxml")
+            );
+
+            Scene scene = new Scene(loader.load());
+
+            stage.setTitle("Register");
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        launch();
     }
 }
