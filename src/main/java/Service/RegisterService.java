@@ -34,7 +34,7 @@ public class RegisterService {
             return "Email đã tồn tại!";
         }
 
-        if(userDAO.findByEmail(name) != null){
+        if(userDAO.findByName(name) != null){
             return "Tên đã tồn tại!";
         }
 

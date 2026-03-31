@@ -124,6 +124,8 @@ public class RegisterController {
             if("SUCCESS".equals(result)){
                 error.setStyle("-fx-text-fill: #048000;");
                 error.setText("Đăng kí thành công!");
+
+                clearForm();
             } else {
                 error.setStyle("-fx-text-fill: #ff0000;");
                 error.setText(result);
@@ -151,6 +153,28 @@ public class RegisterController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void clearForm() {
+        name.clear();
+        email.clear();
+
+        password1.clear();
+        password2.clear();
+        passwordvisible1.clear();
+        passwordvisible2.clear();
+
+        // reset UI
+        password1.setVisible(true);
+        password2.setVisible(true);
+        passwordvisible1.setVisible(false);
+        passwordvisible2.setVisible(false);
+
+        eyeopen1.setVisible(true);
+        eyeopen2.setVisible(true);
+        eyeclose1.setVisible(false);
+        eyeclose2.setVisible(false);
     }
 
 }
