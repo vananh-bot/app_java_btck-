@@ -74,37 +74,48 @@ public class RegisterController {
     @FXML
     void hiddenPassword(MouseEvent event) {
         if (event.getSource() == eyeopen1) {
-            password1.setText(passwordvisible1.getText());
             password1.setVisible(true);
             passwordvisible1.setVisible(false);
             eyeopen1.setVisible(false);
             eyeclose1.setVisible(true);
+
+            // Đưa con trỏ chuột về lại ô password1
+            password1.requestFocus();
+            password1.positionCaret(password1.getText().length());
         } else {
-            password2.setText(passwordvisible2.getText());
             password2.setVisible(true);
             passwordvisible2.setVisible(false);
             eyeopen2.setVisible(false);
             eyeclose2.setVisible(true);
+
+            // Đưa con trỏ chuột về lại ô password2
+            password2.requestFocus();
+            password2.positionCaret(password2.getText().length());
         }
     }
 
     @FXML
     void showPassword(MouseEvent event) {
         if (event.getSource() == eyeclose1) {
-            passwordvisible1.setText(password1.getText());
             passwordvisible1.setVisible(true);
             password1.setVisible(false);
             eyeopen1.setVisible(true);
             eyeclose1.setVisible(false);
+
+            // Đưa con trỏ chuột về ô passwordvisible1
+            passwordvisible1.requestFocus();
+            passwordvisible1.positionCaret(passwordvisible1.getText().length());
         } else {
-            passwordvisible2.setText(password2.getText());
             passwordvisible2.setVisible(true);
             password2.setVisible(false);
             eyeopen2.setVisible(true);
             eyeclose2.setVisible(false);
+
+            // Đưa con trỏ chuột về ô passwordvisible2
+            passwordvisible2.requestFocus();
+            passwordvisible2.positionCaret(passwordvisible2.getText().length());
         }
     }
-
     @FXML
     public void handleRegister(ActionEvent event){
         String userName = name.getText().trim();
