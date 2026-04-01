@@ -2,13 +2,34 @@ package DAO;
 
 import Model.User;
 import database.JDBCUtil;
-
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class UserDAO implements UserInterfaceDao<User> {
+    public boolean checkLogin(String name, String password) {
+        boolean isValid = false;
+        String sql = "SELECT * FROM users WHERE name = ? AND password = ?";
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement st = conn.prepareStatement(sql)) {
+
+            st.setString(1, name);
+            st.setString(2, password);
+
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    isValid = true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return isValid;
+    }
+
     @Override
     public int insert(User user) {
         String sql = "INSERT INTO users(email, password, name, is_verified) VALUES (?, ?, ?, ?)";

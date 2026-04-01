@@ -96,7 +96,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </StackPane.margin>
                               </ImageView>
-                              <TextField prefHeight="26.0" prefWidth="136.0" promptText="Nhập tên đăng nhập" styleClass="box-border">
+                              <TextField fx:id="username" prefHeight="26.0" prefWidth="136.0" promptText="Nhập tên đăng nhập" styleClass="box-border">
                                  <StackPane.margin>
                                     <Insets left="25.0" />
                                  </StackPane.margin>
@@ -161,7 +161,7 @@
                               <Insets left="30.0" right="30.0" />
                            </VBox.margin>
                         </StackPane>
-                        <Label prefHeight="18.0" prefWidth="273.0" styleClass="error-label">
+                        <Label fx:id="errorLabel" prefHeight="24.0" prefWidth="231.0" styleClass="error-label">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
@@ -196,7 +196,7 @@
                                     <Insets left="50.0" />
                                  </StackPane.margin>
                               </Label>
-                              <Hyperlink fx:id="register" onAction="#goToRegister" styleClass="logo-text" text="Đăng ký" textFill="#4f08e8">
+                              <Hyperlink fx:id="register" onAction="#goToResigter" styleClass="logo-text" text="Đăng ký" textFill="#4f08e8">
                                  <StackPane.margin>
                                     <Insets left="80.0" />
                                  </StackPane.margin>
