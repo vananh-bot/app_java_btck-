@@ -5,7 +5,7 @@ import Model.User;
 import Utils.Validator;
 
 public class LoginService {
-    private UserDAO userDAO = new UserDAO(); // Khởi tạo để tránh NullPointerException
+    private UserDAO userDAO = new UserDAO();
 
     public String login(String username, String password) {
         // 1. Kiểm tra đầu vào trống
@@ -13,13 +13,11 @@ public class LoginService {
             return "Vui lòng nhập đầy đủ thông tin!";
         }
 
-        // 2. Kiểm tra tên đăng nhập có tồn tại không
-        User user = userDAO.findByName(username); // Sử dụng hàm findByName đã có trong DAO
-        if (user == null) {
+        User user = userDAO.findByName(username);
+        if (user == null || !user.getName().equals(username)) {
             return "Tên đăng nhập không tồn tại!";
         }
 
-        // 3. Kiểm tra mật khẩu (Sử dụng hàm checkLogin để xác thực cả cặp)
         if (userDAO.checkLogin(username, password)) {
             return "SUCCESS";
         } else {

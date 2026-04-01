@@ -11,8 +11,8 @@ import java.util.List;
 public class UserDAO implements UserInterfaceDao<User> {
     public boolean checkLogin(String name, String password) {
         boolean isValid = false;
-        String sql = "SELECT * FROM users WHERE name = ? AND password = ?";
-
+     //   String sql = "SELECT * FROM users WHERE name = ? AND password = ?";
+        String sql = "SELECT * FROM users WHERE BINARY name = ? AND BINARY password = ?";
         try (Connection conn = JDBCUtil.getConnection();
              PreparedStatement st = conn.prepareStatement(sql)) {
 
