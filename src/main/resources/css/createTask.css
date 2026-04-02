@@ -1,0 +1,189 @@
+
+.button-purple {
+    -fx-background-color: #6c5ce7;
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-font-weight: bold;
+}
+
+.button-purple:hover {
+    -fx-background-color: #a29bfe;
+    -fx-cursor: hand;
+}
+
+.button-purple:pressed {
+    -fx-background-color: #4834d4;
+}
+
+.button-cancel {
+    -fx-background-color: #f1f2f6;
+    -fx-text-fill: #57606f;
+    -fx-background-radius: 20;
+    -fx-cursor: hand;
+}
+
+.button-cancel:hover {
+    -fx-background-color: #ff4757;
+    -fx-text-fill: white;
+}
+
+.button-cancel:pressed {
+    -fx-background-color: #ff6b81;
+}
+
+
+.status-item {
+    -fx-background-color: #f1f2f6;
+    -fx-text-fill: #2f3542;
+    -fx-background-radius: 15;
+    -fx-cursor: hand;
+}
+
+.status-item:hover {
+    -fx-background-color: #6332E5;
+    -fx-text-fill: white;
+}
+
+.status-item:selected {
+    -fx-background-color: #6332E5;
+    -fx-text-fill: white;
+}
+
+.priority-item {
+    -fx-background-color: #f1f2f6;
+    -fx-text-fill: #2f3542;
+    -fx-background-radius: 12;
+    -fx-cursor: hand;
+}
+
+.priority-item:hover, .priority-item:selected {
+    /* Màu nhạt hơn (giống cái ô 'Low' tím tím nhạt trong ảnh con gửi đó) */
+    -fx-background-color: #C3B9FF;
+    -fx-text-fill: #4834D4; /* Chữ màu tím đậm cho dễ đọc trên nền nhạt */
+}
+
+/* --- Nút X màu xám chuẩn UI/UX --- */
+.close-button-gray {
+    -fx-background-color: transparent; /* Không có nền khi bình thường */
+    -fx-text-fill: #A0A0A0;           /* Màu xám nhạt cho dấu X */
+    -fx-font-family: "Arial";          /* Font đơn giản cho dấu X tròn trịa */
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20;         /* Tạo hình tròn khi hover */
+    -fx-cursor: hand;
+    -fx-padding: 4 8 4 8;
+}
+
+/* Khi di chuột vào: Hiện nền xám nhạt để làm nổi bật */
+.close-button-gray:hover {
+    -fx-background-color: #E0E0E0;    /* Nền xám sáng hơn một chút */
+    -fx-text-fill: #505050;           /* Dấu X đậm lên để nhìn rõ hơn */
+}
+
+/* Khi nhấn giữ: Đậm hẳn */
+.close-button-gray:pressed {
+    -fx-background-color: #D0D0D0;
+}
+
+/* --- Nút Cộng (Xanh Tím chuẩn) --- */
+.plus-button {
+    -fx-background-color: #c3b9ff; /* Bình thường không có nền */
+    -fx-text-fill: #A4A6B3;           /* Màu dấu + xám nhạt */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 50;         /* Bo tròn hoàn hảo */
+    -fx-cursor: hand;
+    -fx-padding: 5 8 5 8;              /* Chỉnh khoảng cách để nó cân đối */
+}
+
+.plus-button:hover {
+    -fx-background-color: #f1f2f6;    /* Nền xám nhạt khi hover */
+    -fx-text-fill: #6C5CE7;           /* Dấu + chuyển sang màu xanh tím chuẩn */
+}
+
+/* --- Style cho Avatar tròn (FlowTask) --- */
+
+.avatar-image {
+    -fx-stroke: #6C5CE7; /* Viền xám cực mờ bao quanh ảnh cho nổi */
+    -fx-stroke-width: 1;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1); /* Hiệu ứng bóng đổ nhẹ */
+
+    /* ĐÂY LÀ PHẦN LẤY ẢNH - Con thay đường dẫn bằng ảnh thật của con nhé */
+    -fx-fill: image-pattern(
+            "https://i.pravatar.cc/300", /* Ảnh đại diện mẫu */
+            0, 0, 1, 1, true              /* Các thông số để ảnh tự động cắt tròn */
+    );
+}
+
+/* --- Style cho nút chính (Thêm công việc & Dấu +) --- */
+.primary-button {
+    /* Trạng thái 1: Bình thường - Xanh tím nhạt */
+    -fx-background-color: #A29BFE; /* Màu nhạt thanh thoát */
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+    -fx-transition: 0.3s; /* Giúp chuyển màu mượt hơn */
+}
+
+/* Trạng thái 2: Trỏ chuột đến (Hover) - Xanh tím đậm */
+.primary-button:hover {
+    -fx-background-color: #6C5CE7; /* Màu đậm chuẩn FlowTask */
+}
+
+/* Trạng thái 3: Khi đang nhấn hoặc đang được chọn */
+.primary-button:pressed, .primary-button:selected {
+    -fx-background-color: #4834D4; /* Đậm hơn nữa để tạo cảm giác phản hồi */
+}
+
+/* Làm đẹp thanh cuộn */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+/* Thanh trượt (cái cục kéo lên kéo xuống) */
+.scroll-pane .thumb {
+    -fx-background-color: #A29BFE; /* Tím nhạt */
+    -fx-background-radius: 10;
+}
+
+.scroll-pane .thumb:hover {
+    -fx-background-color: #6C5CE7; /* Tím đậm khi di chuột vào */
+}
+
+/* Nền của thanh cuộn */
+.scroll-pane .track {
+    -fx-background-color: #f1f2f6;
+    -fx-background-radius: 10;
+}
+
+/* Ẩn mấy cái nút mũi tên lên xuống cho đỡ rối */
+.scroll-pane .increment-button, .scroll-pane .decrement-button {
+    -fx-shape: " ";
+    -fx-padding: 0;
+}
+
+.text-area {
+    -fx-background-color: #F3F4F6; /* Màu xám nhạt đồng bộ */
+    -fx-background-insets: 0;        /* Loại bỏ khoảng cách đệm gây ra viền */
+    -fx-background-radius: 15;      /* Bo góc */
+    -fx-border-width: 0;            /* Triệt tiêu độ dày viền */
+    -fx-border-color: transparent;  /* Làm viền trong suốt */
+
+    /* Chống lại hiệu ứng focus mặc định của JavaFX (viền xanh khi click vào) */
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* Quan trọng: Phải làm phẳng cả lớp nội dung bên trong */
+.text-area .content {
+    -fx-background-color: transparent; /* Để lộ màu xám của lớp cha */
+    -fx-background-radius: 15;
+    -fx-background-insets: 0;
+}
+
+/* Màu chữ khi gõ */
+.text-area .text {
+    -fx-fill: #2f3542;
+}
