@@ -1,5 +1,7 @@
 .grey_color{
     -fx-background-color: #F5F5F5;
+    -fx-font-size: 10;
+    -fx-font-weight: bold;
 }
 
 .blue_color{

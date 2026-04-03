@@ -54,7 +54,7 @@
                      <graphic>
                         <HBox prefHeight="100.0" prefWidth="200.0" styleClass="grey_color">
                            <children>
-                              <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="grey_color">
                                  <image>
                                     <Image url="@../images/dashboard_logo.png" />
                                  </image>
@@ -73,9 +73,9 @@
                   </Button>
                   <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
                      <graphic>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox prefHeight="100.0" prefWidth="200.0" styleClass="grey_color">
                            <children>
-                              <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="grey_color">
                                  <image>
                                     <Image url="@../images/folder_logo.png" />
                                  </image>
@@ -94,14 +94,14 @@
                   </Button>
                   <Button layoutX="10.0" layoutY="45.0" mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
                      <graphic>
-                        <HBox prefHeight="56.0" prefWidth="91.0">
+                        <HBox prefHeight="56.0" prefWidth="91.0" styleClass="grey_color">
                            <children>
-                              <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="grey_color">
                                  <image>
                                     <Image url="@../images/notification_logo.png" />
                                  </image>
                               </ImageView>
-                              <Label prefHeight="27.0" prefWidth="108.0" styleClass="grey_color" text="Thông báo">
+                              <Label prefHeight="24.0" prefWidth="108.0" styleClass="grey_color" text="Thông báo">
                                  <padding>
                                     <Insets left="15.0" />
                                  </padding>
