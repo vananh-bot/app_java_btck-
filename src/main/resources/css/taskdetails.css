@@ -79,3 +79,38 @@
     -fx-effect: dropshadow(three-pass-box, rgba(220, 208, 255, 0.4), 5, 0, 0, 0);
 }
 
+.search-container {
+    -fx-background-color: #F3F4F6;
+    -fx-background-radius: 30;
+    -fx-border-radius: 30;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 2 15 2 15;
+    -fx-min-width: 350;
+    -fx-max-height: 35;
+    -fx-cursor: text;
+}
+
+.search-container:hover {
+    -fx-background-color: #E5E7EB;
+}
+
+
+.search-input {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-prompt-text-fill: #9CA3AF;
+    -fx-text-fill: #374151;
+    -fx-font-size: 13px;
+    -fx-font-family: "Segoe UI", "Tahoma";
+}
+
+.search-input:focused {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+}
+
+.search-container .label {
+    -fx-text-fill: #9CA3AF;
+    -fx-padding: 0 5 0 0;
+}

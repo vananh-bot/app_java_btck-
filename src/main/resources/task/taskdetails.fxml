@@ -52,14 +52,14 @@
                <children>
                   <Button mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
                      <graphic>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox prefHeight="100.0" prefWidth="200.0" styleClass="grey_color">
                            <children>
                               <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/dashboard_logo.png" />
                                  </image>
                               </ImageView>
-                              <Label prefHeight="18.0" prefWidth="159.0" text="Tổng quan">
+                              <Label prefHeight="28.0" prefWidth="108.0" styleClass="grey_color" text="Tổng quan">
                                  <padding>
                                     <Insets left="15.0" />
                                  </padding>
@@ -80,7 +80,7 @@
                                     <Image url="@../images/folder_logo.png" />
                                  </image>
                               </ImageView>
-                              <Label prefHeight="18.0" prefWidth="159.0" text="Dự án của tôi">
+                              <Label prefHeight="26.0" prefWidth="114.0" styleClass="grey_color" text="Dự án của tôi">
                                  <padding>
                                     <Insets left="15.0" />
                                  </padding>
@@ -101,7 +101,7 @@
                                     <Image url="@../images/notification_logo.png" />
                                  </image>
                               </ImageView>
-                              <Label prefHeight="20.0" prefWidth="131.0" text="Thông báo">
+                              <Label prefHeight="27.0" prefWidth="108.0" styleClass="grey_color" text="Thông báo">
                                  <padding>
                                     <Insets left="15.0" />
                                  </padding>
@@ -124,7 +124,7 @@
                               <Image url="@../images/logout_logo.png" />
                            </image>
                         </ImageView>
-                        <Label prefHeight="20.0" prefWidth="102.0" text="Đăng xuất">
+                        <Label prefHeight="22.0" prefWidth="86.0" styleClass="grey_color" text="Đăng xuất">
                            <padding>
                               <Insets left="15.0" />
                            </padding>
@@ -154,28 +154,23 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="50.0" prefWidth="1053.0" styleClass="bottom_border">
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="1053.0" styleClass="bottom_border">
                <children>
-                  <HBox prefHeight="30.0" prefWidth="556.0">
+                  <HBox prefHeight="30.0" prefWidth="556.0" styleClass="search-container">
                      <HBox.margin>
                         <Insets bottom="5.0" left="20.0" right="5.0" top="5.0" />
                      </HBox.margin>
                      <children>
-                        <Label prefHeight="30.0" prefWidth="32.0" text="🔍">
+                        <Label alignment="CENTER" prefHeight="26.0" prefWidth="57.0" text="🔍" textAlignment="CENTER">
                            <HBox.margin>
                               <Insets left="15.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField prefHeight="30.0" prefWidth="520.0" promptText="Tìm kiếm dự án" style="-fx-border-color: transperant;" styleClass="text-field">
+                        <TextField prefHeight="30.0" prefWidth="520.0" promptText="Tìm kiếm dự án" style="-fx-border-color: transperant;" styleClass="search-input" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin></TextField>
                      </children>
-                     <styleClass>
-                        <String fx:value="grey_color" />
-                        <String fx:value="search-field" />
-                        <String fx:value="border" />
-                     </styleClass>
                   </HBox>
                </children></HBox>
             <HBox prefHeight="668.0" prefWidth="1087.0" styleClass="grey_color" />
