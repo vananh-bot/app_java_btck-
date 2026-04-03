@@ -1,0 +1,187 @@
+
+.button-purple {
+    -fx-background-color: #6c5ce7;
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-font-weight: bold;
+}
+
+.button-purple:hover {
+    -fx-background-color: #a29bfe;
+    -fx-cursor: hand;
+}
+
+.button-purple:pressed {
+    -fx-background-color: #4834d4;
+}
+
+.button-cancel {
+    -fx-background-color: #f1f2f6;
+    -fx-text-fill: #57606f;
+    -fx-background-radius: 20;
+    -fx-cursor: hand;
+}
+
+.button-cancel:hover {
+    -fx-background-color: #ff4757;
+    -fx-text-fill: white;
+}
+
+.button-cancel:pressed {
+    -fx-background-color: #ff6b81;
+}
+
+
+.status-item {
+    -fx-background-color: #f1f2f6;
+    -fx-text-fill: #2f3542;
+    -fx-background-radius: 15;
+    -fx-cursor: hand;
+}
+
+.status-item:hover {
+    -fx-background-color: #6332E5;
+    -fx-text-fill: white;
+}
+
+.status-item:selected {
+    -fx-background-color: #6332E5;
+    -fx-text-fill: white;
+}
+
+.priority-item {
+    -fx-background-color: #f1f2f6;
+    -fx-text-fill: #2f3542;
+    -fx-background-radius: 12;
+    -fx-cursor: hand;
+}
+
+.priority-item:hover, .priority-item:selected {
+    /* Màu nhạt hơn (giống cái ô 'Low' tím tím nhạt trong ảnh con gửi đó) */
+    -fx-background-color: #C3B9FF;
+    -fx-text-fill: #4834D4; /* Chữ màu tím đậm cho dễ đọc trên nền nhạt */
+}
+
+.close-button-gray {
+    -fx-background-color: transparent;
+    -fx-text-fill: #A0A0A0;
+    -fx-font-family: "Arial";
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20;
+    -fx-cursor: hand;
+    -fx-padding: 4 8 4 8;
+}
+
+.close-button-gray:hover {
+    -fx-background-color: #E0E0E0;
+    -fx-text-fill: #505050;
+}
+
+.close-button-gray:pressed {
+    -fx-background-color: #D0D0D0;
+}
+
+
+.plus-button {
+    -fx-background-color: #c3b9ff;
+    -fx-text-fill: #A4A6B3;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 50;
+    -fx-cursor: hand;
+    -fx-padding: 5 8 5 8;
+}
+
+.plus-button:hover {
+    -fx-background-color: #f1f2f6;
+    -fx-text-fill: #6C5CE7;
+}
+
+.avatar-image {
+    -fx-stroke: #6C5CE7;
+    -fx-stroke-width: 1;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1);
+
+    -fx-fill: image-pattern(
+            "https://i.pravatar.cc/300",
+            0, 0, 1, 1, true
+    );
+}
+
+.primary-button {
+    -fx-background-color: #A29BFE;
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+    -fx-transition: 0.3s;
+}
+
+.primary-button:hover {
+    -fx-background-color: #6C5CE7;
+}
+
+.primary-button:pressed, .primary-button:selected {
+    -fx-background-color: #4834D4;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.scroll-pane .thumb {
+    -fx-background-color: #A29BFE;
+    -fx-background-radius: 10;
+}
+
+.scroll-pane .thumb:hover {
+    -fx-background-color: #6C5CE7;
+}
+
+.scroll-pane .track {
+    -fx-background-color: #f1f2f6;
+    -fx-background-radius: 10;
+}
+
+.scroll-pane .increment-button, .scroll-pane .decrement-button {
+    -fx-shape: " ";
+    -fx-padding: 0;
+}
+
+.text-area {
+    -fx-background-color: #F3F4F6;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-width: 0;
+    -fx-padding: 5;
+}
+
+.text-area .content {
+    -fx-background-color: transparent;
+    -fx-padding: 8 12 8 12;
+}
+
+.text-area .text {
+    -fx-font-family: "Segoe UI", Arial;
+    -fx-font-size: 13px;
+    -fx-fill: #374151;
+}
+
+.text-area .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 6;
+}
+
+.text-area .scroll-bar:vertical .thumb {
+    -fx-background-color: #D1D5DB;
+    -fx-background-radius: 10;
+}
+
+
+.text-area:focused {
+    -fx-border-color: #6C5CE7;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+}
