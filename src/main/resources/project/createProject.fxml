@@ -24,12 +24,12 @@
                         <Font name="System Bold" size="24.0" />
                      </font>
                      <VBox.margin>
-                        <Insets left="10.0" top="20.0" />
+                        <Insets left="25.0" top="20.0" />
                      </VBox.margin>
                   </Text>
                   <Text fill="#867a7a" strokeType="OUTSIDE" strokeWidth="0.0" text="Thiết lập không gian làm việc cho ý tưởng của bạn">
                      <VBox.margin>
-                        <Insets left="10.0" />
+                        <Insets left="25.0" />
                      </VBox.margin>
                   </Text>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tên dự án">
@@ -37,7 +37,7 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                      <VBox.margin>
-                        <Insets left="10.0" top="20.0" />
+                        <Insets left="25.0" top="20.0" />
                      </VBox.margin>
                   </Text>
                   <TextArea fx:id="enter" prefHeight="70.0" prefWidth="350.0" promptText="Nhập tên dự án của bạn" wrapText="true">
@@ -46,7 +46,7 @@
                         <String fx:value="grey-pane3" />
                      </styleClass>
                      <VBox.margin>
-                        <Insets left="20.0" right="20.0" top="10.0" />
+                        <Insets left="25.0" right="20.0" top="10.0" />
                      </VBox.margin>
                   </TextArea>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mô tả dự án">
@@ -54,12 +54,12 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                      <VBox.margin>
-                        <Insets left="10.0" top="20.0" />
+                        <Insets left="25.0" top="20.0" />
                      </VBox.margin>
                   </Text>
                   <TextArea fx:id="describe" prefHeight="200.0" prefWidth="200.0" promptText="Mô tả ngắn gọn về mục tiêu của dự án" wrapText="true">
                      <VBox.margin>
-                        <Insets left="20.0" right="20.0" top="10.0" />
+                        <Insets left="25.0" right="20.0" top="10.0" />
                      </VBox.margin>
                      <styleClass>
                         <String fx:value="gey-pane2" />
@@ -76,14 +76,14 @@
                               <Insets left="10.0" right="10.0" top="15.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Text fill="#5208e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Mẹo: Một mô tả rõ ràng giúp các thành viên trong nhóm hiểu nhanh mục tiêu cốt lõi của dự án ngay khi tham gia." wrappingWidth="280.0">
+                        <Text fill="#5208e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Mẹo: Một mô tả rõ ràng giúp các thành viên trong nhóm hiểu nhanh mục tiêu cốt lõi của dự án ngay khi tham gia." wrappingWidth="270.0">
                            <HBox.margin>
                               <Insets left="5.0" top="10.0" />
                            </HBox.margin>
                         </Text>
                      </children>
                      <VBox.margin>
-                        <Insets left="10.0" right="10.0" top="20.0" />
+                        <Insets left="20.0" right="20.0" top="20.0" />
                      </VBox.margin>
                   </HBox>
                   <HBox alignment="TOP_RIGHT">
