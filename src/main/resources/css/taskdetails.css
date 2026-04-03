@@ -1,0 +1,81 @@
+.grey_color{
+    -fx-background-color: #F5F5F5;
+}
+
+.blue_color{
+    -fxbackground-color: #EAF6FF;
+}
+
+.white_pane{
+    -fx-background-color: #FFFFFF;
+}
+
+.right_border{
+    -fx-border-width: 0 1 0 0;
+    -fx-border-color: #ccc;
+}
+
+.bottom_border{
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #ccc;
+}
+
+
+.toggle-button{
+    -fx-font-family: "Tahoma";
+    -fx-text-fill: #black;
+    -fx-background-color: transparent;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-opacity: 0.5;
+}
+.toggle-button:hover{
+    -fx-background-color: #eef0ff;
+    -fx-text-fill: #5208e8;
+    -fx-border-color: transparent #5208e8 transparent transparent;
+    -fx-border-width: 0 3 0 0;
+    -fx-font-weight: semi-bold;
+    -fx-cursor: hand;
+    -fx-opacity: 1.0;
+}
+.toggle-button:hover .label{
+    -fx-font-weight: semi-bold;
+    -fx-text-fill: #5208e8;
+}
+
+.toggle-button:selected{
+    -fx-background-color: #eef0ff;
+    -fx-text-fill: #5208e8;
+    -fx-border-color: transparent #5208e8 transparent transparent;
+    -fx-border-width: 0 3 0 0;
+    -fx-font-weight: semi-bold;
+    -fx-opacity: 1.0;
+
+}
+.toggle-button:selected .label{
+    -fx-font-weight: semi-bold;
+    -fx-text-fill: #5208e8;
+    -fx-opacity: 1.0;
+}
+.border{
+    -fx-background-radius: 15;    /* Bo góc cho phần nền */
+
+    /*-fx-border-color: #ccc;    !* Màu viền (ví dụ màu tím bạn thích) *!*/
+    -fx-border-radius: 15;        /* Bo góc cho đường viền */
+    /*-fx-border-width: 2;*/
+}
+
+.search-field {
+    -fx-background-insets: 0;           /* Xóa các lớp lót tạo viền mờ */
+    -fx-border-color: transparent;     /* Xóa viền xám */
+    -fx-focus-color: transparent;      /* Xóa viền xanh khi click */
+    -fx-faint-focus-color: transparent;/* Xóa quầng sáng mờ */
+}
+
+.search-field:hover{
+    -fx-background-color: #eef0ff;
+    -fx-effect: dropshadow(three-pass-box, rgba(220, 208, 255, 0.4), 5, 0, 0, 0);
+}
+
