@@ -20,7 +20,7 @@
     -fx-text-fill: #57606f;
     -fx-background-radius: 20;
     -fx-cursor: hand;
-    -fx-padding: 5 15 5 15;
+    -fx-padding: 5 20 10 20;
 }
 
 .button-cancel:hover {
