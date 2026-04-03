@@ -11,12 +11,12 @@ public class Main extends Application {
     public void start(Stage stage) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/auth/register.fxml")
+                    getClass().getResource("/task/taskdetails.fxml")
             );
 
             Scene scene = new Scene(loader.load());
 
-            stage.setTitle("Register");
+            stage.setTitle("Login");
             stage.setScene(scene);
             stage.show();
 
