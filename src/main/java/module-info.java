@@ -10,4 +10,5 @@ module com.example.flowtask {
     exports Model;
     exports Service;
     exports Utils;
+    exports Test;
 }
