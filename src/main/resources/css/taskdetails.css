@@ -22,7 +22,7 @@
 
 
 .toggle-button{
-    -fx-font-family: "Tahoma";
+    -fx-font-family: "System";
     -fx-text-fill: #black;
     -fx-background-color: transparent;
     -fx-background-radius: 10;
@@ -36,46 +36,71 @@
     -fx-text-fill: #5208e8;
     -fx-border-color: transparent #5208e8 transparent transparent;
     -fx-border-width: 0 3 0 0;
-    -fx-font-weight: semi-bold;
+    -fx-font-weight: bold;
     -fx-cursor: hand;
     -fx-opacity: 1.0;
 }
 .toggle-button:hover .label{
-    -fx-font-weight: semi-bold;
+    -fx-font-weight: bold;
     -fx-text-fill: #5208e8;
 }
 
-.toggle-button:selected{
+.toggle-button:focused {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.sidebar-button-active {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
     -fx-background-color: #eef0ff;
     -fx-text-fill: #5208e8;
+    -fx-font-weight: bold;
+    -fx-opacity: 1.0;
     -fx-border-color: transparent #5208e8 transparent transparent;
     -fx-border-width: 0 3 0 0;
-    -fx-font-weight: semi-bold;
-    -fx-opacity: 1.0;
+    -fx-mouse-transparent: true; /* Chuột bấm vào sẽ không có tác dụng gì */
+    -fx-cursor: default;
+}
 
-}
-.toggle-button:selected .label{
-    -fx-font-weight: semi-bold;
+.sidebar-button-active.text{
     -fx-text-fill: #5208e8;
-    -fx-opacity: 1.0;
+    -fx-font-weight: bold;
 }
+
 .border{
     -fx-background-radius: 15;    /* Bo góc cho phần nền */
-
-    /*-fx-border-color: #ccc;    !* Màu viền (ví dụ màu tím bạn thích) *!*/
     -fx-border-radius: 15;        /* Bo góc cho đường viền */
-    /*-fx-border-width: 2;*/
 }
 
-.search-field {
-    -fx-background-insets: 0;           /* Xóa các lớp lót tạo viền mờ */
-    -fx-border-color: transparent;     /* Xóa viền xám */
-    -fx-focus-color: transparent;      /* Xóa viền xanh khi click */
-    -fx-faint-focus-color: transparent;/* Xóa quầng sáng mờ */
+.breadcrumb-prev {
+    -fx-opacity: 0.4;
+    -fx-font-weight: bold;
+    -fx-text-fill: #000;
+    -fx-underline: false;
 }
 
-.search-field:hover{
-    -fx-background-color: #eef0ff;
-    -fx-effect: dropshadow(three-pass-box, rgba(220, 208, 255, 0.4), 5, 0, 0, 0);
+.breadcrumb-current {
+    -fx-opacity: 1.0;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5208e8;
+    -fx-underline: false;
+}
+
+.breadcrumb-prev:hover{
+    -fx-opacity: 1.0;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5208e8;
+    -fx-underline: false;
+}
+
+.name_task{
+    -fx-text-fill: #000;
+    -fx-font-weight: bold;
+    -fx-font-size: 28px;
+}
+
+.transparent_border_text_field{
+    -fx-background-color: transparent;
 }
 
