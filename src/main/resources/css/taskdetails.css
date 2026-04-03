@@ -3,7 +3,7 @@
 }
 
 .blue_color{
-    --fxbackground-color: #EAF6FF;
+    -fxbackground-color: #EAF6FF;
 }
 
 .white_pane{
@@ -19,6 +19,7 @@
     -fx-border-width: 0 0 1 0;
     -fx-border-color: #ccc;
 }
+
 
 .toggle-button{
     -fx-font-family: "Tahoma";
@@ -59,11 +60,22 @@
     -fx-opacity: 1.0;
 }
 .border{
-    -fx-background-color: #ffffff; /* Phải có màu nền */
     -fx-background-radius: 15;    /* Bo góc cho phần nền */
 
-    -fx-border-color: #5208e8;    /* Màu viền (ví dụ màu tím bạn thích) */
+    /*-fx-border-color: #ccc;    !* Màu viền (ví dụ màu tím bạn thích) *!*/
     -fx-border-radius: 15;        /* Bo góc cho đường viền */
-    -fx-border-width: 2;
+    /*-fx-border-width: 2;*/
+}
+
+.search-field {
+    -fx-background-insets: 0;           /* Xóa các lớp lót tạo viền mờ */
+    -fx-border-color: transparent;     /* Xóa viền xám */
+    -fx-focus-color: transparent;      /* Xóa viền xanh khi click */
+    -fx-faint-focus-color: transparent;/* Xóa quầng sáng mờ */
+}
+
+.search-field:hover{
+    -fx-background-color: #eef0ff;
+    -fx-effect: dropshadow(three-pass-box, rgba(220, 208, 255, 0.4), 5, 0, 0, 0);
 }
 
