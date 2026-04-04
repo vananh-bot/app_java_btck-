@@ -4,8 +4,8 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -14,10 +14,10 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1280.0" styleClass="white_pane" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
-    <stylesheets>
-        <URL value="@../css/global.css" />
-        <URL value="@../css/taskdetails.css" />
-    </stylesheets>
+   <stylesheets>
+      <URL value="@../css/global.css" />
+      <URL value="@../css/taskdetails.css" />
+   </stylesheets>
    <left>
       <VBox prefHeight="700.0" prefWidth="193.0" spacing="15.0" BorderPane.alignment="CENTER">
          <styleClass>
@@ -50,16 +50,16 @@
                   <Insets right="20.0" top="20.0" />
                </VBox.margin>
                <children>
-                  <Button mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0">
+                  <Button mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
                      <graphic>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox prefHeight="100.0" prefWidth="200.0" styleClass="grey_color">
                            <children>
-                              <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="grey_color">
                                  <image>
                                     <Image url="@../images/dashboard_logo.png" />
                                  </image>
                               </ImageView>
-                              <Label prefHeight="32.0" prefWidth="111.0" text="Tổng quan">
+                              <Label prefHeight="28.0" prefWidth="108.0" styleClass="grey_color" text="Tổng quan">
                                  <padding>
                                     <Insets left="15.0" />
                                  </padding>
@@ -70,26 +70,22 @@
                            </children>
                         </HBox>
                      </graphic>
-                     <styleClass>
-                        <String fx:value="toggle-button" />
-                        <String fx:value="button" />
-                     </styleClass>
                   </Button>
-                  <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="sidebar-button-active">
+                  <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
                      <graphic>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox prefHeight="100.0" prefWidth="200.0" styleClass="grey_color">
                            <children>
-                              <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="grey_color">
                                  <image>
                                     <Image url="@../images/folder_logo.png" />
                                  </image>
                               </ImageView>
-                              <Label prefHeight="34.0" prefWidth="108.0" text="Dự án của tôi" textFill="#4910c3">
+                              <Label prefHeight="26.0" prefWidth="114.0" styleClass="grey_color" text="Dự án của tôi">
                                  <padding>
                                     <Insets left="15.0" />
                                  </padding>
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font size="14.0" />
                                  </font>
                               </Label>
                            </children>
@@ -98,14 +94,14 @@
                   </Button>
                   <Button layoutX="10.0" layoutY="45.0" mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
                      <graphic>
-                        <HBox prefHeight="56.0" prefWidth="91.0">
+                        <HBox prefHeight="56.0" prefWidth="91.0" styleClass="grey_color">
                            <children>
-                              <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="grey_color">
                                  <image>
                                     <Image url="@../images/notification_logo.png" />
                                  </image>
                               </ImageView>
-                              <Label prefHeight="42.0" prefWidth="111.0" text="Thông báo">
+                              <Label prefHeight="24.0" prefWidth="108.0" styleClass="grey_color" text="Thông báo">
                                  <padding>
                                     <Insets left="15.0" />
                                  </padding>
@@ -128,7 +124,7 @@
                               <Image url="@../images/logout_logo.png" />
                            </image>
                         </ImageView>
-                        <Label prefHeight="26.0" prefWidth="130.0" text="Đăng xuất">
+                        <Label prefHeight="22.0" prefWidth="86.0" styleClass="grey_color" text="Đăng xuất">
                            <padding>
                               <Insets left="15.0" />
                            </padding>
@@ -138,7 +134,7 @@
                         </Label>
                      </children>
                      <padding>
-                        <Insets right="15.0" />
+                        <Insets right="20.0" />
                      </padding>
                   </HBox>
                </graphic>
@@ -158,19 +154,23 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="50.0" prefWidth="1053.0" styleClass="bottom_border">
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="1053.0" styleClass="bottom_border">
                <children>
-                  <HBox prefHeight="40.0" prefWidth="749.0" styleClass="hyperlink_back_to_pre_scene">
-                     <children>
-                        <Hyperlink prefHeight="38.0" styleClass="breadcrumb-prev" text="Dự án của tôi " />
-                        <Hyperlink prefHeight="30.0" styleClass="breadcrumb-prev" text="→" />
-                        <Hyperlink prefHeight="49.0" styleClass="breadcrumb-prev" text="Học Tiếng Anh" />
-                        <Hyperlink prefHeight="30.0" styleClass="breadcrumb-prev" text="→" />
-                        <Hyperlink prefHeight="33.0" styleClass="breadcrumb-current" text="Học từ vựng" />
-                     </children>
+                  <HBox prefHeight="30.0" prefWidth="556.0" styleClass="search-container">
                      <HBox.margin>
-                        <Insets bottom="5.0" left="20.0" top="5.0" />
+                        <Insets bottom="5.0" left="20.0" right="5.0" top="5.0" />
                      </HBox.margin>
+                     <children>
+                        <Label alignment="CENTER" prefHeight="26.0" prefWidth="57.0" text="🔍" textAlignment="CENTER">
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField prefHeight="30.0" prefWidth="520.0" promptText="Tìm kiếm dự án" style="-fx-border-color: transperant;" styleClass="search-input" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin></TextField>
+                     </children>
                   </HBox>
                </children></HBox>
             <HBox prefHeight="668.0" prefWidth="1087.0" styleClass="grey_color" />
