@@ -156,23 +156,27 @@
             <children>
                 <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="1053.0" styleClass="bottom_border">
                     <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="41.0" prefWidth="650.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="41.0" prefWidth="650.0" spacing="7.0">
                      <children>
-                        <Button mnemonicParsing="false" styleClass="myProject" text="Dự án của tôi">
+                        <Label text="Dự án của tôi" textFill="#8a8888">
                            <font>
-                              <Font name="Calibri" size="12.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="15.0" />
-                           </HBox.margin>
-                        </Button>
-                        <Label prefHeight="18.0" prefWidth="5.0" text="&gt;">
-                           <font>
-                              <Font name="System Bold" size="6.0" />
+                              <Font name="Calibri Bold" size="13.0" />
                            </font>
                         </Label>
-                        <Button mnemonicParsing="false" styleClass="myProject" text="Học tiếng anh" />
+                        <Label prefHeight="18.0" prefWidth="5.0" text="&gt;">
+                           <font>
+                              <Font name="System Bold" size="8.0" />
+                           </font>
+                        </Label>
+                        <Label text="Học tiếng anh" textFill="#4135b2">
+                           <font>
+                              <Font name="Calibri Bold" size="13.0" />
+                           </font>
+                        </Label>
                      </children>
+                     <HBox.margin>
+                        <Insets left="12.0" />
+                     </HBox.margin>
                   </HBox>
                         <HBox prefHeight="30.0" prefWidth="556.0" styleClass="search-container">
                             <HBox.margin>
