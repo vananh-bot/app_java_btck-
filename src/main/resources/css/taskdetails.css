@@ -103,4 +103,13 @@
 .transparent_border_text_field{
     -fx-background-color: transparent;
 }
+.text-area{
+    -fx-border-color: #FFFFFF;
+    -fx-background-color: #FFFFFF;
+}
+.text-area. content{
+    -fx-background-color: white;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+}
 
