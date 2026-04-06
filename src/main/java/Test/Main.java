@@ -1,32 +1,31 @@
 package Test;
 
-import DAO.ProjectDAO;
-import Model.Project;
-import Model.User;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class Main {
+public class Main extends Application {
+
+    @Override
+    public void start(Stage stage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/auth/register.fxml")
+            );
+
+            Scene scene = new Scene(loader.load());
+
+            stage.setTitle("Register");
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) {
-
-        ProjectDAO dao = new ProjectDAO();
-
-        // 🔥 test JOIN
-        Project p = dao.getProjectWithMembers(1);
-
-        if (p == null) {
-            System.out.println("❌ Không tìm thấy project");
-            return;
-        }
-
-        System.out.println("📌 Project: " + p.getName());
-
-        if (p.getMembers() == null || p.getMembers().isEmpty()) {
-            System.out.println("⚠️ Project chưa có member");
-        } else {
-            System.out.println("👥 Members:");
-            for (User u : p.getMembers()) {
-                System.out.println("- " + u.getName());
-            }
-        }
+        launch();
     }
 }
