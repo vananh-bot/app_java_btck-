@@ -92,8 +92,17 @@
     -fx-cursor: text;
 }
 
+<<<<<<< HEAD
 .search-container:hover {
     -fx-background-color: #E5E7EB;
+=======
+.name_task{
+    -fx-text-fill: #000;
+    -fx-font-weight: bold;
+    -fx-font-size: 28px;
+    -fx-border-color: transperant;
+    -fx-background-color: transperant;
+>>>>>>> hahoaiphuong07012006/hoa-25-app-5-createproject
 }
 
 
@@ -105,7 +114,26 @@
     -fx-font-size: 13px;
     -fx-font-family: "Segoe UI", "Tahoma";
 }
+.text-area{
+    -fx-border-color: #FFFFFF;
+    -fx-background-color: #FFFFFF;
+}
+.text-area. content{
+    -fx-background-color: white;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+}
+.box2-border {
+    -fx-border-radius: 8px;
+    -fx-background-radius: 30px;
+    -fx-background-color: #5208e8;
+    -fx-font-family: "Inter";
+    -fx-font-weight: 700;
+    -fx-font-size: 13px;
+    -fx-text-fill: white;
+}
 
+<<<<<<< HEAD
 .search-input:focused {
     -fx-background-color: transparent;
     -fx-background-insets: 0;
@@ -115,4 +143,12 @@
 .search-container .label {
     -fx-text-fill: #9CA3AF;
     -fx-padding: 0 5 0 0;
+=======
+.btn-login:hover {
+    -fx-font-weight: bold;
+    -fx-background-color: #2b39a1;
+
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+>>>>>>> hahoaiphuong07012006/hoa-25-app-5-createproject
 }
