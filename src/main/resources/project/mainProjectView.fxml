@@ -226,7 +226,7 @@
                         <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
                      </HBox.margin>
                   </VBox>
-                  <Button mnemonicParsing="false" styleClass="addTaskButton" text="Thêm công việc ">
+                  <Button fx:id="createTask" mnemonicParsing="false" onAction="#handleOpenCreateTask" styleClass="addTaskButton" text="Thêm công việc ">
                      <graphic>
                         <Label prefHeight="16.0" prefWidth="16.0" text="+" textFill="WHITE">
                            <font>

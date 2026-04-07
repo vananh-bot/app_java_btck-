@@ -281,4 +281,18 @@ public class TaskDAO implements TaskInterfaceDAO<Task>{
 
         return list;
     }
+    public void updateStatus(int taskId, TaskStatus status) {
+        String sql = "UPDATE tasks SET status = ? WHERE id = ?";
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, status.name());
+            ps.setInt(2, taskId);
+
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
