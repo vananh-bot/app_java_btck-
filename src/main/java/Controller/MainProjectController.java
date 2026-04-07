@@ -4,29 +4,25 @@ import DAO.TaskDAO;
 import Model.Task;
 import Enum.TaskStatus;
 
-// JavaFX UI
+// JavaFX
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 // Drag & Drop
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.TransferMode;
 
-// Event
-import javafx.scene.input.MouseEvent;
-
-// Scene + Stage (popup)
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
-// Animation
-import javafx.animation.ScaleTransition;
+// Animation + Realtime
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -34,22 +30,30 @@ import javafx.util.Duration;
 // Collection
 import java.util.List;
 import java.util.ArrayList;
+
 public class MainProjectController {
+
+    // ================= UI =================
     @FXML private VBox vboxTodo;
     @FXML private VBox vboxInProgress;
     @FXML private VBox vboxDone;
 
+    // ================= DATA =================
     private int projectId;
     private TaskDAO taskDAO = new TaskDAO();
 
+    // ================= INIT =================
     public void init(int projectId) {
         this.projectId = projectId;
 
-        setupDragDrop();   // drag
-        loadTasks();       // load data
-        startRealtime();   // realtime (optional)
+        setupDragDrop();
+        loadTasks();
+
+        //  có thể tắt nếu lag
+        startRealtime();
     }
 
+    // ================= LOAD =================
     private void loadTasks() {
 
         List<Task> all = taskDAO.getTasksByProjectId(projectId);
@@ -69,6 +73,7 @@ public class MainProjectController {
         render(todo, inProgress, done);
     }
 
+    // ================= RENDER =================
     private void render(List<Task> todo, List<Task> inProgress, List<Task> done) {
 
         vboxTodo.getChildren().clear();
@@ -80,29 +85,31 @@ public class MainProjectController {
         done.forEach(t -> vboxDone.getChildren().add(createTaskCard(t)));
     }
 
+    // ================= TASK CARD =================
     private VBox createTaskCard(Task task) {
 
         VBox card = new VBox();
         card.setSpacing(8);
         card.getStyleClass().add("borderTask");
 
-        card.setUserData(task); // 🔥 lưu task
+        card.setUserData(task);
 
         Label title = new Label(task.getTitle());
         Label desc = new Label(task.getDescription());
 
         card.getChildren().addAll(title, desc);
 
-        // ✨ DRAG
+        //  DRAG
         card.setOnDragDetected(e -> {
             Dragboard db = card.startDragAndDrop(TransferMode.MOVE);
             ClipboardContent content = new ClipboardContent();
-            content.putString("task");
+            content.putString(String.valueOf(task.getId()));
             db.setContent(content);
             db.setDragView(card.snapshot(null, null));
+            e.consume();
         });
 
-        // ✨ ANIMATION hover
+        //  HOVER ANIMATION
         card.setOnMouseEntered(e -> {
             card.setScaleX(1.03);
             card.setScaleY(1.03);
@@ -113,7 +120,7 @@ public class MainProjectController {
             card.setScaleY(1);
         });
 
-        // ✨ CLICK EDIT
+        //  DOUBLE CLICK EDIT
         card.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2) {
                 openEditPopup(task);
@@ -123,6 +130,7 @@ public class MainProjectController {
         return card;
     }
 
+    // ================= DRAG DROP =================
     private void setupDragDrop() {
         setupColumn(vboxTodo, TaskStatus.TODO);
         setupColumn(vboxInProgress, TaskStatus.IN_PROGRESS);
@@ -132,8 +140,19 @@ public class MainProjectController {
     private void setupColumn(VBox column, TaskStatus status) {
 
         column.setOnDragOver(e -> {
-            e.acceptTransferModes(TransferMode.MOVE);
+            if (e.getGestureSource() != column) {
+                e.acceptTransferModes(TransferMode.MOVE);
+            }
+            e.consume();
         });
+
+        column.setOnDragEntered(e ->
+                column.setStyle("-fx-background-color: #f5f5f5;")
+        );
+
+        column.setOnDragExited(e ->
+                column.setStyle("")
+        );
 
         column.setOnDragDropped(e -> {
 
@@ -141,20 +160,20 @@ public class MainProjectController {
             VBox oldParent = (VBox) card.getParent();
 
             oldParent.getChildren().remove(card);
-            column.getChildren().add(card); // 🔥 move UI
+            column.getChildren().add(card);
 
             Task task = (Task) card.getUserData();
             task.setStatus(status);
 
-            // 🔥 update DB nền
-            new Thread(() -> {
-                taskDAO.updateStatus(task.getId(), status);
-            }).start();
+            //  update DB nền (không lag UI)
+            new Thread(() -> taskDAO.updateStatus(task.getId(), status)).start();
 
             e.setDropCompleted(true);
+            e.consume();
         });
     }
 
+    // ================= EDIT POPUP =================
     private void openEditPopup(Task task) {
 
         TextField title = new TextField(task.getTitle());
@@ -164,6 +183,7 @@ public class MainProjectController {
         VBox layout = new VBox(10, title, desc, save);
 
         Stage stage = new Stage();
+        stage.setTitle("Sửa công việc");
         stage.setScene(new Scene(layout, 300, 200));
         stage.show();
 
@@ -174,18 +194,93 @@ public class MainProjectController {
             taskDAO.update(task);
 
             stage.close();
-            loadTasks(); // reload nhẹ
+            loadTasks();
         });
     }
 
+    // ================= REALTIME =================
     private void startRealtime() {
 
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds(3), e -> loadTasks())
+                new KeyFrame(Duration.seconds(5), e -> loadTasks())
         );
 
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
 
+    // ================= CREATE TASK =================
+    @FXML
+    private void handleOpenCreateTask() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/task/createTask.fxml")
+            );
+
+            Parent root = loader.load();
+
+            CreateTaskController controller = loader.getController();
+            controller.setProjectId(projectId);
+
+            controller.setOnTaskCreated(this::loadTasks);
+
+            Stage stage = new Stage();
+            stage.setTitle("Tạo công việc");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void switchScene(ActionEvent event, String path) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+            Scene scene = new Scene(loader.load());
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // =============================
+
+    //  Tổng quan → Dashboard
+    public void handleDashboard(ActionEvent event) {
+        switchScene(event, "/dashboard/dashboard.fxml");
+    }
+
+    //  Dự án của tôi
+    public void handleMyProjects(ActionEvent event) {
+        switchScene(event, "/project/project.fxml");
+    }
+
+    //  Thông báo
+    public void handleNotification(ActionEvent event) {
+        switchScene(event, "/notification/notification.fxml");
+    }
+
+    //  Đăng xuất → Login
+    public void handleLogout(ActionEvent event) {
+        switchScene(event, "/auth/login.fxml");
+    }
+
+    //  Thêm công việc (popup riêng)
+//    public void handleOpenCreateTask(ActionEvent event) {
+//        try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/task/createTask.fxml"));
+//            Scene scene = new Scene(loader.load());
+//
+//            Stage stage = new Stage();
+//            stage.setTitle("Create Task");
+//            stage.setScene(scene);
+//            stage.show();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

@@ -1,5 +1,6 @@
 package Test;
 
+import Controller.MainProjectController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,7 +17,13 @@ public class Main extends Application {
 
             Scene scene = new Scene(loader.load());
 
-            stage.setTitle("Login");
+            // 🔥 LẤY CONTROLLER
+            MainProjectController controller = loader.getController();
+
+            // 🔥 GỌI INIT (QUAN TRỌNG NHẤT)
+            controller.init(1); // truyền projectId
+
+            stage.setTitle("Main Project");
             stage.setScene(scene);
             stage.show();
 
