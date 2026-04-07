@@ -13,7 +13,7 @@ import java.util.*;
 
 public class ProjectDAO implements ProjectDAOInterface {
 
-    // 🔥 INSERT PROJECT (trả về id)
+    //  INSERT PROJECT (trả về id)
     @Override
     public int insert(Project project) {
 
@@ -43,7 +43,7 @@ public class ProjectDAO implements ProjectDAOInterface {
         return -1; // lỗi
     }
 
-    // ✏️ UPDATE PROJECT
+    // UPDATE PROJECT
     @Override
     public boolean update(Project project) {
 
@@ -65,7 +65,7 @@ public class ProjectDAO implements ProjectDAOInterface {
         return false;
     }
 
-    // ❌ DELETE PROJECT
+    //  DELETE PROJECT
     @Override
     public boolean delete(int id) {
 
@@ -85,7 +85,7 @@ public class ProjectDAO implements ProjectDAOInterface {
         return false;
     }
 
-    // 🔍 FIND BY ID
+    // FIND BY ID
     @Override
     public Project findById(int id) {
 
@@ -109,7 +109,7 @@ public class ProjectDAO implements ProjectDAOInterface {
         return null;
     }
 
-    // 📋 FIND ALL
+    //  FIND ALL
     @Override
     public List<Project> findAll() {
 
@@ -132,7 +132,7 @@ public class ProjectDAO implements ProjectDAOInterface {
         return list;
     }
 
-    // 🔥 LOAD PROJECT THEO USER (dashboard)
+    //  LOAD PROJECT THEO USER (dashboard)
     @Override
     public List<Project> findByUserId(int userId) {
 
@@ -163,7 +163,7 @@ public class ProjectDAO implements ProjectDAOInterface {
         return list;
     }
 
-    // 🔥 FIND BY INVITE CODE
+    //  FIND BY INVITE CODE
     @Override
     public Project findByInviteCode(String code) {
 
@@ -187,7 +187,7 @@ public class ProjectDAO implements ProjectDAOInterface {
         return null;
     }
 
-    // 🔧 HÀM MAP CHUNG (cực quan trọng)
+    //  HÀM MAP CHUNG (cực quan trọng)
     private Project mapProject(ResultSet rs) throws SQLException {
 
         Timestamp ts = rs.getTimestamp("created_at");
@@ -245,7 +245,7 @@ public class ProjectDAO implements ProjectDAOInterface {
 
             while (rs.next()) {
 
-                // 🔥 tạo project 1 lần
+                //  tạo project 1 lần
                 if (project == null) {
 
                     Timestamp ts = rs.getTimestamp("p_created");
@@ -261,14 +261,14 @@ public class ProjectDAO implements ProjectDAOInterface {
                     );
                 }
 
-                // 🔥 xử lý null time cho user
+                //  xử lý null time cho user
                 Timestamp uCreatedTs = rs.getTimestamp("u_created");
                 LocalDateTime uCreated = (uCreatedTs != null) ? uCreatedTs.toLocalDateTime() : null;
 
                 Timestamp uUpdatedTs = rs.getTimestamp("u_updated");
                 LocalDateTime uUpdated = (uUpdatedTs != null) ? uUpdatedTs.toLocalDateTime() : null;
 
-                // 🔥 tạo user
+                //  tạo user
                 User user = new User(
                         rs.getInt("u_id"),
                         rs.getString("email"),
@@ -282,7 +282,7 @@ public class ProjectDAO implements ProjectDAOInterface {
                 members.add(user);
             }
 
-            // 🔥 gán members
+            // gán members
             if (project != null) {
                 project.setMembers(members);
             }

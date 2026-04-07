@@ -10,7 +10,7 @@ import java.util.*;
 
 public class UserProjectDAO implements UserProjectDAOInterface {
 
-    // ➕ INSERT (thêm user vào project)
+    //  INSERT (thêm user vào project)
     @Override
     public boolean insert(UserProject up) {
 
@@ -26,7 +26,7 @@ public class UserProjectDAO implements UserProjectDAOInterface {
             return ps.executeUpdate() > 0;                 // true nếu thành công
 
         } catch (SQLIntegrityConstraintViolationException e) {
-            // ❗ duplicate (do UNIQUE user_id + project_id)
+            //  duplicate (do UNIQUE user_id + project_id)
             System.out.println("User đã ở trong project rồi!");
         } catch (Exception e) {
             e.printStackTrace();
@@ -35,7 +35,7 @@ public class UserProjectDAO implements UserProjectDAOInterface {
         return false;
     }
 
-    // ❌ DELETE
+    //  DELETE
     @Override
     public boolean delete(int userId, int projectId) {
 
@@ -56,7 +56,7 @@ public class UserProjectDAO implements UserProjectDAOInterface {
         return false;
     }
 
-    // 🔥 FIND BY PROJECT (list member)
+    //  FIND BY PROJECT (list member)
     @Override
     public List<UserProject> findByProjectId(int projectId) {
 
@@ -82,7 +82,7 @@ public class UserProjectDAO implements UserProjectDAOInterface {
         return list;
     }
 
-    // 🔥 FIND BY USER (dashboard + role)
+    //  FIND BY USER (dashboard + role)
     @Override
     public List<UserProject> findByUserId(int userId) {
 
@@ -108,7 +108,7 @@ public class UserProjectDAO implements UserProjectDAOInterface {
         return list;
     }
 
-    // 🔍 FIND ONE
+    //  FIND ONE
     @Override
     public UserProject findOne(int userId, int projectId) {
 
@@ -133,7 +133,7 @@ public class UserProjectDAO implements UserProjectDAOInterface {
         return null;
     }
 
-    // 🔥 CHECK EXISTS
+    //  CHECK EXISTS
     @Override
     public boolean exists(int userId, int projectId) {
 
@@ -156,7 +156,7 @@ public class UserProjectDAO implements UserProjectDAOInterface {
         return false;
     }
 
-    // 🔧 MAP ResultSet → UserProject
+    //  MAP ResultSet → UserProject
     private UserProject mapUserProject(ResultSet rs) throws SQLException {
 
         Timestamp ts = rs.getTimestamp("joined_at");

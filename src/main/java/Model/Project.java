@@ -9,10 +9,10 @@ public class Project {
     private String name;
     private String description;
     private int ownerId;
-    private String inviteCode; // 🔥 nếu bạn dùng join bằng code
+    private String inviteCode; // nếu bạn dùng join bằng code
     private LocalDateTime createdAt;
 
-    private List<User> members; // 🔥 danh sách user trong project
+    private List<User> members; // danh sách user trong project
 
     public Project() {}
 

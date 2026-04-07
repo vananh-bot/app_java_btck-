@@ -7,7 +7,7 @@ public class UserProject {
 
     private int userId;
     private int projectId;
-    private Role role; // 🔥 dùng enum thay vì String
+    private Role role; // dùng enum thay vì String
     private LocalDateTime joinedAt;
 
     public UserProject() {}
@@ -39,7 +39,7 @@ public class UserProject {
     public void setRole(Role role) { this.role = role; }
     public void setJoinedAt(LocalDateTime joinedAt) { this.joinedAt = joinedAt; }
 
-    // 🔥 tiện dùng
+    //  tiện dùng
     public boolean isOwner() {
         return role == Role.OWNER;
     }
