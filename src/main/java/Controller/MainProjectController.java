@@ -5,6 +5,9 @@ import Model.Task;
 import Enum.TaskStatus;
 
 // JavaFX
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.paint.Color;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,10 +15,15 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 // Drag & Drop
 import javafx.scene.input.Dragboard;
@@ -27,6 +35,11 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
+// Time
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 // Collection
 import java.util.List;
 import java.util.ArrayList;
@@ -37,6 +50,7 @@ public class MainProjectController {
     @FXML private VBox vboxTodo;
     @FXML private VBox vboxInProgress;
     @FXML private VBox vboxDone;
+    @FXML private TextField searchField;
 
     // ================= DATA =================
     private int projectId;
@@ -47,6 +61,11 @@ public class MainProjectController {
         this.projectId = projectId;
 
         setupDragDrop();
+        if (searchField != null) {
+            searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+                loadTasks(); // Gọi lại hàm loadTasks mỗi khi chữ thay đổi
+            });
+        }
         loadTasks();
 
         //  có thể tắt nếu lag
@@ -58,11 +77,26 @@ public class MainProjectController {
 
         List<Task> all = taskDAO.getTasksByProjectId(projectId);
 
+        // Lấy từ khóa tìm kiếm (chuyển về chữ thường để tìm không phân biệt hoa thường)
+        String keyword = searchField != null ? searchField.getText().toLowerCase().trim() : "";
+
         List<Task> todo = new ArrayList<>();
         List<Task> inProgress = new ArrayList<>();
         List<Task> done = new ArrayList<>();
 
         for (Task t : all) {
+            // LỌC TÌM KIẾM: Nếu có từ khóa, và tiêu đề không chứa từ khóa đó -> Bỏ qua task này
+            if (!keyword.isEmpty()) {
+                boolean matchTitle = t.getTitle() != null && t.getTitle().toLowerCase().contains(keyword);
+                boolean matchDesc = t.getDescription() != null && t.getDescription().toLowerCase().contains(keyword);
+
+                // Nếu cả tiêu đề và mô tả đều không khớp thì bỏ qua
+                if (!matchTitle && !matchDesc) {
+                    continue;
+                }
+            }
+
+            // Phân loại task sau khi đã lọc
             switch (t.getStatus()) {
                 case TODO -> todo.add(t);
                 case IN_PROGRESS -> inProgress.add(t);
@@ -72,7 +106,6 @@ public class MainProjectController {
 
         render(todo, inProgress, done);
     }
-
     // ================= RENDER =================
     private void render(List<Task> todo, List<Task> inProgress, List<Task> done) {
 
@@ -89,15 +122,85 @@ public class MainProjectController {
     private VBox createTaskCard(Task task) {
 
         VBox card = new VBox();
-        card.setSpacing(8);
+        card.setSpacing(12);
         card.getStyleClass().add("borderTask");
-
         card.setUserData(task);
 
-        Label title = new Label(task.getTitle());
-        Label desc = new Label(task.getDescription());
+        // 1. Label Mức độ ưu tiên (Priority)
+        Label priorityLabel = new Label();
+        priorityLabel.getStyleClass().add("levelPriority");
 
-        card.getChildren().addAll(title, desc);
+        if (task.getPriority() != null) {
+            switch (task.getPriority().name()) {
+                case "HIGH":
+                    priorityLabel.setText("Cao");
+                    priorityLabel.setStyle("-fx-text-fill: #d93025;");
+                    break;
+                case "MEDIUM":
+                    priorityLabel.setText("Trung bình");
+                    priorityLabel.setStyle("-fx-text-fill: #e37400;");
+                    break;
+                case "LOW":
+                    priorityLabel.setText("Thấp");
+                    priorityLabel.setStyle("-fx-text-fill: #188038;");
+                    break;
+                default:
+                    priorityLabel.setText("Bình thường");
+                    priorityLabel.setStyle("-fx-text-fill: #5f6368;");
+                    break;
+            }
+        } else {
+            priorityLabel.setVisible(false);
+            priorityLabel.setManaged(false); // Xóa khoảng trống nếu không có priority
+        }
+
+        // 2. Khối chứa Tiêu đề và Mô tả
+        VBox textVBox = new VBox(3);
+        VBox.setMargin(textVBox, new Insets(0, -8, 0, -8));
+
+        Label title = new Label(task.getTitle());
+        title.getStyleClass().add("newLine");
+        // Dùng Font chuẩn của JavaFX thay vì setStyle
+        title.setFont(Font.font("System", FontWeight.BOLD, 14));
+
+        Label desc = new Label(task.getDescription());
+        desc.getStyleClass().addAll("description", "newLine");
+        // Dùng Font chuẩn của JavaFX
+        desc.setFont(Font.font("System", 11));
+        desc.setTextFill(Color.valueOf("#434343"));
+
+        textVBox.getChildren().addAll(title, desc);
+
+        // 3. Khối chứa Icon Lịch và Hạn chót (Deadline)
+        HBox deadlineHBoxOuter = new HBox();
+        deadlineHBoxOuter.getStyleClass().add("borderMini");
+        deadlineHBoxOuter.setPadding(new Insets(4, 4, 4, 4));
+        VBox.setMargin(deadlineHBoxOuter, new Insets(0, 0, -10, 0));
+
+        HBox deadlineHBoxInner = new HBox(5);
+        deadlineHBoxInner.setAlignment(Pos.CENTER);
+        HBox.setMargin(deadlineHBoxInner, new Insets(4, 0, 3, 0));
+
+        ImageView calendarIcon = new ImageView();
+        try {
+            Image img = new Image(getClass().getResourceAsStream("/images/calendar-249-removebg-preview.png"));
+            calendarIcon.setImage(img);
+            calendarIcon.setFitWidth(17);
+            calendarIcon.setFitHeight(17);
+        } catch (Exception e) {
+            System.out.println("Cảnh báo: Không load được icon lịch - " + e.getMessage());
+        }
+
+        Label dateLabel = new Label(calculateDaysRemaining(task.getDeadline()));
+        // Dùng Font chuẩn của JavaFX
+        dateLabel.setFont(Font.font("System", 11));
+        dateLabel.setTextFill(Color.valueOf("#434343"));
+
+        deadlineHBoxInner.getChildren().addAll(calendarIcon, dateLabel);
+        deadlineHBoxOuter.getChildren().add(deadlineHBoxInner);
+
+        // Lắp ráp Card
+        card.getChildren().addAll(priorityLabel, textVBox, deadlineHBoxOuter);
 
         //  DRAG
         card.setOnDragDetected(e -> {
@@ -119,15 +222,29 @@ public class MainProjectController {
             card.setScaleX(1);
             card.setScaleY(1);
         });
-
-        //  DOUBLE CLICK EDIT
+        // DOUBLE CLICK ĐỂ CHUYỂN SANG MÀN HÌNH CHI TIẾT
         card.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2) {
-                openEditPopup(task);
+                // Thay đổi đường dẫn này nếu file của bạn nằm ở thư mục khác
+                switchSceneMouse(e, "/task/taskdetails.fxml");
             }
         });
 
         return card;
+    }
+
+    // ================= DATE UTIL =================
+    private String calculateDaysRemaining(LocalDateTime deadlineDateTime) {
+        if (deadlineDateTime == null) return "Không có hạn";
+
+        LocalDate deadlineDate = deadlineDateTime.toLocalDate();
+        LocalDate today = LocalDate.now();
+
+        long daysBetween = ChronoUnit.DAYS.between(today, deadlineDate);
+
+        if (daysBetween == 0) return "Hôm nay";
+        if (daysBetween > 0) return daysBetween + " ngày nữa";
+        return "Quá hạn " + Math.abs(daysBetween) + " ngày";
     }
 
     // ================= DRAG DROP =================
@@ -245,7 +362,20 @@ public class MainProjectController {
             e.printStackTrace();
         }
     }
+    // ================= CHUYỂN SCENE BẰNG CHUỘT =================
+    private void switchSceneMouse(javafx.scene.input.MouseEvent event, String path) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+            Scene scene = new Scene(loader.load());
 
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+
+        } catch (Exception e) {
+            System.err.println("Lỗi chuyển trang: Hãy kiểm tra lại đường dẫn FXML (" + path + ")");
+            e.printStackTrace();
+        }
+    }
     // =============================
 
     //  Tổng quan → Dashboard
@@ -268,19 +398,5 @@ public class MainProjectController {
         switchScene(event, "/auth/login.fxml");
     }
 
-    //  Thêm công việc (popup riêng)
-//    public void handleOpenCreateTask(ActionEvent event) {
-//        try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/task/createTask.fxml"));
-//            Scene scene = new Scene(loader.load());
-//
-//            Stage stage = new Stage();
-//            stage.setTitle("Create Task");
-//            stage.setScene(scene);
-//            stage.show();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+
 }
