@@ -195,7 +195,7 @@
                                           <Insets top="7.0" />
                                        </VBox.margin>
                                                 </Label>
-                                                <Label fx:id="description" styleClass="setFontContent" text="Tạo dự án đầu tiên cùng FlowTask" textFill="#403d3d">
+                                                <Label fx:id="description" styleClass="setFontContent" text="Quản lý công việc rõ ràng, tiết kiệm thời gian và làm việc hiệu quả hơn mỗi ngày." textFill="#403d3d">
                                                     <font>
                                                         <Font name="Tahoma" size="12.0" />
                                                     </font>
@@ -262,6 +262,7 @@
                                                    </VBox.margin>
                                                    <styleClass>
                                                       <String fx:value="newLine" />
+                                                      <String fx:value="task" />
                                                       <String fx:value="setFontContent" />
                                                    </styleClass>
                                                 </Label>
@@ -302,6 +303,7 @@
                                                    </VBox.margin>
                                                    <styleClass>
                                                       <String fx:value="newLine" />
+                                                      <String fx:value="task" />
                                                       <String fx:value="setFontContent" />
                                                    </styleClass>
                                                 </Label>
@@ -347,6 +349,7 @@
                                                    </VBox.margin>
                                                    <styleClass>
                                                       <String fx:value="newLine" />
+                                                      <String fx:value="task" />
                                                       <String fx:value="setFontContent" />
                                                    </styleClass>
                                                 </Label>
@@ -392,6 +395,7 @@
                                                    </VBox.margin>
                                                    <styleClass>
                                                       <String fx:value="newLine" />
+                                                      <String fx:value="task" />
                                                       <String fx:value="setFontContent" />
                                                    </styleClass>
                                                 </Label>
@@ -432,6 +436,7 @@
                                                    </VBox.margin>
                                                    <styleClass>
                                                       <String fx:value="newLine" />
+                                                      <String fx:value="task" />
                                                       <String fx:value="setFontContent" />
                                                    </styleClass>
                                                 </Label>

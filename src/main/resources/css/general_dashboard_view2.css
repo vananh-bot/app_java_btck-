@@ -24,7 +24,15 @@
     -fx-opacity: 0;
     -fx-pref-width: 0;
 }
+.task{
 
+}
+.task:hover {
+    -fx-scale-x: 1.001;
+    -fx-scale-y: 1.001;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0.1, 0, 2);
+    -fx-cursor: hand;
+}
 .eachTask{
     -fx-border-color: #dcdcdc;
     -fx-border-width: 0 0 0.3 0;
