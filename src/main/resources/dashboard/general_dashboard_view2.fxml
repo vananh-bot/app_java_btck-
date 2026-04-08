@@ -65,7 +65,7 @@
                                                 <Image url="@../images/dashboard_logo.png" />
                                             </image>
                                         </ImageView>
-                                        <Label prefHeight="28.0" prefWidth="108.0" styleClass="grey_color" text="Tổng quan">
+                                        <Label fx:id="dashboard" prefHeight="28.0" prefWidth="108.0" styleClass="grey_color" text="Tổng quan">
                                             <padding>
                                                 <Insets left="15.0" />
                                             </padding>
@@ -86,7 +86,7 @@
                                                 <Image url="@../images/folder_logo.png" />
                                             </image>
                                         </ImageView>
-                                        <Label prefHeight="26.0" prefWidth="114.0" styleClass="grey_color" text="Dự án của tôi">
+                                        <Label fx:id="myProject" prefHeight="26.0" prefWidth="114.0" styleClass="grey_color" text="Dự án của tôi">
                                             <padding>
                                                 <Insets left="15.0" />
                                             </padding>
@@ -107,7 +107,7 @@
                                                 <Image url="@../images/notification_logo.png" />
                                             </image>
                                         </ImageView>
-                                        <Label prefHeight="24.0" prefWidth="108.0" styleClass="grey_color" text="Thông báo">
+                                        <Label fx:id="notification" prefHeight="24.0" prefWidth="108.0" styleClass="grey_color" text="Thông báo">
                                             <padding>
                                                 <Insets left="15.0" />
                                             </padding>
