@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1280.0" styleClass="white_pane" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+    <stylesheets>
+        <URL value="@../css/global.css" />
+        <URL value="@../css/taskdetails.css" />
+      <URL value="@../css/general_dashboard_view.css" />
+    </stylesheets>
+    <left>
+        <VBox prefHeight="700.0" prefWidth="193.0" spacing="15.0" BorderPane.alignment="CENTER">
+            <styleClass>
+                <String fx:value="grey_color" />
+                <String fx:value="right_border" />
+            </styleClass>
+            <children>
+                <HBox prefHeight="40.0" prefWidth="172.0">
+                    <children>
+                        <ImageView fitHeight="38.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/app_logo.png" />
+                            </image>
+                        </ImageView>
+                        <Label prefHeight="42.0" prefWidth="124.0" styleClass="logo-text" text="FlowTask">
+                            <font>
+                                <Font name="System Bold" size="20.0" />
+                            </font>
+                            <padding>
+                                <Insets left="8.0" />
+                            </padding>
+                        </Label>
+                    </children>
+                    <padding>
+                        <Insets top="15.0" />
+                    </padding>
+                </HBox>
+                <VBox prefHeight="568.0" prefWidth="152.0" spacing="4.0" styleClass="bottom_border">
+                    <VBox.margin>
+                        <Insets right="20.0" top="20.0" />
+                    </VBox.margin>
+                    <children>
+                        <Button mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
+                            <graphic>
+                                <HBox prefHeight="100.0" prefWidth="200.0" styleClass="grey_color">
+                                    <children>
+                                        <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="grey_color">
+                                            <image>
+                                                <Image url="@../images/dashboard_logo.png" />
+                                            </image>
+                                        </ImageView>
+                                        <Label fx:id="dashBoard" prefHeight="28.0" prefWidth="108.0" styleClass="grey_color" text="Tổng quan">
+                                            <padding>
+                                                <Insets left="15.0" />
+                                            </padding>
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                            </graphic>
+                        </Button>
+                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
+                            <graphic>
+                                <HBox prefHeight="100.0" prefWidth="200.0" styleClass="grey_color">
+                                    <children>
+                                        <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="grey_color">
+                                            <image>
+                                                <Image url="@../images/folder_logo.png" />
+                                            </image>
+                                        </ImageView>
+                                        <Label fx:id="myProject" prefHeight="26.0" prefWidth="114.0" styleClass="grey_color" text="Dự án của tôi">
+                                            <padding>
+                                                <Insets left="15.0" />
+                                            </padding>
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                            </graphic>
+                        </Button>
+                        <Button layoutX="10.0" layoutY="45.0" mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
+                            <graphic>
+                                <HBox prefHeight="56.0" prefWidth="91.0" styleClass="grey_color">
+                                    <children>
+                                        <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="grey_color">
+                                            <image>
+                                                <Image url="@../images/notification_logo.png" />
+                                            </image>
+                                        </ImageView>
+                                        <Label fx:id="notification" prefHeight="24.0" prefWidth="108.0" styleClass="grey_color" text="Thông báo">
+                                            <padding>
+                                                <Insets left="15.0" />
+                                            </padding>
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                            </graphic>
+                        </Button>
+                    </children>
+                </VBox>
+                <Button mnemonicParsing="false" opacity="0.5" prefHeight="36.0" prefWidth="152.0" styleClass="toggle-button">
+                    <graphic>
+                        <HBox prefHeight="56.0" prefWidth="91.0">
+                            <children>
+                                <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../images/logout_logo.png" />
+                                    </image>
+                                </ImageView>
+                                <Label fx:id="logOut" prefHeight="22.0" prefWidth="86.0" styleClass="grey_color" text="Đăng xuất">
+                                    <padding>
+                                        <Insets left="15.0" />
+                                    </padding>
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                            <padding>
+                                <Insets right="20.0" />
+                            </padding>
+                        </HBox>
+                    </graphic>
+                    <VBox.margin>
+                        <Insets bottom="9.0" right="20.0" top="-9.0" />
+                    </VBox.margin>
+                </Button>
+            </children>
+            <BorderPane.margin>
+                <Insets />
+            </BorderPane.margin>
+            <padding>
+                <Insets left="20.0" />
+            </padding>
+        </VBox>
+    </left>
+    <center>
+        <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <children>
+                <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="1053.0" styleClass="bottom_border">
+                    <children>
+                        <HBox prefHeight="30.0" prefWidth="556.0" styleClass="search-container">
+                            <HBox.margin>
+                                <Insets bottom="5.0" left="20.0" right="5.0" top="5.0" />
+                            </HBox.margin>
+                            <children>
+                                <Label alignment="CENTER" prefHeight="26.0" prefWidth="57.0" text="🔍" textAlignment="CENTER">
+                                    <HBox.margin>
+                                        <Insets left="15.0" />
+                                    </HBox.margin>
+                                </Label>
+                                <TextField fx:id="searchBar" prefHeight="30.0" prefWidth="520.0" promptText="Tìm kiếm dự án" style="-fx-border-color: transperant;" styleClass="search-input" HBox.hgrow="ALWAYS">
+                                    <HBox.margin>
+                                        <Insets right="10.0" />
+                                    </HBox.margin></TextField>
+                            </children>
+                        </HBox>
+                    </children></HBox>
+                <HBox prefHeight="668.0" prefWidth="1087.0" styleClass="grey_color">
+               <children>
+                  <HBox prefHeight="659.0" prefWidth="1088.0">
+                     <children>
+                        <VBox prefHeight="659.0" prefWidth="795.0">
+                           <children>
+                              <VBox prefHeight="76.0" prefWidth="773.0" spacing="4.0">
+                                 <children>
+                                    <Label fx:id="welcome" styleClass="setFontTitle" text="Chào mừng đến với FlowTask">
+                                       <font>
+                                          <Font name="System Bold" size="28.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="description" styleClass="setFontContent" text="Tạo dự án đầu tiên cùng FlowTask" textFill="#4d4949">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
+                                 </VBox.margin>
+                              </VBox>
+                              <HBox prefHeight="35.0" prefWidth="791.0" spacing="3.0">
+                                 <children>
+                                    <ImageView fitHeight="21.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/icons8-project-48.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label styleClass="setFontContent" text="Nhiệm vụ của tôi">
+                                       <font>
+                                          <Font name="Tahoma Bold" size="12.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="7.0" left="9.0" />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets top="4.0" />
+                                 </padding>
+                              </HBox>
+                              <VBox alignment="TOP_CENTER" prefHeight="248.0" prefWidth="687.0" spacing="6.0" styleClass="listTask">
+                                 <VBox.margin>
+                                    <Insets left="30.0" right="30.0" />
+                                 </VBox.margin>
+                                 <children>
+                                    <ImageView fitHeight="72.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Gemini_Generated_Image_sgdciisgdciisgdc-removebg-preview.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label styleClass="setFontContent" text="Chưa có nhiệm vụ nào ">
+                                       <font>
+                                          <Font name="Tahoma Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label styleClass="setFontContent2" text="Hãy tạo nhiệm vụ đầu tiên của bạn để bắt đầu sắp xếp quy trình làm việc." textFill="#797272">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Button fx:id="createProject" mnemonicParsing="false" prefHeight="32.0" prefWidth="132.0" styleClass="createProject1" text="Tạo dự án" textFill="WHITE">
+                                       <VBox.margin>
+                                          <Insets top="32.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font name="Tahoma Bold" size="12.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                                 <padding>
+                                    <Insets top="22.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox prefHeight="284.0" prefWidth="791.0">
+                                 <children>
+                                    <HBox prefHeight="27.0" prefWidth="791.0" spacing="5.0">
+                                       <children>
+                                          <ImageView fitHeight="21.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/icons8-popup-64-removebg-preview.png" />
+                                             </image>
+                                          </ImageView>
+                                          <Label styleClass="setFontContent" text="Dự án đang hoạt động">
+                                             <font>
+                                                <Font name="Tahoma Bold" size="12.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets top="4.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="16.0" top="17.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox prefHeight="251.0" prefWidth="791.0">
+                                       <children>
+                                          <VBox prefHeight="249.0" prefWidth="196.0" spacing="9.0" styleClass="activeProject">
+                                             <HBox.margin>
+                                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                             </HBox.margin>
+                                             <children>
+                                                <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../images/ff727a78-026f-4624-9ce1-bcfd41b45229-removebg-preview.png" />
+                                                   </image>
+                                                </ImageView>
+                                                <Label styleClass="setFontContent2" text="Bắt đầu dự án mới">
+                                                   <font>
+                                                      <Font name="Tahoma Bold" size="11.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="FlowTask giúp bạn quản lý công việc rõ ràng, tiết kiệm thời gian và làm việc hiệu quả hơn mỗi ngày." textFill="#807a7a">
+                                                   <font>
+                                                      <Font name="Tahoma" size="10.0" />
+                                                   </font>
+                                                   <styleClass>
+                                                      <String fx:value="newLine" />
+                                                      <String fx:value="setFontContent3" />
+                                                   </styleClass></Label>
+                                                <Button fx:id="createProject" mnemonicParsing="false" text="Tạo dự án " textFill="#5e5d5d">
+                                                   <VBox.margin>
+                                                      <Insets left="48.0" top="33.0" />
+                                                   </VBox.margin>
+                                                   <font>
+                                                      <Font name="Tahoma Bold" size="11.0" />
+                                                   </font>
+                                                   <styleClass>
+                                                      <String fx:value="createProject2" />
+                                                      <String fx:value="setFontContent2" />
+                                                   </styleClass></Button>
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+                                             </padding>
+                                          </VBox>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="659.0" prefWidth="299.0">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                           <children>
+                              <Region prefHeight="89.0" prefWidth="286.0" />
+                              <VBox prefHeight="583.0" prefWidth="286.0">
+                                 <children>
+                                    <HBox prefHeight="37.0" prefWidth="286.0" spacing="7.0">
+                                       <children>
+                                          <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/appointment-reminders--v2-removebg-preview.png" />
+                                             </image>
+                                          </ImageView>
+                                          <Label styleClass="setFontContent" text="Hoạt động và thông báo ">
+                                             <font>
+                                                <Font name="Tahoma Bold" size="12.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="18.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <VBox prefHeight="371.0" prefWidth="286.0" spacing="23.0" styleClass="activeProject">
+                                       <VBox.margin>
+                                          <Insets bottom="22.0" left="22.0" right="22.0" top="6.0" />
+                                       </VBox.margin>
+                                       <children>
+                                          <Label styleClass="setFontContent2" text="    NHẬT KÍ HOẠT ĐỘNG" textFill="#726c6c">
+                                             <font>
+                                                <Font name="System Bold" size="11.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="4.0" />
+                                             </VBox.margin></Label>
+                                          <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="7.0">
+                                             <children>
+                                                <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                                   <VBox.margin>
+                                                      <Insets top="16.0" />
+                                                   </VBox.margin>
+                                                   <image>
+                                                      <Image url="@../images/icons8-reload-100-removebg-preview.png" />
+                                                   </image>
+                                                </ImageView>
+                                                <Label styleClass="setFontContent" text="Hiện tại mọi thứ đều yên tĩnh" textFill="#5e5e5e">
+                                                   <font>
+                                                      <Font name="Tahoma Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Các hoạt động gần đây sẽ xuất hiện ở đây khi bạn làm việc " textFill="#8d8585">
+                                                   <font>
+                                                      <Font name="Tahoma" size="11.0" />
+                                                   </font>
+                                                   <styleClass>
+                                                      <String fx:value="newLine2" />
+                                                      <String fx:value="setFontContent3" />
+                                                   </styleClass>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="9.0" left="9.0" right="9.0" top="13.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                              </VBox>
+                           </children></VBox>
+                     </children>
+                  </HBox>
+               </children></HBox>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>

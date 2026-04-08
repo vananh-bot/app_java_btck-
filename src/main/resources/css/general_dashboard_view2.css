@@ -1,0 +1,214 @@
+.listTask{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 21;
+}
+
+.listTask:hover {
+    -fx-scale-x: 1.0001;
+    -fx-scale-y: 1.0001;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0.1, 0, 2);
+    -fx-cursor: hand;
+}
+
+.listTask .viewport {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 21;
+}
+
+.listTask .scroll-bar:vertical {
+    -fx-opacity: 1;
+    -fx-pref-width: 8;
+}
+
+.listTask .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+}
+
+.eachTask{
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 0 0 0.3 0;
+}
+
+.priority-high {
+    -fx-background-color: #ffe4e1;
+    -fx-text-fill: #ff0000;
+    -fx-background-radius: 10;
+    -fx-font-size: 9;
+    -fx-font-family: Tahoma;
+    -fx-padding: 2 8 2 8;
+}
+
+.priority-medium {
+    -fx-background-color: #ffefd5;
+    -fx-text-fill: #ffa500;
+    -fx-background-radius: 10;
+    -fx-font-size: 9;
+    -fx-font-family: Tahoma;
+    -fx-padding: 2 8 2 8;
+}
+
+.priority-low {
+    -fx-background-color: #f0fff0;
+    -fx-text-fill: #52c41a;
+    -fx-background-radius: 10;
+    -fx-font-size: 9;
+    -fx-font-family: Tahoma;
+    -fx-padding: 2 8 2 8;
+}
+
+.activeProject{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 21;
+    -fx-border-radius: 21;
+}
+.activeProject .viewport {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 21;
+}
+
+.activeProject .scroll-bar:horizontal {
+    -fx-opacity: 1;
+    -fx-pref-height: 8;
+}
+
+.activeProject .scroll-bar:vertical {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+}
+
+.eachActiveProject{
+    -fx-background-color: #f5f5f5;
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+}
+.eachActiveProject:hover {
+    -fx-scale-x: 1.01;
+    -fx-scale-y: 1.01;
+    -fx-cursor: hand;
+}
+.newLine{
+    -fx-wrap-text: true;
+}
+.newLine2{
+    -fx-wrap-text: true;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}
+.createProject1{
+    -fx-background-color: #3251c9;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+}
+.createProject1:hover {
+    -fx-scale-x: 1.001;
+    -fx-scale-y: 1.001;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0.1, 0, 2);
+    -fx-cursor: hand;
+}
+.createProject2{
+    -fx-background-color: #dcdcdc;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+}
+.createProject2:hover {
+    -fx-scale-x: 1.0001;
+    -fx-scale-y: 1.0001;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0.1, 0, 2);
+    -fx-cursor: hand;
+}
+
+.viewAllProject{
+
+}
+.viewAllProject:hover {
+    -fx-scale-x: 1.0001;
+    -fx-scale-y: 1.0001;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0.1, 0, 2);
+    -fx-cursor: hand;
+}
+
+.progress-bar-slim {
+    -fx-pref-height: 4px;      /* Độ dày siêu mỏng */
+    -fx-min-height: 4px;
+    -fx-max-height: 4px;
+}
+
+.progress-bar-slim .track {
+    -fx-background-color: #e0e0e0; /* Màu nền thanh (xám nhạt) */
+    -fx-background-insets: 0;
+    -fx-background-radius: 2px;    /* Bo góc nhẹ */
+}
+
+.progress-bar-slim .bar {
+    -fx-background-color: #6a5acd; /* Màu tiến độ (xanh dương hiện đại) */
+    -fx-background-insets: 0;
+    -fx-background-radius: 2px;
+    /* Hiệu ứng chuyển động mượt mà khi thay đổi giá trị (nếu muốn) */
+    -fx-padding: 0;
+}
+
+.progress-low .bar {
+    -fx-background-color: #e74c3c;
+}
+
+.progress-medium .bar {
+    -fx-background-color: #f1c40f;
+}
+
+.progress-high .bar {
+    -fx-background-color: #2ecc71;
+}
+
+.notificationList{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 21;
+    -fx-border-radius: 21;
+}
+.notificationList .viewport {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 21;
+}
+.notificationList .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-pref-height: 8;
+}
+
+.notificationList .scroll-bar:vertical {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+}
+.notificationList:hover {
+    -fx-scale-x: 1.0001;
+    -fx-scale-y: 1.0001;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0.1, 0, 2);
+    -fx-cursor: hand;
+}
+
+.notification{
+
+}
+.notification:hover {
+    -fx-scale-x: 1.0001;
+    -fx-scale-y: 1.0001;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0.1, 0, 2);
+    -fx-cursor: hand;
+}
+
+.setfont{
+    -fx-font-size: 12px;
+    -fx-font-family: Inter;
+}
+.setFontTitle{
+    -fx-font-size: 24px;
+    -fx-font-family: "Inter 24pt";
+}
+.setFontContent{
+    -fx-font-size: 12px;
+    -fx-font-family: "Inter 18pt light"
+}
+.setFontContent2{
+    -fx-font-size: 11px;
+    -fx-font-family: "Inter 18pt light"
+}
+
