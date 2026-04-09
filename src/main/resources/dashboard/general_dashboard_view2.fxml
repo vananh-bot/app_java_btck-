@@ -202,10 +202,10 @@
                                                 </Label>
                                             </children>
                                             <VBox.margin>
-                                                <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
+                                                <Insets bottom="9.0" left="20.0" right="9.0" top="9.0" />
                                             </VBox.margin>
                                         </VBox>
-                              <Button fx:id="buttonCreateProject" mnemonicParsing="false" prefHeight="45.0" prefWidth="120.0" text="Dự án mới " textFill="WHITE">
+                              <Button fx:id="buttonCreateProject" mnemonicParsing="false" prefHeight="38.0" prefWidth="167.0" text="Dự án mới " textFill="WHITE">
                                  <graphic>
                                     <Label prefHeight="15.0" prefWidth="0.0" text="+" textFill="WHITE">
                                        <font>
@@ -217,7 +217,7 @@
                                     <Font name="Tahoma Bold" size="11.0" />
                                  </font>
                                  <VBox.margin>
-                                    <Insets bottom="11.0" left="12.0" top="5.0" />
+                                    <Insets bottom="11.0" left="600.0" top="5.0" />
                                  </VBox.margin>
                                  <styleClass>
                                     <String fx:value="createProject1" />
@@ -241,11 +241,8 @@
                                                 </Label>
                                             </children>
                                             <VBox.margin>
-                                                <Insets bottom="7.0" left="9.0" top="8.0" />
+                                                <Insets bottom="7.0" left="20.0" />
                                             </VBox.margin>
-                                            <padding>
-                                                <Insets top="4.0" />
-                                            </padding>
                                         </HBox>
                               <ScrollPane prefHeight="236.0" prefWidth="700.0" styleClass="listTask">
                                  <content>
@@ -485,7 +482,7 @@
                                                                 <Image url="@../images/icons8-popup-64-removebg-preview.png" />
                                                             </image>
                                                         </ImageView>
-                                                        <Label prefHeight="15.0" prefWidth="635.0" styleClass="setFontContent" text="Dự án đang hoạt động">
+                                                        <Label prefHeight="17.0" prefWidth="622.0" styleClass="setFontContent" text="Dự án đang hoạt động">
                                                             <font>
                                                                 <Font name="Tahoma Bold" size="12.0" />
                                                             </font>
@@ -503,7 +500,7 @@
                                           </Label>
                                                     </children>
                                                     <VBox.margin>
-                                                        <Insets bottom="5.0" left="16.0" top="17.0" />
+                                                        <Insets bottom="5.0" left="20.0" top="17.0" />
                                                     </VBox.margin>
                                                 </HBox>
                                     <ScrollPane prefHeight="217.0" prefWidth="791.0" styleClass="activeProject">
