@@ -56,7 +56,7 @@
                         <Insets right="20.0" top="20.0" />
                     </VBox.margin>
                     <children>
-                        <Button mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
+                        <Button mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0">
                             <graphic>
                                 <HBox prefHeight="100.0" prefWidth="200.0" styleClass="grey_color">
                                     <children>
@@ -65,17 +65,25 @@
                                                 <Image url="@../images/dashboard_logo.png" />
                                             </image>
                                         </ImageView>
-                                        <Label fx:id="dashboard" prefHeight="28.0" prefWidth="108.0" styleClass="grey_color" text="Tổng quan">
+                                        <Label fx:id="dashboard" prefHeight="28.0" prefWidth="108.0" text="Tổng quan">
                                             <padding>
                                                 <Insets left="15.0" />
                                             </padding>
                                             <font>
                                                 <Font size="14.0" />
                                             </font>
+                                 <styleClass>
+                                    <String fx:value="grey_color" />
+                                    <String fx:value="logo-text" />
+                                 </styleClass>
                                         </Label>
                                     </children>
                                 </HBox>
                             </graphic>
+                     <styleClass>
+                        <String fx:value="sidebar-button-active" />
+                        <String fx:value="toggle-button" />
+                     </styleClass>
                         </Button>
                         <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
                             <graphic>
@@ -107,7 +115,7 @@
                                                 <Image url="@../images/notification_logo.png" />
                                             </image>
                                         </ImageView>
-                                        <Label fx:id="notification" prefHeight="24.0" prefWidth="108.0" styleClass="grey_color" text="Thông báo">
+                                        <Label fx:id="notification" prefHeight="32.0" prefWidth="107.0" styleClass="grey_color" text="Thông báo">
                                             <padding>
                                                 <Insets left="15.0" />
                                             </padding>
@@ -130,7 +138,7 @@
                                         <Image url="@../images/logout_logo.png" />
                                     </image>
                                 </ImageView>
-                                <Label prefHeight="22.0" prefWidth="86.0" styleClass="grey_color" text="Đăng xuất">
+                                <Label prefHeight="36.0" prefWidth="86.0" styleClass="grey_color" text="Đăng xuất">
                                     <padding>
                                         <Insets left="15.0" />
                                     </padding>

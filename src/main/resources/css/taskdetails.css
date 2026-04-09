@@ -25,12 +25,13 @@
 
 .toggle-button{
     -fx-font-family: "Tahoma";
-    -fx-text-fill: #black;
+    -fx-text-fill: black;
     -fx-background-color: transparent;
     -fx-background-radius: 10;
     -fx-border-radius: 10;
     -fx-font-size: 14px;
     -fx-alignment: CENTER_LEFT;
+    -fx-background-insets: 0;
     -fx-opacity: 0.5;
 }
 .toggle-button:hover{
@@ -45,6 +46,7 @@
 .toggle-button:hover .label{
     -fx-font-weight: semi-bold;
     -fx-text-fill: #5208e8;
+    -fx-background-color: #eef0ff;
 }
 
 .toggle-button:selected{
@@ -61,6 +63,26 @@
     -fx-text-fill: #5208e8;
     -fx-opacity: 1.0;
 }
+.sidebar-button-active {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-background-color: #eef0ff;
+    -fx-text-fill: #5208e8;
+    -fx-font-weight: bold;
+    -fx-opacity: 1.0;
+    -fx-border-color: transparent #5208e8 transparent transparent;
+    -fx-border-width: 0 3 0 0;
+    -fx-mouse-transparent: true;
+    -fx-background-insets: 0;
+    -fx-cursor: default;
+}
+
+.sidebar-button-active .label{
+    -fx-text-fill: #5208e8;
+    -fx-font-weight: bold;
+    -fx-background-color: #eef0ff;
+}
+
 .border{
     -fx-background-radius: 15;    /* Bo góc cho phần nền */
 
