@@ -226,3 +226,23 @@
     -fx-scale-x: 0.97;
     -fx-scale-y: 0.97;
 }
+
+.setFontTitle{
+    -fx-font-size: 19px;
+    -fx-font-family: "Inter 24pt";
+}
+.setFontTitle1{
+    -fx-font-size: 12px;
+    -fx-font-family: "Inter 24pt";
+}
+.setFontContent{
+    -fx-font-size: 12px;
+    -fx-font-family: "Inter 18pt"
+}
+.setFontContent2{
+    -fx-font-size: 11px;
+    -fx-font-family: "Inter 18pt light"
+}
+.newLine{
+    -fx-wrap-text: true;
+}
