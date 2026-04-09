@@ -335,3 +335,24 @@
     -fx-font-size: 11px;
     -fx-font-family: "Inter 18pt light"
 }
+
+.breadcrumb-prev {
+    -fx-opacity: 0.4;
+    -fx-font-weight: bold;
+    -fx-text-fill: #000;
+    -fx-underline: false;
+}
+
+.breadcrumb-current {
+    -fx-opacity: 1.0;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5208e8;
+    -fx-underline: false;
+}
+
+.breadcrumb-prev:hover{
+    -fx-opacity: 1.0;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5208e8;
+    -fx-underline: false;
+}
