@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="765.0" stylesheets="@../css/allmyproject.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CONTROLLER_NAME">
+   <children>
+      <VBox layoutX="147.0" layoutY="100.0" prefHeight="200.0" prefWidth="470.0" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 15, 0, 0, 5);;">
+         <children>
+            <HBox prefHeight="120.0" prefWidth="461.0">
+               <children>
+                  <Label alignment="TOP_LEFT" prefHeight="99.0" prefWidth="385.0" styleClass="project-title" text="thiết lập game">
+                     <font>
+                        <Font name="System Bold" size="22.0" />
+                     </font>
+                  </Label>
+                  <ProgressIndicator maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="106.0" prefWidth="110.0" progress="0.0" />
+               </children>
+               <padding>
+                  <Insets left="15.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="461.0" spacing="2.0">
+               <children>
+                  <ImageView fitHeight="39.0" fitWidth="32.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/hinhnguoi.png" />
+                     </image>
+                  </ImageView>
+                  <Label prefHeight="18.0" prefWidth="54.0" />
+                  <Region prefHeight="33.0" prefWidth="117.0" />
+                  <HBox prefHeight="1.0" prefWidth="266.0" spacing="3.0">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="34.0" prefWidth="77.0" spacing="2.0">
+                           <children>
+                              <Label text="Todo" />
+                              <Label textAlignment="CENTER" />
+                           </children>
+                           <styleClass>
+                              <String fx:value="todo" />
+                              <String fx:value="status-tag" />
+                           </styleClass>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="34.0" prefWidth="97.0" spacing="2.0">
+                           <children>
+                              <Label text="In Progress" />
+                              <Label />
+                           </children>
+                           <styleClass>
+                              <String fx:value="in-progress" />
+                              <String fx:value="status-tag" />
+                           </styleClass>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="34.0" prefWidth="75.0" spacing="2.0">
+                           <children>
+                              <Label text="Done" />
+                              <Label />
+                           </children>
+                           <styleClass>
+                              <String fx:value="done" />
+                              <String fx:value="status-tag" />
+                           </styleClass>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets left="3.0" right="3.0" />
+                     </padding>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets top="8.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="15.0" left="25.0" right="30.0" top="25.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>
