@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
-<?import java.net.URL?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.ImagePattern?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1280.0" styleClass="white_pane" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TaskController">
-    <stylesheets>
-        <URL value="@../css/global.css" />
-        <URL value="@../css/taskdetails.css" />
-    </stylesheets>
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1280.0" stylesheets="@../css/taskdetails.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
    <left>
       <VBox prefHeight="700.0" prefWidth="193.0" spacing="15.0" BorderPane.alignment="CENTER">
          <styleClass>
@@ -52,16 +57,16 @@
                   <Insets right="20.0" top="20.0" />
                </VBox.margin>
                <children>
-                  <Button mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0">
+                  <Button mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
                      <graphic>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox prefHeight="100.0" prefWidth="200.0" styleClass="grey_color">
                            <children>
-                              <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="grey_color">
                                  <image>
                                     <Image url="@../images/dashboard_logo.png" />
                                  </image>
                               </ImageView>
-                              <Label prefHeight="32.0" prefWidth="111.0" text="Tổng quan">
+                              <Label prefHeight="28.0" prefWidth="108.0" styleClass="grey_color" text="Tổng quan">
                                  <padding>
                                     <Insets left="15.0" />
                                  </padding>
@@ -72,26 +77,22 @@
                            </children>
                         </HBox>
                      </graphic>
-                     <styleClass>
-                        <String fx:value="toggle-button" />
-                        <String fx:value="button" />
-                     </styleClass>
                   </Button>
                   <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="sidebar-button-active">
                      <graphic>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox prefHeight="100.0" prefWidth="200.0" styleClass="grey_color">
                            <children>
-                              <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="grey_color">
                                  <image>
                                     <Image url="@../images/folder_logo.png" />
                                  </image>
                               </ImageView>
-                              <Label prefHeight="34.0" prefWidth="108.0" text="Dự án của tôi" textFill="#4910c3">
+                              <Label prefHeight="26.0" prefWidth="114.0" styleClass="grey_color" text="Dự án của tôi">
                                  <padding>
                                     <Insets left="15.0" />
                                  </padding>
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font size="14.0" />
                                  </font>
                               </Label>
                            </children>
@@ -100,14 +101,14 @@
                   </Button>
                   <Button layoutX="10.0" layoutY="45.0" mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
                      <graphic>
-                        <HBox prefHeight="56.0" prefWidth="91.0">
+                        <HBox prefHeight="56.0" prefWidth="91.0" styleClass="grey_color">
                            <children>
-                              <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="grey_color">
                                  <image>
                                     <Image url="@../images/notification_logo.png" />
                                  </image>
                               </ImageView>
-                              <Label prefHeight="42.0" prefWidth="111.0" text="Thông báo">
+                              <Label prefHeight="24.0" prefWidth="108.0" styleClass="grey_color" text="Thông báo">
                                  <padding>
                                     <Insets left="15.0" />
                                  </padding>
@@ -130,7 +131,7 @@
                               <Image url="@../images/logout_logo.png" />
                            </image>
                         </ImageView>
-                        <Label prefHeight="26.0" prefWidth="130.0" text="Đăng xuất">
+                        <Label prefHeight="22.0" prefWidth="86.0" styleClass="grey_color" text="Đăng xuất">
                            <padding>
                               <Insets left="15.0" />
                            </padding>
@@ -140,7 +141,7 @@
                         </Label>
                      </children>
                      <padding>
-                        <Insets right="15.0" />
+                        <Insets right="20.0" />
                      </padding>
                   </HBox>
                </graphic>
@@ -160,7 +161,7 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="50.0" prefWidth="1053.0" styleClass="bottom_border">
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="1053.0">
                <children>
                   <HBox prefHeight="40.0" prefWidth="749.0" styleClass="hyperlink_back_to_pre_scene">
                      <children>
@@ -171,225 +172,610 @@
                         <Hyperlink prefHeight="46.0" prefWidth="83.0" styleClass="breadcrumb-current" text="Học từ vựng" />
                      </children>
                      <HBox.margin>
-                        <Insets bottom="5.0" left="20.0" top="5.0" />
+                        <Insets bottom="5.0" left="18.0" top="5.0" />
                      </HBox.margin>
                   </HBox>
-               </children></HBox>
-            <VBox prefHeight="650.0" prefWidth="1087.0" styleClass="grey_color">
-               <children>
-                  <HBox prefHeight="96.0" prefWidth="1087.0">
+                  <HBox prefHeight="30.0" prefWidth="556.0" styleClass="search-container">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+                     </HBox.margin>
                      <children>
-                        <VBox prefHeight="96.0" prefWidth="794.0" spacing="7.0">
-                           <children>
-                              <Label prefHeight="40.0" prefWidth="769.0" styleClass="name_task" text="Học từ vựng">
-                                 <VBox.margin>
-                                    <Insets left="25.0" top="20.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <HBox opacity="0.7" prefHeight="0.0" prefWidth="769.0">
-                                 <children>
-                                    <ImageView fitHeight="22.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/created-at-icon.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Label prefHeight="25.0" prefWidth="154.0" text="2/10/2026">
-                                       <padding>
-                                          <Insets left="7.0" />
-                                       </padding>
-                                    </Label>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets left="25.0" top="-10.0" />
-                                 </VBox.margin>
-                              </HBox>
-                           </children>
-                        </VBox>
-                        <BorderPane prefHeight="96.0" prefWidth="295.0">
-                           <bottom>
-                              <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="213.0" text="Chỉnh sửa công việc" BorderPane.alignment="CENTER">
-                                 <styleClass>
-                                    <String fx:value="box2-border" />
-                                    <String fx:value="btn-login" />
-                                 </styleClass>
-                              </Button>
-                           </bottom>
-                        </BorderPane>
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="554.0" prefWidth="1087.0">
-                     <children>
-                        <VBox prefHeight="554.0" prefWidth="794.0" spacing="13.0">
+                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="35.0" text="🔍" textAlignment="CENTER">
                            <HBox.margin>
-                              <Insets left="25.0" top="25.0" />
+                              <Insets />
                            </HBox.margin>
-                           <children>
-                              <VBox prefHeight="118.0" prefWidth="794.0" spacing="3.0">
-                                 <styleClass>
-                                    <String fx:value="border" />
-                                    <String fx:value="white_pane" />
-                                 </styleClass>
-                                 <children>
-                                    <Label opacity="0.8" prefHeight="0.0" prefWidth="917.0" text="Mô tả công việc">
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                       <padding>
-                                          <Insets left="13.0" />
-                                       </padding>
-                                    </Label>
-                                    <TextArea prefHeight="78.0" prefWidth="769.0" promptText="Nhập mô tả công việc" wrapText="true">
-                                       <styleClass>
-                                          <String fx:value="content" />
-                                          <String fx:value="text-area" />
-                                       </styleClass>
-                                    </TextArea>
-                                 </children>
-                                 <padding>
-                                    <Insets left="15.0" right="15.0" top="15.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox layoutX="10.0" layoutY="10.0" prefHeight="189.0" prefWidth="794.0" spacing="3.0">
-                                 <styleClass>
-                                    <String fx:value="border" />
-                                    <String fx:value="white_pane" />
-                                 </styleClass>
-                                 <children>
-                                    <Label opacity="0.8" prefHeight="0.0" prefWidth="917.0" text="Chú thích công việc">
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                       <padding>
-                                          <Insets left="13.0" />
-                                       </padding>
-                                    </Label>
-                                    <TextArea prefHeight="140.0" prefWidth="769.0" promptText="Nhập chú thích công việc" styleClass="transparent_scroll-pane" wrapText="true" />
-                                 </children>
-                                 <padding>
-                                    <Insets left="15.0" right="15.0" top="15.0" />
-                                 </padding>
-                              </VBox>
-                           </children>
-                        </VBox>
-                        <VBox prefHeight="250.0" prefWidth="243.0" spacing="3.0">
-                           <padding>
-                              <Insets left="15.0" right="10.0" top="15.0" />
-                           </padding>
+                           <font>
+                              <Font size="11.0" />
+                           </font>
+                        </Label>
+                        <TextField promptText="Tìm kiếm nhiệm vụ" style="-fx-border-color: transperant;" styleClass="search-input" HBox.hgrow="ALWAYS">
                            <HBox.margin>
-                              <Insets bottom="250.0" left="20.0" right="30.0" top="25.0" />
+                              <Insets right="10.0" />
                            </HBox.margin>
-                           <styleClass>
-                              <String fx:value="border" />
-                              <String fx:value="white_pane" />
-                           </styleClass>
-                           <children>
-                              <Label opacity="0.8" prefHeight="18.0" prefWidth="244.0" text="Thuộc tính" />
-                              <HBox alignment="CENTER" prefHeight="25.0" prefWidth="223.0">
-                                 <children>
-                                    <StackPane>
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                       <children>
-                                          <ImageView fx:id="inprogressicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#inprogresstask" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../images/inprogress-icon.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fx:id="todoicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#todotask" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../images/to-do-icon.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fx:id="doneicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#donetask" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../images/done-icon.png" />
-                                             </image>
-                                          </ImageView>
-                                       </children>
-                                    </StackPane>
-                                    <Label prefHeight="44.0" prefWidth="186.0" text="Đang thực hiện">
-                                       <padding>
-                                          <Insets left="10.0" />
-                                       </padding>
-                                       <font>
-                                          <Font name="Arial" size="11.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets right="20.0" top="10.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox alignment="CENTER" layoutX="25.0" layoutY="48.0" prefHeight="25.0" prefWidth="223.0">
-                                 <children>
-                                    <StackPane>
-                                       <children>
-                                          <ImageView fx:id="lowicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#lowtask" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../images/low-icon.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fx:id="mediumicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#mediumtask" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../images/medium-icon.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fx:id="highicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#hightask" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../images/high-icon.png" />
-                                             </image>
-                                          </ImageView>
-                                       </children>
-                                    </StackPane>
-                                    <Label prefHeight="44.0" prefWidth="186.0" text="Cao">
-                                       <padding>
-                                          <Insets left="10.0" />
-                                       </padding>
-                                       <font>
-                                          <Font name="Arial" size="11.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets right="20.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox alignment="CENTER" layoutX="25.0" layoutY="90.0" prefHeight="25.0" prefWidth="165.0">
-                                 <children>
-                                    <StackPane>
-                                       <children>
-                                          <ImageView fx:id="deadlineicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#deadlinetask" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../images/deadline-icon.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fx:id="nodeadlineicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#nodeadline" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../images/no-deadline-icon.png" />
-                                             </image>
-                                          </ImageView>
-                                       </children>
-                                    </StackPane>
-                                    <Label prefHeight="44.0" prefWidth="186.0" text="02/06/2026">
-                                       <padding>
-                                          <Insets left="10.0" />
-                                       </padding>
-                                       <font>
-                                          <Font name="Arial" size="11.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets right="20.0" />
-                                 </VBox.margin>
-                              </HBox>
-                           </children>
-                        </VBox>
+                           <font>
+                              <Font size="11.0" />
+                           </font></TextField>
                      </children>
                   </HBox>
                </children>
-            </VBox>
+               <styleClass>
+                  <String fx:value="bottom_border" />
+                  <String fx:value="colorBG" />
+               </styleClass></HBox>
+            <HBox alignment="BOTTOM_LEFT" prefHeight="87.0" prefWidth="1087.0">
+               <children>
+                  <VBox prefHeight="69.0" prefWidth="496.0" spacing="4.0">
+                     <children>
+                        <Label text="Học tiếng anh">
+                           <font>
+                              <Font name="Inter 18pt Bold" size="28.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="9.0" />
+                           </VBox.margin>
+                        </Label>
+                        <HBox opacity="0.7" prefHeight="0.0" prefWidth="769.0">
+                           <children>
+                              <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/calendar-249-removebg-preview.png" />
+                                 </image>
+                              </ImageView>
+                              <Label prefHeight="25.0" prefWidth="154.0" text="2/10/2026">
+                                 <padding>
+                                    <Insets left="7.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="9.0" top="2.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <Button mnemonicParsing="false" styleClass="addTaskButton" text="Chỉnh sửa công việc">
+                     <HBox.margin>
+                        <Insets bottom="13.0" left="90.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Inter 18pt ExtraBold" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox prefHeight="554.0" prefWidth="1087.0">
+               <children>
+                  <VBox prefHeight="600.0" prefWidth="731.0" spacing="3.0">
+                     <HBox.margin>
+                        <Insets left="25.0" right="33.0" />
+                     </HBox.margin>
+                     <children>
+                        <VBox prefHeight="58.0" prefWidth="731.0">
+                           <styleClass>
+                              <String fx:value="border" />
+                              <String fx:value="colorBG" />
+                           </styleClass>
+                           <children>
+                              <Label opacity="0.8" prefHeight="22.0" prefWidth="716.0" text="Tiến độ " textFill="#0d0d0d">
+                                 <padding>
+                                    <Insets left="15.0" />
+                                 </padding>
+                                 <font>
+                                    <Font name="Inter 18pt SemiBold" size="13.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="7.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <ProgressBar maxHeight="21.0" minHeight="3.0" prefHeight="7.0" prefWidth="656.0" progress="0.58" styleClass="progress-bar-slim">
+                                 <VBox.margin>
+                                    <Insets bottom="9.0" left="17.0" />
+                                 </VBox.margin>
+                              </ProgressBar>
+                           </children></VBox>
+                        <HBox prefHeight="129.0" prefWidth="731.0">
+                           <children>
+                              <VBox prefHeight="82.0" prefWidth="619.0" spacing="1.0">
+                                 <styleClass>
+                                    <String fx:value="border" />
+                                    <String fx:value="descriptionBox" />
+                                    <String fx:value="white_pane" />
+                                 </styleClass>
+                                 <children>
+                                    <Label opacity="0.8" prefHeight="22.0" prefWidth="716.0" text="Mô tả công việc" textFill="#0d0d0d">
+                                       <padding>
+                                          <Insets left="13.0" />
+                                       </padding>
+                                       <font>
+                                          <Font name="Inter 18pt SemiBold" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <TextArea prefHeight="70.0" prefWidth="607.0" promptText="Nhập mô tả công việc" styleClass="content" text="You've hit the free plan limit for image generations requests. You can create more images when the limit resets in 22 hours and 58 minutes.&#10;Nếu bạn muốn, mình có thể hướng dẫn bạn cách chỉnh nhanh icon này trong Photoshop / Figma để nền trong hình tròn thành một màu xám nhạt đồng nhất (không gradient) chỉ trong 1–2 phút 👍 chung &#10;Học đi đôi với hành cùng nhau chung tay bảo vệ môi trường &#10;Hỏi ra còn nhiều vấn đề chưa được xử lý" wrapText="true">
+                                       <font>
+                                          <Font name="Inter 18pt Medium" size="11.5" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets left="2.0" />
+                                       </VBox.margin>
+                                    </TextArea>
+                                 </children>
+                                 <padding>
+                                    <Insets left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </VBox>
+                              <Region prefHeight="130.0" prefWidth="60.0" />
+                              <VBox>
+                                 <children>
+                                    <StackPane prefHeight="24.0" prefWidth="24.0">
+                                       <children>
+                                          <ImageView fitHeight="14.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/images__1_-removebg-preview (1).png" />
+                                             </image>
+                                             <StackPane.margin>
+                                                <Insets left="4.0" />
+                                             </StackPane.margin>
+                                          </ImageView>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="12.0" top="6.0" />
+                                       </VBox.margin>
+                                       <styleClass>
+                                          <String fx:value="colorImage" />
+                                          <String fx:value="iconEdit" />
+                                       </styleClass>
+                                    </StackPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                           <styleClass>
+                              <String fx:value="colorBG" />
+                              <String fx:value="border" />
+                           </styleClass>
+                        </HBox>
+                        <VBox prefHeight="228.0" prefWidth="731.0">
+                           <styleClass>
+                              <String fx:value="border" />
+                              <String fx:value="colorBG" />
+                           </styleClass>
+                           <children>
+                              <HBox>
+                                 <children>
+                                    <Label opacity="0.8" prefHeight="22.0" prefWidth="82.0" text="Checklist " textFill="#0d0d0d">
+                                       <padding>
+                                          <Insets left="17.0" />
+                                       </padding>
+                                       <font>
+                                          <Font name="Inter 18pt SemiBold" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="3/5" textFill="#8d8d8d">
+                                       <HBox.margin>
+                                          <Insets top="3.0" />
+                                       </HBox.margin>
+                                       <font>
+                                          <Font size="11.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="9.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <ScrollPane prefHeight="157.0" prefWidth="731.0" styleClass="checkList">
+                                 <content>
+                                    <VBox prefHeight="93.0" prefWidth="732.0" spacing="8.0">
+                                       <children>
+                                          <CheckBox mnemonicParsing="false" text="Học từ vựng về chủ đề &quot;Working space&quot;">
+                                             <font>
+                                                <Font name="Inter 18pt Medium" size="12.0" />
+                                             </font>
+                                          </CheckBox>
+                                          <CheckBox layoutX="22.0" layoutY="20.0" mnemonicParsing="false" text="Học từ vựng về chủ đề &quot;Working space&quot;">
+                                             <font>
+                                                <Font name="Inter 18pt Medium" size="12.0" />
+                                             </font>
+                                          </CheckBox>
+                                          <CheckBox layoutX="22.0" layoutY="20.0" mnemonicParsing="false" text="Học từ vựng về chủ đề &quot;Working space&quot;">
+                                             <font>
+                                                <Font name="Inter 18pt Medium" size="12.0" />
+                                             </font>
+                                          </CheckBox>
+                                          <CheckBox layoutX="22.0" layoutY="20.0" mnemonicParsing="false" text="Học từ vựng về chủ đề &quot;Working space&quot;">
+                                             <font>
+                                                <Font name="Inter 18pt Medium" size="12.0" />
+                                             </font>
+                                          </CheckBox>
+                                          <CheckBox layoutX="22.0" layoutY="20.0" mnemonicParsing="false" text="Học từ vựng về chủ đề &quot;Working space&quot;">
+                                             <font>
+                                                <Font name="Inter 18pt Medium" size="12.0" />
+                                             </font>
+                                          </CheckBox>
+                                          <CheckBox layoutX="22.0" layoutY="124.0" mnemonicParsing="false" text="Học từ vựng về chủ đề &quot;Working space&quot;">
+                                             <font>
+                                                <Font name="Inter 18pt Medium" size="12.0" />
+                                             </font>
+                                          </CheckBox>
+                                       </children>
+                                       <padding>
+                                          <Insets left="12.0" right="12.0" top="10.0" />
+                                       </padding>
+                                    </VBox>
+                                 </content>
+                              </ScrollPane>
+                              <Button mnemonicParsing="false" styleClass="addSubTask" text="+ Thêm việc " textFill="#797474">
+                                 <VBox.margin>
+                                    <Insets bottom="7.0" left="13.0" top="3.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="Inter 18pt SemiBold" size="10.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="196.0" prefWidth="731.0">
+                           <styleClass>
+                              <String fx:value="border" />
+                              <String fx:value="colorBG" />
+                           </styleClass>
+                           <children>
+                              <Label opacity="0.8" prefHeight="22.0" prefWidth="82.0" text="Bình luận " textFill="#0d0d0d">
+                                 <padding>
+                                    <Insets left="17.0" />
+                                 </padding>
+                                 <font>
+                                    <Font name="Inter 18pt SemiBold" size="13.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets top="12.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <ScrollPane prefHeight="172.0" prefWidth="715.0" styleClass="commentBox">
+                                 <VBox.margin>
+                                    <Insets left="16.0" top="9.0" />
+                                 </VBox.margin>
+                                 <content>
+                                    <VBox spacing="4.0">
+                                       <children>
+                                          <HBox prefHeight="43.0" prefWidth="715.0">
+                                             <children>
+                                                <Circle radius="14.0" stroke="BLACK" strokeType="INSIDE">
+                                                   <fill>
+                                                      <ImagePattern>
+                                                         <image>
+                                                            <Image url="@../images/avatar.png" />
+                                                         </image>
+                                                      </ImagePattern>
+                                                   </fill>
+                                                   <HBox.margin>
+                                                      <Insets right="9.0" top="6.0" />
+                                                   </HBox.margin>
+                                                </Circle>
+                                                <VBox prefHeight="43.0" prefWidth="689.0">
+                                                   <children>
+                                                      <HBox>
+                                                         <children>
+                                                            <Label text="Nguyễn Minh">
+                                                               <HBox.margin>
+                                                                  <Insets right="25.0" />
+                                                               </HBox.margin>
+                                                               <font>
+                                                                  <Font name="Inter 24pt Bold" size="12.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label layoutX="10.0" layoutY="10.0" text="10 giờ trước " textFill="#6f6e6e">
+                                                               <font>
+                                                                  <Font name="Google Sans Flex 9pt Regular" size="9.5" />
+                                                               </font>
+                                                               <HBox.margin>
+                                                                  <Insets top="1.0" />
+                                                               </HBox.margin>
+                                                            </Label>
+                                                         </children>
+                                                      </HBox>
+                                                      <Label styleClass="newLine" text="Đây là một kỹ thuật UI phổ biến để hiển thị danh sách người dùng, ví dụ như những người đang tham gia một dự án hoặc một cuộc trò chuyện nhóm.">
+                                                         <font>
+                                                            <Font name="Inter 18pt Medium" size="11.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                          <HBox layoutX="10.0" layoutY="10.0" prefHeight="43.0" prefWidth="715.0">
+                                             <children>
+                                                <Circle radius="14.0" stroke="BLACK" strokeType="INSIDE">
+                                                   <fill>
+                                                      <ImagePattern>
+                                                         <image>
+                                                            <Image url="@../images/avatar.png" />
+                                                         </image>
+                                                      </ImagePattern>
+                                                   </fill>
+                                                   <HBox.margin>
+                                                      <Insets right="9.0" top="6.0" />
+                                                   </HBox.margin>
+                                                </Circle>
+                                                <VBox prefHeight="43.0" prefWidth="689.0">
+                                                   <children>
+                                                      <HBox>
+                                                         <children>
+                                                            <Label text="Nguyễn Minh">
+                                                               <HBox.margin>
+                                                                  <Insets right="25.0" />
+                                                               </HBox.margin>
+                                                               <font>
+                                                                  <Font name="Inter 24pt Bold" size="12.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label layoutX="10.0" layoutY="10.0" text="10 giờ trước " textFill="#6f6e6e">
+                                                               <font>
+                                                                  <Font name="Google Sans Flex 9pt Regular" size="9.5" />
+                                                               </font>
+                                                               <HBox.margin>
+                                                                  <Insets top="1.0" />
+                                                               </HBox.margin>
+                                                            </Label>
+                                                         </children>
+                                                      </HBox>
+                                                      <Label styleClass="newLine" text="Đây là một kỹ thuật UI phổ biến để hiển thị danh sách người dùng, ví dụ như những người đang tham gia một dự án hoặc một cuộc trò chuyện nhóm.">
+                                                         <font>
+                                                            <Font name="Inter 18pt Medium" size="11.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                          <HBox layoutX="10.0" layoutY="10.0" prefHeight="43.0" prefWidth="715.0">
+                                             <children>
+                                                <Circle radius="14.0" stroke="BLACK" strokeType="INSIDE">
+                                                   <fill>
+                                                      <ImagePattern>
+                                                         <image>
+                                                            <Image url="@../images/avatar.png" />
+                                                         </image>
+                                                      </ImagePattern>
+                                                   </fill>
+                                                   <HBox.margin>
+                                                      <Insets right="9.0" top="6.0" />
+                                                   </HBox.margin>
+                                                </Circle>
+                                                <VBox prefHeight="43.0" prefWidth="689.0">
+                                                   <children>
+                                                      <HBox>
+                                                         <children>
+                                                            <Label text="Nguyễn Minh">
+                                                               <HBox.margin>
+                                                                  <Insets right="25.0" />
+                                                               </HBox.margin>
+                                                               <font>
+                                                                  <Font name="Inter 24pt Bold" size="12.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label layoutX="10.0" layoutY="10.0" text="10 giờ trước " textFill="#6f6e6e">
+                                                               <font>
+                                                                  <Font name="Google Sans Flex 9pt Regular" size="9.5" />
+                                                               </font>
+                                                               <HBox.margin>
+                                                                  <Insets top="1.0" />
+                                                               </HBox.margin>
+                                                            </Label>
+                                                         </children>
+                                                      </HBox>
+                                                      <Label styleClass="newLine" text="Đây là một kỹ thuật UI phổ biến để hiển thị danh sách người dùng, ví dụ như những người đang tham gia một dự án hoặc một cuộc trò chuyện nhóm.">
+                                                         <font>
+                                                            <Font name="Inter 18pt Medium" size="11.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </content>
+                              </ScrollPane>
+                              <HBox alignment="BOTTOM_LEFT" prefHeight="52.0" prefWidth="731.0">
+                                 <children>
+                                    <Circle radius="14.0" stroke="BLACK" strokeType="INSIDE">
+                                       <fill>
+                                          <ImagePattern>
+                                             <image>
+                                                <Image url="@../images/8742495-removebg-preview.png" />
+                                             </image>
+                                          </ImagePattern>
+                                       </fill>
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="16.0" right="9.0" />
+                                       </HBox.margin>
+                                    </Circle>
+                                    <TextField prefHeight="25.0" prefWidth="661.0" promptText="Viết bình luận ">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </HBox.margin></TextField>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="8.0" />
+                           </VBox.margin>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="502.0" spacing="9.0">
+                     <children>
+                        <Label opacity="0.8" prefHeight="18.0" prefWidth="228.0" styleClass="attributeLabel" text="Thuộc tính">
+                           <font>
+                              <Font name="Inter 18pt SemiBold" size="13.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="6.0" />
+                           </padding>
+                        </Label>
+                        <VBox prefHeight="58.0" prefWidth="211.0" spacing="4.0">
+                           <children>
+                              <HBox spacing="8.0">
+                                 <children>
+                                    <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/inprogress-icon.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label text="Trạng thái">
+                                       <font>
+                                          <Font name="Google Sans Flex 72pt Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <ComboBox fx:id="comboStatus" editable="true" prefWidth="190" promptText="Chọn trạng thái " styleClass="comboBox">
+                                 <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                       <String fx:value="Đang thực hiện" />
+                                       <String fx:value="Chưa bắt đầu" />
+                                       <String fx:value="Hoàn thành" />
+                                    </FXCollections>
+                                 </items>
+                                 <padding>
+                                    <Insets left="5.0" />
+                                 </padding>
+                              </ComboBox>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="58.0" prefWidth="211.0" spacing="4.0">
+                           <children>
+                              <HBox spacing="8.0">
+                                 <children>
+                                    <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/high-icon.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label text="Độ ưu tiên ">
+                                       <font>
+                                          <Font name="Google Sans Flex 72pt Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <ComboBox fx:id="comboStatus1" editable="true" prefWidth="190" promptText="Mức độ ưu tiên" styleClass="comboBox">
+                                 <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                       <String fx:value="Cao" />
+                                       <String fx:value="Trung Bình" />
+                                       <String fx:value="Thấp" />
+                                    </FXCollections>
+                                 </items>
+                                 <padding>
+                                    <Insets left="5.0" />
+                                 </padding>
+                              </ComboBox>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="59.0" prefWidth="220.0" spacing="4.0">
+                           <children>
+                              <HBox spacing="8.0">
+                                 <children>
+                                    <ImageView fitHeight="16.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/icons8-deadline-100-removebg-preview.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label text="Ngày hạn (deadline)">
+                                       <font>
+                                          <Font name="Google Sans Flex 72pt Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <DatePicker prefHeight="26.0" prefWidth="188.0" styleClass="date-picker">
+                                 <VBox.margin>
+                                    <Insets left="2.0" />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets left="5.0" />
+                                 </padding>
+                              </DatePicker>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="115.0" prefWidth="220.0" spacing="3.0">
+                           <children>
+                              <HBox spacing="8.0">
+                                 <children>
+                                    <ImageView fitHeight="21.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/icons8-time-512-removebg-preview.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets left="2.0" />
+                                       </HBox.margin>
+                                    </ImageView>
+                                    <Label text="Thời gian">
+                                       <font>
+                                          <Font name="Google Sans Flex 72pt Bold" size="12.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets top="2.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <VBox>
+                                 <children>
+                                    <HBox prefHeight="26.0" prefWidth="220.0">
+                                       <children>
+                                          <Label prefHeight="17.0" prefWidth="146.0" text="Tạo lúc ">
+                                             <font>
+                                                <Font name="Arial Bold" size="11.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets left="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Label layoutX="10.0" layoutY="10.0" text="01/06/2036">
+                                             <font>
+                                                <Font name="Inter 18pt Medium" size="11.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutX="10.0" layoutY="10.0" prefHeight="26.0" prefWidth="220.0">
+                                       <children>
+                                          <Label prefHeight="17.0" prefWidth="146.0" text="Cập nhật ">
+                                             <font>
+                                                <Font name="Arial Bold" size="11.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets left="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Label layoutX="10.0" layoutY="10.0" text="01/06/2036">
+                                             <font>
+                                                <Font name="Inter 18pt Medium" size="11.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                     </children>
+                     <styleClass>
+                        <String fx:value="border" />
+                        <String fx:value="rightContent" />
+                        <String fx:value="white_pane" />
+                     </styleClass>
+                     <padding>
+                        <Insets left="16.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </HBox>
          </children>
       </VBox>
    </center>
