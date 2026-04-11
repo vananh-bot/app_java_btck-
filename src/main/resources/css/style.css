@@ -1,0 +1,90 @@
+/* ===== TASK CARD GỘP CHUẨN ===== */
+.borderTask {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-border-color: #ffe4e1; /* Giữ lại viền hồng nhạt của bạn */
+    -fx-border-width: 0.1;
+    -fx-padding: 15;
+    -fx-font-family: Tahoma;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 6, 0, 0, 2);
+}
+
+/* Hover (Vừa viền đậm, vừa bóng đổ, vừa phình to) */
+.borderTask:hover {
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+    -fx-border-width: 0.6;
+    -fx-effect: dropshadow(gaussian, rgba(200, 200, 200, 0.3), 6, 0, 0, 2);
+    -fx-cursor: hand;
+}
+
+/* ===== DRAG OVER COLUMN ===== */
+.column-drag-over {
+    -fx-background-color: #f5f5f5;
+}
+
+/* ===== PRIORITY GỘP CHUẨN ===== */
+.levelPriority {
+    -fx-font-weight: bold;
+    -fx-font-family: Tahoma;
+    -fx-font-size: 11px;
+    -fx-background-color: #fff0f5;
+    -fx-background-radius: 4;
+    -fx-border-color: #e5e7eb;
+    -fx-border-width: 0.5;
+    -fx-border-radius: 4;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 6, 0, 0, 2);
+}
+
+.priority-high {
+    -fx-text-fill: #d93025;
+}
+
+.priority-medium {
+    -fx-text-fill: #e37400;
+}
+
+.priority-low {
+    -fx-text-fill: #188038;
+}
+
+/* ===== TEXT CONTENT (TITLE & DESCRIPTION) ===== */
+.task-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-fill: #000000;       /* Quan trọng cho TextFlow */
+    -fx-text-fill: #000000;
+}
+
+.description {
+    -fx-font-size: 11px;
+    -fx-fill: #434343;       /* Quan trọng cho TextFlow */
+    -fx-text-fill: #434343;
+}
+
+.newLine {
+    -fx-wrap-text: true;
+}
+
+/* ===== DEADLINE ===== */
+.borderMini {
+    -fx-background-color: transparent;
+    -fx-border-width: 1 0 0 0;
+    -fx-border-color: #f5f5f5 transparent transparent transparent;
+}
+
+.deadline-overdue {
+    -fx-effect: dropshadow(gaussian, rgba(255,0,0,0.25), 6, 0.4, 0, 0);
+}
+
+.deadline-soon {
+    -fx-effect: dropshadow(gaussian, rgba(255,140,0,0.25), 6, 0.4, 0, 0);
+}
+
+/* ===== HIGHLIGHT SEARCH ===== */
+.highlight {
+    -fx-fill: #1a73e8;
+    -fx-text-fill: #1a73e8;
+    -fx-font-weight: bold;
+}

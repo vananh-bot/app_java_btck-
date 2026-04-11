@@ -1,11 +1,11 @@
 .grey_color{
     -fx-background-color: #F5F5F5;
-    -fx-font-size: 10;
+    -fx-font-size: 10px;
     -fx-font-weight: bold;
 }
 
 .blue_color{
-    -fxbackground-color: #EAF6FF;
+    -fx-background-color: #EAF6FF;
 }
 
 .white_pane{
@@ -22,10 +22,9 @@
     -fx-border-color: #ccc;
 }
 
-
 .toggle-button{
     -fx-font-family: "Tahoma";
-    -fx-text-fill: #black;
+    -fx-text-fill: black;
     -fx-background-color: transparent;
     -fx-background-radius: 10;
     -fx-border-radius: 10;
@@ -33,17 +32,19 @@
     -fx-alignment: CENTER_LEFT;
     -fx-opacity: 0.5;
 }
+
 .toggle-button:hover{
     -fx-background-color: #eef0ff;
     -fx-text-fill: #5208e8;
     -fx-border-color: transparent #5208e8 transparent transparent;
     -fx-border-width: 0 3 0 0;
-    -fx-font-weight: semi-bold;
+    -fx-font-weight: 600;
     -fx-cursor: hand;
     -fx-opacity: 1.0;
 }
+
 .toggle-button:hover .label{
-    -fx-font-weight: semi-bold;
+    -fx-font-weight: 600;
     -fx-text-fill: #5208e8;
 }
 
@@ -52,28 +53,26 @@
     -fx-text-fill: #5208e8;
     -fx-border-color: transparent #5208e8 transparent transparent;
     -fx-border-width: 0 3 0 0;
-    -fx-font-weight: semi-bold;
+    -fx-font-weight: 600;
     -fx-opacity: 1.0;
-
 }
+
 .toggle-button:selected .label{
-    -fx-font-weight: semi-bold;
+    -fx-font-weight: 600;
     -fx-text-fill: #5208e8;
     -fx-opacity: 1.0;
 }
-.border{
-    -fx-background-radius: 15;    /* Bo góc cho phần nền */
 
-    /*-fx-border-color: #ccc;    !* Màu viền (ví dụ màu tím bạn thích) *!*/
-    -fx-border-radius: 15;        /* Bo góc cho đường viền */
-    /*-fx-border-width: 2;*/
+.border{
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
 }
 
 .search-field {
-    -fx-background-insets: 0;           /* Xóa các lớp lót tạo viền mờ */
-    -fx-border-color: transparent;     /* Xóa viền xám */
-    -fx-focus-color: transparent;      /* Xóa viền xanh khi click */
-    -fx-faint-focus-color: transparent;/* Xóa quầng sáng mờ */
+    -fx-background-insets: 0;
+    -fx-border-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 
 .search-field:hover{
@@ -96,7 +95,6 @@
     -fx-background-color: #E5E7EB;
 }
 
-
 .search-input {
     -fx-background-color: transparent;
     -fx-background-insets: 0;
@@ -117,6 +115,7 @@
     -fx-text-fill: #9CA3AF;
     -fx-padding: 0 5 0 0;
 }
+
 .logo-text {
     -fx-text-fill: #5208e8;
 }
@@ -124,8 +123,8 @@
 .myProject{
     -fx-background-color: transparent;
     -fx-text-fill: #000000;
-    -fx-front-family: Tahoma;
-    -fx-front-weight: bold;
+    -fx-font-family: Tahoma;
+    -fx-font-weight: bold;
     -fx-font-size: 12px;
     -fx-opacity: 0.5;
 }
@@ -140,7 +139,6 @@
     -fx-opacity: 1.0;
 }
 
-
 .myProject:selected{
     -fx-background-color: transparent;
     -fx-text-fill: #5208e8;
@@ -149,7 +147,6 @@
     -fx-font-weight: bold;
     -fx-cursor: hand;
     -fx-opacity: 1.0;
-
 }
 
 .subTitle{
@@ -175,49 +172,6 @@
     -fx-cursor: hand;
 }
 
-
-.newLine{
-    -fx-wrap-text: true;
-}
-
-.borderTask{
-    -fx-background-color: white;
-    -fx-background-radius: 15;
-    -fx-border-color: #ffe4e1;
-    -fx-border-width: 0.1;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 6, 0, 0, 2);
-    -fx-border-radius: 15;
-    -fx-padding: 15;
-    -fx-font-family: Tahoma;
-}
-
-.borderTask:hover {
-    -fx-border-width: 0.6;
-    -fx-effect: dropshadow(gaussian, rgba(200, 200, 200, 0.3), 6, 0, 0, 2);
-    -fx-cursor: hand;
-}
-
-.levelPriority{
-    -fx-text-fill: #ff0000;
-    -fx-font-weight: bold;
-    -fx-font-family: Tahoma;
-    -fx-font-size: 11px;
-    -fx-background-color: #fff0f5;
-    -fx-background-radius: 4;
-    -fx-border-color: #e5e7eb;
-    -fx-border-width: 0.5;
-    -fx-border-radius: 4;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 6, 0, 0, 2);
-}
-
-.contentTask{
-
-}
-.borderMini{
-    -fx-border-width: 1 0 0 0;
-    -fx-border-color: #f5f5f5 transparent transparent transparent;
-}
-
 .scroll1{
     -fx-border-width: 0.2;
     -fx-border-color: #E5E7EB;
@@ -225,33 +179,15 @@
     -fx-padding: 20;
     -fx-background-radius: 15;
     -fx-border-radius: 15;
-    /* Quan trọng: Ẩn nền mặc định để không lộ vết trắng */
     -fx-background-insets: 0;
 }
-
-.scroll1 .viewport {
-    -fx-background-color: #fffafa;
-}
-
-.scroll1 .scroll-bar:vertical {
-    -fx-opacity: 0;
-    -fx-pref-width: 0;
-    -fx-max-width: 0;
-}
-
-.scroll1 .scroll-bar:horizontal {
-    -fx-opacity: 0;
-    -fx-pref-height: 0;
-    -fx-max-height: 0;
-}
-
+.scroll1 .viewport { -fx-background-color: #fffafa; }
 .scroll1:hover {
     -fx-border-width: 0.4;
     -fx-border-color:  #ffc0cb;
     -fx-cursor: hand;
     -fx-effect: dropshadow(gaussian, rgba(255, 192, 203, 0.3), 15, 0.4, 0, 0);
 }
-
 
 .scroll2{
     -fx-border-width: 0.2;
@@ -260,34 +196,15 @@
     -fx-padding: 20;
     -fx-background-radius: 15;
     -fx-border-radius: 15;
-    /* Quan trọng: Ẩn nền mặc định để không lộ vết trắng */
     -fx-background-insets: 0;
 }
-
-.scroll2 .viewport {
-    -fx-background-color: #F0F8FF;
-}
-
-.scroll2 .scroll-bar:vertical {
-    -fx-opacity: 0;
-    -fx-pref-width: 0;
-    -fx-max-width: 0;
-}
-
-.scroll2 .scroll-bar:horizontal {
-    -fx-opacity: 0;
-    -fx-pref-height: 0;
-    -fx-max-height: 0;
-}
-
+.scroll2 .viewport { -fx-background-color: #F0F8FF; }
 .scroll2:hover {
     -fx-border-width: 0.4;
     -fx-border-color:  #add8e6;
     -fx-cursor: hand;
     -fx-effect: dropshadow(gaussian, rgba(224, 242, 254, 0.6), 15, 0.4, 0, 0);
 }
-
-
 
 .scroll3{
     -fx-border-width: 0.2;
@@ -296,26 +213,9 @@
     -fx-padding: 20;
     -fx-background-radius: 15;
     -fx-border-radius: 15;
-    /* Quan trọng: Ẩn nền mặc định để không lộ vết trắng */
     -fx-background-insets: 0;
 }
-
-.scroll3 .viewport {
-    -fx-background-color: #f5fffa;
-}
-
-.scroll3 .scroll-bar:vertical {
-    -fx-opacity: 0;
-    -fx-pref-width: 0;
-    -fx-max-width: 0;
-}
-
-.scroll3 .scroll-bar:horizontal {
-    -fx-opacity: 0;
-    -fx-pref-height: 0;
-    -fx-max-height: 0;
-}
-
+.scroll3 .viewport { -fx-background-color: #f5fffa; }
 .scroll3:hover {
     -fx-border-width: 0.4;
     -fx-border-color:  #add8e6;
@@ -323,17 +223,28 @@
     -fx-effect: dropshadow(gaussian, rgba(209, 250, 229, 0.6), 15, 0.4, 0, 0);
 }
 
+.scroll1 .scroll-bar:vertical, .scroll2 .scroll-bar:vertical, .scroll3 .scroll-bar:vertical,
+.scroll1 .scroll-bar:horizontal, .scroll2 .scroll-bar:horizontal, .scroll3 .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+    -fx-max-width: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+}
+
 .setFontTitle{
     -fx-font-size: 24px;
     -fx-font-family: "Inter 24pt";
 }
+
 .setFontContent{
     -fx-font-size: 12px;
-    -fx-font-family: "Inter 18pt"
+    -fx-font-family: "Inter 18pt";
 }
+
 .setFontContent2{
     -fx-font-size: 11px;
-    -fx-font-family: "Inter 18pt light"
+    -fx-font-family: "Inter 18pt light";
 }
 
 .breadcrumb-prev {
