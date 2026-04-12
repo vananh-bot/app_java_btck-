@@ -203,9 +203,9 @@
                                           <Insets top="7.0" />
                                        </VBox.margin>
                                                 </Label>
-                                                <Label fx:id="description" styleClass="setFontContent" text="Quản lý công việc rõ ràng, tiết kiệm thời gian và làm việc hiệu quả hơn mỗi ngày." textFill="#403d3d">
+                                                <Label fx:id="description" text="Quản lý công việc rõ ràng, tiết kiệm thời gian và làm việc hiệu quả hơn mỗi ngày.">
                                                     <font>
-                                                        <Font name="Tahoma" size="12.0" />
+                                                        <Font name="Inter Regular" size="12.0" />
                                                     </font>
                                                 </Label>
                                             </children>
@@ -213,7 +213,7 @@
                                                 <Insets bottom="9.0" left="20.0" right="9.0" top="9.0" />
                                             </VBox.margin>
                                         </VBox>
-                              <Button fx:id="buttonCreateProject" mnemonicParsing="false" prefHeight="38.0" prefWidth="167.0" text="Dự án mới " textFill="WHITE">
+                              <Button fx:id="buttonCreateProject" mnemonicParsing="false" prefHeight="38.0" prefWidth="167.0" styleClass="createProject1" text="Dự án mới " textFill="WHITE">
                                  <graphic>
                                     <Label prefHeight="15.0" prefWidth="0.0" text="+" textFill="WHITE">
                                        <font>
@@ -227,10 +227,6 @@
                                  <VBox.margin>
                                     <Insets bottom="11.0" left="600.0" top="5.0" />
                                  </VBox.margin>
-                                 <styleClass>
-                                    <String fx:value="createProject1" />
-                                    <String fx:value="setFontContent" />
-                                 </styleClass>
                               </Button>
                                         <HBox prefHeight="35.0" prefWidth="791.0" spacing="3.0" styleClass="setFontContent">
                                             <children>
@@ -239,7 +235,7 @@
                                                         <Image url="@../images/icons8-project-48.png" />
                                                     </image>
                                                 </ImageView>
-                                                <Label styleClass="setFontContent" text="Nhiệm vụ của tôi">
+                                                <Label text="Nhiệm vụ của tôi">
                                                     <font>
                                                         <Font name="Tahoma Bold" size="12.0" />
                                                     </font>
@@ -268,7 +264,6 @@
                                                    <styleClass>
                                                       <String fx:value="newLine" />
                                                       <String fx:value="task" />
-                                                      <String fx:value="setFontContent" />
                                                    </styleClass>
                                                 </Label>
                                                 <HBox prefHeight="90.0" prefWidth="751.0" spacing="9.0">
@@ -309,7 +304,6 @@
                                                    <styleClass>
                                                       <String fx:value="newLine" />
                                                       <String fx:value="task" />
-                                                      <String fx:value="setFontContent" />
                                                    </styleClass>
                                                 </Label>
                                                 <HBox prefHeight="90.0" prefWidth="751.0" spacing="9.0">
@@ -355,7 +349,6 @@
                                                    <styleClass>
                                                       <String fx:value="newLine" />
                                                       <String fx:value="task" />
-                                                      <String fx:value="setFontContent" />
                                                    </styleClass>
                                                 </Label>
                                                 <HBox prefHeight="90.0" prefWidth="751.0" spacing="9.0">
@@ -401,7 +394,6 @@
                                                    <styleClass>
                                                       <String fx:value="newLine" />
                                                       <String fx:value="task" />
-                                                      <String fx:value="setFontContent" />
                                                    </styleClass>
                                                 </Label>
                                                 <HBox prefHeight="90.0" prefWidth="751.0" spacing="9.0">
@@ -490,7 +482,7 @@
                                                                 <Image url="@../images/icons8-popup-64-removebg-preview.png" />
                                                             </image>
                                                         </ImageView>
-                                                        <Label prefHeight="17.0" prefWidth="622.0" styleClass="setFontContent" text="Dự án đang hoạt động">
+                                                        <Label prefHeight="17.0" prefWidth="622.0" text="Dự án đang hoạt động">
                                                             <font>
                                                                 <Font name="Tahoma Bold" size="12.0" />
                                                             </font>
@@ -726,7 +718,7 @@
                                                                 <Image url="@../images/appointment-reminders--v2-removebg-preview.png" />
                                                             </image>
                                                         </ImageView>
-                                                        <Label styleClass="setFontContent" text="Hoạt động và thông báo ">
+                                                        <Label text="Hoạt động và thông báo ">
                                                             <font>
                                                                 <Font name="Tahoma Bold" size="12.0" />
                                                             </font>
@@ -757,12 +749,11 @@
                                                          <children>
                                                             <Label fx:id="taskAssinged" text="Hà Linh đã để lại một nhận xét trong Biện thự Park City: &quot;cần sửa lại bản thiết kế chi tiết và bao quát hơn&quot;">
                                                                <font>
-                                                                  <Font name="Inter Regular" size="10.0" />
+                                                                  <Font name="Arial" size="11.0" />
                                                                </font>
                                                                <styleClass>
                                                                   <String fx:value="newLine" />
                                                                   <String fx:value="notification" />
-                                                                  <String fx:value="setFontContent2" />
                                                                </styleClass>
                                                             </Label>
                                                             <Label layoutX="10.0" layoutY="10.0" styleClass="newLine" text="10 phút trước " textFill="#7c7a7a" />
@@ -781,12 +772,11 @@
                                                          <children>
                                                             <Label fx:id="deadline" text="Hà Linh đã để lại một nhận xét trong Biện thự Park City: &quot;cần sửa lại bản thiết kế chi tiết và bao quát hơn&quot;">
                                                                <font>
-                                                                  <Font name="Tahoma" size="10.0" />
+                                                                  <Font name="Tahoma" size="11.0" />
                                                                </font>
                                                                <styleClass>
                                                                   <String fx:value="newLine" />
                                                                   <String fx:value="notification" />
-                                                                  <String fx:value="setFontContent2" />
                                                                </styleClass>
                                                             </Label>
                                                             <Label layoutX="10.0" layoutY="10.0" styleClass="newLine" text="10 phút trước " textFill="#7c7a7a" />
@@ -805,12 +795,11 @@
                                                          <children>
                                                             <Label fx:id="invitation" text="Hà Linh đã để lại một nhận xét trong Biện thự Park City: &quot;cần sửa lại bản thiết kế chi tiết và bao quát hơn&quot;">
                                                                <font>
-                                                                  <Font name="Tahoma" size="10.0" />
+                                                                  <Font name="Tahoma" size="11.0" />
                                                                </font>
                                                                <styleClass>
                                                                   <String fx:value="newLine" />
                                                                   <String fx:value="notification" />
-                                                                  <String fx:value="setFontContent2" />
                                                                </styleClass>
                                                             </Label>
                                                             <Label layoutX="10.0" layoutY="10.0" styleClass="newLine" text="10 phút trước " textFill="#7c7a7a" />
