@@ -521,11 +521,6 @@ public class MainProjectController {
         }
     }
 
-    public void handleDashboard(ActionEvent event) { switchScene(event, "/dashboard/dashboard.fxml"); }
-    public void handleMyProjects(ActionEvent event) { switchScene(event, "/project/project.fxml"); }
-    public void handleNotification(ActionEvent event) { switchScene(event, "/notification/notification.fxml"); }
-    public void handleLogout(ActionEvent event) { switchScene(event, "/auth/login.fxml"); }
-
     private int getPriorityOrder(Task t) {
         if (t.getPriority() == null) return 4;
         return switch (t.getPriority()) {
@@ -554,7 +549,7 @@ public class MainProjectController {
             return textFlow;
         }
 
-        String normText = normalizeForHighlight(originalText);
+        String normText = normalize(originalText);
         int currentIndex = 0;
 
         while (currentIndex < originalText.length()) {
@@ -593,16 +588,21 @@ public class MainProjectController {
         }
         return textFlow;
     }
-    // Hàm chuẩn hóa bảo toàn 100% độ dài chuỗi gốc (dùng riêng cho highlight)
-    private String normalizeForHighlight(String text) {
-        if (text == null) return "";
-        // Tách dấu ra khỏi chữ cái
-        String temp = Normalizer.normalize(text, Normalizer.Form.NFD);
-        // Xóa các dấu vừa tách
-        temp = temp.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
-        // Xử lý riêng chữ đ/Đ của tiếng Việt (vì Normalizer không tách được chữ đ)
-        temp = temp.replace('đ', 'd').replace('Đ', 'd');
-        // Trả về chữ thường, tuyệt đối KHÔNG .trim() hay xóa ký tự đặc biệt
-        return temp.toLowerCase();
+    // --- CẬP NHẬT SIDEBAR DÙNG NAVIGATOR CHUNG ---
+    public void handleDashboard(ActionEvent event) {
+        Utils.SceneNavigator.switchScene(event, Utils.SceneNavigator.DASHBOARD, "Tổng quan");
+    }
+
+    public void handleMyProjects(ActionEvent event) {
+        Utils.SceneNavigator.switchScene(event, Utils.SceneNavigator.ALL_PROJECTS, "Dự án của tôi");
+    }
+
+    public void handleNotification(ActionEvent event) {
+        Utils.SceneNavigator.switchScene(event, Utils.SceneNavigator.NOTIFICATION, "Thông báo");
+    }
+
+    public void handleLogout(ActionEvent event) {
+        Utils.UserSession.logout();
+        Utils.SceneNavigator.switchScene(event, Utils.SceneNavigator.LOGIN, "Đăng nhập");
     }
 }
