@@ -554,7 +554,7 @@ public class MainProjectController {
             return textFlow;
         }
 
-        String normText = normalize(originalText);
+        String normText = normalizeForHighlight(originalText);
         int currentIndex = 0;
 
         while (currentIndex < originalText.length()) {
@@ -592,5 +592,17 @@ public class MainProjectController {
             }
         }
         return textFlow;
+    }
+    // Hàm chuẩn hóa bảo toàn 100% độ dài chuỗi gốc (dùng riêng cho highlight)
+    private String normalizeForHighlight(String text) {
+        if (text == null) return "";
+        // Tách dấu ra khỏi chữ cái
+        String temp = Normalizer.normalize(text, Normalizer.Form.NFD);
+        // Xóa các dấu vừa tách
+        temp = temp.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+        // Xử lý riêng chữ đ/Đ của tiếng Việt (vì Normalizer không tách được chữ đ)
+        temp = temp.replace('đ', 'd').replace('Đ', 'd');
+        // Trả về chữ thường, tuyệt đối KHÔNG .trim() hay xóa ký tự đặc biệt
+        return temp.toLowerCase();
     }
 }
