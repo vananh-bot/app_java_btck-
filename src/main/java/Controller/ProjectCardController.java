@@ -13,11 +13,19 @@ public class ProjectCardController {
     @FXML private Label lblDoneCount;
 
     public void setProjectData(ProjectCardDTO dto) {
-        lblProjectName.setText(dto.getProject().getName());
-        progressIndicator.setProgress(dto.getProgress());
+        if (dto == null || dto.getProject() == null) return;
 
-        if (lblTodoCount != null) lblTodoCount.setText(String.valueOf(dto.getTodoCount()));
-        if (lblInProgressCount != null) lblInProgressCount.setText(String.valueOf(dto.getInProgressCount()));
-        if (lblDoneCount != null) lblDoneCount.setText(String.valueOf(dto.getDoneCount()));
+        // Dùng Platform.runLater để đảm bảo UI đã sẵn sàng
+        javafx.application.Platform.runLater(() -> {
+            if (lblProjectName != null) lblProjectName.setText(dto.getProject().getName());
+
+            if (progressIndicator != null) {
+                progressIndicator.setProgress(dto.getProgress());
+            }
+
+            if (lblTodoCount != null) lblTodoCount.setText(String.valueOf(dto.getTodoCount()));
+            if (lblInProgressCount != null) lblInProgressCount.setText(String.valueOf(dto.getInProgressCount()));
+            if (lblDoneCount != null) lblDoneCount.setText(String.valueOf(dto.getDoneCount()));
+        });
     }
 }

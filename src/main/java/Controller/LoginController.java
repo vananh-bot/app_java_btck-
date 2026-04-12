@@ -74,7 +74,7 @@ public class LoginController {
     @FXML
     void goToMainScreen(ActionEvent event) {
         try {
-            java.net.URL fxmlLocation = getClass().getResource("/auth/main_layout.fxml");
+            java.net.URL fxmlLocation = getClass().getResource("/dashboard/general_dashboard_view1.fxml");
             if (fxmlLocation == null) {
                 System.err.println("LỖI: Không tìm thấy file main_layout.fxml ở đường dẫn /auth/");
                 return;

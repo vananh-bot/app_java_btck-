@@ -52,7 +52,7 @@
                         <Insets right="20.0" top="20.0" />
                     </VBox.margin>
                     <children>
-                        <Button fx:id="handleDashboard" mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
+                        <Button mnemonicParsing="false" onAction="#handleDashboard" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
                             <graphic>
                                 <HBox prefHeight="100.0" prefWidth="200.0" styleClass="grey_color">
                                     <children>
@@ -73,7 +73,7 @@
                                 </HBox>
                             </graphic>
                         </Button>
-                        <Button fx:id="handleMyProjects" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
+                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleMyProjects" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
                             <graphic>
                                 <HBox prefHeight="100.0" prefWidth="200.0" styleClass="grey_color">
                                     <children>

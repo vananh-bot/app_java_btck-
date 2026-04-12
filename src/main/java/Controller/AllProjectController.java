@@ -3,7 +3,7 @@ package Controller;
 import DTO.ProjectCardDTO;
 import Service.ProjectService;
 import Utils.UserSession;
-import Utils.SceneNavigator; // 1. Import Navigator chung
+import Utils.SceneNavigator;
 import DAO.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -38,11 +38,11 @@ public class AllProjectController implements Initializable {
         projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO(), new InviteDAO(), new TaskDAO());
 
         int currentUserId = UserSession.getUserId();
-
         if (currentUserId != -1) {
             loadData(currentUserId);
         }
 
+        // Khởi tạo logic tìm kiếm
         setupSearchLogic();
     }
 
@@ -54,6 +54,9 @@ public class AllProjectController implements Initializable {
     }
 
     private void setupSearchLogic() {
+        // Kiểm tra an toàn để tránh NullPointerException
+        if (searchInput == null) return;
+
         searchDelay = new Timeline(new KeyFrame(Duration.millis(300), e -> {
             String keyword = normalize(searchInput.getText());
             List<ProjectCardDTO> filtered = new ArrayList<>();
@@ -65,6 +68,7 @@ public class AllProjectController implements Initializable {
             renderProjects(filtered);
         }));
         searchDelay.setCycleCount(1);
+
         searchInput.textProperty().addListener((obs, old, newVal) -> {
             searchDelay.stop();
             searchDelay.play();
@@ -72,16 +76,31 @@ public class AllProjectController implements Initializable {
     }
 
     private void renderProjects(List<ProjectCardDTO> list) {
+        if (projectContainer == null) {
+            System.err.println("LỖI: projectContainer is NULL. Hãy kiểm tra fx:id trong FXML chính!");
+            return;
+        }
+
         projectContainer.getChildren().clear();
+        System.out.println("Đang bắt đầu render " + list.size() + " dự án...");
+
         for (ProjectCardDTO dto : list) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/project_card.fxml"));
+                // Thử dùng cách lấy Resource an toàn hơn
+                URL fxmlLocation = getClass().getResource("/project/projectcard.fxml");
+                if (fxmlLocation == null) {
+                    System.err.println("LỖI: Không tìm thấy file /view/project_card.fxml");
+                    continue;
+                }
+
+                FXMLLoader loader = new FXMLLoader(fxmlLocation);
                 AnchorPane card = loader.load();
 
                 ProjectCardController controller = loader.getController();
-                controller.setProjectData(dto);
+                if (controller != null) {
+                    controller.setProjectData(dto);
+                }
 
-                // 2. Sự kiện click đúp để vào dự án (Vẫn cần init dữ liệu nên giữ logic nạp controller)
                 card.setOnMouseClicked(e -> {
                     if (e.getClickCount() == 2) {
                         openProjectDetails(dto.getProject().getId());
@@ -89,23 +108,26 @@ public class AllProjectController implements Initializable {
                 });
 
                 projectContainer.getChildren().add(card);
-            } catch (Exception e) { e.printStackTrace(); }
+            } catch (Exception e) {
+                System.err.println("Lỗi nghiêm trọng khi nạp Card: " + e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 
-    // Hàm này giữ lại vì cần truyền tham số projectId vào Controller đích
     private void openProjectDetails(int projectId) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/main_project.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/project/mainProjectView.fxml"));
             Parent root = loader.load();
             MainProjectController controller = loader.getController();
             controller.init(projectId);
 
-            // Sử dụng Stage từ container hiện tại
             javafx.stage.Stage stage = (javafx.stage.Stage) projectContainer.getScene().getWindow();
             stage.getScene().setRoot(root);
             stage.setTitle("FlowTask - Chi tiết dự án");
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private String normalize(String text) {
@@ -114,22 +136,22 @@ public class AllProjectController implements Initializable {
         return n.replaceAll("[^a-zA-Z0-9 ]", "").toLowerCase().trim();
     }
 
-    // --- 3. SỬ DỤNG CHUYỂN MÀN CHUNG CHO SIDEBAR ---
+    // --- XỬ LÝ CHUYỂN MÀN HÌNH ---
 
     public void handleDashboard(ActionEvent event) {
-        Utils.SceneNavigator.switchScene(event, Utils.SceneNavigator.DASHBOARD, "Tổng quan");
+        SceneNavigator.switchScene(event, SceneNavigator.DASHBOARD, "Tổng quan");
     }
 
     public void handleMyProjects(ActionEvent event) {
-        Utils.SceneNavigator.switchScene(event, Utils.SceneNavigator.ALL_PROJECTS, "Dự án của tôi");
+        SceneNavigator.switchScene(event, SceneNavigator.ALL_PROJECTS, "Dự án của tôi");
     }
 
     public void handleNotification(ActionEvent event) {
-        Utils.SceneNavigator.switchScene(event, Utils.SceneNavigator.NOTIFICATION, "Thông báo");
+        SceneNavigator.switchScene(event, SceneNavigator.NOTIFICATION, "Thông báo");
     }
 
     public void handleLogout(ActionEvent event) {
-        Utils.UserSession.logout();
-        Utils.SceneNavigator.switchScene(event, Utils.SceneNavigator.LOGIN, "Đăng nhập");
+        UserSession.logout();
+        SceneNavigator.switchScene(event, SceneNavigator.LOGIN, "Đăng nhập");
     }
 }
