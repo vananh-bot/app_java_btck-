@@ -4,16 +4,18 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1280.0" styleClass="white_pane" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1280.0" styleClass="white_pane" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TaskController">
     <stylesheets>
         <URL value="@../css/global.css" />
         <URL value="@../css/taskdetails.css" />
@@ -50,7 +52,7 @@
                   <Insets right="20.0" top="20.0" />
                </VBox.margin>
                <children>
-                  <Button mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
+                  <Button mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0">
                      <graphic>
                         <HBox prefHeight="100.0" prefWidth="200.0" styleClass="grey_color">
                            <children>
@@ -59,7 +61,11 @@
                                     <Image url="@../images/dashboard_logo.png" />
                                  </image>
                               </ImageView>
+<<<<<<< HEAD
                               <Label prefHeight="28.0" prefWidth="108.0" styleClass="grey_color" text="Tổng quan">
+=======
+                              <Label prefHeight="32.0" prefWidth="111.0" text="Tổng quan">
+>>>>>>> feature/app-6-main-project-view
                                  <padding>
                                     <Insets left="15.0" />
                                  </padding>
@@ -70,8 +76,12 @@
                            </children>
                         </HBox>
                      </graphic>
+                     <styleClass>
+                        <String fx:value="toggle-button" />
+                        <String fx:value="button" />
+                     </styleClass>
                   </Button>
-                  <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
+                  <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="sidebar-button-active">
                      <graphic>
                         <HBox prefHeight="100.0" prefWidth="200.0" styleClass="grey_color">
                            <children>
@@ -80,12 +90,16 @@
                                     <Image url="@../images/folder_logo.png" />
                                  </image>
                               </ImageView>
+<<<<<<< HEAD
                               <Label prefHeight="26.0" prefWidth="114.0" styleClass="grey_color" text="Dự án của tôi">
+=======
+                              <Label prefHeight="34.0" prefWidth="108.0" text="Dự án của tôi" textFill="#4910c3">
+>>>>>>> feature/app-6-main-project-view
                                  <padding>
                                     <Insets left="15.0" />
                                  </padding>
                                  <font>
-                                    <Font size="14.0" />
+                                    <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
                            </children>
@@ -101,7 +115,11 @@
                                     <Image url="@../images/notification_logo.png" />
                                  </image>
                               </ImageView>
+<<<<<<< HEAD
                               <Label prefHeight="24.0" prefWidth="108.0" styleClass="grey_color" text="Thông báo">
+=======
+                              <Label prefHeight="42.0" prefWidth="111.0" text="Thông báo">
+>>>>>>> feature/app-6-main-project-view
                                  <padding>
                                     <Insets left="15.0" />
                                  </padding>
@@ -124,7 +142,11 @@
                               <Image url="@../images/logout_logo.png" />
                            </image>
                         </ImageView>
+<<<<<<< HEAD
                         <Label prefHeight="22.0" prefWidth="86.0" styleClass="grey_color" text="Đăng xuất">
+=======
+                        <Label prefHeight="26.0" prefWidth="130.0" text="Đăng xuất">
+>>>>>>> feature/app-6-main-project-view
                            <padding>
                               <Insets left="15.0" />
                            </padding>
@@ -134,7 +156,7 @@
                         </Label>
                      </children>
                      <padding>
-                        <Insets right="20.0" />
+                        <Insets right="15.0" />
                      </padding>
                   </HBox>
                </graphic>
@@ -156,6 +178,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="1053.0" styleClass="bottom_border">
                <children>
+<<<<<<< HEAD
                   <HBox prefHeight="30.0" prefWidth="556.0" styleClass="search-container">
                      <HBox.margin>
                         <Insets bottom="5.0" left="20.0" right="5.0" top="5.0" />
@@ -171,9 +194,236 @@
                               <Insets right="10.0" />
                            </HBox.margin></TextField>
                      </children>
+=======
+                  <HBox prefHeight="40.0" prefWidth="749.0" styleClass="hyperlink_back_to_pre_scene">
+                     <children>
+                        <Hyperlink prefHeight="47.0" prefWidth="91.0" styleClass="breadcrumb-prev" text="Dự án của tôi " />
+                        <Hyperlink prefHeight="54.0" prefWidth="23.0" styleClass="breadcrumb-prev" text="→" />
+                        <Hyperlink prefHeight="49.0" styleClass="breadcrumb-prev" text="Học Tiếng Anh" />
+                        <Hyperlink prefHeight="50.0" prefWidth="23.0" styleClass="breadcrumb-prev" text="→" />
+                        <Hyperlink prefHeight="46.0" prefWidth="83.0" styleClass="breadcrumb-current" text="Học từ vựng" />
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="20.0" top="5.0" />
+                     </HBox.margin>
+>>>>>>> feature/app-6-main-project-view
                   </HBox>
                </children></HBox>
-            <HBox prefHeight="668.0" prefWidth="1087.0" styleClass="grey_color" />
+            <VBox prefHeight="650.0" prefWidth="1087.0" styleClass="grey_color">
+               <children>
+                  <HBox prefHeight="96.0" prefWidth="1087.0">
+                     <children>
+                        <VBox prefHeight="96.0" prefWidth="794.0" spacing="7.0">
+                           <children>
+                              <Label prefHeight="40.0" prefWidth="769.0" styleClass="name_task" text="Học từ vựng">
+                                 <VBox.margin>
+                                    <Insets left="25.0" top="20.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <HBox opacity="0.7" prefHeight="0.0" prefWidth="769.0">
+                                 <children>
+                                    <ImageView fitHeight="22.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/created-at-icon.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label prefHeight="25.0" prefWidth="154.0" text="2/10/2026">
+                                       <padding>
+                                          <Insets left="7.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="25.0" top="-10.0" />
+                                 </VBox.margin>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <BorderPane prefHeight="96.0" prefWidth="295.0">
+                           <bottom>
+                              <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="213.0" text="Chỉnh sửa công việc" BorderPane.alignment="CENTER">
+                                 <styleClass>
+                                    <String fx:value="box2-border" />
+                                    <String fx:value="btn-login" />
+                                 </styleClass>
+                              </Button>
+                           </bottom>
+                        </BorderPane>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="554.0" prefWidth="1087.0">
+                     <children>
+                        <VBox prefHeight="554.0" prefWidth="794.0" spacing="13.0">
+                           <HBox.margin>
+                              <Insets left="25.0" top="25.0" />
+                           </HBox.margin>
+                           <children>
+                              <VBox prefHeight="118.0" prefWidth="794.0" spacing="3.0">
+                                 <styleClass>
+                                    <String fx:value="border" />
+                                    <String fx:value="white_pane" />
+                                 </styleClass>
+                                 <children>
+                                    <Label opacity="0.8" prefHeight="0.0" prefWidth="917.0" text="Mô tả công việc">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets left="13.0" />
+                                       </padding>
+                                    </Label>
+                                    <TextArea prefHeight="78.0" prefWidth="769.0" promptText="Nhập mô tả công việc" wrapText="true">
+                                       <styleClass>
+                                          <String fx:value="content" />
+                                          <String fx:value="text-area" />
+                                       </styleClass>
+                                    </TextArea>
+                                 </children>
+                                 <padding>
+                                    <Insets left="15.0" right="15.0" top="15.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox layoutX="10.0" layoutY="10.0" prefHeight="189.0" prefWidth="794.0" spacing="3.0">
+                                 <styleClass>
+                                    <String fx:value="border" />
+                                    <String fx:value="white_pane" />
+                                 </styleClass>
+                                 <children>
+                                    <Label opacity="0.8" prefHeight="0.0" prefWidth="917.0" text="Chú thích công việc">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets left="13.0" />
+                                       </padding>
+                                    </Label>
+                                    <TextArea prefHeight="140.0" prefWidth="769.0" promptText="Nhập chú thích công việc" styleClass="transparent_scroll-pane" wrapText="true" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="15.0" right="15.0" top="15.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="250.0" prefWidth="243.0" spacing="3.0">
+                           <padding>
+                              <Insets left="15.0" right="10.0" top="15.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets bottom="250.0" left="20.0" right="30.0" top="25.0" />
+                           </HBox.margin>
+                           <styleClass>
+                              <String fx:value="border" />
+                              <String fx:value="white_pane" />
+                           </styleClass>
+                           <children>
+                              <Label opacity="0.8" prefHeight="18.0" prefWidth="244.0" text="Thuộc tính" />
+                              <HBox alignment="CENTER" prefHeight="25.0" prefWidth="223.0">
+                                 <children>
+                                    <StackPane>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                       <children>
+                                          <ImageView fx:id="inprogressicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#inprogresstask" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/inprogress-icon.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fx:id="todoicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#todotask" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/to-do-icon.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fx:id="doneicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#donetask" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/done-icon.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </StackPane>
+                                    <Label prefHeight="44.0" prefWidth="186.0" text="Đang thực hiện">
+                                       <padding>
+                                          <Insets left="10.0" />
+                                       </padding>
+                                       <font>
+                                          <Font name="Arial" size="11.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets right="20.0" top="10.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox alignment="CENTER" layoutX="25.0" layoutY="48.0" prefHeight="25.0" prefWidth="223.0">
+                                 <children>
+                                    <StackPane>
+                                       <children>
+                                          <ImageView fx:id="lowicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#lowtask" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/low-icon.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fx:id="mediumicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#mediumtask" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/medium-icon.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fx:id="highicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#hightask" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/high-icon.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </StackPane>
+                                    <Label prefHeight="44.0" prefWidth="186.0" text="Cao">
+                                       <padding>
+                                          <Insets left="10.0" />
+                                       </padding>
+                                       <font>
+                                          <Font name="Arial" size="11.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets right="20.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox alignment="CENTER" layoutX="25.0" layoutY="90.0" prefHeight="25.0" prefWidth="165.0">
+                                 <children>
+                                    <StackPane>
+                                       <children>
+                                          <ImageView fx:id="deadlineicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#deadlinetask" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/deadline-icon.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fx:id="nodeadlineicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#nodeadline" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/no-deadline-icon.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </StackPane>
+                                    <Label prefHeight="44.0" prefWidth="186.0" text="02/06/2026">
+                                       <padding>
+                                          <Insets left="10.0" />
+                                       </padding>
+                                       <font>
+                                          <Font name="Arial" size="11.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets right="20.0" />
+                                 </VBox.margin>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
          </children>
       </VBox>
    </center>

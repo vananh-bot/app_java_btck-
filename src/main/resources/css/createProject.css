@@ -1,0 +1,61 @@
+.create-button {
+    -fx-background-color: #5208e8;
+    -fx-cursor: hand; /* Nhớ thêm cái này để chuột biến thành hình bàn tay */
+}
+
+.create-button:hover {
+    -fx-background-color: #6d28f0;
+}
+.create-button:hover {
+    -fx-background-color: #3c05aa;
+}
+.white-pane{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 20;
+}
+.grey-pane{
+    -fx-background-radius: 10;
+    -fx-background-color: #F0F2F5;;
+}
+.gey-pane2{
+    -fx-background-color: #F0F2F5;
+    -fx-background-radius: 30;
+}
+.blue-pane{
+    -fx-background-radius: 20;
+    -fx-background-color: lightcyan;
+}
+.botron{
+    -fx-background-radius: 10;
+}
+/* Trạng thái bình thường của nút Hủy (có thể bỏ qua nếu dùng mặc định) */
+.cancel-button {
+    -fx-cursor: hand; /* Biến con trỏ chuột thành hình bàn tay khi chỉ vào */
+}
+
+/* Trạng thái khi di chuột vào (Hover) */
+.cancel-button:hover {
+    -fx-background-color: red; /* Đổi nền thành màu đỏ */
+    -fx-text-fill: white;      /* Đổi chữ thành màu trắng */
+}
+/* 1. Xử lý màu nền và bo góc cho toàn bộ khung */
+.grey-pane3 {
+    -fx-background-color: #F0F2F5;
+    -fx-control-inner-background: #F0F2F5; /* ĐÂY LÀ CHÌA KHÓA: Đổi màu nền bên trong lõi của TextArea */
+    -fx-background-radius: 10; /* Bo góc giống hệt ô bên trên */
+    -fx-background-insets: 0;
+    -fx-border-color: transparent; /* Xóa viền mặc định */
+}
+
+/* Tắt cái viền màu xanh dương bao quanh khi người dùng click chuột vào ô */
+.grey-pane3:focused {
+    -fx-background-color: #F0F2F5;
+    -fx-background-insets: 0;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* 2. Xử lý khoảng cách lề chữ (Padding: Trên 10, Phải 10, Dưới 10, Trái 20) */
+.grey-pane3 .content {
+    -fx-padding: 10 10 10 20;
+}
