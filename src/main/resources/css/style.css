@@ -75,11 +75,11 @@
 }
 
 .deadline-overdue {
-    -fx-effect: dropshadow(gaussian, rgba(255,0,0,0.25), 6, 0.4, 0, 0);
+    -fx-effect: dropshadow(gaussian, rgba(255,0,0,0.25), 8, 0.5, 0, 0);
 }
 
 .deadline-soon {
-    -fx-effect: dropshadow(gaussian, rgba(255,140,0,0.25), 6, 0.4, 0, 0);
+    -fx-effect: dropshadow(gaussian, rgba(255,140,0,0.25), 8, 0.5, 0, 0);
 }
 
 /* ===== HIGHLIGHT SEARCH ===== */
