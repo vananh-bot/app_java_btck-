@@ -521,11 +521,6 @@ public class MainProjectController {
         }
     }
 
-    public void handleDashboard(ActionEvent event) { switchScene(event, "/dashboard/dashboard.fxml"); }
-    public void handleMyProjects(ActionEvent event) { switchScene(event, "/project/project.fxml"); }
-    public void handleNotification(ActionEvent event) { switchScene(event, "/notification/notification.fxml"); }
-    public void handleLogout(ActionEvent event) { switchScene(event, "/auth/login.fxml"); }
-
     private int getPriorityOrder(Task t) {
         if (t.getPriority() == null) return 4;
         return switch (t.getPriority()) {
@@ -592,5 +587,22 @@ public class MainProjectController {
             }
         }
         return textFlow;
+    }
+    // --- CẬP NHẬT SIDEBAR DÙNG NAVIGATOR CHUNG ---
+    public void handleDashboard(ActionEvent event) {
+        Utils.SceneNavigator.switchScene(event, Utils.SceneNavigator.DASHBOARD, "Tổng quan");
+    }
+
+    public void handleMyProjects(ActionEvent event) {
+        Utils.SceneNavigator.switchScene(event, Utils.SceneNavigator.ALL_PROJECTS, "Dự án của tôi");
+    }
+
+    public void handleNotification(ActionEvent event) {
+        Utils.SceneNavigator.switchScene(event, Utils.SceneNavigator.NOTIFICATION, "Thông báo");
+    }
+
+    public void handleLogout(ActionEvent event) {
+        Utils.UserSession.logout();
+        Utils.SceneNavigator.switchScene(event, Utils.SceneNavigator.LOGIN, "Đăng nhập");
     }
 }

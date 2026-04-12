@@ -2,7 +2,8 @@ package Controller;
 
 import DTO.ProjectCardDTO;
 import Service.ProjectService;
-import Utils.UserSession; // Đảm bảo bạn đã tạo class UserSession như mình hướng dẫn
+import Utils.UserSession;
+import Utils.SceneNavigator; // 1. Import Navigator chung
 import DAO.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -11,13 +12,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.net.URL;
@@ -37,18 +35,14 @@ public class AllProjectController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // 1. Khởi tạo Service với các DAO
         projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO(), new InviteDAO(), new TaskDAO());
 
-        // 2. Lấy ID từ Session thật (Không fix cứng nữa)
         int currentUserId = UserSession.getUserId();
 
-        // 3. Tải dữ liệu từ Backend
         if (currentUserId != -1) {
             loadData(currentUserId);
         }
 
-        // 4. Setup tìm kiếm mượt mà (giống MainProject)
         setupSearchLogic();
     }
 
@@ -84,14 +78,13 @@ public class AllProjectController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/project_card.fxml"));
                 AnchorPane card = loader.load();
 
-                // Gửi dữ liệu vào CardController
                 ProjectCardController controller = loader.getController();
                 controller.setProjectData(dto);
 
-                // Sự kiện click đúp để vào dự án
+                // 2. Sự kiện click đúp để vào dự án (Vẫn cần init dữ liệu nên giữ logic nạp controller)
                 card.setOnMouseClicked(e -> {
                     if (e.getClickCount() == 2) {
-                        openProject(dto.getProject().getId());
+                        openProjectDetails(dto.getProject().getId());
                     }
                 });
 
@@ -100,15 +93,18 @@ public class AllProjectController implements Initializable {
         }
     }
 
-    private void openProject(int projectId) {
+    // Hàm này giữ lại vì cần truyền tham số projectId vào Controller đích
+    private void openProjectDetails(int projectId) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/main_project.fxml"));
             Parent root = loader.load();
             MainProjectController controller = loader.getController();
-            controller.init(projectId); // Gọi hàm init có sẵn của bạn
+            controller.init(projectId);
 
-            Stage stage = (Stage) projectContainer.getScene().getWindow();
-            stage.setScene(new Scene(root));
+            // Sử dụng Stage từ container hiện tại
+            javafx.stage.Stage stage = (javafx.stage.Stage) projectContainer.getScene().getWindow();
+            stage.getScene().setRoot(root);
+            stage.setTitle("FlowTask - Chi tiết dự án");
         } catch (Exception e) { e.printStackTrace(); }
     }
 
@@ -118,16 +114,22 @@ public class AllProjectController implements Initializable {
         return n.replaceAll("[^a-zA-Z0-9 ]", "").toLowerCase().trim();
     }
 
-    // --- Các hàm chuyển màn hình Sidebar ---
-    public void handleDashboard(ActionEvent event) { switchScene(event, "/view/dashboard.fxml"); }
-    public void handleMyProjects(ActionEvent event) { switchScene(event, "/view/all_project.fxml"); }
-    public void handleLogout(ActionEvent event) { UserSession.logout(); switchScene(event, "/view/login.fxml"); }
+    // --- 3. SỬ DỤNG CHUYỂN MÀN CHUNG CHO SIDEBAR ---
 
-    private void switchScene(ActionEvent event, String path) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource(path));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (Exception e) { e.printStackTrace(); }
+    public void handleDashboard(ActionEvent event) {
+        Utils.SceneNavigator.switchScene(event, Utils.SceneNavigator.DASHBOARD, "Tổng quan");
+    }
+
+    public void handleMyProjects(ActionEvent event) {
+        Utils.SceneNavigator.switchScene(event, Utils.SceneNavigator.ALL_PROJECTS, "Dự án của tôi");
+    }
+
+    public void handleNotification(ActionEvent event) {
+        Utils.SceneNavigator.switchScene(event, Utils.SceneNavigator.NOTIFICATION, "Thông báo");
+    }
+
+    public void handleLogout(ActionEvent event) {
+        Utils.UserSession.logout();
+        Utils.SceneNavigator.switchScene(event, Utils.SceneNavigator.LOGIN, "Đăng nhập");
     }
 }
