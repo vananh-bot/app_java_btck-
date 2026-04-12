@@ -1,0 +1,72 @@
+.listTask{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 21;
+    -fx-border-radius: 21;
+}
+
+.listTask:hover {
+    -fx-scale-x: 1.01;
+    -fx-scale-y: 1.01;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0.3, 0, 2);
+    -fx-cursor: hand;
+}
+
+.activeProject{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 21;
+    -fx-border-radius: 21;
+}
+.activeProject:hover {
+    -fx-scale-x: 1.01;
+    -fx-scale-y: 1.01;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0.3, 0, 2);
+    -fx-cursor: hand;
+}
+.newLine{
+    -fx-wrap-text: true;
+}
+.newLine2{
+    -fx-wrap-text: true;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}
+.createProject1{
+    -fx-background-color: #3251c9;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+}
+.createProject1:hover {
+    -fx-scale-x: 1.01;
+    -fx-scale-y: 1.01;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0.3, 0, 2);
+    -fx-cursor: hand;
+}
+.createProject2{
+    -fx-background-color: #dcdcdc;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+}
+.createProject2:hover {
+    -fx-scale-x: 1.01;
+    -fx-scale-y: 1.01;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0.3, 0, 2);
+    -fx-cursor: hand;
+}
+
+.setFontTitle{
+    -fx-font-size: 24px;
+    -fx-font-family: "Inter 24pt";
+}
+.setFontContent{
+    -fx-font-size: 12px;
+    -fx-font-family: "Inter 18pt light"
+}
+.setFontContent2{
+    -fx-font-size: 11px;
+    -fx-font-family: "Inter 18pt light"
+}
+.setFontContent3{
+    -fx-font-size: 10px;
+    -fx-font-family: "Inter 18pt light"
+}
+
