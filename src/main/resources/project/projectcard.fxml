@@ -12,14 +12,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="765.0" stylesheets="@../css/allmyproject.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CONTROLLER_NAME">
    <children>
       <VBox layoutX="147.0" layoutY="100.0" prefHeight="200.0" prefWidth="470.0" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 15, 0, 0, 5);;">
          <children>
             <HBox prefHeight="120.0" prefWidth="461.0">
                <children>
-                  <Label alignment="TOP_LEFT" prefHeight="99.0" prefWidth="385.0" styleClass="project-title" text="thiết lập game">
+                  <Label alignment="TOP_LEFT" prefHeight="99.0" prefWidth="385.0" styleClass="project-title">
                      <font>
                         <Font name="System Bold" size="22.0" />
                      </font>
