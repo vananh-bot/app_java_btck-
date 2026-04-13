@@ -17,12 +17,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.util.Duration;
-
 import java.net.URL;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.*;
 
 public class AllProjectController implements Initializable {
 
@@ -32,6 +32,8 @@ public class AllProjectController implements Initializable {
     private ProjectService projectService;
     private List<ProjectCardDTO> allProjectDTOs = new ArrayList<>();
     private Timeline searchDelay;
+    private Map<Integer, ProjectCardDTO> oldDataMap = new HashMap<>();
+    private Map<Integer, AnchorPane> projectCardMap = new HashMap<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -39,20 +41,123 @@ public class AllProjectController implements Initializable {
 
         int currentUserId = UserSession.getUserId();
         if (currentUserId != -1) {
+            projectCardMap.clear();
+            oldDataMap.clear();
             loadData(currentUserId);
         }
 
         // Khởi tạo logic tìm kiếm
         setupSearchLogic();
+        Platform.runLater(() -> {
+            projectContainer.sceneProperty().addListener((obs, oldScene, newScene) -> {
+                if (newScene != null) {
+                    newScene.windowProperty().addListener((o, oldWin, newWin) -> {
+                        if (newWin != null) {
+                            newWin.focusedProperty().addListener((fObs, oldVal, isFocused) -> {
+                                if (isFocused) {
+                                    loadData(UserSession.getUserId());
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
     }
 
     private void loadData(int userId) {
         new Thread(() -> {
-            allProjectDTOs = projectService.getDashboardProjects(userId);
-            Platform.runLater(() -> renderProjects(allProjectDTOs));
+            List<ProjectCardDTO> newList = projectService.getDashboardProjects(userId);
+
+            Map<Integer, ProjectCardDTO> newMap = new HashMap<>();
+            for (ProjectCardDTO dto : newList) {
+                newMap.put(dto.getProject().getId(), dto);
+            }
+
+            Platform.runLater(() -> applyDelta(newMap));
         }).start();
     }
+    private void applyDelta(Map<Integer, ProjectCardDTO> newMap) {
 
+        // ADD + UPDATE
+        for (Map.Entry<Integer, ProjectCardDTO> entry : newMap.entrySet()) {
+            int id = entry.getKey();
+            ProjectCardDTO newDto = entry.getValue();
+
+            ProjectCardDTO oldDto = oldDataMap.get(id);
+
+            if (oldDto == null) {
+                addProjectCard(newDto);
+            } else if (isChanged(oldDto, newDto)) {
+                updateProjectCard(newDto);
+            }
+        }
+
+        // REMOVE
+        for (Integer oldId : oldDataMap.keySet()) {
+            if (!newMap.containsKey(oldId)) {
+                removeProjectCard(oldId);
+            }
+        }
+
+        oldDataMap = newMap;
+        allProjectDTOs = new ArrayList<>(newMap.values());
+    }
+    private boolean isChanged(ProjectCardDTO oldDto, ProjectCardDTO newDto) {
+        return !Objects.equals(oldDto.getProject().getName(), newDto.getProject().getName())
+                || !Objects.equals(oldDto.getProject().getDescription(), newDto.getProject().getDescription());
+    }
+    private AnchorPane createProjectCard(ProjectCardDTO dto) throws Exception {
+        URL fxmlLocation = getClass().getResource("/project/projectcard.fxml");
+        FXMLLoader loader = new FXMLLoader(fxmlLocation);
+        AnchorPane card = loader.load();
+
+        ProjectCardController controller = loader.getController();
+        if (controller != null) {
+            controller.setProjectData(dto);
+            controller.loadTaskStatsAsync(dto.getProject().getId());
+        }
+
+        card.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+                openProjectDetails(dto.getProject().getId());
+            }
+        });
+
+        return card;
+    }
+    private void addProjectCard(ProjectCardDTO dto) {
+        try {
+            AnchorPane card = createProjectCard(dto);
+            projectCardMap.put(dto.getProject().getId(), card);
+            projectContainer.getChildren().add(card);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void updateProjectCard(ProjectCardDTO dto) {
+        try {
+            int id = dto.getProject().getId();
+            AnchorPane oldCard = projectCardMap.get(id);
+            if (oldCard == null) return;
+            AnchorPane newCard = createProjectCard(dto);
+
+            int index = projectContainer.getChildren().indexOf(oldCard);
+            projectContainer.getChildren().set(index, newCard);
+
+            projectCardMap.put(id, newCard);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void removeProjectCard(int projectId) {
+        AnchorPane card = projectCardMap.get(projectId);
+        if (card != null) {
+            projectContainer.getChildren().remove(card);
+            projectCardMap.remove(projectId);
+        }
+    }
     private void setupSearchLogic() {
         // Kiểm tra an toàn để tránh NullPointerException
         if (searchInput == null) return;
@@ -65,7 +170,7 @@ public class AllProjectController implements Initializable {
                     filtered.add(dto);
                 }
             }
-            renderProjects(filtered);
+            applyFilter(filtered);
         }));
         searchDelay.setCycleCount(1);
 
@@ -74,7 +179,18 @@ public class AllProjectController implements Initializable {
             searchDelay.play();
         });
     }
+    private void applyFilter(List<ProjectCardDTO> filteredList) {
+        Set<Integer> visibleIds = new HashSet<>();
+        for (ProjectCardDTO dto : filteredList) {
+            visibleIds.add(dto.getProject().getId());
+        }
 
+        for (Map.Entry<Integer, AnchorPane> entry : projectCardMap.entrySet()) {
+            boolean visible = visibleIds.contains(entry.getKey());
+            entry.getValue().setVisible(visible);
+            entry.getValue().setManaged(visible);
+        }
+    }
     private void renderProjects(List<ProjectCardDTO> list) {
         if (projectContainer == null) {
             System.err.println("LỖI: projectContainer is NULL. Hãy kiểm tra fx:id trong FXML chính!");

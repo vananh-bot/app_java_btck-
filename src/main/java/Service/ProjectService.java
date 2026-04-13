@@ -30,29 +30,13 @@ public class ProjectService {
     public List<ProjectCardDTO> getDashboardProjects(int userId) {
         List<ProjectCardDTO> dtoList = new ArrayList<>();
 
-        // Gọi hàm có sẵn của DAO cũ để lấy danh sách dự án
         List<Project> rawProjects = projectDAO.findByUserId(userId);
 
         for (Project p : rawProjects) {
-            // Lấy danh sách task của dự án này
-            List<Task> tasks = taskDAO.getTasksByProjectId(p.getId());
-
-            int todo = 0, inProgress = 0, done = 0;
-
-            // Đếm số lượng theo trạng thái
-            for (Task t : tasks) {
-                if (t.getStatus() != null) {
-                    switch (t.getStatus()) {
-                        case TODO -> todo++;
-                        case IN_PROGRESS -> inProgress++;
-                        case DONE -> done++;
-                    }
-                }
-            }
-
-            // Đóng gói thành DTO
-            dtoList.add(new ProjectCardDTO(p, todo, inProgress, done));
+            // ⚡ chỉ trả project, chưa load task
+            dtoList.add(new ProjectCardDTO(p, 0, 0, 0));
         }
+
         return dtoList;
     }
 
