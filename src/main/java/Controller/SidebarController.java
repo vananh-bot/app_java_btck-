@@ -22,10 +22,14 @@ public class SidebarController {
 
     public void initialize(){
         btndashboard.getStyleClass().add("button_active");
+        currentButton = btndashboard;
     }
 
     public void setActive(Button button){
-        resetAll();
+        if(currentButton != null){
+            currentButton.getStyleClass().remove("button_active");
+        }
+
         button.getStyleClass().add("button_active");
         currentButton = button;
     }
@@ -48,12 +52,4 @@ public class SidebarController {
     void goToLogin(ActionEvent event) {
         setActive(btnlogout);
     }
-
-    public void resetAll(){
-        btndashboard.getStyleClass().remove("button_active");
-        btnnotification.getStyleClass().remove("button_active");
-        btnproject.getStyleClass().remove("button_active");
-        btnlogout.getStyleClass().remove("button_active");
-    }
-
 }
