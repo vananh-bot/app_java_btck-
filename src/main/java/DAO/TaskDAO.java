@@ -1,5 +1,6 @@
 package DAO;
 
+import Model.Comment;
 import Model.Task;
 
 import java.sql.*;
@@ -94,6 +95,8 @@ public class TaskDAO implements TaskInterfaceDAO<Task>{
                 task.setStatus(TaskStatus.valueOf(rs.getString("status")));
                 task.setPriority(Priority.valueOf(rs.getString("priority")));
                 task.setDeadline(rs.getTimestamp("deadline").toLocalDateTime());
+                task.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+                task.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
 
                 return task;
             }
@@ -216,7 +219,7 @@ public class TaskDAO implements TaskInterfaceDAO<Task>{
     public List<Task> getUpcomingDeadlines() {
         List<Task> list = new ArrayList<>();
 
-        String sql = "SELECT * FROM tasks WHERE DATEIFF(dealine, NOW()) <= 7 AND DATEIFF(deadline, NOW()) >= 0";
+        String sql = "SELECT * FROM tasks WHERE DATEIFF(deadline, NOW()) <= 7 AND DATEIFF(deadline, NOW()) >= 0";
 
         try (
                 Connection connection = JDBCUtil.getConnection();
@@ -280,5 +283,50 @@ public class TaskDAO implements TaskInterfaceDAO<Task>{
         }
 
         return list;
+    }
+    public List<Comment> getByTaskId(int taskId) {
+        List<Comment> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM comments WHERE task_id = ? ORDER BY created_at DESC";
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, taskId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Comment c = new Comment();
+                c.setId(rs.getInt("id"));
+                c.setTaskId(rs.getInt("task_id"));
+                c.setUserName(rs.getString("user_name"));
+                c.setContent(rs.getString("content"));
+                c.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+
+                list.add(c);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public void insert(Comment c) {
+        String sql = "INSERT INTO comments(task_id, user_name, content) VALUES (?, ?, ?)";
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, c.getTaskId());
+            ps.setString(2, c.getUserName());
+            ps.setString(3, c.getContent());
+
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

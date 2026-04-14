@@ -1,41 +1,66 @@
 package Service;
 
-import DAO.TaskAssignmentDAO;
+import DAO.SubTaskDAO;
 import DAO.TaskDAO;
+import Model.Comment;
+import Model.SubTask;
+import Model.Task;
+import DAO.CommentDAO;
+
+import java.util.List;
 
 public class TaskService {
-    private TaskDAO taskDAO;
-    private TaskAssignmentDAO taskAssignmentDAO;
+    private final TaskDAO taskDAO = new TaskDAO();
+    private final SubTaskDAO subTaskDAO = new SubTaskDAO();
+    private final CommentDAO commentDAO = new CommentDAO();
 
-    public TaskService(TaskDAO taskDAO,
-                       TaskAssignmentDAO taskAssignmentDAO) {
-
-        this.taskDAO = taskDAO;
-        this.taskAssignmentDAO = taskAssignmentDAO;
-    }
-
-    public void createTask(String title, int projectId, int creatorId) {
+    // ================= TASK =================
+    public Task getTaskById(int taskId) {
+        return taskDAO.getById(taskId);
 
     }
 
-    public void assignUser(int taskId, int userId) {
-
+    public void updateTask(Task task) {
+        taskDAO.update(task);
     }
 
-    public void updateTask() {
-
+    // ================= SUB TASK =================
+    public List<SubTask> getSubTasks(int taskId) {
+        return subTaskDAO.findByTaskId(taskId);
     }
 
-    public void updateDeadline() {
-
+    public void toggleSubTask(int subTaskId, boolean completed) {
+        subTaskDAO.updateStatus(subTaskId, completed);
     }
 
-    public void deleteTask(int taskId) {
-
+    public void addSubTask(SubTask subTask) {
+        subTaskDAO.insert(subTask);
     }
 
-    public void updateStatus() {
-
+    public void deleteSubTask(int subTaskId) {
+        subTaskDAO.delete(subTaskId);
     }
+
+
+    public List<Comment> getComments(int taskId) {
+        return commentDAO.getByTaskId(taskId);
+    }
+
+    public boolean addComment(Comment c) {
+        return commentDAO.insert(c);
+    }
+
+    public void deleteComment(int id) {
+        commentDAO.deleteById(id);
+    }
+
+    public void updateComment(Comment c) {
+        commentDAO.update(c);
+    }
+
+    public int countComments(int taskId) {
+        return commentDAO.countByTaskId(taskId);
+    }
+
 }
 

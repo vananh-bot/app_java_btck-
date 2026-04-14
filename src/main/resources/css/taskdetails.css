@@ -445,3 +445,30 @@
     -fx-pref-width: 236;
     -fx-pref-height: 450;
 }
+
+.text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.delete-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #888;
+}
+
+.delete-btn:hover {
+    -fx-text-fill: red;
+}
+.progress-bar {
+    -fx-accent: #5E6AD2; /* màu tím Notion */
+}
+
+.progress-bar > .track {
+    -fx-background-color: #eee;
+    -fx-background-radius: 10;
+}
+
+.progress-bar > .bar {
+    -fx-background-radius: 10;
+}

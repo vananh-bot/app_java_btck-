@@ -1,5 +1,6 @@
 package Test;
 
+import Controller.TaskController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,8 +16,11 @@ public class Main extends Application {
             );
 
             Scene scene = new Scene(loader.load());
+            TaskController controller = loader.getController();
 
-            stage.setTitle("Login");
+            controller.loadTask(1);
+
+            stage.setTitle("Task Detail");
             stage.setScene(scene);
             stage.show();
 
