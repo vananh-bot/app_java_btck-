@@ -158,16 +158,16 @@
             <children>
                 <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="1053.0" styleClass="bottom_border">
                     <children>
-                  <HBox prefHeight="40.0" prefWidth="749.0" styleClass="hyperlink_back_to_pre_scene">
-                     <children>
-                        <Hyperlink prefHeight="47.0" prefWidth="91.0" styleClass="breadcrumb-prev" text="Dự án của tôi " />
-                        <Hyperlink prefHeight="54.0" prefWidth="23.0" styleClass="breadcrumb-prev" text="→" />
-                        <Hyperlink prefHeight="49.0" styleClass="breadcrumb-current" text="Học Tiếng Anh" />
-                     </children>
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="15.0" top="5.0" />
-                     </HBox.margin>
-                  </HBox>
+                        <HBox prefHeight="40.0" prefWidth="749.0" styleClass="hyperlink_back_to_pre_scene">
+                            <children>
+                                <Hyperlink fx:id="projectLink" onAction="#handleProject" prefHeight="47.0" prefWidth="91.0" styleClass="breadcrumb-prev" text="Dự án của tôi " />
+                                <Hyperlink prefHeight="54.0" prefWidth="23.0" styleClass="breadcrumb-prev" text="→" />
+                                <Hyperlink fx:id="mainProjectLink" onAction="#handleMainProject" prefHeight="49.0" styleClass="breadcrumb-current" text="Học Tiếng Anh" />
+                            </children>
+                            <HBox.margin>
+                                <Insets bottom="5.0" left="15.0" top="5.0" />
+                            </HBox.margin>
+                        </HBox>
                         <HBox prefHeight="30.0" prefWidth="556.0" styleClass="search-container">
                             <HBox.margin>
                                 <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
@@ -177,152 +177,152 @@
                                     <HBox.margin>
                                         <Insets />
                                     </HBox.margin>
-                           <font>
-                              <Font size="11.0" />
-                           </font>
+                                    <font>
+                                        <Font size="11.0" />
+                                    </font>
                                 </Label>
                                 <TextField fx:id="searchField" promptText="Tìm kiếm nhiệm vụ" style="-fx-border-color: transperant;" styleClass="search-input" HBox.hgrow="ALWAYS">
                                     <HBox.margin>
                                         <Insets right="10.0" />
                                     </HBox.margin>
-                           <font>
-                              <Font size="11.0" />
-                           </font></TextField>
+                                    <font>
+                                        <Font size="11.0" />
+                                    </font></TextField>
                             </children>
                         </HBox>
                     </children></HBox>
-            <HBox alignment="BOTTOM_LEFT" prefHeight="87.0" prefWidth="1087.0">
-               <children>
-                  <VBox prefHeight="69.0" prefWidth="754.0" spacing="4.0">
-                     <children>
-                        <Label styleClass="setFontTitle" text="Học tiếng anh">
-                           <font>
-                              <Font name="System Bold" size="28.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets left="9.0" />
-                           </VBox.margin>
-                        </Label>
-                        <Label text="Bắt đầu ngay bây giờ, làm liên tục, không gián đoạn cho đến khi hoàn thành." textFill="#464646">
-                           <font>
-                              <Font name="Tahoma" size="11.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets left="9.0" />
-                           </VBox.margin>
-                           <styleClass>
-                              <String fx:value="setFontContent" />
-                              <String fx:value="newLine" />
-                           </styleClass>
-                        </Label>
-                     </children>
-                     <HBox.margin>
-                        <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
-                     </HBox.margin>
-                  </VBox>
-                  <Button fx:id="createTask" mnemonicParsing="false" onAction="#handleOpenCreateTask" styleClass="addTaskButton" text="Thêm công việc ">
-                     <graphic>
-                        <Label prefHeight="16.0" prefWidth="16.0" text="+" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="20.0" />
-                           </font>
-                        </Label>
-                     </graphic>
-                     <HBox.margin>
-                        <Insets bottom="20.0" left="150.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
-            <HBox prefHeight="577.0" prefWidth="1087.0" spacing="20.0">
-               <children>
-                  <VBox prefHeight="571.0" prefWidth="349.0" spacing="5.0">
-                     <children>
-                        <Label text="TODO">
-                           <font>
-                              <Font name="Tahoma Bold" size="14.0" />
-                           </font>
-                           <padding>
-                              <Insets left="6.0" top="10.0" />
-                           </padding>
-                           <VBox.margin>
-                              <Insets left="7.0" />
-                           </VBox.margin>
-                        </Label>
-                        <ScrollPane prefHeight="516.0" prefWidth="335.0">
-                           <VBox.margin>
-                              <Insets left="10.0" right="10.0" top="10.0" />
-                           </VBox.margin>
-                           <content>
-                              <VBox fx:id="vboxTodo" alignment="TOP_CENTER" prefHeight="620.0" prefWidth="247.0" spacing="12.0" />
-                           </content>
-                           <styleClass>
-                              <String fx:value="scroll1" />
-                              <String fx:value="scroll1" />
-                           </styleClass>
-                        </ScrollPane>
-                     </children>
-                     <padding>
-                        <Insets left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </VBox>
-                  <VBox prefHeight="571.0" prefWidth="349.0" spacing="5.0">
-                     <children>
-                        <Label text="IN PROGRESS">
-                           <font>
-                              <Font name="Tahoma Bold" size="14.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets left="7.0" />
-                           </VBox.margin>
-                           <padding>
-                              <Insets left="6.0" top="10.0" />
-                           </padding>
-                        </Label>
-                        <ScrollPane prefHeight="516.0" prefWidth="335.0" styleClass="scroll2">
-                           <VBox.margin>
-                              <Insets left="10.0" right="10.0" top="10.0" />
-                           </VBox.margin>
-                           <content>
-                              <VBox fx:id="vboxInProgress" alignment="TOP_CENTER" prefHeight="479.0" prefWidth="247.0" spacing="12.0" />
-                           </content>
-                        </ScrollPane>
-                     </children>
-                     <padding>
-                        <Insets left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </VBox>
-                  <VBox prefHeight="571.0" prefWidth="349.0" spacing="5.0">
-                     <children>
-                        <Label text="DONE">
-                           <font>
-                              <Font name="Tahoma Bold" size="14.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets left="7.0" />
-                           </VBox.margin>
-                           <padding>
-                              <Insets left="6.0" top="10.0" />
-                           </padding>
-                        </Label>
-                        <ScrollPane prefHeight="516.0" prefWidth="335.0" styleClass="scroll3">
-                           <VBox.margin>
-                              <Insets left="10.0" right="10.0" top="10.0" />
-                           </VBox.margin>
-                           <content>
-                              <VBox fx:id="vboxDone" alignment="TOP_CENTER" prefHeight="479.0" prefWidth="249.0" spacing="12.0" />
-                           </content>
-                        </ScrollPane>
-                     </children>
-                     <padding>
-                        <Insets left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </VBox>
-               </children>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-            </HBox>
+                <HBox alignment="BOTTOM_LEFT" prefHeight="87.0" prefWidth="1087.0">
+                    <children>
+                        <VBox prefHeight="69.0" prefWidth="754.0" spacing="4.0">
+                            <children>
+                                <Label styleClass="setFontTitle" text="Học tiếng anh">
+                                    <font>
+                                        <Font name="System Bold" size="28.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets left="9.0" />
+                                    </VBox.margin>
+                                </Label>
+                                <Label text="Bắt đầu ngay bây giờ, làm liên tục, không gián đoạn cho đến khi hoàn thành." textFill="#464646">
+                                    <font>
+                                        <Font name="Tahoma" size="11.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets left="9.0" />
+                                    </VBox.margin>
+                                    <styleClass>
+                                        <String fx:value="setFontContent" />
+                                        <String fx:value="newLine" />
+                                    </styleClass>
+                                </Label>
+                            </children>
+                            <HBox.margin>
+                                <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
+                            </HBox.margin>
+                        </VBox>
+                        <Button fx:id="createTask" mnemonicParsing="false" onAction="#handleOpenCreateTask" styleClass="addTaskButton" text="Thêm công việc ">
+                            <graphic>
+                                <Label prefHeight="16.0" prefWidth="16.0" text="+" textFill="WHITE">
+                                    <font>
+                                        <Font name="System Bold" size="20.0" />
+                                    </font>
+                                </Label>
+                            </graphic>
+                            <HBox.margin>
+                                <Insets bottom="20.0" left="150.0" />
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
+                <HBox prefHeight="577.0" prefWidth="1087.0" spacing="20.0">
+                    <children>
+                        <VBox prefHeight="571.0" prefWidth="349.0" spacing="5.0">
+                            <children>
+                                <Label text="TODO">
+                                    <font>
+                                        <Font name="Tahoma Bold" size="14.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets left="6.0" top="10.0" />
+                                    </padding>
+                                    <VBox.margin>
+                                        <Insets left="7.0" />
+                                    </VBox.margin>
+                                </Label>
+                                <ScrollPane prefHeight="516.0" prefWidth="335.0">
+                                    <VBox.margin>
+                                        <Insets left="10.0" right="10.0" top="10.0" />
+                                    </VBox.margin>
+                                    <content>
+                                        <VBox fx:id="vboxTodo" alignment="TOP_CENTER" prefHeight="620.0" prefWidth="247.0" spacing="12.0" />
+                                    </content>
+                                    <styleClass>
+                                        <String fx:value="scroll1" />
+                                        <String fx:value="scroll1" />
+                                    </styleClass>
+                                </ScrollPane>
+                            </children>
+                            <padding>
+                                <Insets left="10.0" right="10.0" top="10.0" />
+                            </padding>
+                        </VBox>
+                        <VBox prefHeight="571.0" prefWidth="349.0" spacing="5.0">
+                            <children>
+                                <Label text="IN PROGRESS">
+                                    <font>
+                                        <Font name="Tahoma Bold" size="14.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets left="7.0" />
+                                    </VBox.margin>
+                                    <padding>
+                                        <Insets left="6.0" top="10.0" />
+                                    </padding>
+                                </Label>
+                                <ScrollPane prefHeight="516.0" prefWidth="335.0" styleClass="scroll2">
+                                    <VBox.margin>
+                                        <Insets left="10.0" right="10.0" top="10.0" />
+                                    </VBox.margin>
+                                    <content>
+                                        <VBox fx:id="vboxInProgress" alignment="TOP_CENTER" prefHeight="479.0" prefWidth="247.0" spacing="12.0" />
+                                    </content>
+                                </ScrollPane>
+                            </children>
+                            <padding>
+                                <Insets left="10.0" right="10.0" top="10.0" />
+                            </padding>
+                        </VBox>
+                        <VBox prefHeight="571.0" prefWidth="349.0" spacing="5.0">
+                            <children>
+                                <Label text="DONE">
+                                    <font>
+                                        <Font name="Tahoma Bold" size="14.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets left="7.0" />
+                                    </VBox.margin>
+                                    <padding>
+                                        <Insets left="6.0" top="10.0" />
+                                    </padding>
+                                </Label>
+                                <ScrollPane prefHeight="516.0" prefWidth="335.0" styleClass="scroll3">
+                                    <VBox.margin>
+                                        <Insets left="10.0" right="10.0" top="10.0" />
+                                    </VBox.margin>
+                                    <content>
+                                        <VBox fx:id="vboxDone" alignment="TOP_CENTER" prefHeight="479.0" prefWidth="249.0" spacing="12.0" />
+                                    </content>
+                                </ScrollPane>
+                            </children>
+                            <padding>
+                                <Insets left="10.0" right="10.0" top="10.0" />
+                            </padding>
+                        </VBox>
+                    </children>
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </padding>
+                </HBox>
             </children>
         </VBox>
     </center>

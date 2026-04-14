@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Label;
@@ -53,6 +54,7 @@ public class MainProjectController {
     @FXML private VBox vboxInProgress;
     @FXML private VBox vboxDone;
     @FXML private TextField searchField;
+    @FXML private Hyperlink projectLink, mainProjectLink;
 
     // ================= DATA =================
     private int projectId;
@@ -604,5 +606,12 @@ public class MainProjectController {
     public void handleLogout(ActionEvent event) {
         Utils.UserSession.logout();
         Utils.SceneNavigator.switchScene(event, Utils.SceneNavigator.LOGIN, "Đăng nhập");
+    }
+    @FXML
+    public void handleProject(ActionEvent event) {
+        switchScene(event, "/project/AllMyProjectView.fxml");
+    }
+    public void handleMainProject(ActionEvent event) {
+        switchScene(event, "/project/mainProjectView.fxml");
     }
 }
