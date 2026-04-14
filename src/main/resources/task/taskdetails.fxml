@@ -230,7 +230,7 @@
                            <children>
                               <HBox>
                                  <children>
-                                    <Label opacity="0.8" prefHeight="16.0" prefWidth="87.0" text="Tiến độ " textFill="#0d0d0d">
+                                    <Label fx:id="titleMini" opacity="0.8" prefHeight="16.0" prefWidth="87.0" text="Tiến độ " textFill="#0d0d0d">
                                        <padding>
                                           <Insets left="15.0" />
                                        </padding>
@@ -259,7 +259,7 @@
                                     <String fx:value="white_pane" />
                                  </styleClass>
                                  <children>
-                                    <Label opacity="0.8" prefHeight="22.0" prefWidth="716.0" text="Mô tả công việc" textFill="#0d0d0d">
+                                    <Label fx:id="titleMini" opacity="0.8" prefHeight="22.0" prefWidth="716.0" text="Mô tả công việc" textFill="#0d0d0d">
                                        <padding>
                                           <Insets left="13.0" />
                                        </padding>
@@ -296,7 +296,7 @@
                            <children>
                               <HBox>
                                  <children>
-                                    <Label opacity="0.8" prefHeight="22.0" prefWidth="82.0" text="Checklist " textFill="#0d0d0d">
+                                    <Label fx:id="titleMini" opacity="0.8" prefHeight="22.0" prefWidth="82.0" text="Checklist " textFill="#0d0d0d">
                                        <padding>
                                           <Insets left="17.0" />
                                        </padding>
@@ -323,7 +323,7 @@
                                                       <Insets left="4.0" />
                                                    </HBox.margin>
                                                 </CheckBox>
-                                                <TextField fx:id="addSubTaskField" promptText="Nhập công việc " styleClass="borderRemove">
+                                                <TextField fx:id="addSubTaskField" promptText="Nhập công việc " styleClass="borderRemove" text="Chạy deadline ">
                                                    <padding>
                                                       <Insets left="8.0" />
                                                    </padding>
@@ -356,7 +356,7 @@
                               <String fx:value="colorBG" />
                            </styleClass>
                            <children>
-                              <Label opacity="0.8" prefHeight="22.0" prefWidth="82.0" text="Bình luận " textFill="#0d0d0d">
+                              <Label fx:id="titleMini" opacity="0.8" prefHeight="22.0" prefWidth="82.0" text="Bình luận " textFill="#0d0d0d">
                                  <padding>
                                     <Insets left="17.0" />
                                  </padding>
@@ -540,7 +540,7 @@
                   </VBox>
                   <VBox prefHeight="502.0" spacing="9.0">
                      <children>
-                        <Label opacity="0.8" prefHeight="18.0" prefWidth="228.0" styleClass="attributeLabel" text="Thuộc tính">
+                        <Label fx:id="titleMini" opacity="0.8" prefHeight="18.0" prefWidth="228.0" styleClass="attributeLabel" text="Thuộc tính">
                            <font>
                               <Font name="Inter 18pt SemiBold" size="13.0" />
                            </font>
@@ -557,7 +557,7 @@
                                           <Image url="@../images/inprogress-icon.png" />
                                        </image>
                                     </ImageView>
-                                    <Label text="Trạng thái">
+                                    <Label fx:id="titleMini1" text="Trạng thái">
                                        <font>
                                           <Font name="Inter 18pt ExtraBold" size="12.0" />
                                        </font>
@@ -584,7 +584,7 @@
                                           <Image url="@../images/high-icon.png" />
                                        </image>
                                     </ImageView>
-                                    <Label text="Độ ưu tiên ">
+                                    <Label fx:id="titleMini1" text="Độ ưu tiên ">
                                        <font>
                                           <Font name="Google Sans Flex 72pt Bold" size="12.0" />
                                        </font>
@@ -611,7 +611,7 @@
                                           <Image url="@../images/icons8-deadline-100-removebg-preview.png" />
                                        </image>
                                     </ImageView>
-                                    <Label text="Ngày hạn (deadline)">
+                                    <Label fx:id="titleMini1" text="Ngày hạn (deadline)">
                                        <font>
                                           <Font name="Google Sans Flex 72pt Bold" size="12.0" />
                                        </font>
@@ -640,7 +640,7 @@
                                           <Insets left="2.0" />
                                        </HBox.margin>
                                     </ImageView>
-                                    <Label text="Thời gian">
+                                    <Label fx:id="titleMini1" text="Thời gian">
                                        <font>
                                           <Font name="Google Sans Flex 72pt Bold" size="12.0" />
                                        </font>

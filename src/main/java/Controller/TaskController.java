@@ -27,6 +27,9 @@ import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import javafx.scene.text.Font;
+import javafx.scene.paint.Color;
+
 
 public class TaskController {
 
@@ -49,6 +52,31 @@ public class TaskController {
         comboDeadline.setOnAction(e -> updateDeadline());
 
         addComment.setOnAction(e -> handleAddComment());
+
+        titleMini.setFont(Font.loadFont(
+                getClass().getResourceAsStream("/Font/Inter_18pt-SemiBold.ttf"),
+                13
+        ));
+        titleMini.setTextFill(Color.web("#0d0d0d"));
+
+
+        titleMini1.setFont(Font.loadFont(
+                getClass().getResourceAsStream("/Font/Inter_18pt-ExtraBold.ttf"),
+                12
+        ));
+        titleMini1.setTextFill(Color.BLACK);
+
+
+        taskName.setFont(Font.loadFont(
+                getClass().getResourceAsStream("/Font/Inter_18pt-Bold.ttf"),
+                28
+        ));
+        taskName.setTextFill(Color.BLACK);
+
+        description.setFont(Font.loadFont(
+                getClass().getResourceAsStream("/Font/Inter_18pt-Medium.ttf"),
+                11.5
+        ));
 
         loadTask(1);
     }
@@ -315,4 +343,7 @@ public class TaskController {
     @FXML private Label deadline;
     @FXML private Label createTime;
     @FXML private Label updateTime;
+
+    @FXML private Label titleMini;
+    @FXML private Label titleMini1;
 }
