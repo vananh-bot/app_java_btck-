@@ -291,17 +291,17 @@
                                           <Insets />
                                        </HBox.margin>
                                        <children>
-                                          <ImageView fx:id="inprogressicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#inprogresstask" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fx:id="inprogressicon" fitHeight="20.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../images/inprogress-icon.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView fx:id="todoicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#todotask" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fx:id="todoicon" fitHeight="20.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../images/to-do-icon.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView fx:id="doneicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#donetask" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fx:id="doneicon" fitHeight="20.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../images/done-icon.png" />
                                              </image>
@@ -325,17 +325,17 @@
                                  <children>
                                     <StackPane>
                                        <children>
-                                          <ImageView fx:id="lowicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#lowtask" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fx:id="lowicon" fitHeight="20.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../images/low-icon.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView fx:id="mediumicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#mediumtask" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fx:id="mediumicon" fitHeight="20.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../images/medium-icon.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView fx:id="highicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#hightask" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fx:id="highicon" fitHeight="20.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../images/high-icon.png" />
                                              </image>
@@ -359,12 +359,12 @@
                                  <children>
                                     <StackPane>
                                        <children>
-                                          <ImageView fx:id="deadlineicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#deadlinetask" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fx:id="deadlineicon" fitHeight="20.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../images/deadline-icon.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView fx:id="nodeadlineicon" fitHeight="20.0" fitWidth="42.0" onDragDetected="#nodeadline" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fx:id="nodeadlineicon" fitHeight="20.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../images/no-deadline-icon.png" />
                                              </image>

@@ -1,9 +1,19 @@
 package Controller;
 
+import DAO.TaskDAO;
 import Service.TaskService;
 import javafx.fxml.FXML;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.image.ImageView;
+import javafx.event.ActionEvent;
+import Enum.Priority;
+import Enum.TaskStatus;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import Utils.SceneNavigator;
 
 
 public class TaskController {
@@ -36,60 +46,4 @@ public class TaskController {
 
     @FXML
     private ImageView todoicon;
-
-    @FXML
-    void deadlinetask(MouseEvent event) {
-
-    }
-
-    @FXML
-    void donetask(MouseEvent event) {
-
-    }
-
-    @FXML
-    void hightask(MouseEvent event) {
-
-    }
-
-    @FXML
-    void inprogresstask(MouseEvent event) {
-
-    }
-
-    @FXML
-    void lowtask(MouseEvent event) {
-
-    }
-
-    @FXML
-    void mediumtask(MouseEvent event) {
-
-    }
-
-    @FXML
-    void nodeadline(MouseEvent event) {
-
-    }
-
-    @FXML
-    void todotask(MouseEvent event) {
-
-    }
-
-    public void createTask() {
-
-    }
-
-    public void assignTask() {
-
-    }
-
-    public void updateTask() {
-
-    }
-
-    public void deleteTask() {
-
-    }
 }

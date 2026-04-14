@@ -38,6 +38,49 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
         }
     }
 
+    public int insert2(Task task) {
+        String sql = "INSERT INTO tasks (title, description, status, priority, deadline, project_id) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection connection = JDBCUtil.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, task.getTitle());
+            ps.setString(2, task.getDescription());
+            ps.setString(3, task.getStatus().name());
+            ps.setString(4, task.getPriority().name());
+
+            // Fix NullPointerException nếu Task không có deadline khi tạo
+            if (task.getDeadline() != null) {
+                ps.setTimestamp(5, Timestamp.valueOf(task.getDeadline()));
+            } else {
+                ps.setNull(5, Types.TIMESTAMP);
+            }
+
+            ps.setInt(6, task.getProjectId());
+
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Insert task failed", e);
+        }
+    }
+
+    @Override
+    public boolean existsByTitleAndProject (String title, int projectId){
+        String sql = "SELECT 1 FROM tasks WHERE title = ? AND project_id = ? LIMIT 1";
+
+        try(Connection connection = JDBCUtil.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)){
+
+            ps.setString(1, title.trim());
+            ps.setInt(2, projectId);
+
+            ResultSet resultSet = ps.executeQuery();
+            return resultSet.next();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public boolean deleteById(int id) {
         String sql = "DELETE FROM tasks WHERE id = ?";

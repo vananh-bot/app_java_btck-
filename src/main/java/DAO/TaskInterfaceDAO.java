@@ -8,6 +8,7 @@ public interface TaskInterfaceDAO<T> {
     int insert(T t);
     int update(T t);
     boolean deleteById(int id);
+    boolean existsByTitleAndProject(String title, int projectId);
 
     T getById(int id);
 

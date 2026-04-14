@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1280.0" style="-fx-background-color: #F3F4F6;" stylesheets="@../css/createTask.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="700.0" prefWidth="1280.0" style="-fx-background-color: #F3F4F6;" stylesheets="@../css/createTask.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CreateTaskController">
    <children>
       <VBox layoutX="338.0" layoutY="110.0" prefHeight="479.0" prefWidth="603.0" style="-fx-background-color: white; -fx-background-radius: 25;">
          <children>
@@ -20,7 +20,7 @@
                <children>
                   <Label layoutX="14.0" layoutY="14.0" style="-fx-padding: 8;" styleClass="setFontTitle" text="Thêm công việc mới">
                      <font>
-                        <Font name="Tahoma Bold" size="18.0" />
+                        <Font name="Tahoma Bold" size="22.0" />
                      </font>
                   </Label>
                </children>
@@ -40,18 +40,20 @@
                               <Insets bottom="7.0" />
                            </VBox.margin>
                         </Label>
-                        <TextArea promptText="Chi tiết về tài liệu phương pháp hoặc mục tiêu,..." wrapText="true">
+                        <TextArea fx:id="title" promptText="Nhập tên công việc" wrapText="true">
                            <font>
                               <Font name="Tahoma" size="11.0" />
                            </font>
                            <styleClass>
                               <String fx:value="scroll-pane" />
+                              <String fx:value="scroll-pane-1" />
+                              <String fx:value="text-area-1" />
                               <String fx:value="newLine" />
                            </styleClass>
                         </TextArea>
                      </children>
                   </VBox>
-                  <VBox prefHeight="109.0" prefWidth="254.0">
+                  <VBox prefHeight="72.0" prefWidth="563.0">
                      <children>
                         <Label style="-fx-text-fill: #4b5563;" styleClass="setFontTitle1" text="MÔ TẢ">
                            <font>
@@ -61,13 +63,15 @@
                               <Insets bottom="7.0" />
                            </VBox.margin>
                         </Label>
-                        <TextArea promptText="Chi tiết về tài liệu phương pháp hoặc mục tiêu,..." wrapText="true">
+                        <TextArea fx:id="description" prefHeight="72.0" prefWidth="563.0" promptText="Chi tiết về tài liệu phương pháp hoặc mục tiêu,..." wrapText="true">
                            <font>
                               <Font name="Tahoma" size="11.0" />
                            </font>
                            <styleClass>
                               <String fx:value="scroll-pane" />
+                              <String fx:value="text-area-2" />
                               <String fx:value="newLine" />
+                              <String fx:value="scroll-pane-2" />
                            </styleClass>
                         </TextArea>
                         <VBox prefHeight="200.0" prefWidth="100.0">
@@ -85,18 +89,30 @@
                               </Label>
                               <HBox prefHeight="50.0" prefWidth="353.0" spacing="10.0">
                                  <children>
-                                    <ToggleButton mnemonicParsing="false" prefHeight="26.0" prefWidth="197.0" style="-fx-background-radius: 8;" styleClass="status-item" text="Cần làm">
+                                    <ToggleButton fx:id="btntodo" mnemonicParsing="false" prefHeight="26.0" prefWidth="197.0" style="-fx-background-radius: 8;" text="Cần làm">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
-                                       </font></ToggleButton>
-                                    <ToggleButton mnemonicParsing="false" prefHeight="26.0" prefWidth="197.0" style="-fx-background-radius: 8;" styleClass="status-item" text="Đang thực hiện">
+                                       </font>
+                                       <styleClass>
+                                          <String fx:value="status-item" />
+                                          <String fx:value="status-item-todo" />
+                                       </styleClass></ToggleButton>
+                                    <ToggleButton fx:id="btninprogress" mnemonicParsing="false" prefHeight="26.0" prefWidth="197.0" style="-fx-background-radius: 8;" text="Đang thực hiện">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
-                                       </font></ToggleButton>
-                                    <ToggleButton mnemonicParsing="false" prefHeight="26.0" prefWidth="197.0" style="-fx-background-radius: 8;" styleClass="status-item" text="Hoàn thành">
+                                       </font>
+                                       <styleClass>
+                                          <String fx:value="status-item" />
+                                          <String fx:value="status-item-inprogress" />
+                                       </styleClass></ToggleButton>
+                                    <ToggleButton fx:id="btndone" mnemonicParsing="false" prefHeight="26.0" prefWidth="197.0" style="-fx-background-radius: 8;" text="Hoàn thành">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
-                                       </font></ToggleButton>
+                                       </font>
+                                       <styleClass>
+                                          <String fx:value="status-item" />
+                                          <String fx:value="status-item-done" />
+                                       </styleClass></ToggleButton>
                                  </children>
                               </HBox>
                            </children>
@@ -105,7 +121,7 @@
                   </VBox>
                   <HBox prefHeight="108.0" prefWidth="306.0">
                      <children>
-                        <VBox prefHeight="59.0" prefWidth="430.0">
+                        <VBox prefHeight="49.0" prefWidth="378.0">
                            <children>
                               <Label style="-fx-text-fill: #4b5563;" styleClass="setFontTitle1" text="MỨC ĐỘ ƯU TIÊN">
                                  <font>
@@ -115,20 +131,32 @@
                                     <Insets bottom="7.0" />
                                  </VBox.margin>
                               </Label>
-                              <HBox prefHeight="27.0" prefWidth="401.0">
+                              <HBox prefHeight="25.0" prefWidth="385.0" spacing="3.0">
                                  <children>
-                                    <ToggleButton mnemonicParsing="false" prefHeight="26.0" prefWidth="120.0" style="-fx-background-radius: 20;" styleClass="priority-item" text="Low">
+                                    <ToggleButton fx:id="btnlow" mnemonicParsing="false" prefHeight="26.0" prefWidth="120.0" style="-fx-background-radius: 20;" text="Thấp">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
-                                       </font></ToggleButton>
-                                    <ToggleButton mnemonicParsing="false" prefHeight="26.0" prefWidth="120.0" style="-fx-background-radius: 20;" styleClass="priority-item" text="Medium">
+                                       </font>
+                                       <styleClass>
+                                          <String fx:value="priority-item" />
+                                          <String fx:value="priority-item-low" />
+                                       </styleClass></ToggleButton>
+                                    <ToggleButton fx:id="btnmedium" mnemonicParsing="false" prefHeight="26.0" prefWidth="120.0" style="-fx-background-radius: 20;" text="Trung bình">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
-                                       </font></ToggleButton>
-                                    <ToggleButton mnemonicParsing="false" prefHeight="26.0" prefWidth="120.0" style="-fx-background-radius: 20;" styleClass="priority-item" text="High">
+                                       </font>
+                                       <styleClass>
+                                          <String fx:value="priority-item" />
+                                          <String fx:value="priority-item-medium" />
+                                       </styleClass></ToggleButton>
+                                    <ToggleButton fx:id="btnhigh" mnemonicParsing="false" prefHeight="26.0" prefWidth="120.0" style="-fx-background-radius: 20;" text="Cao">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
-                                       </font></ToggleButton>
+                                       </font>
+                                       <styleClass>
+                                          <String fx:value="priority-item" />
+                                          <String fx:value="priority-item-high" />
+                                       </styleClass></ToggleButton>
                                  </children>
                               </HBox>
                            </children>
@@ -144,7 +172,7 @@
                                     <Insets bottom="2.0" top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <DatePicker prefHeight="26.0" prefWidth="263.0" />
+                              <DatePicker fx:id="btndeadline" prefHeight="26.0" prefWidth="263.0" />
                            </children>
                         </VBox>
                      </children>
@@ -177,14 +205,20 @@
                               </Label>
                            </children>
                         </HBox>
-                        <Label alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="563.0" textAlignment="RIGHT" />
+                        <Label fx:id="error" alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="563.0" textAlignment="RIGHT">
+                           <padding>
+                              <Insets right="20.0" />
+                           </padding>
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
                         <HBox alignment="CENTER_RIGHT" prefHeight="82.0" prefWidth="398.0" spacing="20.0">
                            <padding>
                               <Insets top="20.0" />
                            </padding>
                            <children>
-                              <ToggleButton contentDisplay="CENTER" mnemonicParsing="false" prefHeight="38.0" prefWidth="66.0" style="-fx-background-radius: 20; -fx-font-weight: bold;" styleClass="button-cancel" text="Hủy" textAlignment="RIGHT" />
-                              <ToggleButton mnemonicParsing="false" prefHeight="41.0" prefWidth="150.0" style="-fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" styleClass="primay-button" text="Thêm công việc" />
+                              <ToggleButton fx:id="btncancel" contentDisplay="CENTER" mnemonicParsing="false" onAction="#cancelAddTask" prefHeight="38.0" prefWidth="66.0" style="-fx-background-radius: 20; -fx-font-weight: bold;" styleClass="button-cancel" text="Hủy" textAlignment="RIGHT" />
+                              <ToggleButton fx:id="btnAddTask" mnemonicParsing="false" onAction="#addTask" prefHeight="41.0" prefWidth="150.0" style="-fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" styleClass="primay-button" text="Thêm công việc" />
                            </children>
                         </HBox>
                      </children>

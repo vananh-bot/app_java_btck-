@@ -1,6 +1,6 @@
 
 .button-purple {
-    -fx-background-color: #6c5ce7;
+    -fx-background-color: #5208e8;
     -fx-text-fill: white;
     -fx-background-radius: 10;
     -fx-font-weight: bold;
@@ -20,7 +20,7 @@
     -fx-text-fill: #57606f;
     -fx-background-radius: 20;
     -fx-cursor: hand;
-    -fx-padding: 5 20 10 20;
+    -fx-padding: 10 20 10 20;
 }
 
 .button-cancel:hover {
@@ -40,15 +40,53 @@
     -fx-cursor: hand;
 }
 
-.status-item:hover {
-    -fx-background-color: #6332E5;
+.status-item:pressed{
+    -fx-scale-x: 0.97;
+    -fx-scale-y: 0.97;
+}
+
+.status-item-todo:hover {
+    -fx-background-color: #F8C471;
     -fx-text-fill: white;
 }
 
-.status-item:selected {
-    -fx-background-color: #6332E5;
+.status-item-inprogress:hover {
+    -fx-background-color: #85C1E9;
     -fx-text-fill: white;
 }
+.status-item-done:hover {
+    -fx-background-color: #82E0AA;
+    -fx-text-fill: white;
+}
+
+.status-item-todo:selected {
+    -fx-background-color: #F39C12;
+    -fx-text-fill: white;
+}
+
+.status-item-inprogress:selected {
+    -fx-background-color: #3498DB;
+    -fx-text-fill: white;
+}
+.status-item-done:selected {
+    -fx-background-color: #27AE60;
+    -fx-text-fill: white;
+}
+
+.status-item-todo:pressed {
+    -fx-background-color: #F5B041;
+    -fx-text-fill: white;
+}
+
+.status-item-inprogress:pressed {
+    -fx-background-color: #5DADE2;
+    -fx-text-fill: white;
+}
+.status-item-done:pressed {
+    -fx-background-color: #58D68D;
+    -fx-text-fill: white;
+}
+
 
 .priority-item {
     -fx-background-color: #f1f2f6;
@@ -56,11 +94,55 @@
     -fx-background-radius: 12;
     -fx-cursor: hand;
 }
+.priority-item:pressed{
+    -fx-scale-x: 0.97;
+    -fx-scale-y: 0.97;
+}
 
-.priority-item:hover, .priority-item:selected {
-    /* Màu nhạt hơn (giống cái ô 'Low' tím tím nhạt trong ảnh con gửi đó) */
-    -fx-background-color: #C3B9FF;
-    -fx-text-fill: #4834D4; /* Chữ màu tím đậm cho dễ đọc trên nền nhạt */
+
+.priority-item-low:hover {
+    -fx-background-color: #82E0AA;
+    -fx-text-fill: white;
+}
+
+.priority-item-low:selected{
+    -fx-background-color: #27AE60;
+    -fx-text-fill: white;
+}
+
+.priority-item-low:pressed{
+    -fx-background-color: #58D68D;
+    -fx-text-fill: white;
+}
+
+.priority-item-medium:hover {
+    -fx-background-color: #F8C471;
+    -fx-text-fill: white;
+}
+
+.priority-item-medium:selected{
+    -fx-background-color: #F39C12;
+    -fx-text-fill: white;
+}
+
+.priority-item-medium:pressed{
+    -fx-background-color: #F5B041;
+    -fx-text-fill: white;
+}
+
+.priority-item-high:hover {
+    -fx-background-color: #F1948A;
+    -fx-text-fill: white;
+}
+
+.priority-item-high:selected{
+    -fx-background-color: #E74C3C;
+    -fx-text-fill: white;
+}
+
+.priority-item-high:pressed{
+    -fx-background-color: #EC7063;
+    -fx-text-fill: white;
 }
 
 .close-button-gray {
@@ -104,10 +186,10 @@
     -fx-stroke-width: 1;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1);
 
-    -fx-fill: image-pattern(
-            "https://i.pravatar.cc/300",
-            0, 0, 1, 1, true
-    );
+    /*-fx-fill: image-pattern(*/
+    /*        "https://i.pravatar.cc/300",*/
+    /*        0, 0, 1, 1, true*/
+    /*);*/
 }
 
 .primary-button {
@@ -124,14 +206,15 @@
 }
 
 .primary-button:pressed, .primary-button:selected {
-    -fx-background-color: #4834D4;
+    -fx-background-color: #5208e8;
 }
 
 
 .scroll-pane {
+    -fx-fit-to-width: true; /* Giữ chiều ngang khớp với container */
+    -fx-fit-to-height: false; /* Không cho phép nó tự dãn chiều cao theo nội dung */
     -fx-background-color: transparent;
     -fx-background: transparent;
-    -fx-pref-height: 80;
     -fx-background-radius: 12;
     -fx-border-radius: 12;
     -fx-border-color: transparent;
@@ -145,7 +228,7 @@
 }
 
 .scroll-pane .thumb:hover {
-    -fx-background-color: #6C5CE7;
+    -fx-background-color: #5208e8;
 }
 
 .scroll-pane .track {
@@ -154,19 +237,32 @@
 }
 
 
-.scroll-pane:focused {
-    -fx-pref-height: 180 !important;
-    -fx-min-height: 180 !important;
+.scroll-pane-1:focused {
+    -fx-pref-height: 48 !important;
+    -fx-min-height: 48 !important;
     -fx-border-color: #6C5CE7;
 }
-
-
+.scroll-pane-2:focused {
+    -fx-pref-height: 70 !important;
+    -fx-min-height: 70 !important;
+    -fx-border-color: #6C5CE7;
+}
 
 .scroll-pane .increment-button, .scroll-pane .decrement-button {
     -fx-shape: " ";
     -fx-padding: 0;
 }
 
+
+.text-area-1{
+    -fx-min-height: 48px;
+    -fx-pref-height: 48px;
+}
+
+.text-area-2{
+    -fx-min-height: 70px;
+    -fx-pref-height: 70px;
+}
 .text-area {
     -fx-background-color: #F3F4F6;
     -fx-background-radius: 12;
@@ -184,6 +280,7 @@
     -fx-font-family: "Segoe UI", Arial;
     -fx-font-size: 13px;
     -fx-fill: #374151;
+    -fx-alignment:TOP_LEFT;
 }
 
 .text-area .scroll-bar:vertical {
@@ -198,6 +295,7 @@
 
 
 .text-area:focused {
+    -fx-background-insets: 0, 1;
     -fx-border-color: #6C5CE7;
     -fx-border-width: 1;
     -fx-border-radius: 12;
@@ -205,22 +303,20 @@
 
 .primay-button {
     /* 1. Màu gốc lấy từ ảnh của con */
-    -fx-background-color: #5849D4;
+    -fx-background-color: #5208e8;
     -fx-text-fill: white;
     -fx-background-radius: 25;
     -fx-cursor: hand;
     -fx-font-weight: bold;
     -fx-font-size: 12px;
     -fx-padding: 5 15 5 15;
-    -fx-transition: 0.2s; /* Hiệu ứng chuyển màu mượt mà */
+    -fx-transition: 0.2s;
 }
 
-/* 2. Khi trỏ chuột vào (Hover) - Tông đậm hơn hẳn */
 .primay-button:hover {
     -fx-background-color: #3D31A8; /* Tông đậm hơn của mã #5849D4 */
 }
 
-/* 3. Khi nhấn vào (Active) - Đậm nhất để tạo cảm giác nút lún xuống */
 .primay-button:pressed {
     -fx-background-color: #2E2580;
     -fx-scale-x: 0.97;
@@ -228,8 +324,9 @@
 }
 
 .setFontTitle{
-    -fx-font-size: 19px;
+    -fx-font-size: 21px;
     -fx-font-family: "Inter 24pt";
+    -fx-font-weight: bold;
 }
 .setFontTitle1{
     -fx-font-size: 12px;
