@@ -1,72 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import java.lang.String?>
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressIndicator?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefWidth="470.0" stylesheets="@../css/allmyproject.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProjectCardController">
+<AnchorPane prefHeight="225.0" prefWidth="400.0" stylesheets="@../css/allmyproject.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProjectCardController">
    <children>
-      <VBox prefWidth="470.0" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 15, 0, 0, 5);">
+      <VBox prefHeight="225.0" prefWidth="400.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 15, 0, 0, 5);">
          <children>
-            <HBox prefHeight="120.0" prefWidth="461.0">
+            <HBox prefHeight="148.0" prefWidth="400.0">
                <children>
-                  <Label fx:id="lblProjectName" alignment="TOP_LEFT" prefHeight="99.0" prefWidth="320.0" styleClass="project-title" wrapText="true">
+                  <Label fx:id="lblProjectName" alignment="TOP_LEFT" prefHeight="99.0" prefWidth="282.0" style="-fx-text-fill: #1A1C1E;" text="Project Test" wrapText="true">
                      <font>
-                        <Font name="System Bold" size="22.0" />
+                        <Font name="System Bold" size="30.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets left="15.0" top="15.0" />
+                     </HBox.margin>
                   </Label>
-                  <ProgressIndicator fx:id="progressIndicator" maxHeight="100.0" maxWidth="100.0" prefHeight="100.0" prefWidth="100.0" progress="0.0" />
+
+                  <StackPane prefHeight="120" prefWidth="120">
+                     <!-- Vòng nền -->
+                     <Circle fx:id="bgCircle" fill="transparent" radius="45" stroke="#E5E7EB" strokeWidth="10" />
+
+                     <!-- Vòng progress -->
+                     <Circle fx:id="progressCircle" fill="transparent" radius="45" rotate="-90" strokeLineCap="ROUND" strokeWidth="10" />
+
+                     <!-- Text % -->
+                     <Label fx:id="percentLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="0%" />
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </StackPane>
                </children>
                <padding>
                   <Insets left="15.0" />
                </padding>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="461.0" spacing="2.0">
+
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="400.0" spacing="2.0">
                <children>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/hinhnguoi.png" />
-                     </image>
-                  </ImageView>
-                  <Region HBox.hgrow="ALWAYS" />
-                  <HBox spacing="5.0">
+                  <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="100.0" styleClass="todo">
                      <children>
-                        <HBox alignment="CENTER" spacing="5.0" styleClass="status-tag, todo">
-                           <children>
-                              <Label text="Todo" />
-                              <Label fx:id="lblTodoCount" text="0" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" spacing="5.0" styleClass="status-tag, in-progress">
-                           <children>
-                              <Label text="Doing" />
-                              <Label fx:id="lblInProgressCount" text="0" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" spacing="5.0" styleClass="status-tag, done">
-                           <children>
-                              <Label text="Done" />
-                              <Label fx:id="lblDoneCount" text="0" />
-                           </children>
-                        </HBox>
+                        <Label style="-fx-text-fill: #737782;" text="Todo" />
+                        <Label fx:id="lblTodoCount" style="-fx-text-fill: #FF0000;" text="0">
+                           <font>
+                              <Font name="System Bold" size="25.0" />
+                           </font>
+                        </Label>
                      </children>
-                  </HBox>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets left="25.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <Region prefHeight="100.0" prefWidth="25.0" />
+
+                  <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="100.0" styleClass="in-progress">
+                     <children>
+                        <Label style="-fx-text-fill: #737782;" text="Doing" />
+                        <Label fx:id="lblInProgressCount" style="-fx-text-fill: gold;" text="0">
+                           <font>
+                              <Font name="System Bold" size="25.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </VBox>
+                  <Region prefHeight="100.0" prefWidth="25.0" />
+
+                  <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="100.0" styleClass="done">
+                     <children>
+                        <Label style="-fx-text-fill: #737782;" text="Done" />
+                        <Label fx:id="lblDoneCount" style="-fx-text-fill: #006600;" text="0">
+                           <font>
+                              <Font name="System Bold" size="25.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets right="25.0" />
+                     </HBox.margin>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </VBox>
                </children>
-               <padding>
-                  <Insets left="5.0" right="5.0" />
-               </padding>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
             </HBox>
          </children>
-         <padding>
-            <Insets bottom="15.0" left="25.0" right="25.0" top="25.0" />
-         </padding>
       </VBox>
    </children>
 </AnchorPane>

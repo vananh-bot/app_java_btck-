@@ -12,10 +12,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.net.URL;
 import java.text.Normalizer;
@@ -28,6 +32,7 @@ public class AllProjectController implements Initializable {
 
     @FXML private FlowPane projectContainer;
     @FXML private TextField searchInput;
+    @FXML private Button createProject;
 
     private ProjectService projectService;
     private List<ProjectCardDTO> allProjectDTOs = new ArrayList<>();
@@ -269,5 +274,18 @@ public class AllProjectController implements Initializable {
     public void handleLogout(ActionEvent event) {
         UserSession.logout();
         SceneNavigator.switchScene(event, SceneNavigator.LOGIN, "Đăng nhập");
+    }
+    private void switchScene(ActionEvent event, String path) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+            Scene scene = new Scene(loader.load());
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void createNewProject(ActionEvent event) {
+        switchScene(event, "/project/createProject.fxml");
     }
 }

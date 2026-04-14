@@ -93,31 +93,38 @@
 
 
 
-/* Biến cái bánh thành cái nhẫn */
-.progress-indicator .indicator {
-    -fx-background-color: transparent; /* Xóa nền */
-    -fx-background-insets: 0;
+/* ===== PROGRESS RING SIÊU ĐẸP ===== */
+
+/* Xóa nền mặc định */
+.progress-indicator {
     -fx-padding: 0;
 }
 
-/* Đây là cái vòng tròn nền mờ phía dưới (track) */
+/* Vòng nền */
 .progress-indicator .track {
-    -fx-stroke: #E0E0E0; /* Màu xám rất nhạt của vòng nền */
-    -fx-stroke-width: 4px;
+    -fx-stroke: #EEF1F5;
+    -fx-stroke-width: 8px;
 }
 
-/* Đây là thanh tiến độ chạy phía trên (bar) */
+/* Thanh progress */
+.progress-indicator .progress {
+    -fx-stroke: linear-gradient(to right, #6366F1, #8B5CF6);
+    -fx-stroke-width: 8px;
+    -fx-stroke-line-cap: round;
+}
+
+/* % ở giữa */
 .progress-indicator .percentage {
-    -fx-fill: #2D3436; /* Màu của con số */
-    -fx-font-size: 11px;
+    -fx-fill: #1F2937;
+    -fx-font-size: 16px;
     -fx-font-weight: bold;
 }
-
-/* Quan trọng: Phải ép JavaFX vẽ dạng Stroke thay vì Fill */
+.progress-indicator:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
 .progress-indicator .progress {
-    -fx-stroke: #4338CA; /* Màu xanh Indigo bạn thích */
-    -fx-stroke-width: 4px;
-    -fx-stroke-line-cap: round; /* Làm đầu thanh tiến độ bo tròn cho đẹp */
+    -fx-effect: dropshadow(gaussian, rgba(99,102,241,0.4), 10, 0, 0, 0);
 }
 /* Style chung cho các nhãn trạng thái */
 .status-tag {
@@ -128,10 +135,15 @@
     -fx-text-fill: white;
 }
 
-
-.todo { -fx-background-color: #B2BEC3; }        /* Màu xám dịu */
-.in-progress { -fx-background-color: #6366F1; } /* Xanh tím đặc trưng của bạn */
-.done { -fx-background-color: #00B894; }
-
-
-
+.todo {
+    -fx-background-color: mistyrose;
+    -fx-background-radius: 10;
+}        /* Màu xám dịu */
+.in-progress {
+    -fx-background-color: ivory;
+    -fx-background-radius: 10;
+} /* Xanh tím đặc trưng của bạn */
+.done {
+    -fx-background-color: honeydew;
+    -fx-background-radius: 10;
+}

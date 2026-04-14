@@ -160,9 +160,9 @@
                     <children>
                   <HBox prefHeight="40.0" prefWidth="749.0" styleClass="hyperlink_back_to_pre_scene">
                      <children>
-                        <Hyperlink prefHeight="47.0" prefWidth="91.0" styleClass="breadcrumb-prev" text="Dự án của tôi " />
+                        <Hyperlink fx:id="projectLink" onAction="#handleProject" prefHeight="47.0" prefWidth="91.0" styleClass="breadcrumb-prev" text="Dự án của tôi " />
                         <Hyperlink prefHeight="54.0" prefWidth="23.0" styleClass="breadcrumb-prev" text="→" />
-                        <Hyperlink prefHeight="49.0" styleClass="breadcrumb-current" text="Học Tiếng Anh" />
+                        <Hyperlink fx:id="mainProjectLink" onAction="#handleMainProject" prefHeight="49.0" styleClass="breadcrumb-current" text="Học Tiếng Anh" />
                      </children>
                      <HBox.margin>
                         <Insets bottom="5.0" left="15.0" top="5.0" />
