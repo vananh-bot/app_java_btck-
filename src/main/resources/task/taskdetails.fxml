@@ -183,7 +183,7 @@
                <children>
                   <VBox prefHeight="69.0" prefWidth="496.0" spacing="4.0">
                      <children>
-                        <Label fx:id="taskName">
+                        <Label fx:id="taskName" text="Học tiếng anh">
                            <font>
                               <Font name="Inter 18pt Bold" size="28.0" />
                            </font>
@@ -559,7 +559,7 @@
                                     </ImageView>
                                     <Label text="Trạng thái">
                                        <font>
-                                          <Font name="Google Sans Flex 72pt Bold" size="12.0" />
+                                          <Font name="Inter 18pt ExtraBold" size="12.0" />
                                        </font>
                                     </Label>
                                  </children>
