@@ -1,0 +1,70 @@
+.grey_color {
+    -fx-background-color: #F5F5F5;
+}
+
+.right_border {
+    -fx-border-width: 0 1 0 0;
+    -fx-border-color: #ccc;
+}
+
+.bottom_border {
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #ccc;
+}
+
+
+.toggle-button {
+    -fx-font-family: "Tahoma";
+    -fx-alignment: CENTER_LEFT;
+    -fx-background-color: transparent;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-opacity: 0.5;
+    -fx-cursor: hand;
+}
+.toggle-button .label {
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+}
+
+
+.toggle-button:hover {
+    -fx-background-color: #eef0ff;
+    -fx-border-color: transparent #5208e8 transparent transparent;
+    -fx-border-width: 0 3 0 0;
+    -fx-opacity: 1.0;
+}
+
+.toggle-button:hover .label {
+    -fx-text-fill: #5208e8;
+    -fx-font-weight: bold;
+}
+
+.toggle-button:pressed{
+    -fx-scale-x: 0.97;
+    -fx-scale-y: 0.97;
+    -fx-opacity: 0.9;
+}
+
+
+.button_active {
+    -fx-background-color: #eef0ff;
+    -fx-border-color: transparent #5208e8 transparent transparent;
+    -fx-border-width: 0 3 0 0;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-opacity: 1.0;
+}
+
+.button_active .label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #5208e8;
+    -fx-font-weight: bold;
+}
+
+.button_active .hbox,
+.toggle-button:hover .hbox,
+.toggle-button:selected .hbox{
+    -fx-background-color: #eef0ff;
+}
