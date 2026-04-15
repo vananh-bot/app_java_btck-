@@ -15,7 +15,7 @@ public class Main extends Application {
     public void start(Stage stage) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/sidebar.fxml")
+                    getClass().getResource("/layout.fxml")
             );
 
             Scene scene = new Scene(loader.load());

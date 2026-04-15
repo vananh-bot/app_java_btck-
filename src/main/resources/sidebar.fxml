@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="700.0" prefWidth="193.0" spacing="15.0" styleClass="set_chu" stylesheets="@css/sidebar.css" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.SidebarController">
+<VBox prefHeight="700.0" prefWidth="193.0" spacing="15.0" stylesheets="@css/sidebar.css" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.SidebarController">
             <children>
                 <HBox prefHeight="40.0" prefWidth="172.0">
                     <children>
@@ -164,4 +164,8 @@
             <padding>
                 <Insets left="20.0" />
             </padding>
+   <styleClass>
+      <String fx:value="set_chu" />
+      <String fx:value="right_border" />
+   </styleClass>
         </VBox>
