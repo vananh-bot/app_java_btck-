@@ -2,6 +2,9 @@ package Service;
 
 import DAO.TaskAssignmentDAO;
 import DAO.TaskDAO;
+import Model.Task;
+
+import java.util.List;
 
 public class TaskService {
     private TaskDAO taskDAO;

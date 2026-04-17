@@ -12,6 +12,6 @@
         <fx:include source="sidebar.fxml"/>
     </left>
     <center>
-        <fx:include source="dashboard/general_dashboard_view1.fxml"/>
+        <fx:include source="dashboard/general_dashboard_view2.fxml"/>
     </center>
 </BorderPane>
