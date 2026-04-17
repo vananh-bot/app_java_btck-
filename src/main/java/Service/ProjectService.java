@@ -27,6 +27,7 @@ public class ProjectService {
         this.inviteDAO = inviteDAO;
         this.taskDAO = taskDAO;
     }
+
     public List<ProjectCardDTO> getDashboardProjects(int userId) {
         List<ProjectCardDTO> dtoList = new ArrayList<>();
 

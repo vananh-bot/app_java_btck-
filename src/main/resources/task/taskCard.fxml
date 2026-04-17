@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<VBox fx:id="cardRoot" prefWidth="280.0" spacing="12.0" styleClass="borderTask" stylesheets="@../css/taskCard.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TaskCardController">
+    <padding>
+        <Insets bottom="14.0" left="16.0" right="16.0" top="14.0" />
+    </padding>
+    <children>
+        <Label fx:id="priorityLabel" styleClass="levelPriority" text="Cao" />
+
+        <VBox spacing="5.0">
+            <children>
+                <TextFlow fx:id="titleBox">
+                    <Text styleClass="task-title" text="Làm bài Reading Test 1" />
+                </TextFlow>
+                <TextFlow fx:id="descBox">
+                    <Text styleClass="description" text="Giải đề Reading trong sách Cambridge IELTS 18" />
+                </TextFlow>
+            </children>
+        </VBox>
+
+        <HBox fx:id="deadlineHBoxOuter" styleClass="borderMini">
+            <padding>
+                <Insets bottom="5.0" left="8.0" right="8.0" top="5.0" />
+            </padding>
+            <children>
+                <HBox alignment="CENTER" spacing="6.0">
+                    <children>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/calendar-249-removebg-preview.png" />
+                            </image>
+                        </ImageView>
+                        <Label fx:id="dateLabel" styleClass="description" text="Quá hạn 6 ngày" />
+                    </children>
+                </HBox>
+            </children>
+        </HBox>
+    </children>
+</VBox>
