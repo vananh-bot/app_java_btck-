@@ -23,7 +23,7 @@
 }
 
 .toggle-button{
-    -fx-font-family: "Tahoma";
+    -fx-font-family: Tahoma;
     -fx-text-fill: black;
     -fx-background-color: transparent;
     -fx-background-radius: 10;

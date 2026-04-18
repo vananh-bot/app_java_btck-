@@ -31,7 +31,12 @@ public class ProjectCardController {
     private final double CIRCUMFERENCE = 2 * Math.PI * RADIUS;
     private Timeline timeline;
     private Timeline numberAnim;
+    private ProjectCardDTO dto;
+    private Runnable onDataUpdated;
 
+    public void setOnDataUpdated(Runnable r) {
+        this.onDataUpdated = r;
+    }
     public void setProgress(double progress) {
         // 👉 fix dữ liệu
         progress = Math.max(0, Math.min(progress, 1));
@@ -136,6 +141,7 @@ public class ProjectCardController {
     }
     public void setProjectData(ProjectCardDTO dto) {
         if (dto == null || dto.getProject() == null) return;
+        this.dto=dto;
 
         Platform.runLater(() -> {
             lblProjectName.setText(dto.getProject().getName());
@@ -184,5 +190,15 @@ public class ProjectCardController {
 
         // 👉 gọi custom progress
         setProgress(targetProgress);
+        if (dto != null) {
+            dto.setTodoCount(todo);
+            dto.setInProgressCount(inProgress);
+            dto.setDoneCount(done);
+        }
+
+        if (onDataUpdated != null) {
+            onDataUpdated.run();
+        }
     }
+
 }

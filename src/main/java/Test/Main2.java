@@ -11,7 +11,7 @@ public class Main2 extends Application {
     public void start(Stage stage) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/auth/register.fxml")
+                    getClass().getResource("/auth/login.fxml")
             );
 
             Scene scene = new Scene(loader.load());

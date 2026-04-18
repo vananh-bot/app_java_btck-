@@ -27,4 +27,15 @@ public class ProjectCardDTO {
         if (total == 0) return 0.0;
         return (double) doneCount / total;
     }
+    public void setTodoCount(int todoCount) {
+        this.todoCount = todoCount;
+    }
+
+    public void setInProgressCount(int inProgressCount) {
+        this.inProgressCount = inProgressCount;
+    }
+
+    public void setDoneCount(int doneCount) {
+        this.doneCount = doneCount;
+    }
 }

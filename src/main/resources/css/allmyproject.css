@@ -20,7 +20,7 @@
 }
 .project-title {
     -fx-font-size: 24px;
-    -fx-font-family: "Segoe UI", "Arial";
+    -fx-font-family: Segoe UI, Arial;
     -fx-font-weight: bold;
     -fx-text-fill: #2D3436;
 }

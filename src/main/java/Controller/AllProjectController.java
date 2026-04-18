@@ -121,6 +121,7 @@ public class AllProjectController implements Initializable {
         if (controller != null) {
             controller.setProjectData(dto);
             controller.loadTaskStatsAsync(dto.getProject().getId());
+            controller.setOnDataUpdated(this::scheduleSort);
         }
 
         card.setOnMouseClicked(e -> {
@@ -195,6 +196,32 @@ public class AllProjectController implements Initializable {
             entry.getValue().setVisible(visible);
             entry.getValue().setManaged(visible);
         }
+    }
+    private void sortUI() {
+        allProjectDTOs = projectService.sortByScore(new ArrayList<>(allProjectDTOs));
+
+        List<AnchorPane> newOrder = new ArrayList<>();
+
+        for (ProjectCardDTO dto : allProjectDTOs) {
+            AnchorPane card = projectCardMap.get(dto.getProject().getId());
+            if (card != null) {
+                newOrder.add(card);
+            }
+        }
+
+        projectContainer.getChildren().setAll(newOrder);
+    }
+    private Timeline sortDelay;
+
+    private void scheduleSort() {
+        if (sortDelay == null) {
+            sortDelay = new Timeline(
+                    new KeyFrame(Duration.millis(200), e -> sortUI())
+            );
+            sortDelay.setCycleCount(1);
+        }
+        sortDelay.stop();
+        sortDelay.play();
     }
     private void renderProjects(List<ProjectCardDTO> list) {
         if (projectContainer == null) {

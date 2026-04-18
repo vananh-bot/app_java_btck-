@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<VBox fx:id="cardRoot" prefWidth="280.0" spacing="12.0" styleClass="borderTask" stylesheets="@../css/taskCard.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TaskCardController">
+<VBox fx:id="cardRoot" prefWidth="280.0" spacing="12.0" styleClass="borderTask" stylesheets="@../css/taskCard.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TaskCardController">
     <padding>
         <Insets bottom="14.0" left="16.0" right="16.0" top="14.0" />
     </padding>
@@ -22,7 +22,7 @@
                     <Text styleClass="task-title" text="Làm bài Reading Test 1" />
                 </TextFlow>
                 <TextFlow fx:id="descBox">
-                    <Text styleClass="description" text="Giải đề Reading trong sách Cambridge IELTS 18" />
+                    <Text fx:id="txtDescription" styleClass="description" text="Giải đề Reading trong sách Cambridge IELTS 18" />
                 </TextFlow>
             </children>
         </VBox>
