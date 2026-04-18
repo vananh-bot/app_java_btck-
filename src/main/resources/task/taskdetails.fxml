@@ -4,7 +4,6 @@
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Hyperlink?>
@@ -235,7 +234,7 @@
                                           <Insets left="15.0" />
                                        </padding>
                                        <font>
-                                          <Font name="Inter 18pt SemiBold" size="13.0" />
+                                          <Font name="Inter 18pt ExtraBold" size="13.0" />
                                        </font>
                                     </Label>
                                     <Label fx:id="progressText" style="-fx-font-size: 11px; -fx-text-fill: #666;" text="0 / 0 completed" />
@@ -309,34 +308,12 @@
                                     <Insets top="9.0" />
                                  </VBox.margin>
                               </HBox>
-                              <ScrollPane prefHeight="157.0" prefWidth="731.0" styleClass="checkList">
+                              <ScrollPane fx:id="subTaskScroll" fitToWidth="true" prefHeight="157.0" prefWidth="731.0" styleClass="checkList">
                                  <content>
-                                    <VBox fx:id="checkList" prefHeight="93.0" prefWidth="732.0" spacing="8.0">
+                                    <VBox fx:id="checkList" prefWidth="732.0" spacing="8.0">
                                        <padding>
                                           <Insets left="12.0" right="12.0" top="10.0" />
                                        </padding>
-                                       <children>
-                                          <HBox prefHeight="28.0" prefWidth="708.0" spacing="6.0">
-                                             <children>
-                                                <CheckBox mnemonicParsing="false">
-                                                   <HBox.margin>
-                                                      <Insets left="4.0" />
-                                                   </HBox.margin>
-                                                </CheckBox>
-                                                <TextField fx:id="addSubTaskField" promptText="Nhập công việc " styleClass="borderRemove" text="Chạy deadline ">
-                                                   <padding>
-                                                      <Insets left="8.0" />
-                                                   </padding>
-                                                   <font>
-                                                      <Font name="Inter 18pt Regular" size="12.0" />
-                                                   </font>
-                                                   <HBox.margin>
-                                                      <Insets top="2.0" />
-                                                   </HBox.margin>
-                                                </TextField>
-                                             </children>
-                                          </HBox>
-                                       </children>
                                     </VBox>
                                  </content>
                               </ScrollPane>
@@ -367,7 +344,7 @@
                                     <Insets top="12.0" />
                                  </VBox.margin>
                               </Label>
-                              <ScrollPane prefHeight="172.0" prefWidth="715.0" styleClass="commentBox">
+                              <ScrollPane fx:id="commentScroll" fitToWidth="true" prefHeight="172.0" prefWidth="715.0" styleClass="commentBox">
                                  <VBox.margin>
                                     <Insets left="16.0" top="9.0" />
                                  </VBox.margin>

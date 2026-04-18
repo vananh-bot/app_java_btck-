@@ -7,9 +7,11 @@ import Model.SubTask;
 import Model.Task;
 import Service.TaskService;
 import Utils.TimeUtil;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -35,7 +37,8 @@ public class TaskController {
 
     private final TaskService taskService = new TaskService();
     private int currentTaskId;
-    private int currentUserId = 38;
+    private int currentUserId = 26;
+    private Task currentTask;
 
     private final DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -54,91 +57,90 @@ public class TaskController {
         addComment.setOnAction(e -> handleAddComment());
 
         titleMini.setFont(Font.loadFont(
-                getClass().getResourceAsStream("/Font/Inter_18pt-SemiBold.ttf"),
+                getClass().getResourceAsStream("/fonts/Inter_18pt-Bold.ttf"),
                 13
         ));
         titleMini.setTextFill(Color.web("#0d0d0d"));
 
 
         titleMini1.setFont(Font.loadFont(
-                getClass().getResourceAsStream("/Font/Inter_18pt-ExtraBold.ttf"),
-                12
-        ));
+                getClass().getResourceAsStream("/fonts/Inter_18pt-Bold.ttf"), 12));
         titleMini1.setTextFill(Color.BLACK);
 
 
         taskName.setFont(Font.loadFont(
-                getClass().getResourceAsStream("/Font/Inter_18pt-Bold.ttf"),
-                28
-        ));
+                getClass().getResourceAsStream("/fonts/Inter_18pt-Bold.ttf"), 28));
         taskName.setTextFill(Color.BLACK);
 
         description.setFont(Font.loadFont(
-                getClass().getResourceAsStream("/Font/Inter_18pt-Medium.ttf"),
-                11.5
-        ));
+                getClass().getResourceAsStream("/fonts/Inter_18pt-Medium.ttf"), 11.5));
 
         loadTask(1);
     }
 
     // ================= LOAD TASK =================
     public void loadTask(int taskId) {
+
         this.currentTaskId = taskId;
 
-        Task task = taskService.getTaskById(taskId);
-        if (task == null) return;
+        currentTask = taskService.getTaskById(taskId);
 
-        taskName.setText(task.getTitle());
-        description.setText(task.getDescription());
+        if (currentTask == null) return;
 
-        comboStatus.setValue(task.getStatus().name());
-        comboPriority.setValue(task.getPriority().name());
+        taskName.setText(currentTask.getTitle());
+        description.setText(currentTask.getDescription());
 
-        if (task.getDeadline() != null) {
-            comboDeadline.setValue(task.getDeadline().toLocalDate());
-            deadline.setText(task.getDeadline().format(formatter));
+        comboStatus.setValue(currentTask.getStatus().name());
+        comboPriority.setValue(currentTask.getPriority().name());
+
+        if (currentTask.getDeadline() != null) {
+            comboDeadline.setValue(currentTask.getDeadline().toLocalDate());
+            deadline.setText(currentTask.getDeadline().format(formatter));
         }
 
-        createTime.setText(TimeUtil.toRelative(task.getCreatedAt()));
-        updateTime.setText(TimeUtil.toRelative(task.getUpdatedAt()));
+        createTime.setText(TimeUtil.toRelative(currentTask.getCreatedAt()));
+        updateTime.setText(TimeUtil.toRelative(currentTask.getUpdatedAt()));
 
         loadSubTasks();
         loadComments();
     }
 
-    // ================= TASK UPDATE =================
+
     private Task getTask() {
         return taskService.getTaskById(currentTaskId);
     }
 
     private void updateStatus() {
-        Task task = getTask();
-        if (task == null || comboStatus.getValue() == null) return;
 
-        task.setStatus(TaskStatus.valueOf(comboStatus.getValue()));
-        taskService.updateTask(task);
+        if (currentTask == null || comboStatus.getValue() == null) return;
+
+        currentTask.setStatus(TaskStatus.valueOf(comboStatus.getValue()));
+
+        new Thread(() -> taskService.updateTask(currentTask)).start();
     }
 
     private void updatePriority() {
-        Task task = getTask();
-        if (task == null || comboPriority.getValue() == null) return;
 
-        task.setPriority(Priority.valueOf(comboPriority.getValue()));
-        taskService.updateTask(task);
+        if (currentTask == null || comboPriority.getValue() == null) return;
+
+        currentTask.setPriority(Priority.valueOf(comboPriority.getValue()));
+
+        new Thread(() -> taskService.updateTask(currentTask)).start();
     }
 
     private void updateDeadline() {
-        Task task = getTask();
-        if (task == null || comboDeadline.getValue() == null) return;
 
-        task.setDeadline(comboDeadline.getValue().atStartOfDay());
-        taskService.updateTask(task);
+        if (currentTask == null || comboDeadline.getValue() == null) return;
 
-        deadline.setText(task.getDeadline().format(formatter));
+        currentTask.setDeadline(comboDeadline.getValue().atStartOfDay());
+        deadline.setText(currentTask.getDeadline().format(formatter));
+
+        new Thread(() -> taskService.updateTask(currentTask)).start();
     }
 
-    // ================= SUBTASK =================
+
     private void loadSubTasks() {
+
         checkList.getChildren().clear();
 
         List<SubTask> list = taskService.getSubTasks(currentTaskId);
@@ -162,6 +164,7 @@ public class TaskController {
         tf.requestFocus();
 
         tf.setOnAction(e -> {
+
             String text = tf.getText().trim();
             if (text.isEmpty()) return;
 
@@ -170,10 +173,49 @@ public class TaskController {
             s.setTitle(text);
             s.setCompleted(false);
 
-            taskService.addSubTask(s);
-            loadSubTasks();
+            new Thread(() -> {
+
+                taskService.addSubTask(s);
+
+                javafx.application.Platform.runLater(() -> {
+
+                    checkList.getChildren().remove(row);
+
+                    HBox newRow = createSubTaskRow(s);
+                    checkList.getChildren().add(newRow);
+
+                    animateSlideIn(newRow);
+                    updateProgress();
+                    scrollToBottomSubTask();
+                });
+
+            }).start();
         });
     }
+
+    private void animateSlideIn(Node node) {
+
+        node.setTranslateY(10);
+        node.setOpacity(0);
+
+        Timeline t = new Timeline(
+                new KeyFrame(Duration.millis(200),
+                        new KeyValue(node.translateYProperty(), 0),
+                        new KeyValue(node.opacityProperty(), 1))
+        );
+
+        t.play();
+    }
+
+    private void scrollToBottomSubTask() {
+
+        Platform.runLater(() -> {
+            subTaskScroll.applyCss();
+            subTaskScroll.layout();
+            subTaskScroll.setVvalue(1.0);
+        });
+    }
+
 
     private HBox createSubTaskRow(SubTask s) {
 
@@ -207,7 +249,7 @@ public class TaskController {
         HBox row = new HBox(6, contentBox, deleteBtn);
         row.setAlignment(Pos.CENTER_LEFT);
 
-        row.setUserData(cb); // ⭐ FIX QUAN TRỌNG
+        row.setUserData(cb);
 
         row.setOnMouseEntered(e -> deleteBtn.setOpacity(1));
         row.setOnMouseExited(e -> deleteBtn.setOpacity(0));
@@ -215,8 +257,11 @@ public class TaskController {
         int id = s.getId();
 
         cb.setOnAction(e -> {
+
             boolean done = cb.isSelected();
-            taskService.toggleSubTask(id, done);
+
+
+            new Thread(() -> taskService.toggleSubTask(id, done)).start();
 
             title.setStyle(done
                     ? "-fx-strikethrough: true; -fx-text-fill: #999;"
@@ -226,7 +271,9 @@ public class TaskController {
         });
 
         deleteBtn.setOnAction(e -> {
-            taskService.deleteSubTask(id);
+
+            new Thread(() -> taskService.deleteSubTask(id)).start(); // ⭐ async
+
             checkList.getChildren().remove(row);
             updateProgress();
         });
@@ -263,21 +310,24 @@ public class TaskController {
         timeline.play();
     }
 
-    // ================= COMMENTS =================
-    private void loadComments() {
 
-        comment.getChildren().clear();
+    private void loadComments() {
 
         List<Comment> list = taskService.getComments(currentTaskId);
 
-        if (list == null || list.isEmpty()) {
-            comment.getChildren().add(new Label("Chưa có bình luận"));
-            return;
-        }
+        if (list == null) return;
+
+
+        if (comment.getChildren().size() == list.size()) return;
+
+        comment.getChildren().clear();
 
         for (Comment c : list) {
             comment.getChildren().add(createCommentItem(c));
         }
+
+        comment.applyCss();
+        comment.layout();
     }
 
     private HBox createCommentItem(Comment c) {
@@ -294,10 +344,15 @@ public class TaskController {
 
         Label content = new Label(c.getContent());
         content.setWrapText(true);
-        content.setMaxWidth(Double.MAX_VALUE); // ⭐ QUAN TRỌNG
-        content.setStyle("-fx-font-size: 12px;");
+        content.setMaxWidth(650);
+        content.setLineSpacing(2);
+        content.setStyle("""
+    -fx-font-size: 12px;
+    -fx-text-fill: #333;
+""");
 
         VBox box = new VBox(3, header, content);
+        box.setMaxWidth(650);
         HBox.setHgrow(box, javafx.scene.layout.Priority.ALWAYS);
         HBox container = new HBox(10, avatar, box); container.setAlignment(Pos.TOP_LEFT);
 
@@ -315,18 +370,67 @@ public class TaskController {
         c.setUserId(currentUserId);
         c.setContent(text);
 
-        boolean ok = taskService.addComment(c);
+        new Thread(() -> {
 
-        System.out.println("Insert = " + ok);
+            boolean ok = taskService.addComment(c);
 
-        if (ok) {
-            addComment.clear();
-            loadComments();
+            Platform.runLater(() -> {
+
+                if (ok) {
+
+                    addComment.clear();
+
+
+                    List<Comment> list = taskService.getComments(currentTaskId);
+
+                    if (list != null && !list.isEmpty()) {
+
+                        Comment newest = list.get(0); // ORDER BY DESC
+
+                        HBox item = createCommentItem(newest);
+
+                        comment.getChildren().add(0, item);
+
+                        animateFade(item);
+                        scrollToTop();
+                    }
+                }
+
+            });
+
+        }).start();
+    }
+
+    private void animateFade(Node node) {
+        node.setOpacity(0);
+
+        FadeTransition ft = new FadeTransition(Duration.millis(200), node);
+        ft.setToValue(1);
+        ft.play();
+    }
+
+    private void scrollToTop() {
+
+        Platform.runLater(() -> {
+            commentScroll.applyCss();
+            commentScroll.layout();
+            commentScroll.setVvalue(0);
+        });
+    }
+
+    private void animateNewComments() {
+
+        for (Node node : comment.getChildren()) {
+
+            node.setOpacity(0);
+
+            FadeTransition ft = new FadeTransition(Duration.millis(200), node);
+            ft.setToValue(1);
+            ft.play();
         }
     }
 
 
-    // ================= FXML =================
     @FXML private TextField addComment;
     @FXML private VBox checkList;
     @FXML private VBox comment;
@@ -346,4 +450,6 @@ public class TaskController {
 
     @FXML private Label titleMini;
     @FXML private Label titleMini1;
+    @FXML private ScrollPane commentScroll;
+    @FXML private ScrollPane subTaskScroll;
 }
