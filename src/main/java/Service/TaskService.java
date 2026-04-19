@@ -1,78 +1,56 @@
 package Service;
 
-import DAO.SubTaskDAO;
-import DAO.TaskDAO;
-import Model.Comment;
-import Model.SubTask;
-import Model.Task;
-import DAO.CommentDAO;
-import Model.TaskDashboardDTO;
 import DAO.TaskAssignmentDAO;
-
+import DAO.TaskDAO;
+import Model.Task;
+import Model.TaskDashboardDTO;
+import Enum.Priority;
+import Enum.TaskStatus;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class TaskService {
-    private final TaskDAO taskDAO = new TaskDAO();
-    private final SubTaskDAO subTaskDAO = new SubTaskDAO();
-    private final CommentDAO commentDAO = new CommentDAO();
-    private final TaskAssignmentDAO taskAssignmentDAO = new TaskAssignmentDAO();
+    private TaskDAO taskDAO;
+    private TaskAssignmentDAO taskAssignmentDAO;
 
-    // ================= TASK =================
-    public Task getTaskById(int taskId) {
-        return taskDAO.getById(taskId);
+    public TaskService(TaskDAO taskDAO,
+                       TaskAssignmentDAO taskAssignmentDAO) {
 
+        this.taskDAO = taskDAO;
+        this.taskAssignmentDAO = taskAssignmentDAO;
     }
 
-    public void updateTask(Task task) {
-        taskDAO.update(task);
+    public TaskService(TaskDAO taskDAO) {
+        this.taskDAO = taskDAO;
     }
 
-    // ================= SUB TASK =================
-    public List<SubTask> getSubTasks(int taskId) {
-        return subTaskDAO.findByTaskId(taskId);
-    }
+    public String createTask(String title, String description, Priority priority, TaskStatus taskStatus, LocalDateTime deadline, int projectId) {
+        if(title == null || title.isBlank()){
+            return "Vui lòng nhập tên công việc";
+        }
 
-    public void toggleSubTask(int subTaskId, boolean completed) {
-        subTaskDAO.updateStatus(subTaskId, completed);
-    }
+        if(title.length() > 255){
+            return "Tên đăng nhập quá dài";
+        }
 
-    public void addSubTask(SubTask subTask) {
-        subTaskDAO.insert(subTask);
-    }
+        if(taskDAO.existsByTitleAndProject(title, projectId)){
+            return "Tên công việc bị trùng";
+        }
 
-    public void deleteSubTask(int subTaskId) {
-        subTaskDAO.delete(subTaskId);
-    }
+        Task task = new Task();
+        task.setTitle(title);
+        task.setDescription(description);
+        task.setPriority(priority);
+        task.setStatus(taskStatus);
+        task.setDeadline(deadline);
+        task.setProjectId(projectId);
 
-    public TaskService(){
-
+        taskDAO.insert2(task);
+        return "SUCCESS";
     }
 
     public List<TaskDashboardDTO> getDashboardMyTask(int userId){
         List<TaskDashboardDTO> dashboardMyTask = taskDAO.getDashboardMyTask(userId);
         return dashboardMyTask;
     }
-
-
-    public List<Comment> getComments(int taskId) {
-        return commentDAO.getByTaskId(taskId);
-    }
-
-    public boolean addComment(Comment c) {
-        return commentDAO.insert(c);
-    }
-
-    public void deleteComment(int id) {
-        commentDAO.deleteById(id);
-    }
-
-    public void updateComment(Comment c) {
-        commentDAO.update(c);
-    }
-
-    public int countComments(int taskId) {
-        return commentDAO.countByTaskId(taskId);
-    }
-
 }
-

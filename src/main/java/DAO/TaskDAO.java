@@ -274,7 +274,6 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
 
         return list;
     }
-
     public List<TaskDashboardDTO> getDashboardMyTask(int userId){
         List<TaskDashboardDTO> list = new ArrayList<>();
 
