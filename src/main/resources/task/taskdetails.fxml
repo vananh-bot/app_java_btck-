@@ -55,7 +55,7 @@
                   <Insets right="20.0" top="20.0" />
                </VBox.margin>
                <children>
-                  <Button mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
+                  <Button fx:id="convert_dashboard" mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
                      <graphic>
                         <HBox prefHeight="100.0" prefWidth="200.0" styleClass="grey_color">
                            <children>
@@ -64,7 +64,7 @@
                                     <Image url="@../images/dashboard_logo.png" />
                                  </image>
                               </ImageView>
-                              <Label prefHeight="28.0" prefWidth="108.0" styleClass="grey_color" text="Tổng quan">
+                              <Label fx:id="dashboard1" prefHeight="28.0" prefWidth="108.0" styleClass="grey_color" text="Tổng quan">
                                  <padding>
                                     <Insets left="15.0" />
                                  </padding>
@@ -97,7 +97,7 @@
                         </HBox>
                      </graphic>
                   </Button>
-                  <Button layoutX="10.0" layoutY="45.0" mnemonicParsing="false" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
+                  <Button layoutX="10.0" layoutY="45.0" mnemonicParsing="false" onAction="#convert_notification" opacity="0.5" prefHeight="35.0" prefWidth="192.0" styleClass="toggle-button">
                      <graphic>
                         <HBox prefHeight="56.0" prefWidth="91.0" styleClass="grey_color">
                            <children>

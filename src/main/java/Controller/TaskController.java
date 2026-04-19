@@ -6,6 +6,7 @@ import Model.Comment;
 import Model.SubTask;
 import Model.Task;
 import Service.TaskService1;
+import Utils.SceneNavigator;
 import Utils.TimeUtil;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -84,51 +85,7 @@ public class TaskController {
         loadTask(1);
     }
 
-    @FXML
-    void convert_dashboard(ActionEvent event) {
-        try {
-            // Load file FXML mới
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/dashboard/dashboard.fxml"));
-            Parent root = loader.load();
 
-            // Lấy Stage hiện tại
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            // Set scene mới
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @FXML
-    void convert_mainProject(ActionEvent event) {
-        try {
-            // Load file FXML mới
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/project/mainProjectView.fxml"));
-            Parent root = loader.load();
-
-            // Lấy Stage hiện tại
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            // Set scene mới
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    void convert_taskDetail(ActionEvent event) {
-
-    }
 
     // ================= LOAD TASK =================
     public void loadTask(int taskId) {
@@ -333,7 +290,7 @@ public class TaskController {
 
         deleteBtn.setOnAction(e -> {
 
-            new Thread(() -> taskService.deleteSubTask(id)).start(); // ⭐ async
+            new Thread(() -> taskService.deleteSubTask(id)).start();
 
             checkList.getChildren().remove(row);
             updateProgress();
@@ -492,6 +449,28 @@ public class TaskController {
     }
 
 
+    //convert
+    @FXML
+    void convert_dashboard(ActionEvent event) {
+        SceneNavigator.switchScene(event, SceneNavigator.DASHBOARD, "dashboard");
+
+    }
+
+    @FXML
+    void convert_mainProject(ActionEvent event) {
+        SceneNavigator.switchScene(event, SceneNavigator.MAIN_PROJECT_VIEW, "mainProjectView");
+    }
+
+    @FXML
+    void convert_taskDetail(ActionEvent event) {
+
+    }
+    @FXML
+    void convert_notification(ActionEvent event) {
+
+    }
+
+
     @FXML private TextField addComment;
     @FXML private VBox checkList;
     @FXML private VBox comment;
@@ -519,5 +498,8 @@ public class TaskController {
     private Hyperlink projectName;
     @FXML
     private Hyperlink dashborad;
+    @FXML
+    private Label dashboard1;
+
 
 }

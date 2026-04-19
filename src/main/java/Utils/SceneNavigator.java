@@ -15,7 +15,11 @@ public class SceneNavigator {
     public static final String REGISTER = "/auth/register.fxml";
     public static final String DASHBOARD = "/dashboard/general_dashboard_view1.fxml"; // Đường dẫn file Dashboard mới merge
     public static final String ALL_PROJECTS = "/project/AllMyProjectView.fxml";
-    public static final String NOTIFICATION = " /notification/notification.fxml";
+    public static final String NOTIFICATION = "/notification/notification.fxml";
+    public static final String MAIN_PROJECT_VIEW = "/project/mainProjectView.fxml";
+    public static final String TASK_DETAILS = "/task/taskdetails.fxml";
+    public static final String CREATE_TASK = "/task/createTask.fxml";
+
 
     public static void switchScene(ActionEvent event, String fxmlPath, String title) {
         try {
