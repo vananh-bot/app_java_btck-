@@ -18,6 +18,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.TextFlow;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -54,7 +56,10 @@ public class MainProjectController {
     @FXML private VBox vboxInProgress;
     @FXML private VBox vboxDone;
     @FXML private TextField searchField;
+    @FXML private Label taskName;
     @FXML private Hyperlink projectLink, mainProjectLink;
+    @FXML private Label description;
+
 
     // ================= DATA =================
     private int projectId;
@@ -75,6 +80,13 @@ public class MainProjectController {
         if (vboxTodo != null) vboxTodo.setCache(true);
         if (vboxInProgress != null) vboxInProgress.setCache(true);
         if (vboxDone != null) vboxDone.setCache(true);
+
+        taskName.setFont(Font.loadFont(
+                getClass().getResourceAsStream("/fonts/Inter_18pt-Bold.ttf"), 28));
+        taskName.setTextFill(Color.BLACK);
+
+        description.setFont(Font.loadFont(
+                getClass().getResourceAsStream("/fonts/Inter_18pt-Medium.ttf"), 11.5));
 
         setupDragDrop();
         if (searchField != null) {

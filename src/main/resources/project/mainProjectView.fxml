@@ -195,25 +195,21 @@
                     <children>
                         <VBox prefHeight="69.0" prefWidth="754.0" spacing="4.0">
                             <children>
-                                <Label styleClass="setFontTitle" text="Học tiếng anh">
+                                <Label fx:id="taskName" text="Học tiếng anh">
                                     <font>
-                                        <Font name="System Bold" size="28.0" />
+                                        <Font name="Arial Bold" size="28.0" />
                                     </font>
                                     <VBox.margin>
                                         <Insets left="9.0" />
                                     </VBox.margin>
                                 </Label>
-                                <Label text="Bắt đầu ngay bây giờ, làm liên tục, không gián đoạn cho đến khi hoàn thành." textFill="#464646">
+                                <Label fx:id="description" styleClass="newLine" text="Bắt đầu ngay bây giờ, làm liên tục, không gián đoạn cho đến khi hoàn thành." textFill="#464646">
                                     <font>
                                         <Font name="Tahoma" size="11.0" />
                                     </font>
                                     <VBox.margin>
                                         <Insets left="9.0" />
                                     </VBox.margin>
-                                    <styleClass>
-                                        <String fx:value="setFontContent" />
-                                        <String fx:value="newLine" />
-                                    </styleClass>
                                 </Label>
                             </children>
                             <HBox.margin>
