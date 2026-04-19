@@ -51,7 +51,7 @@
 .toggle-button:selected{
     -fx-background-color: #eef0ff;
     -fx-text-fill: #5208e8;
-    -fx-border-color: transparent #5208e8 transparent transparent;
+    -fx-border-color: transparent ;
     -fx-border-width: 0 3 0 0;
     -fx-font-weight: 600;
     -fx-opacity: 1.0;
@@ -101,7 +101,7 @@
     -fx-prompt-text-fill: #9CA3AF;
     -fx-text-fill: #374151;
     -fx-font-size: 12px;
-    -fx-font-family: "Segoe UI", "Tahoma";
+    -fx-font-family: Segoe UI, Tahoma;
     -fx-pref-width: 250;
 }
 

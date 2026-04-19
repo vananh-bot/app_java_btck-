@@ -26,7 +26,6 @@ public class TaskCardController {
     @FXML private TextFlow descBox;
     @FXML private HBox deadlineHBoxOuter;
     @FXML private Label dateLabel;
-    @FXML private Text txtDescription;
 
     private Task currentTask;
 
@@ -81,14 +80,12 @@ public class TaskCardController {
                 TaskUIHelper.highlightText(task.getTitle(), searchKey, false).getChildren()
         );
 
-        // 🔥 FIX CHÍNH: đợi UI có width rồi mới clamp
+        //  FIX CHÍNH: đợi UI có width rồi mới clamp
         Platform.runLater(() -> {
-            double width = descBox.getWidth();
-
-            if (width <= 0) return; // tránh lỗi
+            double width = descBox.getLayoutBounds().getWidth();
+            if (width <= 0) width = descBox.getPrefWidth();
 
             String shortDesc = clampText(
-                    txtDescription,
                     task.getDescription(),
                     3,
                     width
@@ -138,21 +135,21 @@ public class TaskCardController {
     }
 
     // 🔥 HÀM CLAMP CHUẨN
-    private String clampText(Text textNode, String content, int maxLines, double width) {
+    private String clampText(String content, int maxLines, double width) {
         if (content == null) return "";
 
-        textNode.setWrappingWidth(width);
-        textNode.setText("");
+        Text text = new Text();
+        text.setWrappingWidth(width);
 
         StringBuilder result = new StringBuilder();
         String[] words = content.split(" ");
 
         for (String word : words) {
             String test = result + (result.length() == 0 ? "" : " ") + word;
-            textNode.setText(test);
+            text.setText(test);
 
-            double height = textNode.getLayoutBounds().getHeight();
-            double lineHeight = textNode.getFont().getSize() * 1.2;
+            double height = text.getLayoutBounds().getHeight();
+            double lineHeight = text.getFont().getSize() * 1.5;
 
             int lines = (int) Math.round(height / lineHeight);
 

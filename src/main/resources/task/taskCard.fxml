@@ -21,9 +21,7 @@
                 <TextFlow fx:id="titleBox">
                     <Text styleClass="task-title" text="Làm bài Reading Test 1" />
                 </TextFlow>
-                <TextFlow fx:id="descBox">
-                    <Text fx:id="txtDescription" styleClass="description" text="Giải đề Reading trong sách Cambridge IELTS 18" />
-                </TextFlow>
+                <TextFlow fx:id="descBox" />
             </children>
         </VBox>
 
