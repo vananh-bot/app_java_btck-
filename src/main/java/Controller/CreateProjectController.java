@@ -1,12 +1,10 @@
 package Controller;
 
-import DAO.InviteDAO;
-import DAO.UserProjectDAO;
+import DAO.*;
 import Service.ProjectService;
+import Utils.SceneNavigator;
 import Utils.UserSession;
 import javafx.fxml.FXML;
-import DAO.UserDAO;
-import DAO.ProjectDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -26,11 +24,11 @@ public class CreateProjectController {
     private ProjectService projectService;
 
     public CreateProjectController() {
-        this.projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO(), new InviteDAO());
+        this.projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO(), new InviteDAO(), new TaskDAO());
     }
 
     @FXML
-    public void createProject() {
+    public void createProject(ActionEvent event) {
         String name = enter.getText().trim();
         String description = describe.getText().trim();
         int currentUserId = UserSession.getUserId();
@@ -48,14 +46,15 @@ public class CreateProjectController {
         boolean success = projectService.createProject(name, description, currentUserId);
         if (success) {
             showNotify("Thành công", "Tạo dự án thành công", Alert.AlertType.INFORMATION);
-            closeWindow();
+            Utils.SceneNavigator.switchScene(event, SceneNavigator.MAIN_PROJECT_VIEW, "Dự án chính");
         } else {
             showNotify("Thất bại", "Không thể tạo dự án. Hãy thử lại sau!", Alert.AlertType.ERROR);
         }
+
     }
     @FXML
-    private void handleCancel() {
-        closeWindow();
+    private void handleCancel(ActionEvent event) {
+        Utils.SceneNavigator.switchScene(event, SceneNavigator.ALL_PROJECTS, "Tất cả dự án");
     }
 
     private void closeWindow() {

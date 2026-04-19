@@ -44,7 +44,8 @@ public class AllProjectController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO(), new InviteDAO(), new TaskDAO());
 
-        int currentUserId = UserSession.getUserId();
+//        int currentUserId = UserSession.getUserId();
+        int currentUserId = 38;
         if (currentUserId != -1) {
             projectCardMap.clear();
             oldDataMap.clear();
@@ -265,7 +266,7 @@ public class AllProjectController implements Initializable {
 
     private void openProjectDetails(int projectId) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/project/mainProjectView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/layout/layoutMainProjectView.fxml"));
             Parent root = loader.load();
             MainProjectController controller = loader.getController();
             controller.init(projectId);
@@ -284,24 +285,6 @@ public class AllProjectController implements Initializable {
         return n.replaceAll("[^a-zA-Z0-9 ]", "").toLowerCase().trim();
     }
 
-    // --- XỬ LÝ CHUYỂN MÀN HÌNH ---
-
-    public void handleDashboard(ActionEvent event) {
-        SceneNavigator.switchScene(event, SceneNavigator.DASHBOARD, "Tổng quan");
-    }
-
-    public void handleMyProjects(ActionEvent event) {
-        SceneNavigator.switchScene(event, SceneNavigator.ALL_PROJECTS, "Dự án của tôi");
-    }
-
-    public void handleNotification(ActionEvent event) {
-        SceneNavigator.switchScene(event, SceneNavigator.NOTIFICATION, "Thông báo");
-    }
-
-    public void handleLogout(ActionEvent event) {
-        UserSession.logout();
-        SceneNavigator.switchScene(event, SceneNavigator.LOGIN, "Đăng nhập");
-    }
     private void switchScene(ActionEvent event, String path) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));

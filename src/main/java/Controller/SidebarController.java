@@ -1,5 +1,6 @@
 package Controller;
 
+import Utils.SceneNavigator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
@@ -36,20 +37,24 @@ public class SidebarController {
     @FXML
     void goToAllProject(ActionEvent event) {
         setActive(btnproject);
+        Utils.SceneNavigator.switchScene(event, SceneNavigator.ALL_PROJECTS, "Tất cả dự án");
     }
 
     @FXML
     void goToDashboard(ActionEvent event) {
         setActive(btndashboard);
+        Utils.SceneNavigator.switchScene(event, SceneNavigator.DASHBOARD, "Tổng quan");
     }
 
     @FXML
     void goToNotification(ActionEvent event) {
         setActive(btnnotification);
+        //Utils.SceneNavigator.switchScene(event, SceneNavigator.NOTIFICATION, "Thông báo");
     }
 
     @FXML
     void goToLogin(ActionEvent event) {
         setActive(btnlogout);
+        Utils.SceneNavigator.switchScene(event, SceneNavigator.LOGIN, "Đăng nhập");
     }
 }

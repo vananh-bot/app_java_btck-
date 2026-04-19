@@ -73,27 +73,7 @@ public class LoginController {
     // GIỮ NGUYÊN TOÀN BỘ CODE CŨ BÊN DƯỚI
     @FXML
     void goToMainScreen(ActionEvent event) {
-        try {
-            java.net.URL fxmlLocation = getClass().getResource("/dashboard/general_dashboard_view1.fxml");
-            if (fxmlLocation == null) {
-                System.err.println("LỖI: Không tìm thấy file main_layout.fxml ở đường dẫn /auth/");
-                return;
-            }
-
-            Parent root = FXMLLoader.load(fxmlLocation);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            stage.setScene(new Scene(root));
-            stage.centerOnScreen();
-            stage.setTitle("FlowTask - Dashboard");
-            stage.show();
-
-            System.out.println("Chuyển màn hình thành công!");
-
-        } catch (IOException e) {
-            System.err.println("Lỗi load FXML: " + e.getMessage());
-            e.printStackTrace();
-        }
+        Utils.SceneNavigator.switchScene(event, SceneNavigator.DASHBOARD, "Tổng quan");
     }
 
     @FXML
@@ -116,14 +96,6 @@ public class LoginController {
 
     @FXML
     public void goToResigter(ActionEvent actionEvent) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/auth/register.fxml"));
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Register");
-            stage.show();
-        } catch (Exception e) {
-            System.out.println("Lỗi chuyển màn hình: " + e.getMessage());
-        }
+        Utils.SceneNavigator.switchScene(actionEvent, SceneNavigator.REGISTER, "Đăng kí");
     }
 }

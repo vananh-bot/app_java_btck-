@@ -27,7 +27,7 @@ import java.util.List;
 public class DashboardController {
 
     private int userId = UserSession.getUserId();
-    private ProjectService projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO(), new InviteDAO());
+    private ProjectService projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO(), new InviteDAO(), new TaskDAO());
     private TaskService taskService = new TaskService(new TaskDAO(), new TaskAssignmentDAO());
 
     @FXML

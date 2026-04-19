@@ -9,9 +9,9 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml">
     <left>
-        <fx:include source="sidebar.fxml"/>
+        <fx:include source="/sidebar.fxml"/>
     </left>
     <center>
-        <fx:include source="dashboard/general_dashboard_view2.fxml"/>
+        <fx:include source="../task/taskdetails.fxml"/>
     </center>
 </BorderPane>

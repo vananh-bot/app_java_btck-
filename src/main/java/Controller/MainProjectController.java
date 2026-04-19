@@ -3,6 +3,7 @@ package Controller;
 import Enum.TaskStatus;
 import Model.Task;
 import Service.TaskQueryService;
+import Utils.SceneNavigator;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -153,46 +154,13 @@ public class MainProjectController {
 
     // ================= ACTIONS =================
     @FXML
-    private void handleOpenCreateTask() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/task/createTask.fxml"));
-            Parent root = loader.load();
-            CreateTaskController controller = loader.getController();
-            controller.setProjectId(projectId);
+    private void handleOpenCreateTask(ActionEvent event){
+        Utils.SceneNavigator.switchScene(event, SceneNavigator.CREATE_TASK, "Tạo công việc");
 
-            controller.setOnTaskCreated(() -> {
-                taskService.forceRefreshCache();
-                loadTasks();
-            });
-
-            Stage stage = new Stage();
-            stage.setTitle("Tạo công việc");
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
-    // --- CẬP NHẬT SIDEBAR ---
-    public void handleDashboard(ActionEvent event) { Utils.SceneNavigator.switchScene(event, Utils.SceneNavigator.DASHBOARD, "Tổng quan"); }
-    public void handleMyProjects(ActionEvent event) { Utils.SceneNavigator.switchScene(event, Utils.SceneNavigator.ALL_PROJECTS, "Dự án của tôi"); }
-    public void handleNotification(ActionEvent event) { Utils.SceneNavigator.switchScene(event, Utils.SceneNavigator.NOTIFICATION, "Thông báo"); }
-    public void handleLogout(ActionEvent event) {
-        Utils.UserSession.logout();
-        Utils.SceneNavigator.switchScene(event, Utils.SceneNavigator.LOGIN, "Đăng nhập");
+    public void handleProject(ActionEvent event) {
+        Utils.SceneNavigator.switchScene(event, SceneNavigator.ALL_PROJECTS, "Tất cả dự án của tôi");
     }
-    public void handleProject(ActionEvent event) { switchScene(event, "/project/AllMyProjectView.fxml"); }
-    public void handleMainProject(ActionEvent event) { switchScene(event, "/project/mainProjectView.fxml"); }
 
-    private void switchScene(ActionEvent event, String path) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
-            Scene scene = new Scene(loader.load());
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }
