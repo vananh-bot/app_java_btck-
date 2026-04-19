@@ -1,8 +1,10 @@
 package Service;
 
+import DAO.ProjectDAO;
 import DAO.SubTaskDAO;
 import DAO.TaskDAO;
 import Model.Comment;
+import Model.Project;
 import Model.SubTask;
 import Model.Task;
 import DAO.CommentDAO;
@@ -10,6 +12,7 @@ import DAO.CommentDAO;
 import java.util.List;
 
 public class TaskService {
+    private final ProjectDAO projectDAO = new ProjectDAO();
     private final TaskDAO taskDAO = new TaskDAO();
     private final SubTaskDAO subTaskDAO = new SubTaskDAO();
     private final CommentDAO commentDAO = new CommentDAO();
@@ -60,6 +63,21 @@ public class TaskService {
 
     public int countComments(int taskId) {
         return commentDAO.countByTaskId(taskId);
+    }
+
+    public Project getProjectByTaskId(int taskId) {
+        Task task = taskDAO.getById(taskId);
+        if (task == null) return null;
+
+        return projectDAO.findById(task.getProjectId()); // ✅ đúng
+    }
+
+    public String getProjectNameByTaskId(int taskId) {
+        Task task = taskDAO.getById(taskId);
+        if (task == null) return null;
+
+        Project p = projectDAO.findById(task.getProjectId()); // ✅ đúng
+        return p != null ? p.getName() : null;
     }
 
 }

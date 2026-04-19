@@ -161,13 +161,13 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="1053.0">
                <children>
-                  <HBox prefHeight="40.0" prefWidth="749.0" styleClass="hyperlink_back_to_pre_scene">
+                  <HBox prefHeight="39.0" prefWidth="1066.0" styleClass="hyperlink_back_to_pre_scene">
                      <children>
-                        <Hyperlink prefHeight="47.0" prefWidth="91.0" styleClass="breadcrumb-prev" text="Dự án của tôi " />
+                        <Hyperlink fx:id="dashborad" onAction="#convert_dashboard" prefHeight="47.0" prefWidth="91.0" styleClass="breadcrumb-prev" text="Dự án của tôi " />
                         <Hyperlink prefHeight="54.0" prefWidth="23.0" styleClass="breadcrumb-prev" text="→" />
-                        <Hyperlink prefHeight="49.0" styleClass="breadcrumb-prev" text="Học Tiếng Anh" />
+                        <Hyperlink fx:id="projectName" onAction="#convert_mainProject" prefHeight="49.0" styleClass="breadcrumb-prev" text="Học Tiếng Anh" />
                         <Hyperlink prefHeight="50.0" prefWidth="23.0" styleClass="breadcrumb-prev" text="→" />
-                        <Hyperlink prefHeight="46.0" prefWidth="83.0" styleClass="breadcrumb-current" text="Học từ vựng" />
+                        <Hyperlink fx:id="taskName1" onAction="#convert_taskDetail" prefHeight="46.0" styleClass="breadcrumb-current" text="Học từ vựng" />
                      </children>
                      <HBox.margin>
                         <Insets bottom="5.0" left="18.0" top="5.0" />

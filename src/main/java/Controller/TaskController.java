@@ -12,9 +12,13 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,9 +28,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
+
+import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javafx.scene.text.Font;
@@ -78,6 +85,52 @@ public class TaskController {
         loadTask(1);
     }
 
+    @FXML
+    void convert_dashboard(ActionEvent event) {
+        try {
+            // Load file FXML mới
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/dashboard/dashboard.fxml"));
+            Parent root = loader.load();
+
+            // Lấy Stage hiện tại
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Set scene mới
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @FXML
+    void convert_mainProject(ActionEvent event) {
+        try {
+            // Load file FXML mới
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/project/mainProjectView.fxml"));
+            Parent root = loader.load();
+
+            // Lấy Stage hiện tại
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Set scene mới
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void convert_taskDetail(ActionEvent event) {
+
+    }
+
     // ================= LOAD TASK =================
     public void loadTask(int taskId) {
 
@@ -88,6 +141,15 @@ public class TaskController {
         if (currentTask == null) return;
 
         taskName.setText(currentTask.getTitle());
+        taskName1.setText(currentTask.getTitle());
+        String project = taskService.getProjectNameByTaskId(currentTaskId);
+
+        if (project != null) {
+            projectName.setText(project);
+        } else {
+            projectName.setText("No Project");
+        }
+        System.out.println(projectName);
         description.setText(currentTask.getDescription());
 
         comboStatus.setValue(currentTask.getStatus().name());
@@ -452,4 +514,11 @@ public class TaskController {
     @FXML private Label titleMini1;
     @FXML private ScrollPane commentScroll;
     @FXML private ScrollPane subTaskScroll;
+    @FXML
+    private Hyperlink taskName1;
+    @FXML
+    private Hyperlink projectName;
+    @FXML
+    private Hyperlink dashborad;
+
 }

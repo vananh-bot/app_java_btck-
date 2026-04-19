@@ -97,6 +97,7 @@ public class TaskDAO implements TaskInterfaceDAO<Task>{
                 task.setDeadline(rs.getTimestamp("deadline").toLocalDateTime());
                 task.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
                 task.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
+                task.setProjectId(rs.getInt("project_id"));
 
                 return task;
             }
