@@ -1,293 +1,174 @@
 package DAO;
 
-import Model.Comment;
-import Model.Task;
-
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import Model.*;
 import database.JDBCUtil;
 import Enum.TaskStatus;
 import Enum.Priority;
 
-public class TaskDAO implements TaskInterfaceDAO<Task>{
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
+public class TaskDAO implements TaskInterfaceDAO<Task> {
+
+    // ================= INSERT =================
     @Override
-    public int insert(Task task){
+    public int insert(Task task) {
         String sql = "INSERT INTO tasks (title, description, status, priority, deadline, project_id, created_by) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        try(
-            Connection connection = JDBCUtil.getConnection();
-            PreparedStatement ps = connection.prepareStatement(sql);
-        ){
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ps.setString(1, task.getTitle());
             ps.setString(2, task.getDescription());
             ps.setString(3, task.getStatus().name());
             ps.setString(4, task.getPriority().name());
-            ps.setTimestamp(5, Timestamp.valueOf(task.getDeadline()));
+
+            if (task.getDeadline() != null) {
+                ps.setTimestamp(5, Timestamp.valueOf(task.getDeadline()));
+            } else {
+                ps.setNull(5, Types.TIMESTAMP);
+            }
+
             ps.setInt(6, task.getProjectId());
             ps.setInt(7, task.getCreatedBy());
 
             return ps.executeUpdate();
-
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException("Insert task failed", e);
         }
     }
+
+    // ================= VALIDATE =================
+    public boolean existsByTitleAndProject(String title, int projectId) {
+        String sql = "SELECT 1 FROM tasks WHERE title = ? AND project_id = ? LIMIT 1";
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, title.trim());
+            ps.setInt(2, projectId);
+
+            return ps.executeQuery().next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // ================= DELETE =================
     @Override
-    public boolean deleteById(int id){
+    public boolean deleteById(int id) {
         String sql = "DELETE FROM tasks WHERE id = ?";
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-        try(
-                Connection connection = JDBCUtil.getConnection();
-                PreparedStatement ps = connection.prepareStatement(sql);
-        ){
             ps.setInt(1, id);
-
-            int rows = ps.executeUpdate();
-            return rows > 0;
-
-        } catch (SQLException e){
-            throw new RuntimeException("Insert task failed", e);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("Delete failed", e);
         }
-
     }
 
+    // ================= UPDATE =================
     @Override
-    public int update(Task task){
+    public int update(Task task) {
         String sql = "UPDATE tasks SET title = ?, description = ?, status = ?, priority = ?, deadline = ? WHERE id = ?";
 
-        try(
-                Connection connection = JDBCUtil.getConnection();
-                PreparedStatement ps = connection.prepareStatement(sql);
-        ){
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ps.setString(1, task.getTitle());
             ps.setString(2, task.getDescription());
             ps.setString(3, task.getStatus().name());
             ps.setString(4, task.getPriority().name());
-            ps.setTimestamp(5, Timestamp.valueOf(task.getDeadline()));
+
+            if (task.getDeadline() != null) {
+                ps.setTimestamp(5, Timestamp.valueOf(task.getDeadline()));
+            } else {
+                ps.setNull(5, Types.TIMESTAMP);
+            }
+
             ps.setInt(6, task.getId());
-
             return ps.executeUpdate();
-
-        } catch (SQLException e){
-            throw new RuntimeException("Update task failed", e);
+        } catch (SQLException e) {
+            throw new RuntimeException("Update failed", e);
         }
     }
 
+    public void updateStatus(int taskId, TaskStatus status) {
+        String sql = "UPDATE tasks SET status = ? WHERE id = ?";
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, status.name());
+            ps.setInt(2, taskId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // ================= GET =================
     @Override
-    public Task getById(int id){
+    public Task getById(int id) {
         String sql = "SELECT * FROM tasks WHERE id = ?";
 
-        try(
-            Connection connection = JDBCUtil.getConnection();
-            PreparedStatement ps =connection.prepareStatement(sql);)
-        {
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
-            if(rs.next()){
-                Task task = new Task();
+            if (rs.next()) return mapTask(rs);
 
-                task.setId(rs.getInt("id"));
-                task.setTitle(rs.getString("title"));
-                task.setDescription(rs.getString("description"));
-                task.setStatus(TaskStatus.valueOf(rs.getString("status")));
-                task.setPriority(Priority.valueOf(rs.getString("priority")));
-                task.setDeadline(rs.getTimestamp("deadline").toLocalDateTime());
-                task.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
-                task.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
-                task.setProjectId(rs.getInt("project_id"));
-
-                return task;
-            }
-
-        } catch (SQLException e){
-            throw new RuntimeException("getById task failed", e);
+        } catch (SQLException e) {
+            throw new RuntimeException("getById failed", e);
         }
-
         return null;
     }
 
     @Override
-    public List<Task> getTasksByProjectId(int projectId){
-        List<Task> list = new ArrayList<>();
-
-        String sql = "SELECT * FROM tasks WHERE project_id = ?";
-
-        try(
-                Connection connection = JDBCUtil.getConnection();
-                PreparedStatement ps =connection.prepareStatement(sql);)
-        {
-            ps.setInt(1, projectId);
-            ResultSet rs = ps.executeQuery();
-
-            while(rs.next()){
-                Task task = new Task();
-
-                task.setId(rs.getInt("id"));
-                task.setTitle(rs.getString("title"));
-                task.setDescription(rs.getString("description"));
-                task.setStatus(TaskStatus.valueOf(rs.getString("status")));
-                task.setPriority(Priority.valueOf(rs.getString("priority")));
-                task.setDeadline(rs.getTimestamp("deadline").toLocalDateTime());
-                task.setProjectId(rs.getInt("project_id"));
-                task.setCreatedBy(rs.getInt("created_by"));
-
-                list.add(task);
-
-            }
-
-        } catch (SQLException e){
-            throw new RuntimeException("GetTasksByIdProject failed", e);
-        }
-
-        return list;
+    public List<Task> getTasksByProjectId(int projectId) {
+        return getList("SELECT * FROM tasks WHERE project_id = ?", projectId);
     }
 
     @Override
-    public List<Task> getTasksByPriority(Priority priority){
-        List<Task> list = new ArrayList<>();
-
-        String sql = "SELECT * FROM tasks WHERE priority = ?";
-
-        try(
-                Connection connection = JDBCUtil.getConnection();
-                PreparedStatement ps =connection.prepareStatement(sql);)
-        {
-            ps.setString(1, priority.name());
-            ResultSet rs = ps.executeQuery();
-
-            while(rs.next()){
-                Task task = new Task();
-
-                task.setId(rs.getInt("id"));
-                task.setTitle(rs.getString("title"));
-                task.setDescription(rs.getString("description"));
-                task.setStatus(TaskStatus.valueOf(rs.getString("status")));
-                task.setPriority(Priority.valueOf(rs.getString("priority")));
-                task.setDeadline(rs.getTimestamp("deadline").toLocalDateTime());
-                task.setProjectId(rs.getInt("project_id"));
-                task.setCreatedBy(rs.getInt("created_by"));
-
-                list.add(task);
-
-            }
-
-        } catch (SQLException e){
-            throw new RuntimeException("getById task failed", e);
-        }
-
-        return list;
+    public List<Task> getTasksByPriority(Priority priority) {
+        return getList("SELECT * FROM tasks WHERE priority = ?", priority.name());
     }
+
     @Override
-    public List<Task> getTasksBySearch(String title){
-        List<Task> list = new ArrayList<>();
+    public List<Task> getTasksBySearch(String title) {
+        return getList("SELECT * FROM tasks WHERE title LIKE ?", "%" + title + "%");
+    }
 
-        String sql = "SELECT * FROM tasks WHERE title = ?";
-
-        try(
-                Connection connection = JDBCUtil.getConnection();
-                PreparedStatement ps =connection.prepareStatement(sql);)
-        {
-            ps.setString(1, title);
-            ResultSet rs = ps.executeQuery();
-
-            while(rs.next()){
-                Task task = new Task();
-
-                task.setId(rs.getInt("id"));
-                task.setTitle(rs.getString("title"));
-                task.setDescription(rs.getString("description"));
-                task.setStatus(TaskStatus.valueOf(rs.getString("status")));
-                task.setPriority(Priority.valueOf(rs.getString("priority")));
-                task.setDeadline(rs.getTimestamp("deadline").toLocalDateTime());
-                task.setProjectId(rs.getInt("project_id"));
-                task.setCreatedBy(rs.getInt("created_by"));
-
-                list.add(task);
-
-            }
-
-        } catch (SQLException e){
-            throw new RuntimeException("getBySearch tasks failed", e);
-        }
-
-        return list;
+    @Override
+    public List<Task> getTasksByStatus(TaskStatus status) {
+        return getList("SELECT * FROM tasks WHERE status = ?", status.name());
     }
 
     @Override
     public List<Task> getUpcomingDeadlines() {
         List<Task> list = new ArrayList<>();
+        String sql = "SELECT * FROM tasks WHERE DATEDIFF(deadline, NOW()) BETWEEN 0 AND 7";
 
-        String sql = "SELECT * FROM tasks WHERE DATEIFF(deadline, NOW()) <= 7 AND DATEIFF(deadline, NOW()) >= 0";
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-        try (
-                Connection connection = JDBCUtil.getConnection();
-                PreparedStatement ps = connection.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery();
-        ){
-            while(rs.next()){
-                Task task = new Task();
+            while (rs.next()) list.add(mapTask(rs));
 
-                task.setId(rs.getInt("id"));
-                task.setTitle(rs.getString("title"));
-                task.setDescription(rs.getString("description"));
-                task.setStatus(TaskStatus.valueOf(rs.getString("status")));
-                task.setPriority(Priority.valueOf(rs.getString("priority")));
-                task.setDeadline(rs.getTimestamp("deadline").toLocalDateTime());
-                task.setProjectId(rs.getInt("project_id"));
-                task.setCreatedBy(rs.getInt("created_by"));
-
-                list.add(task);
-
-            }
-
-        } catch (SQLException e){
-            throw new RuntimeException("getByDeadline tasks failed", e);
+        } catch (SQLException e) {
+            throw new RuntimeException("Deadline query failed", e);
         }
 
         return list;
     }
 
-    @Override
-    public List<Task> getTasksByStatus(TaskStatus status){
-        List<Task> list = new ArrayList<>();
-
-        String sql = "SELECT * FROM tasks WHERE status = ?";
-
-        try(
-                Connection connection = JDBCUtil.getConnection();
-                PreparedStatement ps =connection.prepareStatement(sql);)
-        {
-            ps.setString(1, status.name());
-            ResultSet rs = ps.executeQuery();
-
-            while(rs.next()){
-                Task task = new Task();
-
-                task.setId(rs.getInt("id"));
-                task.setTitle(rs.getString("title"));
-                task.setDescription(rs.getString("description"));
-                task.setStatus(TaskStatus.valueOf(rs.getString("status")));
-                task.setPriority(Priority.valueOf(rs.getString("priority")));
-                task.setDeadline(rs.getTimestamp("deadline").toLocalDateTime());
-                task.setProjectId(rs.getInt("project_id"));
-                task.setCreatedBy(rs.getInt("created_by"));
-
-                list.add(task);
-
-            }
-
-        } catch (SQLException e){
-            throw new RuntimeException("getByStatus tasks failed", e);
-        }
-
-        return list;
-    }
-    public List<Comment> getByTaskId(int taskId) {
+    // ================= COMMENT =================
+    public List<Comment> getCommentsByTaskId(int taskId) {
         List<Comment> list = new ArrayList<>();
-
         String sql = "SELECT * FROM comments WHERE task_id = ? ORDER BY created_at DESC";
 
         try (Connection conn = JDBCUtil.getConnection();
@@ -303,7 +184,6 @@ public class TaskDAO implements TaskInterfaceDAO<Task>{
                 c.setUserName(rs.getString("user_name"));
                 c.setContent(rs.getString("content"));
                 c.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
-
                 list.add(c);
             }
 
@@ -314,7 +194,7 @@ public class TaskDAO implements TaskInterfaceDAO<Task>{
         return list;
     }
 
-    public void insert(Comment c) {
+    public void insertComment(Comment c) {
         String sql = "INSERT INTO comments(task_id, user_name, content) VALUES (?, ?, ?)";
 
         try (Connection conn = JDBCUtil.getConnection();
@@ -329,5 +209,44 @@ public class TaskDAO implements TaskInterfaceDAO<Task>{
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // ================= HELPER =================
+    private Task mapTask(ResultSet rs) throws SQLException {
+        Task t = new Task();
+
+        t.setId(rs.getInt("id"));
+        t.setTitle(rs.getString("title"));
+        t.setDescription(rs.getString("description"));
+        t.setStatus(TaskStatus.valueOf(rs.getString("status")));
+        t.setPriority(Priority.valueOf(rs.getString("priority")));
+
+        Timestamp ts = rs.getTimestamp("deadline");
+        t.setDeadline(ts != null ? ts.toLocalDateTime() : null);
+
+        t.setProjectId(rs.getInt("project_id"));
+        t.setCreatedBy(rs.getInt("created_by"));
+
+        return t;
+    }
+
+    private List<Task> getList(String sql, Object param) {
+        List<Task> list = new ArrayList<>();
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            if (param instanceof String) ps.setString(1, (String) param);
+            else ps.setInt(1, (Integer) param);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) list.add(mapTask(rs));
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Query failed", e);
+        }
+
+        return list;
     }
 }

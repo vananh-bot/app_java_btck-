@@ -11,7 +11,7 @@ import DAO.CommentDAO;
 
 import java.util.List;
 
-public class TaskService {
+public class TaskService1 {
     private final ProjectDAO projectDAO = new ProjectDAO();
     private final TaskDAO taskDAO = new TaskDAO();
     private final SubTaskDAO subTaskDAO = new SubTaskDAO();

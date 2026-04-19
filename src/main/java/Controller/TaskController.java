@@ -5,7 +5,7 @@ import Enum.TaskStatus;
 import Model.Comment;
 import Model.SubTask;
 import Model.Task;
-import Service.TaskService;
+import Service.TaskService1;
 import Utils.TimeUtil;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -25,7 +25,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -42,7 +41,7 @@ import javafx.scene.paint.Color;
 
 public class TaskController {
 
-    private final TaskService taskService = new TaskService();
+    private final TaskService1 taskService = new TaskService1();
     private int currentTaskId;
     private int currentUserId = 26;
     private Task currentTask;
