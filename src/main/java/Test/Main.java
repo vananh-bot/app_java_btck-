@@ -1,5 +1,6 @@
 package Test;
 
+import Model.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,8 +11,12 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         try {
+            User testUser = new User();
+            testUser.setId(33);
+            testUser.setName("Uyenuyen");
+            Utils.UserSession.login(testUser);
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/task/taskdetails.fxml")
+                    getClass().getResource("/project/createProject.fxml")
             );
 
             Scene scene = new Scene(loader.load());

@@ -208,4 +208,23 @@ public class ProjectDAO implements ProjectDAOInterface {
         }
         return project;
     }
+    public boolean isProjectNameExists(int userId, String projectName) {
+        String sql = "SELECT 1 FROM projects p " +
+                "JOIN user_project up ON p.id = up.project_id " +
+                "WHERE up.user_id = ? AND LOWER(p.name) = LOWER(?)";
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+            ps.setString(2, projectName);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
