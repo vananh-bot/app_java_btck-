@@ -65,6 +65,20 @@
     -fx-padding: 2 8 2 8;
 }
 
+.deadline-normal{
+    -fx-text-fill: #6b7280; /* xám */
+}
+
+.deadline-soon{
+    -fx-text-fill: #f59e0b; /* vàng / cam */
+    -fx-font-weight: bold;
+}
+
+.deadline-overdue{
+    -fx-text-fill: #ef4444; /* đỏ */
+    -fx-font-weight: bold;
+}
+
 .activeProject{
     -fx-background-color: #ffffff;
     -fx-background-radius: 21;

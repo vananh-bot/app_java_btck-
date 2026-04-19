@@ -12,19 +12,13 @@ public class ProjectController {
         this.projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO(), new InviteDAO());
     }
 
+    private int projectId;
+
     public ProjectController(ProjectService projectService) {
         this.projectService = projectService;
     }
 
-    public void createProject() {
-
-    }
-
-    public void inviteMember() {
-
-    }
-
-    public void joinProject() {
-
+    public void setProjectId(int projectId){
+        this.projectId = projectId;
     }
 }

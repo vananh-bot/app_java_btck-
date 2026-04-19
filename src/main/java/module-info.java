@@ -5,6 +5,8 @@ module com.example.flowtask {
     requires java.desktop;
     requires jbcrypt;
     requires javafx.graphics;
+    requires jdk.jdi;
+    requires java.xml.crypto;
 
     opens Controller to javafx.fxml;
     opens Test to javafx.graphics, javafx.fxml;

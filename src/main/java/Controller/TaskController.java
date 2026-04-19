@@ -9,6 +9,12 @@ public class TaskController {
         this.taskService = taskService;
     }
 
+    private int taskId;
+
+    public void setTaskId(int taskId){
+        this.taskId = taskId;
+    }
+
     public void createTask() {
 
     }

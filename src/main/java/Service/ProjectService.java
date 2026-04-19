@@ -3,6 +3,11 @@ package Service;
 import DAO.InviteDAO;
 import DAO.ProjectDAO;
 import DAO.UserProjectDAO;
+import Model.Project;
+import Model.ProjectDashboardDTO;
+import Model.Task;
+
+import java.util.List;
 
 public class ProjectService {
     private ProjectDAO projectDAO;
@@ -33,4 +38,11 @@ public class ProjectService {
     public void joinByToken(String token, int userId) {
 
     }
+
+    public List<ProjectDashboardDTO> getDashboardProjects(int userId){
+        List<ProjectDashboardDTO> dashboardProject = projectDAO.getDashboardProject(userId);
+        return dashboardProject;
+    }
+
+
 }

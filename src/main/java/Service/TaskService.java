@@ -3,6 +3,7 @@ package Service;
 import DAO.TaskAssignmentDAO;
 import DAO.TaskDAO;
 import Model.Task;
+import Model.TaskDashboardDTO;
 
 import java.util.List;
 
@@ -17,28 +18,9 @@ public class TaskService {
         this.taskAssignmentDAO = taskAssignmentDAO;
     }
 
-    public void createTask(String title, int projectId, int creatorId) {
-
-    }
-
-    public void assignUser(int taskId, int userId) {
-
-    }
-
-    public void updateTask() {
-
-    }
-
-    public void updateDeadline() {
-
-    }
-
-    public void deleteTask(int taskId) {
-
-    }
-
-    public void updateStatus() {
-
+    public List<TaskDashboardDTO> getDashboardMyTask(int userId){
+        List<TaskDashboardDTO> dashboardMyTask = taskDAO.getDashboardMyTask(userId);
+        return dashboardMyTask;
     }
 }
 
