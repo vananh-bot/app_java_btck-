@@ -2,6 +2,12 @@ package Service;
 
 import DAO.TaskAssignmentDAO;
 import DAO.TaskDAO;
+import Model.Task;
+import Model.TaskDashboardDTO;
+import Enum.Priority;
+import Enum.TaskStatus;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public class TaskService {
     private TaskDAO taskDAO;
@@ -14,28 +20,37 @@ public class TaskService {
         this.taskAssignmentDAO = taskAssignmentDAO;
     }
 
-    public void createTask(String title, int projectId, int creatorId) {
-
+    public TaskService(TaskDAO taskDAO) {
+        this.taskDAO = taskDAO;
     }
 
-    public void assignUser(int taskId, int userId) {
+    public String createTask(String title, String description, Priority priority, TaskStatus taskStatus, LocalDateTime deadline, int projectId) {
+        if(title == null || title.isBlank()){
+            return "Vui lòng nhập tên công việc";
+        }
 
+        if(title.length() > 255){
+            return "Tên đăng nhập quá dài";
+        }
+
+        if(taskDAO.existsByTitleAndProject(title, projectId)){
+            return "Tên công việc bị trùng";
+        }
+
+        Task task = new Task();
+        task.setTitle(title);
+        task.setDescription(description);
+        task.setPriority(priority);
+        task.setStatus(taskStatus);
+        task.setDeadline(deadline);
+        task.setProjectId(projectId);
+
+        taskDAO.insert2(task);
+        return "SUCCESS";
     }
 
-    public void updateTask() {
-
-    }
-
-    public void updateDeadline() {
-
-    }
-
-    public void deleteTask(int taskId) {
-
-    }
-
-    public void updateStatus() {
-
+    public List<TaskDashboardDTO> getDashboardMyTask(int userId){
+        List<TaskDashboardDTO> dashboardMyTask = taskDAO.getDashboardMyTask(userId);
+        return dashboardMyTask;
     }
 }
-

@@ -1,0 +1,149 @@
+
+.project-card {
+    -fx-background-color: white;
+    -fx-background-radius: 20; /* Bo tròn mạnh tay vào mới đẹp */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 15, 0, 0, 5);
+    -fx-padding: 25;
+}
+
+.btn-new-project:pressed {
+    -fx-background-color: #1E1B4B; /* Màu sậm nhất */
+    -fx-scale-x: 0.96;             /* Nút thu nhỏ lại 4% */
+    -fx-scale-y: 0.96;
+}
+.avatar {
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+    -fx-border-color: white;
+    -fx-border-width: 2;
+    -fx-spacing: -20;
+}
+.project-title {
+    -fx-font-size: 24px;
+    -fx-font-family: Segoe UI, Arial;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2D3436;
+}
+
+.primay-button {
+    -fx-background-color: #5849D4;
+    -fx-text-fill: white;
+    -fx-background-radius: 25;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-padding: 5 15 5 15;
+    -fx-transition: 0.2s;
+}
+
+.primay-button:hover {
+    -fx-background-color: #3D31A8;
+}
+.primay-button:pressed {
+    -fx-background-color: #2E2580;
+    -fx-scale-x: 0.97;
+    -fx-scale-y: 0.97;
+}
+
+
+.avatar-view {
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+    -fx-border-color: white; /* Viền trắng để tách biệt khi đè nhau */
+    -fx-border-width: 2;
+}
+
+/* Style cho vòng tròn dấu cộng (+3, +5...) */
+.avatar-plus {
+    -fx-background-color: #F0F2F5; /* Màu xám nhạt trung tính */
+    -fx-text-fill: #606770;        /* Màu chữ xám đậm */
+    -fx-min-width: 35;             /* Phải bằng kích thước avatar */
+    -fx-min-height: 35;
+    -fx-background-radius: 50%;
+    -fx-alignment: center;         /* Căn chữ ra chính giữa vòng tròn */
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-border-color: white;
+    -fx-border-width: 2;
+}
+
+/* 1. Khung thẻ dự án */
+.project-card {
+    -fx-background-color: white;
+    -fx-background-radius: 20;           /* Bo tròn góc cực mạnh */
+    -fx-padding: 20;                     /* Khoảng cách nội dung bên trong */
+    -fx-min-width: 320;                  /* Độ rộng tối thiểu cho thẻ */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 20, 0, 0, 8); /* Đổ bóng mịn */
+    -fx-cursor: hand;
+}
+
+.project-card:hover {
+    -fx-translate-y: -5;
+}
+
+
+
+/* 3. Tiêu đề dự án */
+.project-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2D3436;
+    -fx-padding: 15 0 15 0;
+}
+
+
+
+/* ===== PROGRESS RING SIÊU ĐẸP ===== */
+
+/* Xóa nền mặc định */
+.progress-indicator {
+    -fx-padding: 0;
+}
+
+/* Vòng nền */
+.progress-indicator .track {
+    -fx-stroke: #EEF1F5;
+    -fx-stroke-width: 8px;
+}
+
+/* Thanh progress */
+.progress-indicator .progress {
+    -fx-stroke: linear-gradient(to right, #6366F1, #8B5CF6);
+    -fx-stroke-width: 8px;
+    -fx-stroke-line-cap: round;
+}
+
+/* % ở giữa */
+.progress-indicator .percentage {
+    -fx-fill: #1F2937;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+.progress-indicator:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+.progress-indicator .progress {
+    -fx-effect: dropshadow(gaussian, rgba(99,102,241,0.4), 10, 0, 0, 0);
+}
+/* Style chung cho các nhãn trạng thái */
+.status-tag {
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-padding: 2 8 2 8;
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+}
+
+.todo {
+    -fx-background-color: mistyrose;
+    -fx-background-radius: 10;
+}        /* Màu xám dịu */
+.in-progress {
+    -fx-background-color: ivory;
+    -fx-background-radius: 10;
+} /* Xanh tím đặc trưng của bạn */
+.done {
+    -fx-background-color: honeydew;
+    -fx-background-radius: 10;
+}
