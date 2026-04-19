@@ -355,6 +355,7 @@ public class TaskController {
     @FXML private Label createTime;
     @FXML private Label updateTime;
 
+    @FXML
     private Label titleMini;
 
     @FXML
