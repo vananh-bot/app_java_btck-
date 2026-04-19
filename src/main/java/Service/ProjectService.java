@@ -13,6 +13,8 @@ import java.util.List;
 
 import java.util.UUID;
 
+import Model.ProjectDashboardDTO;
+
 
 public class ProjectService {
     private ProjectDAO projectDAO;
@@ -31,7 +33,7 @@ public class ProjectService {
         this.taskDAO = taskDAO;
     }
 
-    public List<ProjectCardDTO> getDashboardProjects(int userId) {
+    public List<ProjectCardDTO> getAllMyProjects(int userId) {
         List<ProjectCardDTO> dtoList = new ArrayList<>();
 
         List<Project> rawProjects = projectDAO.findByUserId(userId);
@@ -111,4 +113,11 @@ public class ProjectService {
             if (name == null || name.isEmpty()) return false;
             return projectDAO.isProjectNameExists(currentUserId, name.trim());
     }
+
+    public List<ProjectDashboardDTO> getDashboardProjects(int userId){
+        List<ProjectDashboardDTO> dashboardProject = projectDAO.getDashboardProject(userId);
+        return dashboardProject;
+    }
+
+
 }

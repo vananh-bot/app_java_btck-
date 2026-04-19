@@ -43,12 +43,12 @@
     -fx-text-fill: #5208e8;
     -fx-border-color: transparent #5208e8 transparent transparent;
     -fx-border-width: 0 3 0 0;
-    -fx-font-weight: semi-bold;
+    -fx-font-weight: bold;
     -fx-cursor: hand;
     -fx-opacity: 1.0;
 }
 .toggle-button:hover .label{
-    -fx-font-weight: semi-bold;
+    -fx-font-weight: bold;
     -fx-text-fill: #5208e8;
     -fx-background-color: #eef0ff;
 }
@@ -58,7 +58,7 @@
     -fx-text-fill: #5208e8;
     -fx-border-color: transparent #5208e8 transparent transparent;
     -fx-border-width: 0 3 0 0;
-    -fx-font-weight: semi-bold;
+    -fx-font-weight: bold;
     -fx-opacity: 1.0;
 <<<<<<< HEAD
 =======
@@ -73,7 +73,7 @@
 
 }
 .toggle-button:selected .label{
-    -fx-font-weight: semi-bold;
+    -fx-font-weight: bold;
     -fx-text-fill: #5208e8;
     -fx-opacity: 1.0;
 }

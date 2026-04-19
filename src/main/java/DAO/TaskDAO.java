@@ -6,6 +6,7 @@ import Enum.TaskStatus;
 import Enum.Priority;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -269,6 +270,69 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
 
         } catch (SQLException e) {
             throw new RuntimeException("Query failed", e);
+        }
+
+        return list;
+    }
+
+    public List<TaskDashboardDTO> getDashboardMyTask(int userId){
+        List<TaskDashboardDTO> list = new ArrayList<>();
+
+        String sql = "SELECT \n" +
+                "    t.id,\n" +
+                "    t.title,\n" +
+                "    t.priority,\n" +
+                "    t.deadline\n" +
+                "\n" +
+                "FROM tasks t\n" +
+                "JOIN projects p ON t.project_id = p.id\n" +
+                "\n" +
+                "WHERE p.owner_id = ?\n" +
+                "  AND t.status <> 'DONE'\n" +
+                "\n" +
+                "ORDER BY\n" +
+                "(\n" +
+                "    CASE t.status\n" +
+                "        WHEN 'IN_PROGRESS' THEN 2\n" +
+                "        WHEN 'TODO' THEN 1\n" +
+                "        ELSE 0\n" +
+                "    END\n" +
+                "    +\n" +
+                "    CASE t.priority\n" +
+                "        WHEN 'HIGH' THEN 3\n" +
+                "        WHEN 'MEDIUM' THEN 2\n" +
+                "        WHEN 'LOW' THEN 1\n" +
+                "    END\n" +
+                "    +\n" +
+                "    CASE \n" +
+                "        WHEN t.deadline < NOW() THEN 5\n" +
+                "        WHEN t.deadline < DATE_ADD(NOW(), INTERVAL 1 DAY) THEN 4\n" +
+                "        WHEN t.deadline < DATE_ADD(NOW(), INTERVAL 3 DAY) THEN 3\n" +
+                "        WHEN t.deadline < DATE_ADD(NOW(), INTERVAL 7 DAY) THEN 2\n" +
+                "        ELSE 1\n" +
+                "    END\n" +
+                ") DESC,\n" +
+                "t.deadline ASC;";
+
+        try (Connection connection = JDBCUtil.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql);
+        ){
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                int id = rs.getInt("id");
+                String title = rs.getString("title");
+                Priority priority = Priority.valueOf(rs.getString("priority"));
+                Timestamp ts = rs.getTimestamp("deadline");
+                LocalDateTime deadline = ts != null ? ts.toLocalDateTime() : null;
+
+                TaskDashboardDTO task = new TaskDashboardDTO(id, title, priority, deadline);
+                list.add(task);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("getDashboardMyTask failed");
         }
 
         return list;

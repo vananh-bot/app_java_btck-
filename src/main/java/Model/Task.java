@@ -19,7 +19,7 @@ public class Task {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Task(int id, String title, String description, String note, TaskStatus status, Priority priority, LocalDateTime deadline, int projectId, int createdBy, LocalDateTime createdAt, LocalDateTime updatedAt){
+    public Task(int id, String title, String description, String note, TaskStatus status, Priority priority, LocalDateTime deadline, int projectId, int createdBy, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -33,11 +33,11 @@ public class Task {
         this.updatedAt = updatedAt;
     }
 
-    public Task(){
+    public Task() {
 
     }
 
-    public Task(String title, String description, TaskStatus status, Priority priority, LocalDateTime deadline, int projectId, int createdBy){
+    public Task(String title, String description, TaskStatus status, Priority priority, LocalDateTime deadline, int projectId, int createdBy) {
         this.title = title;
         this.description = description;
         this.status = status;

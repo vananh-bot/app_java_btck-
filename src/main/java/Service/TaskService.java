@@ -6,6 +6,8 @@ import Model.Comment;
 import Model.SubTask;
 import Model.Task;
 import DAO.CommentDAO;
+import Model.TaskDashboardDTO;
+import DAO.TaskAssignmentDAO;
 
 import java.util.List;
 
@@ -13,6 +15,7 @@ public class TaskService {
     private final TaskDAO taskDAO = new TaskDAO();
     private final SubTaskDAO subTaskDAO = new SubTaskDAO();
     private final CommentDAO commentDAO = new CommentDAO();
+    private final TaskAssignmentDAO taskAssignmentDAO = new TaskAssignmentDAO();
 
     // ================= TASK =================
     public Task getTaskById(int taskId) {
@@ -39,6 +42,15 @@ public class TaskService {
 
     public void deleteSubTask(int subTaskId) {
         subTaskDAO.delete(subTaskId);
+    }
+
+    public TaskService(){
+
+    }
+
+    public List<TaskDashboardDTO> getDashboardMyTask(int userId){
+        List<TaskDashboardDTO> dashboardMyTask = taskDAO.getDashboardMyTask(userId);
+        return dashboardMyTask;
     }
 
 

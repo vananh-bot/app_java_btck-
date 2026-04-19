@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="task" onMouseClicked="#goToTaskDetails" prefHeight="74.0" prefWidth="768.0" spacing="9.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DashboardMyTaskCardController">
+    <stylesheets>
+        <URL value="@../css/general_dashboard_view2.css" />
+    </stylesheets>
+    <children>
+        <Label fx:id="nameOfTask" text="Lên kế hoạch chi tiết cho tháng 3 ">
+            <font>
+                <Font name="Tahoma Bold" size="12.0" />
+            </font>
+            <VBox.margin>
+                <Insets left="9.0" top="5.0" />
+            </VBox.margin>
+            <styleClass>
+                <String fx:value="newLine" />
+                <String fx:value="task" />
+            </styleClass>
+        </Label>
+        <HBox prefHeight="0.0" prefWidth="751.0" spacing="9.0">
+            <children>
+                <Label fx:id="priority" prefHeight="20.0" text="* ƯU TIÊN CAO" HBox.hgrow="NEVER" />
+                <HBox alignment="CENTER_LEFT" prefHeight="100.0" spacing="4.0">
+                    <children>
+                        <ImageView fitHeight="23.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/icons8-calendar-1-64-removebg-preview.png" />
+                            </image>
+                        </ImageView>
+                        <Label fx:id="datetime" text="24 Th12, 2023" />
+                    </children>
+                    <HBox.margin>
+                        <Insets bottom="6.0" />
+                    </HBox.margin>
+                </HBox>
+            </children>
+            <VBox.margin>
+                <Insets bottom="9.0" left="9.0" />
+            </VBox.margin>
+        </HBox>
+    </children>
+    <padding>
+        <Insets left="8.0" />
+    </padding>
+   <styleClass>
+      <String fx:value="eachTask" />
+      <String fx:value="task" />
+   </styleClass>
+</VBox>

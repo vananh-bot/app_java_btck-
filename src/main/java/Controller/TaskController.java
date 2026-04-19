@@ -82,9 +82,19 @@ public class TaskController {
         loadTask(1);
     }
 
+    private int taskId;
+
+    public void setTaskId(int taskId){
+        this.taskId = taskId;
+    }
+
     // ================= LOAD TASK =================
     public void loadTask(int taskId) {
         this.currentTaskId = taskId;
+    }
+
+
+    public void createTask() {
 
         Task task = taskService.getTaskById(taskId);
         if (task == null) return;

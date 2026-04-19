@@ -72,7 +72,7 @@ public class AllProjectController implements Initializable {
 
     private void loadData(int userId) {
         new Thread(() -> {
-            List<ProjectCardDTO> newList = projectService.getDashboardProjects(userId);
+            List<ProjectCardDTO> newList = projectService.getAllMyProjects(userId);
 
             Map<Integer, ProjectCardDTO> newMap = new HashMap<>();
             for (ProjectCardDTO dto : newList) {
