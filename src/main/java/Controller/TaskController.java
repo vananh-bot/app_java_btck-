@@ -10,6 +10,7 @@ import Utils.TimeUtil;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -344,6 +345,41 @@ public class TaskController {
     @FXML private Label createTime;
     @FXML private Label updateTime;
 
-    @FXML private Label titleMini;
-    @FXML private Label titleMini1;
+    private Label titleMini;
+
+    @FXML
+    private Label titleMini1;
+
+    @FXML
+    private Label titleMini10;
+
+    @FXML
+    private Label titleMini2;
+
+    @FXML
+    private Label titleMini3;
+
+    @FXML
+    private Label titleMini4;
+
+    @FXML
+    private Label titleMini7;
+
+    @FXML
+    private Label titleMini8;
+
+    @FXML
+    private Label titleMini9;
+
+    public void convert_dashboard(ActionEvent event) {
+    }
+
+    public void convert_mainProject(ActionEvent event) {
+    }
+
+    public void convert_taskDetail(ActionEvent event) {
+    }
+
+    public void convert_notification(ActionEvent event) {
+    }
 }
