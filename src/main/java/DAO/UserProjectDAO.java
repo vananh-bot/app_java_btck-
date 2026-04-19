@@ -10,6 +10,8 @@ import java.util.*;
 
 public class UserProjectDAO implements UserProjectDAOInterface {
 
+    private int projectId;
+
     @Override
     public boolean insert(UserProject up) {
         String sql = "INSERT INTO user_project(user_id, project_id, role) VALUES (?, ?, ?)";
@@ -129,5 +131,25 @@ public class UserProjectDAO implements UserProjectDAOInterface {
                 Role.valueOf(rs.getString("role")),
                 joinedAt
         );
+    }
+    public boolean addMemberToProject(int userId, int projectId) {
+        String sql = "INSERT INTO user_project (user_id, project_id, role, joined_at) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+            ps.setInt(2, projectId);
+            ps.setString(3, Role.OWNER.name());
+            ps.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+
+            return ps.executeUpdate() > 0;
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("Lỗi: Người dùng đã là thành viên của dự án này");
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
