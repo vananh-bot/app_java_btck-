@@ -130,4 +130,8 @@ public class Task {
     public void setCreatedBy(int createdBy) {
         this.createdBy = createdBy;
     }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }
