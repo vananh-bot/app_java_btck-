@@ -1,10 +1,6 @@
 
 .button-purple {
-<<<<<<< HEAD
-    -fx-background-color: #6c5ce7;
-=======
     -fx-background-color: #5208e8;
->>>>>>> feature/app-2-taskdetails
     -fx-text-fill: white;
     -fx-background-radius: 10;
     -fx-font-weight: bold;
@@ -24,11 +20,7 @@
     -fx-text-fill: #57606f;
     -fx-background-radius: 20;
     -fx-cursor: hand;
-<<<<<<< HEAD
-    -fx-padding: 5 20 10 20;
-=======
     -fx-padding: 10 20 10 20;
->>>>>>> feature/app-2-taskdetails
 }
 
 .button-cancel:hover {
@@ -48,17 +40,6 @@
     -fx-cursor: hand;
 }
 
-<<<<<<< HEAD
-.status-item:hover {
-    -fx-background-color: #6332E5;
-    -fx-text-fill: white;
-}
-
-.status-item:selected {
-    -fx-background-color: #6332E5;
-    -fx-text-fill: white;
-}
-=======
 .status-item:pressed{
     -fx-scale-x: 0.97;
     -fx-scale-y: 0.97;
@@ -106,7 +87,6 @@
     -fx-text-fill: white;
 }
 
->>>>>>> feature/app-2-taskdetails
 
 .priority-item {
     -fx-background-color: #f1f2f6;
@@ -114,13 +94,6 @@
     -fx-background-radius: 12;
     -fx-cursor: hand;
 }
-<<<<<<< HEAD
-
-.priority-item:hover, .priority-item:selected {
-    /* Màu nhạt hơn (giống cái ô 'Low' tím tím nhạt trong ảnh con gửi đó) */
-    -fx-background-color: #C3B9FF;
-    -fx-text-fill: #4834D4; /* Chữ màu tím đậm cho dễ đọc trên nền nhạt */
-=======
 .priority-item:pressed{
     -fx-scale-x: 0.97;
     -fx-scale-y: 0.97;
@@ -170,7 +143,6 @@
 .priority-item-high:pressed{
     -fx-background-color: #EC7063;
     -fx-text-fill: white;
->>>>>>> feature/app-2-taskdetails
 }
 
 .close-button-gray {
@@ -213,18 +185,6 @@
     -fx-stroke: #6C5CE7;
     -fx-stroke-width: 1;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1);
-
-<<<<<<< HEAD
-    -fx-fill: image-pattern(
-            "https://i.pravatar.cc/300",
-            0, 0, 1, 1, true
-    );
-=======
-    /*-fx-fill: image-pattern(*/
-    /*        "https://i.pravatar.cc/300",*/
-    /*        0, 0, 1, 1, true*/
-    /*);*/
->>>>>>> feature/app-2-taskdetails
 }
 
 .primary-button {
@@ -241,25 +201,15 @@
 }
 
 .primary-button:pressed, .primary-button:selected {
-<<<<<<< HEAD
-    -fx-background-color: #4834D4;
-=======
     -fx-background-color: #5208e8;
->>>>>>> feature/app-2-taskdetails
 }
 
 
 .scroll-pane {
-<<<<<<< HEAD
-    -fx-background-color: transparent;
-    -fx-background: transparent;
-    -fx-pref-height: 80;
-=======
     -fx-fit-to-width: true; /* Giữ chiều ngang khớp với container */
     -fx-fit-to-height: false; /* Không cho phép nó tự dãn chiều cao theo nội dung */
     -fx-background-color: transparent;
     -fx-background: transparent;
->>>>>>> feature/app-2-taskdetails
     -fx-background-radius: 12;
     -fx-border-radius: 12;
     -fx-border-color: transparent;
@@ -273,11 +223,7 @@
 }
 
 .scroll-pane .thumb:hover {
-<<<<<<< HEAD
-    -fx-background-color: #6C5CE7;
-=======
     -fx-background-color: #5208e8;
->>>>>>> feature/app-2-taskdetails
 }
 
 .scroll-pane .track {
@@ -286,15 +232,6 @@
 }
 
 
-<<<<<<< HEAD
-.scroll-pane:focused {
-    -fx-pref-height: 180 !important;
-    -fx-min-height: 180 !important;
-    -fx-border-color: #6C5CE7;
-}
-
-
-=======
 .scroll-pane-1:focused {
     -fx-pref-height: 48 !important;
     -fx-min-height: 48 !important;
@@ -305,15 +242,11 @@
     -fx-min-height: 70 !important;
     -fx-border-color: #6C5CE7;
 }
->>>>>>> feature/app-2-taskdetails
-
 .scroll-pane .increment-button, .scroll-pane .decrement-button {
     -fx-shape: " ";
     -fx-padding: 0;
 }
 
-<<<<<<< HEAD
-=======
 
 .text-area-1{
     -fx-min-height: 48px;
@@ -324,7 +257,6 @@
     -fx-min-height: 70px;
     -fx-pref-height: 70px;
 }
->>>>>>> feature/app-2-taskdetails
 .text-area {
     -fx-background-color: #F3F4F6;
     -fx-background-radius: 12;
@@ -342,10 +274,8 @@
     -fx-font-family: "Segoe UI", Arial;
     -fx-font-size: 13px;
     -fx-fill: #374151;
-<<<<<<< HEAD
-=======
     -fx-alignment:TOP_LEFT;
->>>>>>> feature/app-2-taskdetails
+
 }
 
 .text-area .scroll-bar:vertical {
@@ -360,10 +290,7 @@
 
 
 .text-area:focused {
-<<<<<<< HEAD
-=======
     -fx-background-insets: 0, 1;
->>>>>>> feature/app-2-taskdetails
     -fx-border-color: #6C5CE7;
     -fx-border-width: 1;
     -fx-border-radius: 12;
@@ -371,41 +298,26 @@
 
 .primay-button {
     /* 1. Màu gốc lấy từ ảnh của con */
-<<<<<<< HEAD
-    -fx-background-color: #5849D4;
-=======
     -fx-background-color: #5208e8;
->>>>>>> feature/app-2-taskdetails
+
     -fx-text-fill: white;
     -fx-background-radius: 25;
     -fx-cursor: hand;
     -fx-font-weight: bold;
     -fx-font-size: 12px;
     -fx-padding: 5 15 5 15;
-<<<<<<< HEAD
-    -fx-transition: 0.2s; /* Hiệu ứng chuyển màu mượt mà */
-}
-
-/* 2. Khi trỏ chuột vào (Hover) - Tông đậm hơn hẳn */
-=======
     -fx-transition: 0.2s;
 }
 
->>>>>>> feature/app-2-taskdetails
 .primay-button:hover {
     -fx-background-color: #3D31A8; /* Tông đậm hơn của mã #5849D4 */
 }
 
-<<<<<<< HEAD
-/* 3. Khi nhấn vào (Active) - Đậm nhất để tạo cảm giác nút lún xuống */
-=======
->>>>>>> feature/app-2-taskdetails
 .primay-button:pressed {
     -fx-background-color: #2E2580;
     -fx-scale-x: 0.97;
     -fx-scale-y: 0.97;
-<<<<<<< HEAD
-=======
+
 }
 
 .setFontTitle{
@@ -427,5 +339,4 @@
 }
 .newLine{
     -fx-wrap-text: true;
->>>>>>> feature/app-2-taskdetails
 }

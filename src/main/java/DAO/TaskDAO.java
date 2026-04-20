@@ -246,8 +246,18 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
         t.setStatus(TaskStatus.valueOf(rs.getString("status")));
         t.setPriority(Priority.valueOf(rs.getString("priority")));
 
-        Timestamp ts = rs.getTimestamp("deadline");
-        t.setDeadline(ts != null ? ts.toLocalDateTime() : null);
+        Timestamp deadlineTs = rs.getTimestamp("deadline");
+        t.setDeadline(deadlineTs != null ? deadlineTs.toLocalDateTime() : null);
+
+        Timestamp createdTs = rs.getTimestamp("created_at");
+        if (createdTs != null) {
+            t.setCreatedAt(createdTs.toLocalDateTime());
+        }
+
+        Timestamp updatedTs = rs.getTimestamp("updated_at");
+        if (updatedTs != null) {
+            t.setUpdatedAt(updatedTs.toLocalDateTime());
+        }
 
         t.setProjectId(rs.getInt("project_id"));
         t.setCreatedBy(rs.getInt("created_by"));

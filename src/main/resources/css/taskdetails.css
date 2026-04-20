@@ -5,7 +5,7 @@
 }
 
 .blue_color{
-    -fxbackground-color: #EAF6FF;
+    -fx-background-color: #EAF6FF;
 }
 
 .white_pane{
@@ -25,17 +25,12 @@
 
 .toggle-button{
     -fx-font-family: "Tahoma";
-<<<<<<< HEAD
     -fx-text-fill: black;
-=======
-    -fx-text-fill: #black;
->>>>>>> feature/app-2-taskdetails
     -fx-background-color: transparent;
     -fx-background-radius: 10;
     -fx-border-radius: 10;
     -fx-font-size: 14px;
     -fx-alignment: CENTER_LEFT;
-    -fx-background-insets: 0;
     -fx-opacity: 0.5;
 }
 .toggle-button:hover{
@@ -50,7 +45,6 @@
 .toggle-button:hover .label{
     -fx-font-weight: bold;
     -fx-text-fill: #5208e8;
-    -fx-background-color: #eef0ff;
 }
 
 .toggle-button:selected{
@@ -60,16 +54,6 @@
     -fx-border-width: 0 3 0 0;
     -fx-font-weight: bold;
     -fx-opacity: 1.0;
-<<<<<<< HEAD
-=======
-
-}
-.toggle-button:selected .label{
-    -fx-font-weight: semi-bold;
-    -fx-text-fill: #5208e8;
-    -fx-opacity: 1.0;
-}
->>>>>>> feature/app-2-taskdetails
 
 }
 .toggle-button:selected .label{
@@ -77,6 +61,7 @@
     -fx-text-fill: #5208e8;
     -fx-opacity: 1.0;
 }
+
 .sidebar-button-active {
     -fx-background-radius: 10;
     -fx-border-radius: 10;
@@ -86,15 +71,13 @@
     -fx-opacity: 1.0;
     -fx-border-color: transparent #5208e8 transparent transparent;
     -fx-border-width: 0 3 0 0;
-    -fx-mouse-transparent: true;
-    -fx-background-insets: 0;
+    -fx-mouse-transparent: true; /* Chuột bấm vào sẽ không có tác dụng gì */
     -fx-cursor: default;
 }
 
-.sidebar-button-active .label{
+.sidebar-button-active.text{
     -fx-text-fill: #5208e8;
     -fx-font-weight: bold;
-    -fx-background-color: #eef0ff;
 }
 .border{
     -fx-background-radius: 15;    /* Bo góc cho phần nền */
@@ -109,8 +92,6 @@
     -fx-border-color: transparent;     /* Xóa viền xám */
     -fx-focus-color: transparent;      /* Xóa viền xanh khi click */
     -fx-faint-focus-color: transparent;/* Xóa quầng sáng mờ */
-<<<<<<< HEAD
-=======
 }
 
 .search-field:hover{
@@ -237,50 +218,22 @@
     -fx-font-weight: bold;
     -fx-text-fill: #000;
     -fx-underline: false;
->>>>>>> feature/app-2-taskdetails
 }
 
-.search-field:hover{
-    -fx-background-color: #eef0ff;
-    -fx-effect: dropshadow(three-pass-box, rgba(220, 208, 255, 0.4), 5, 0, 0, 0);
+.breadcrumb-current {
+    -fx-opacity: 1.0;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5208e8;
+    -fx-underline: false;
 }
 
-.search-container {
-    -fx-background-color: #F3F4F6;
-    -fx-background-radius: 30;
-    -fx-border-radius: 30;
-    -fx-alignment: CENTER_LEFT;
-    -fx-padding: 2 15 2 15;
-    -fx-min-width: 350;
-    -fx-max-height: 35;
-    -fx-cursor: text;
+.breadcrumb-prev:hover{
+    -fx-opacity: 1.0;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5208e8;
+    -fx-underline: false;
 }
 
-<<<<<<< HEAD
-.search-container:hover {
-    -fx-background-color: #E5E7EB;
-}
-
-
-.search-input {
-    -fx-background-color: transparent;
-    -fx-background-insets: 0;
-    -fx-prompt-text-fill: #9CA3AF;
-    -fx-text-fill: #374151;
-    -fx-font-size: 13px;
-    -fx-font-family: "Segoe UI", "Tahoma";
-}
-
-.search-input:focused {
-    -fx-background-color: transparent;
-    -fx-background-insets: 0;
-    -fx-border-width: 0;
-}
-
-.search-container .label {
-    -fx-text-fill: #9CA3AF;
-    -fx-padding: 0 5 0 0;
-=======
 .descriptionBox{
     -fx-background-color: #ffffff;
     -fx-background-radius: 18;
@@ -463,7 +416,6 @@
     -fx-background-color: #ffffff;
     -fx-text-fill: #333;
     -fx-font-weight: bold;
->>>>>>> feature/app-2-taskdetails
 }
 .comboBox .button-cell {
     -fx-text-fill: #333;

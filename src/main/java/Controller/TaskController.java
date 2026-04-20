@@ -92,9 +92,40 @@ public class TaskController {
     }
 
     // ================= LOAD TASK =================
+
     public void loadTask(int taskId) {
 
         this.currentTaskId = taskId;
+
+        currentTask = taskService.getTaskById(taskId);
+
+        if (currentTask == null) return;
+
+        taskName.setText(currentTask.getTitle());
+        taskName1.setText(currentTask.getTitle());
+        String project = taskService.getProjectNameByTaskId(currentTaskId);
+
+        if (project != null) {
+            projectName.setText(project);
+        } else {
+            projectName.setText("No Project");
+        }
+        System.out.println(projectName);
+        description.setText(currentTask.getDescription());
+
+        comboStatus.setValue(currentTask.getStatus().name());
+        comboPriority.setValue(currentTask.getPriority().name());
+
+        if (currentTask.getDeadline() != null) {
+            comboDeadline.setValue(currentTask.getDeadline().toLocalDate());
+            deadline.setText(currentTask.getDeadline().format(formatter));
+        }
+
+        createTime.setText(TimeUtil.toRelative(currentTask.getCreatedAt()));
+        updateTime.setText(TimeUtil.toRelative(currentTask.getUpdatedAt()));
+
+        loadSubTasks();
+        loadComments();
     }
 
 

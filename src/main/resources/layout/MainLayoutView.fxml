@@ -1,11 +1,13 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.BorderPane?>
+
+
 <BorderPane fx:controller="Controller.MainLayoutController"
             xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml">
 
     <left>
-        <fx:include fx:id="sidebarInclude" source="/sidebar.fxml"/>
+        <fx:include fx:id="sidebar" source="/sidebar.fxml"/>
     </left>
 
     <center>
