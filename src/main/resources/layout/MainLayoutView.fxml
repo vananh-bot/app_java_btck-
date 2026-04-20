@@ -2,16 +2,20 @@
 <?import javafx.scene.layout.BorderPane?>
 
 
-<BorderPane fx:controller="Controller.MainLayoutController"
-            xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml">
+<StackPane fx:id="rootStack"
+           xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="Controller.MainLayoutController">
+    <BorderPane fx:id="rootLayout">
 
-    <left>
-        <fx:include fx:id="sidebar" source="/sidebar.fxml"/>
-    </left>
+        <left>
+            <fx:include fx:id="sidebar" source="/sidebar.fxml"/>
+        </left>
 
-    <center>
-        <StackPane fx:id="contentArea"/>
-    </center>
+        <center>
+            <StackPane fx:id="contentArea"/>
+        </center>
 
-</BorderPane>
+    </BorderPane>
+
+</StackPane>

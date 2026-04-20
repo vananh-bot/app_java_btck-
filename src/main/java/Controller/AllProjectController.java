@@ -2,6 +2,8 @@ package Controller;
 
 import DTO.ProjectCardDTO;
 import Service.ProjectService;
+import Utils.DialogManager;
+import Utils.ScreenManager;
 import Utils.UserSession;
 import Utils.SceneNavigator;
 import DAO.*;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.*;
+import Enum.Screen;
 
 public class AllProjectController implements Initializable {
 
@@ -265,18 +268,7 @@ public class AllProjectController implements Initializable {
     }
 
     private void openProjectDetails(int projectId) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/layout/layoutMainProjectView.fxml"));
-            Parent root = loader.load();
-            MainProjectController controller = loader.getController();
-            controller.init(projectId);
-
-            javafx.stage.Stage stage = (javafx.stage.Stage) projectContainer.getScene().getWindow();
-            stage.getScene().setRoot(root);
-            stage.setTitle("FlowTask - Chi tiết dự án");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW);
     }
 
     private String normalize(String text) {
@@ -286,8 +278,7 @@ public class AllProjectController implements Initializable {
     }
 
     public void createNewProject(ActionEvent event) {
-
-        Utils.SceneNavigator.switchScene(event, SceneNavigator.CREATE_PROJECT, "Tạo công việc");
+        DialogManager.getInstance().show(Screen.CREATE_PROJECT);
 
     }
 }

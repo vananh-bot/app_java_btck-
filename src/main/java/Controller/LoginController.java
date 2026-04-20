@@ -57,11 +57,10 @@ public class LoginController {
                 UserSession.login(user); // Cất vào kho
             }
 
-            errorLabel.setStyle("-fx-text-fill: green;");
-            errorLabel.setText("Đăng nhập thành công!");
-            errorLabel.setVisible(true);
+//            errorLabel.setStyle("-fx-text-fill: green;");
+//            errorLabel.setText("Đăng nhập thành công!");
+//            errorLabel.setVisible(true);
 
-            // Giữ nguyên hàm chuyển màn cũ của bạn
             goToMainScreen(event);
         } else {
             errorLabel.setText(result);
@@ -73,7 +72,23 @@ public class LoginController {
     // GIỮ NGUYÊN TOÀN BỘ CODE CŨ BÊN DƯỚI
     @FXML
     void goToMainScreen(ActionEvent event) {
-        Utils.SceneNavigator.switchScene(event, SceneNavigator.DASHBOARD, "Tổng quan");
+        try {
+
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/layout/MainLayoutView.fxml")
+            );
+
+            Parent root = loader.load();
+
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Task Manager");
+            stage.centerOnScreen();
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -96,6 +111,21 @@ public class LoginController {
 
     @FXML
     public void goToResigter(ActionEvent actionEvent) {
-        Utils.SceneNavigator.switchScene(actionEvent, SceneNavigator.REGISTER, "Đăng kí");
+        try {
+
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/auth/register.fxml")
+            );
+
+            Parent root = loader.load();
+
+            Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("Register");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

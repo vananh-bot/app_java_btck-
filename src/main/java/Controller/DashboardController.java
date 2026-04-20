@@ -6,6 +6,7 @@ import Model.ProjectDashboardDTO;
 import Model.TaskDashboardDTO;
 import Service.ProjectService;
 import Service.TaskService;
+import Utils.DialogManager;
 import Utils.UserSession;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -20,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import Enum.Screen;
 
 import javafx.event.ActionEvent;
 import java.util.List;
@@ -162,15 +164,7 @@ public class DashboardController {
 
     @FXML
     void createProject(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/project/createProject.fxml"));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("CreateProject");
-            stage.show();
-        } catch (Exception e) {
-            System.out.println("Lỗi chuyển màn hình: " + e.getMessage());
-        }
+        DialogManager.getInstance().show(Screen.CREATE_PROJECT);
     }
 
 }

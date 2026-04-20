@@ -2,7 +2,9 @@ package Controller;
 
 import DAO.*;
 import Service.ProjectService;
+import Utils.DialogManager;
 import Utils.SceneNavigator;
+import Utils.ScreenManager;
 import Utils.UserSession;
 import javafx.fxml.FXML;
 import javafx.fxml.FXML;
@@ -13,13 +15,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import javafx.event.ActionEvent;
 import java.io.IOException;
+import Enum.Screen;
 public class CreateProjectController {
     @FXML private TextArea enter;
     @FXML private TextArea describe;
+    @FXML private StackPane overlay;
 
     private ProjectService projectService;
 
@@ -45,8 +50,7 @@ public class CreateProjectController {
 
         boolean success = projectService.createProject(name, description, currentUserId);
         if (success) {
-            showNotify("Thành công", "Tạo dự án thành công", Alert.AlertType.INFORMATION);
-            Utils.SceneNavigator.switchScene(event, SceneNavigator.MAIN_PROJECT_VIEW, "Dự án chính");
+            ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW);
         } else {
             showNotify("Thất bại", "Không thể tạo dự án. Hãy thử lại sau!", Alert.AlertType.ERROR);
         }
@@ -54,13 +58,9 @@ public class CreateProjectController {
     }
     @FXML
     private void handleCancel(ActionEvent event) {
-        Utils.SceneNavigator.switchScene(event, SceneNavigator.ALL_PROJECTS, "Tất cả dự án");
+        DialogManager.getInstance().close(overlay);
     }
 
-    private void closeWindow() {
-        Stage stage = (Stage) enter.getScene().getWindow();
-        stage.close();
-    }
 
     private void showNotify(String title, String content, Alert.AlertType type) {
         Alert alert = new Alert(type);

@@ -3,7 +3,9 @@ package Controller;
 import Enum.TaskStatus;
 import Model.Task;
 import Service.TaskQueryService;
+import Utils.DialogManager;
 import Utils.SceneNavigator;
+import Utils.ScreenManager;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -20,6 +22,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import Service.helper.TaskUIHelper;
 import Service.helper.TaskSearchHelper;
+import Enum.Screen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +48,8 @@ public class MainProjectController {
 
     // ================= INIT =================
     public void init(int projectId) {
-        this.projectId = projectId;
-        taskService.init(projectId);
+        this.projectId = 1;
+        taskService.init(1);
 
         if (vboxTodo != null) vboxTodo.setCache(true);
         if (vboxInProgress != null) vboxInProgress.setCache(true);
@@ -155,12 +158,12 @@ public class MainProjectController {
     // ================= ACTIONS =================
     @FXML
     private void handleOpenCreateTask(ActionEvent event){
-        Utils.SceneNavigator.switchScene(event, SceneNavigator.CREATE_TASK, "Tạo công việc");
+        DialogManager.getInstance().show(Screen.CREATE_TASK);
 
     }
 
     public void handleProject(ActionEvent event) {
-        Utils.SceneNavigator.switchScene(event, SceneNavigator.ALL_PROJECTS, "Tất cả dự án của tôi");
+        ScreenManager.getInstance().show(Screen.ALL_MY_PROJECT);
     }
 
 }

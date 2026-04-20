@@ -4,17 +4,24 @@ import DAO.TaskDAO;
 import Enum.Priority;
 import Enum.TaskStatus;
 import Service.TaskService;
+import Utils.DialogManager;
 import Utils.SceneNavigator;
+import Utils.ScreenManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import Enum.Screen;
 
 
 public class CreateTaskController {
     private TaskService taskService;
+
+    @FXML
+    private StackPane overlay;
 
 //    public TaskController(TaskService taskService) {
 //        this.taskService = taskService;
@@ -125,11 +132,11 @@ public class CreateTaskController {
 
     @FXML
     void cancelAddTask(ActionEvent event) {
-        SceneNavigator.switchScene(event, SceneNavigator.MAIN_PROJECT_VIEW, "mainProjectView");
+        DialogManager.getInstance().close(overlay);
     }
 
     void goToTaskDetails(ActionEvent event){
-        SceneNavigator.switchScene(event, SceneNavigator.TASK_DETAILS, "taskDetails");
+        ScreenManager.getInstance().show(Screen.TASK_DETAILS);
     }
 
 }
