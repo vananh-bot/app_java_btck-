@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<StackPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.RegisterController">
+   <children>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="764.0" styleClass="white-pane" stylesheets="@../css/auth.css">
+         <children>
+             <HBox alignment="CENTER" layoutX="51.0" layoutY="66.0" prefHeight="386.0" prefWidth="664.0" spacing="30.0">
+               <children>
+                   <VBox prefHeight="356.0" prefWidth="352.0">
+                       <children>
+                           <Label prefHeight="34.0" prefWidth="311.0" text="Chào mừng!">
+                               <font>
+                                   <Font name="Segoe UI Bold" size="23.0" />
+                               </font>
+                               <VBox.margin>
+                                   <Insets left="30.0" />
+                               </VBox.margin>
+                               <padding>
+                                   <Insets left="20.0" top="15.0" />
+                               </padding>
+                           </Label>
+                           <Label prefHeight="13.0" prefWidth="345.0" text="Quản lý các dự án cùng với nhóm của bạn">
+                               <font>
+                                   <Font name="Segoe UI" size="12.0" />
+                               </font>
+                               <padding>
+                                   <Insets left="20.0" top="5.0" />
+                               </padding>
+                               <VBox.margin>
+                                   <Insets left="30.0" />
+                               </VBox.margin>
+                           </Label>
+                           <ImageView cache="true" fitHeight="234.0" fitWidth="296.0" pickOnBounds="true" preserveRatio="true">
+                               <image>
+                                   <Image url="@../images/app_banner_login.png" />
+                               </image>
+                               <VBox.margin>
+                                   <Insets left="40.0" top="10.0" />
+                               </VBox.margin>
+                           </ImageView>
+                       </children>
+                   </VBox>
+                  <VBox prefHeight="286.0" prefWidth="232.0">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                     </HBox.margin>
+                     <styleClass>
+                        <String fx:value="shadow" />
+                        <String fx:value="vbox" />
+                        <String fx:value="white-pane" />
+                        <String fx:value="box-border" />
+                        <String fx:value="vbox" />
+                     </styleClass>
+                     <children>
+                        <Label />
+                        <Label prefHeight="8.0" prefWidth="224.0" text="      FlowTask">
+                           <font>
+                               <Font name="Calibri Bold" size="19.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="4.0" prefWidth="224.0" text="         Tạo tài khoản mới" textOverrun="CLIP">
+                           <font>
+                              <Font name="Tahoma" size="9.0" />
+                           </font>
+                        </Label>
+                        <VBox prefHeight="235.0" prefWidth="232.0" spacing="6.0" styleClass="white-pane">
+                           <padding>
+                              <Insets bottom="-3.0" left="25.0" right="25.0" top="10.0" />
+                           </padding>
+                           <children>
+                              <VBox spacing="3.0">
+                                 <children>
+                                    <Label text="Tên đăng nhập">
+                                       <font>
+                                          <Font name="Segoe UI" size="10.0" />
+                                       </font>
+                                    </Label>
+                                    <StackPane prefHeight="20.0" prefWidth="170.0" styleClass="stack-pane">
+                                       <children>
+                                          <ImageView fitHeight="16.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
+                                             <image>
+                                                <Image url="@../images/icon_name.png" />
+                                             </image>
+                                             <StackPane.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </StackPane.margin>
+                                          </ImageView>
+                                          <TextField fx:id="name" prefHeight="26.0" prefWidth="136.0" promptText="Nhập tên đăng nhập" styleClass="box-border">
+                                             <StackPane.margin>
+                                                <Insets left="25.0" />
+                                             </StackPane.margin>
+                                             <font>
+                                                <Font name="Tahoma" size="7.0" />
+                                             </font>
+                                             <cursor>
+                                                <Cursor fx:constant="CROSSHAIR" />
+                                             </cursor>
+                                          </TextField>
+                                       </children>
+                                    </StackPane>
+                                 </children>
+                              </VBox>
+      
+                                    <VBox spacing="3.0">
+                                 <children>
+                                    <Label text="Email">
+                                       <font>
+                                          <Font name="Segoe UI" size="10.0" />
+                                       </font>
+                                    </Label>
+                                    <StackPane prefHeight="20.0" prefWidth="170.0" styleClass="stack-pane">
+                                       <children>
+                                          <TextField fx:id="email" prefHeight="26.0" prefWidth="136.0" promptText="Nhập email của bạn" styleClass="box-border">
+                                             <StackPane.margin>
+                                                <Insets left="25.0" />
+                                             </StackPane.margin>
+                                             <font>
+                                                <Font name="Tahoma" size="7.0" />
+                                             </font>
+                                             <cursor>
+                                                <Cursor fx:constant="CROSSHAIR" />
+                                             </cursor>
+                                          </TextField>
+                                          <ImageView fitHeight="16.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
+                                             <image>
+                                                <Image url="@../images/email_icon.png" />
+                                             </image>
+                                             <StackPane.margin>
+                                                <Insets bottom="5.0" left="3.0" top="5.0" />
+                                             </StackPane.margin>
+                                          </ImageView>
+                                       </children>
+                                    </StackPane>
+                                 </children>
+                              </VBox>
+      
+                                    <VBox spacing="4.0">
+                                 <children>
+                                    <Label text="Mật khẩu">
+                                       <font>
+                                          <Font name="Segoe UI" size="10.0" />
+                                       </font>
+                                    </Label>
+                                    <StackPane prefHeight="25.0" prefWidth="170.0" styleClass="stack-pane">
+                                       <children>
+                                          <ImageView fitHeight="16.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
+                                             <image>
+                                                <Image url="@../images/icon_password.png" />
+                                             </image>
+                                             <StackPane.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </StackPane.margin>
+                                          </ImageView>
+                                          <TextField fx:id="passwordvisible1" prefHeight="23.0" prefWidth="113.0" promptText="Nhập mật khẩu">
+                                             <StackPane.margin>
+                                                <Insets left="25.0" right="25.0" />
+                                             </StackPane.margin>
+                                          </TextField>
+                                          <PasswordField fx:id="password1" prefHeight="23.0" prefWidth="113.0" promptText="Nhập mật khẩu" styleClass="box-border">
+                                             <StackPane.margin>
+                                                <Insets left="25.0" right="25.0" />
+                                             </StackPane.margin>
+                                          </PasswordField>
+                                          <ImageView fx:id="eyeopen1" fitHeight="19.0" fitWidth="18.0" onMouseClicked="#hiddenPassword" pickOnBounds="true" preserveRatio="true">
+                                             <StackPane.margin>
+                                                <Insets left="150.0" />
+                                             </StackPane.margin>
+                                             <image>
+                                                <Image url="@../images/eyeopen.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fx:id="eyeclose1" fitHeight="20.0" fitWidth="46.0" onMouseClicked="#showPassword" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/eyeclose.png" />
+                                             </image>
+                                             <StackPane.margin>
+                                                <Insets left="150.0" />
+                                             </StackPane.margin>
+                                          </ImageView>
+                                       </children>
+                                    </StackPane>
+                                 </children>
+                              </VBox>
+      
+                                    <VBox spacing="4.0">
+                                 <children>
+                                    <Label text="Xác nhận mật khẩu">
+                                       <font>
+                                          <Font name="Segoe UI" size="10.0" />
+                                       </font>
+                                    </Label>
+                                    <StackPane prefHeight="25.0" prefWidth="170.0" styleClass="stack-pane">
+                                       <children>
+                                          <ImageView fitHeight="16.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
+                                             <image>
+                                                <Image url="@../images/icon_password.png" />
+                                             </image>
+                                             <StackPane.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </StackPane.margin>
+                                          </ImageView>
+                                          <TextField fx:id="passwordvisible2" prefHeight="23.0" prefWidth="113.0" promptText="Nhập mật khẩu">
+                                             <StackPane.margin>
+                                                <Insets left="25.0" right="25.0" />
+                                             </StackPane.margin>
+                                          </TextField>
+                                          <PasswordField fx:id="password2" prefHeight="23.0" prefWidth="113.0" promptText="Nhập mật khẩu" styleClass="box-border">
+                                             <StackPane.margin>
+                                                <Insets left="25.0" right="25.0" />
+                                             </StackPane.margin>
+                                          </PasswordField>
+                                          <ImageView fx:id="eyeopen2" fitHeight="19.0" fitWidth="18.0" onMouseClicked="#hiddenPassword" pickOnBounds="true" preserveRatio="true">
+                                             <StackPane.margin>
+                                                <Insets left="150.0" />
+                                             </StackPane.margin>
+                                             <image>
+                                                <Image url="@../images/eyeopen.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fx:id="eyeclose2" fitHeight="20.0" fitWidth="46.0" onMouseClicked="#showPassword" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/eyeclose.png" />
+                                             </image>
+                                             <StackPane.margin>
+                                                <Insets left="150.0" />
+                                             </StackPane.margin>
+                                          </ImageView>
+                                       </children>
+                                    </StackPane>
+                                 </children>
+                              </VBox>
+                              <Label fx:id="error" prefHeight="13.0" prefWidth="212.0" styleClass="error-label" text="Mật khẩu không hợp lệ" visible="false">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="-8.0" />
+                           </VBox.margin>
+                        </VBox>
+                        <Button fx:id="signup" mnemonicParsing="false" onAction="#handleRegister" prefHeight="29.0" prefWidth="170.0" text="Đăng ký -&gt;" textFill="WHITE">
+                           <styleClass>
+                              <String fx:value="btn-login" />
+                              <String fx:value="box2-border" />
+                           </styleClass>
+                           <font>
+                              <Font name="Monospaced Bold" size="10.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="30.0" right="20.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Line endX="68.0" opacity="0.05" startX="-100.0">
+                           <VBox.margin>
+                              <Insets left="30.0" top="9.0" />
+                           </VBox.margin>
+                        </Line>
+                        <StackPane prefHeight="24.0" prefWidth="230.0">
+                           <children>
+                              <Label prefHeight="18.0" prefWidth="81.0" text="Đã có tài khoản ?" StackPane.alignment="CENTER_LEFT">
+                                 <font>
+                                    <Font name="Tahoma" size="9.0" />
+                                 </font>
+                                 <StackPane.margin>
+                                    <Insets left="55.0" />
+                                 </StackPane.margin>
+                              </Label>
+                              <Hyperlink fx:id="login" onAction="#handleGoToLogin" styleClass="logo-text" text="Đăng nhập" textFill="#4f08e8">
+                                 <StackPane.margin>
+                                    <Insets left="75.0" />
+                                 </StackPane.margin>
+                                 <font>
+                                    <Font name="Tahoma Bold" size="9.0" />
+                                 </font>
+                              </Hyperlink>
+                           </children>
+                        </StackPane>
+                     </children>
+                  </VBox>
+               </children>
+               <styleClass>
+                  <String fx:value="login-hbox-border" />
+                  <String fx:value="shadow" />
+               </styleClass>
+            </HBox>
+            <ImageView fitHeight="40.0" fitWidth="42.0" layoutX="36.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/app_logo.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+   </children>
+</StackPane>
