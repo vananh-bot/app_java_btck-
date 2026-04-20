@@ -60,7 +60,7 @@
                     <children>
                         <VBox prefHeight="69.0" prefWidth="754.0" spacing="4.0">
                             <children>
-                                <Label styleClass="setFontTitle" text="Học tiếng anh">
+                                <Label fx:id="projectName" styleClass="setFontTitle" text="Học tiếng anh">
                                     <font>
                                         <Font name="System Bold" size="28.0" />
                                     </font>

@@ -235,6 +235,7 @@
 .setFontTitle{
     -fx-font-size: 24px;
     -fx-font-family: "Inter 24pt";
+    -fx-font-weight: bold;
 }
 
 .setFontContent{

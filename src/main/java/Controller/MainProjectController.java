@@ -1,7 +1,10 @@
 package Controller;
 
+import DAO.ProjectDAO;
 import Enum.TaskStatus;
+import Model.Project;
 import Model.Task;
+import Service.ProjectService;
 import Service.TaskQueryService;
 import Utils.DialogManager;
 import Utils.SceneNavigator;
@@ -17,6 +20,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -36,11 +40,15 @@ public class MainProjectController {
     @FXML private VBox vboxDone;
     @FXML private TextField searchField;
     @FXML private Hyperlink projectLink, mainProjectLink;
+    @FXML private Label projectName;
 
     // ================= SERVICES =================
     private int projectId;
     private TaskQueryService taskService = new TaskQueryService();
     private Timeline searchDelay;
+    private ProjectService projectService = new ProjectService(
+            new ProjectDAO()
+    );
 
     // Lưu UI hiện tại để diff
     private List<Task> currentTodo = new ArrayList<>();
@@ -62,7 +70,7 @@ public class MainProjectController {
     public void init(int projectId) {
         this.projectId = projectId;
         taskService.init(projectId);
-
+        updateProjectLinkName(projectId);
         if (vboxTodo != null) vboxTodo.setCache(true);
         if (vboxInProgress != null) vboxInProgress.setCache(true);
         if (vboxDone != null) vboxDone.setCache(true);
@@ -178,4 +186,12 @@ public class MainProjectController {
         ScreenManager.getInstance().show(Screen.ALL_MY_PROJECT);
     }
 
+    private void updateProjectLinkName(int projectId){
+       String name= projectService.getProjectName(projectId);
+        if (mainProjectLink != null) {
+            mainProjectLink.setText(name);
+            projectName.setText(name);
+        }
+
+    }
 }

@@ -33,6 +33,10 @@ public class ProjectService {
         this.taskDAO = taskDAO;
     }
 
+    public ProjectService(ProjectDAO projectDAO) {
+        this.projectDAO = projectDAO;
+    }
+
     public List<ProjectCardDTO> getAllMyProjects(int userId) {
         return projectDAO.getAllProjectCardsWithTaskCount(userId);
     }
@@ -111,5 +115,8 @@ public class ProjectService {
         List<ProjectDashboardDTO> dashboardProject = projectDAO.getDashboardProject(userId);
         return dashboardProject;
     }
-
+    public String getProjectName(int projectId){
+        Project project=projectDAO.findById(projectId);
+        return project.getName();
+    }
 }

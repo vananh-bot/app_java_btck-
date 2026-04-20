@@ -8,6 +8,7 @@ import Model.Task;
 import Service.TaskService1;
 import Utils.SceneNavigator;
 import Utils.TimeUtil;
+import Utils.UserSession;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -44,7 +45,7 @@ public class TaskController {
 
     private final TaskService1 taskService = new TaskService1();
     private int currentTaskId;
-    private int currentUserId = 26;
+    private int currentUserId = UserSession.getUserId();
     private Task currentTask;
 
     private final DateTimeFormatter formatter =
