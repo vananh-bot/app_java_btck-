@@ -6,6 +6,7 @@ import Service.TaskQueryService;
 import Utils.DialogManager;
 import Utils.SceneNavigator;
 import Utils.ScreenManager;
+import Utils.UserSession;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -45,11 +46,22 @@ public class MainProjectController {
     private List<Task> currentTodo = new ArrayList<>();
     private List<Task> currentInProgress = new ArrayList<>();
     private List<Task> currentDone = new ArrayList<>();
+    @FXML
+    public void initialize() {
+        // Lấy ID dự án vừa được bấm từ Session
+        int activeProjectId = UserSession.getCurrentProjectId();
 
+        if (activeProjectId != -1) {
+            System.out.println("Đang mở dự án có ID: " + activeProjectId);
+            init(activeProjectId); // Gọi hàm khởi tạo của bạn!
+        } else {
+            System.err.println("Lỗi: Chưa có ID dự án nào được chọn!");
+        }
+    }
     // ================= INIT =================
     public void init(int projectId) {
-        this.projectId = 1;
-        taskService.init(1);
+        this.projectId = projectId;
+        taskService.init(projectId);
 
         if (vboxTodo != null) vboxTodo.setCache(true);
         if (vboxInProgress != null) vboxInProgress.setCache(true);

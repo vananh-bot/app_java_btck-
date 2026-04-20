@@ -1,5 +1,6 @@
 package DAO;
 
+import DTO.ProjectCardDTO;
 import Model.User;
 import Model.Project;
 import database.JDBCUtil;
@@ -301,5 +302,55 @@ public class ProjectDAO implements ProjectDAOInterface {
             throw new RuntimeException("getDashboardProject failed");
         }
         return projects;
+    }
+    public List<ProjectCardDTO> getAllProjectCardsWithTaskCount(int userId) {
+        List<ProjectCardDTO> dtoList = new ArrayList<>();
+
+        // Câu SQL thần thánh: Gộp 3 bảng và tự đếm số Task trong 1 lần chạy
+        String sql = "SELECT p.id, p.name, p.description, p.owner_id, p.invite_code, p.created_at, " +
+                "SUM(CASE WHEN t.status = 'TODO' THEN 1 ELSE 0 END) AS todo_count, " +
+                "SUM(CASE WHEN t.status = 'IN_PROGRESS' THEN 1 ELSE 0 END) AS in_progress_count, " +
+                "SUM(CASE WHEN t.status = 'DONE' THEN 1 ELSE 0 END) AS done_count " +
+                "FROM projects p " +
+                "JOIN user_project up ON p.id = up.project_id " +
+                "LEFT JOIN tasks t ON p.id = t.project_id " +
+                "WHERE up.user_id = ? " +
+                "GROUP BY p.id, p.name, p.description, p.owner_id, p.invite_code, p.created_at";
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    // 1. Tạo đối tượng Project (có xử lý ngày tháng)
+                    Timestamp ts = rs.getTimestamp("created_at");
+                    LocalDateTime createdAt = (ts != null) ? ts.toLocalDateTime() : null;
+
+                    Project p = new Project(
+                            rs.getInt("id"),
+                            rs.getString("name"),
+                            rs.getString("description"),
+                            rs.getInt("owner_id"),
+                            rs.getString("invite_code"),
+                            createdAt
+                    );
+
+                    // 2. Lấy số đếm Task đã được MySQL tính sẵn
+                    int todo = rs.getInt("todo_count");
+                    int inProgress = rs.getInt("in_progress_count");
+                    int done = rs.getInt("done_count");
+
+                    // 3. Đóng gói vào DTO và ném vào danh sách
+                    dtoList.add(new ProjectCardDTO(p, todo, inProgress, done));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi chạy query getAllProjectCardsWithTaskCount:");
+            e.printStackTrace();
+        }
+
+        return dtoList;
     }
 }

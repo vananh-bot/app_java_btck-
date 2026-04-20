@@ -26,6 +26,7 @@
                   </Label>
 
                   <StackPane prefHeight="120" prefWidth="120">
+                     <children>
                      <!-- Vòng nền -->
                      <Circle fx:id="bgCircle" fill="transparent" radius="45" stroke="#E5E7EB" strokeWidth="10" />
 
@@ -33,7 +34,8 @@
                      <Circle fx:id="progressCircle" fill="transparent" radius="45" rotate="-90" strokeLineCap="ROUND" strokeWidth="10" />
 
                      <!-- Text % -->
-                     <Label fx:id="percentLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="0%" />
+                     <Label fx:id="percentLabel" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: black;" text="0%" />
+                     </children>
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin>

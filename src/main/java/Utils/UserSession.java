@@ -4,6 +4,7 @@ import Model.User;
 
 public class UserSession {
     private static User currentUser;
+    private static int currentProjectId = -1;
 
     public static void login(User user) {
         currentUser = user;
@@ -20,5 +21,12 @@ public class UserSession {
     // BỔ SUNG HÀM NÀY ĐỂ HẾT BÁO ĐỎ Ở CONTROLLER
     public static int getUserId() {
         return (currentUser != null) ? currentUser.getId() : -1;
+    }
+    public static void setCurrentProjectId(int projectId) {
+        currentProjectId = projectId;
+    }
+
+    public static int getCurrentProjectId() {
+        return currentProjectId;
     }
 }

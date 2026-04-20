@@ -34,16 +34,9 @@ public class ProjectService {
     }
 
     public List<ProjectCardDTO> getAllMyProjects(int userId) {
-        List<ProjectCardDTO> dtoList = new ArrayList<>();
-
-        List<Project> rawProjects = projectDAO.findByUserId(userId);
-
-        for (Project p : rawProjects) {
-            // ⚡ chỉ trả project, chưa load task
-            dtoList.add(new ProjectCardDTO(p, 0, 0, 0));
-        }
-        return dtoList;
+        return projectDAO.getAllProjectCardsWithTaskCount(userId);
     }
+
     public List<ProjectCardDTO> sortByScore(List<ProjectCardDTO> list) {
         list.sort((a, b) -> {
 
@@ -118,6 +111,5 @@ public class ProjectService {
         List<ProjectDashboardDTO> dashboardProject = projectDAO.getDashboardProject(userId);
         return dashboardProject;
     }
-
 
 }

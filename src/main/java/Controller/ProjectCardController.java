@@ -32,11 +32,7 @@ public class ProjectCardController {
     private Timeline timeline;
     private Timeline numberAnim;
     private ProjectCardDTO dto;
-    private Runnable onDataUpdated;
 
-    public void setOnDataUpdated(Runnable r) {
-        this.onDataUpdated = r;
-    }
     public void setProgress(double progress) {
         // 👉 fix dữ liệu
         progress = Math.max(0, Math.min(progress, 1));
@@ -45,11 +41,11 @@ public class ProjectCardController {
         Color glowColor;
 
 // 👉 đổi màu theo tiến độ
-        if (progress < 0.5) {
+        if (progress < 0.3) {
             startColor = Color.web("#F87171"); // đỏ
             endColor = Color.web("#DC2626");
             glowColor = Color.rgb(220, 38, 38, 0.6);
-        } else if (progress < 0.8) {
+        } else if (progress < 0.7) {
             startColor = Color.web("#FACC15"); // vàng
             endColor = Color.web("#F59E0B");
             glowColor = Color.rgb(245, 158, 11, 0.6);
@@ -142,63 +138,14 @@ public class ProjectCardController {
     public void setProjectData(ProjectCardDTO dto) {
         if (dto == null || dto.getProject() == null) return;
         this.dto=dto;
+        lblProjectName.setText(dto.getProject().getName());
 
-        Platform.runLater(() -> {
-            lblProjectName.setText(dto.getProject().getName());
-
-            lblTodoCount.setText("...");
-            lblInProgressCount.setText("...");
-            lblDoneCount.setText("...");
-
-            percentLabel.setText("...");
-            progressCircle.setStrokeDashOffset(CIRCUMFERENCE);
-        });
-    }
-    public void loadTaskStatsAsync(int projectId) {
-        new Thread(() -> {
-            TaskDAO taskDAO = new TaskDAO();
-            List<Task> tasks = taskDAO.getTasksByProjectId(projectId);
-
-            int todo = 0, inProgress = 0, done = 0;
-
-            for (Task t : tasks) {
-                if (t.getStatus() != null) {
-                    switch (t.getStatus()) {
-                        case TODO -> todo++;
-                        case IN_PROGRESS -> inProgress++;
-                        case DONE -> done++;
-                    }
-                }
-            }
-
-            int finalTodo = todo;
-            int finalInProgress = inProgress;
-            int finalDone = done;
-
-            Platform.runLater(() -> {
-                updateTaskUI(finalTodo, finalInProgress, finalDone);
-            });
-        }).start();
-    }
-    private void updateTaskUI(int todo, int inProgress, int done) {
-        lblTodoCount.setText(String.valueOf(todo));
-        lblInProgressCount.setText(String.valueOf(inProgress));
-        lblDoneCount.setText(String.valueOf(done));
-
-        int total = todo + inProgress + done;
-        double targetProgress = (total == 0) ? 0 : (double) done / total;
-
-        // 👉 gọi custom progress
-        setProgress(targetProgress);
-        if (dto != null) {
-            dto.setTodoCount(todo);
-            dto.setInProgressCount(inProgress);
-            dto.setDoneCount(done);
-        }
-
-        if (onDataUpdated != null) {
-            onDataUpdated.run();
-        }
+        lblTodoCount.setText(String.valueOf(dto.getTodoCount()));
+        lblInProgressCount.setText(String.valueOf(dto.getInProgressCount()));
+        lblDoneCount.setText(String.valueOf(dto.getDoneCount()));
+        System.out.println("1. Tiến độ từ DTO: " + dto.getProgress());
+        System.out.println("2. Biến percentLabel đang là: " + percentLabel);
+        setProgress(dto.getProgress());
     }
 
 }
