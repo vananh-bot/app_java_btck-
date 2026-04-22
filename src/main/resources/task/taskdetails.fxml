@@ -30,7 +30,7 @@
                     <children>
                         <HBox prefHeight="39.0" prefWidth="1066.0" styleClass="hyperlink_back_to_pre_scene">
                             <children>
-                                <Hyperlink fx:id="dashborad" onAction="#convert_dashboard" prefHeight="47.0" prefWidth="91.0" styleClass="breadcrumb-prev" text="Dự án của tôi " />
+                                <Hyperlink fx:id="allProject" onAction="#convert_allMyProject" prefHeight="47.0" prefWidth="91.0" styleClass="breadcrumb-prev" text="Dự án của tôi " />
                                 <Hyperlink prefHeight="54.0" prefWidth="23.0" styleClass="breadcrumb-prev" text="→" />
                                 <Hyperlink fx:id="projectName" onAction="#convert_mainProject" prefHeight="49.0" styleClass="breadcrumb-prev" text="Học Tiếng Anh" />
                                 <Hyperlink prefHeight="50.0" prefWidth="23.0" styleClass="breadcrumb-prev" text="→" />

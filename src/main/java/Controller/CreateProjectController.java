@@ -48,9 +48,9 @@ public class CreateProjectController {
             return;
         }
 
-        boolean success = projectService.createProject(name, description, currentUserId);
-        if (success) {
-            ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW);
+        int projectId = projectService.createProject(name, description, currentUserId);
+        if (projectId != -1) {
+            ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW, projectId);
         } else {
             showNotify("Thất bại", "Không thể tạo dự án. Hãy thử lại sau!", Alert.AlertType.ERROR);
         }

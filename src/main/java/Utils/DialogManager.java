@@ -48,6 +48,31 @@ public class DialogManager {
         }
     }
 
+    public void show(Screen screen, Object data){
+
+        try{
+
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource(screen.getFxmlPath())
+            );
+
+            Parent dialog = loader.load();
+            Object controller = loader.getController();
+
+            if(controller instanceof DataReceiver){
+                ((DataReceiver<Object>) controller).initData(data);
+            }
+
+            // blur nền
+            rootLayout.setEffect(new GaussianBlur(40));
+
+            rootStack.getChildren().add(dialog);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
     public void close(Node dialog){
         rootStack.getChildren().remove(dialog);
 

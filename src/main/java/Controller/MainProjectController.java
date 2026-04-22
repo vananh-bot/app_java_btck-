@@ -6,11 +6,9 @@ import Model.Project;
 import Model.Task;
 import Service.ProjectService;
 import Service.TaskQueryService;
-import Utils.DialogManager;
-import Utils.SceneNavigator;
-import Utils.ScreenManager;
-import Utils.UserSession;
+import Utils.*;
 import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -32,7 +30,7 @@ import Enum.Screen;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainProjectController {
+public class MainProjectController implements DataReceiver<Integer> {
 
     // ================= UI =================
     @FXML private VBox vboxTodo;
@@ -50,25 +48,19 @@ public class MainProjectController {
             new ProjectDAO()
     );
 
+    @Override
+    public void initData(Integer projectId){
+        this.projectId = projectId;
+        init(projectId);
+    }
+
     // Lưu UI hiện tại để diff
     private List<Task> currentTodo = new ArrayList<>();
     private List<Task> currentInProgress = new ArrayList<>();
     private List<Task> currentDone = new ArrayList<>();
-    @FXML
-    public void initialize() {
-        // Lấy ID dự án vừa được bấm từ Session
-        int activeProjectId = UserSession.getCurrentProjectId();
 
-        if (activeProjectId != -1) {
-            System.out.println("Đang mở dự án có ID: " + activeProjectId);
-            init(activeProjectId); // Gọi hàm khởi tạo của bạn!
-        } else {
-            System.err.println("Lỗi: Chưa có ID dự án nào được chọn!");
-        }
-    }
     // ================= INIT =================
     public void init(int projectId) {
-        this.projectId = projectId;
         taskService.init(projectId);
         updateProjectLinkName(projectId);
         if (vboxTodo != null) vboxTodo.setCache(true);
@@ -178,8 +170,7 @@ public class MainProjectController {
     // ================= ACTIONS =================
     @FXML
     private void handleOpenCreateTask(ActionEvent event){
-        DialogManager.getInstance().show(Screen.CREATE_TASK);
-
+        DialogManager.getInstance().show(Screen.CREATE_TASK, projectId);
     }
 
     public void handleProject(ActionEvent event) {

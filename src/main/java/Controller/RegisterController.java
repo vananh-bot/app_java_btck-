@@ -136,10 +136,7 @@ public class RegisterController {
             error.setVisible(true);
 
             if("SUCCESS".equals(result)){
-                error.setStyle("-fx-text-fill: #048000;");
-                error.setText("Đăng kí thành công!");
-
-                clearForm();
+                handleGoToLogin(event);
             } else {
                 error.setStyle("-fx-text-fill: #ff0000;");
                 error.setText(result);

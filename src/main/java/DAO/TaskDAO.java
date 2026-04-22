@@ -33,8 +33,17 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
 
             ps.setInt(6, task.getProjectId());
             ps.setInt(7, task.getCreatedBy());
+            ps.executeUpdate();
 
-            return ps.executeUpdate();
+            // lay id task vua tao
+            ResultSet rs = ps.getGeneratedKeys();
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+            return -1;
+
         } catch (SQLException e) {
             throw new RuntimeException("Insert task failed", e);
         }
@@ -42,7 +51,7 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
     public int insert2(Task task) {
         String sql = "INSERT INTO tasks (title, description, status, priority, deadline, project_id) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection connection = JDBCUtil.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, task.getTitle());
             ps.setString(2, task.getDescription());
@@ -57,8 +66,16 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
             }
 
             ps.setInt(6, task.getProjectId());
+            ps.executeUpdate();
 
-            return ps.executeUpdate();
+            // lay id task vua tao
+            ResultSet rs = ps.getGeneratedKeys();
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+            return -1;
         } catch (SQLException e) {
             throw new RuntimeException("Insert task failed", e);
         }

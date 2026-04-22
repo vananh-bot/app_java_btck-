@@ -4,6 +4,7 @@ import DAO.TaskDAO;
 import Enum.Priority;
 import Enum.TaskStatus;
 import Service.TaskService;
+import Utils.DataReceiver;
 import Utils.DialogManager;
 import Utils.SceneNavigator;
 import Utils.ScreenManager;
@@ -17,15 +18,11 @@ import java.time.LocalDateTime;
 import Enum.Screen;
 
 
-public class CreateTaskController {
+public class CreateTaskController implements DataReceiver<Integer> {
     private TaskService taskService;
 
     @FXML
     private StackPane overlay;
-
-//    public TaskController(TaskService taskService) {
-//        this.taskService = taskService;
-//    }
 
     @FXML
     private Label error;
@@ -44,9 +41,10 @@ public class CreateTaskController {
     @FXML
     private TextArea title;
 
-    private int currentProjectId = 1;
+    private int currentProjectId;
 
-    public void setProjectId(int projectId){
+    @Override
+    public void initData(Integer projectId){
         this.currentProjectId = projectId;
     }
 
@@ -114,16 +112,16 @@ public class CreateTaskController {
 
         try {
             TaskService service = new TaskService(new TaskDAO());
-            String result = service.createTask(taskTitle, taskDescription, taskPriority, taskStatus, taskDeadline, currentProjectId);
+            int taskId = service.createTask(taskTitle, taskDescription, taskPriority, taskStatus, taskDeadline, currentProjectId);
 
+            ScreenManager.getInstance().show(Screen.TASK_DETAILS, taskId);
+
+        } catch (IllegalArgumentException e){
             error.setVisible(true);
-            if("SUCCESS".equals(result)){
-                goToTaskDetails(event);
-            } else {
-                error.setStyle("-fx-text-fill: #ff0000;");
-                error.setText(result);
-            }
-        } catch(Exception e){
+            error.setStyle("-fx-text-fill: #ff0000;");
+            error.setText(e.getMessage());
+        }
+        catch(Exception e){
             e.printStackTrace();
             error.setVisible(true);
             error.setText("Lỗi hệ thống!");
@@ -133,10 +131,6 @@ public class CreateTaskController {
     @FXML
     void cancelAddTask(ActionEvent event) {
         DialogManager.getInstance().close(overlay);
-    }
-
-    void goToTaskDetails(ActionEvent event){
-        ScreenManager.getInstance().show(Screen.TASK_DETAILS);
     }
 
 }

@@ -248,8 +248,7 @@ public class AllProjectController implements Initializable {
     }
 
     private void openProjectDetails(int projectId) {
-        UserSession.setCurrentProjectId(projectId);
-        ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW);
+        ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW, projectId);
     }
 
     public void createNewProject(ActionEvent event) {

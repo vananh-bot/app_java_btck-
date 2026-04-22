@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.ProjectDashboardDTO;
+import Utils.ScreenManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -13,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import Enum.Screen;
 
 
 public class DashboardProjectCardController {
@@ -98,28 +100,13 @@ public class DashboardProjectCardController {
         timeline.play();
     }
 
+    public String getProjectName(){
+        return lblProjectName.getText();
+    }
+
     @FXML
     void goToProjectAfterClickCard(MouseEvent event) {
-//        try {
-//            FXMLLoader loader = new FXMLLoader(
-//                    getClass().getResource("/project/mainProjectView.fxml")
-//            );
-//
-//            Parent view = loader.load();
-//
-//            ProjectController controller = loader.getController();
-//
-//            // 👉 truyền ID
-//            controller.setProjectId(projectId);
-//
-//            Stage stage = (Stage) projectCard.getScene().getWindow();
-//            stage.getScene().setRoot(view);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-        System.out.println("Fake open projectId: " + projectId);
+        ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW, projectId);
     }
 
 }

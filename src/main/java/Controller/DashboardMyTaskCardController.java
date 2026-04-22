@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.TaskDashboardDTO;
+import Utils.ScreenManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -10,6 +11,7 @@ import Enum.Priority;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import Enum.Screen;
 
 public class DashboardMyTaskCardController {
     @FXML
@@ -69,26 +71,19 @@ public class DashboardMyTaskCardController {
     }
     @FXML
     void goToTaskDetails(MouseEvent event) {
-//        try {
-//            FXMLLoader loader = new FXMLLoader(
-//                    getClass().getResource("/task/taskdetails.fxml")
-//            );
-//
-//            Parent view = loader.load();
-//
-//            TaskController controller = loader.getController();
-//
-//            // 👉 truyền ID
-//            controller.setTaskId(taskId);
-//
-//            Stage stage = (Stage) projectCard.getScene().getWindow();
-//            stage.getScene().setRoot(view);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        ScreenManager.getInstance().show(Screen.TASK_DETAILS, taskId);
+    }
 
-            System.out.println("Fake open taskId: " + taskId);
+    public String getTaskName(){
+        return nameOfTask.getText();
+    }
+
+    public String getPriority(){
+        return priority.getText();
+    }
+
+    public String getDeadline(){
+        return datetime.getText();
     }
 
 }

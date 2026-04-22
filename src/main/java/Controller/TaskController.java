@@ -6,9 +6,7 @@ import Model.Comment;
 import Model.SubTask;
 import Model.Task;
 import Service.TaskService1;
-import Utils.SceneNavigator;
-import Utils.TimeUtil;
-import Utils.UserSession;
+import Utils.*;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -39,9 +37,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javafx.scene.text.Font;
 import javafx.scene.paint.Color;
+import Enum.Screen;
 
 
-public class TaskController {
+public class TaskController implements DataReceiver<Integer> {
 
     private final TaskService1 taskService = new TaskService1();
     private int currentTaskId;
@@ -50,6 +49,13 @@ public class TaskController {
 
     private final DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    @Override
+    public void initData(Integer taskId){
+        this.currentTaskId = taskId;
+        currentTask = taskService.getTaskById(taskId);
+        loadTask(currentTaskId);
+    }
 
     // ================= INIT =================
     @FXML
@@ -83,22 +89,11 @@ public class TaskController {
         description.setFont(Font.loadFont(
                 getClass().getResourceAsStream("/fonts/Inter_18pt-Medium.ttf"), 11.5));
 
-        loadTask(1);
-    }
-
-    private int taskId;
-
-    public void setTaskId(int taskId){
-        this.taskId = taskId;
     }
 
     // ================= LOAD TASK =================
 
     public void loadTask(int taskId) {
-
-        this.currentTaskId = taskId;
-
-        currentTask = taskService.getTaskById(taskId);
 
         if (currentTask == null) return;
 
@@ -131,8 +126,7 @@ public class TaskController {
 
 
     public void createTask() {
-
-        currentTask = taskService.getTaskById(taskId);
+        currentTask = taskService.getTaskById(currentTaskId);
 
         if (currentTask == null) return;
 
@@ -491,22 +485,18 @@ public class TaskController {
 
     //convert
     @FXML
-    void convert_dashboard(ActionEvent event) {
-        SceneNavigator.switchScene(event, SceneNavigator.DASHBOARD, "dashboard");
+    void convert_allMyProject(ActionEvent event) {
+        ScreenManager.getInstance().show(Screen.ALL_MY_PROJECT);
 
     }
 
     @FXML
     void convert_mainProject(ActionEvent event) {
-        SceneNavigator.switchScene(event, SceneNavigator.MAIN_PROJECT_VIEW, "mainProjectView");
+        ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW, currentTask.getProjectId());
     }
 
     @FXML
     void convert_taskDetail(ActionEvent event) {
-
-    }
-    @FXML
-    void convert_notification(ActionEvent event) {
 
     }
 

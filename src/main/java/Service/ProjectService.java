@@ -63,10 +63,9 @@ public class ProjectService {
 
         return list;
     }
-    public boolean createProject(String name, String description, int userId) {
+    public int createProject(String name, String description, int userId) {
         if (projectDAO.isProjectNameExists(userId, name)) {
-            System.out.println("Tên dự án đã tồn tại!");
-            return false;
+            throw new IllegalArgumentException("Tên dự án đã tồn tại!");
         }
 
         Project project = new Project();
@@ -80,10 +79,11 @@ public class ProjectService {
         int projectId = projectDAO.insert(project);
 
         if (projectId > 0) {
-            return userProjectDAO.addMemberToProject(userId, projectId);
+            boolean added =  userProjectDAO.addMemberToProject(userId, projectId);
+            if(added) return projectId;
         }
 
-        return false;
+        return -1;
     }
 
     public void inviteByEmail(int projectId, String email) {

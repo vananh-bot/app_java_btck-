@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Task;
 import Service.helper.TaskUIHelper;
+import Utils.ScreenManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import Enum.Screen;
 
 public class TaskCardController {
 
@@ -118,20 +120,13 @@ public class TaskCardController {
     private void setupDoubleClick() {
         cardRoot.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2) {
-                switchSceneMouse(e, "/task/taskdetails.fxml");
+                switchSceneMouse(e);
             }
         });
     }
 
-    private void switchSceneMouse(MouseEvent event, String path) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
-            Scene scene = new Scene(loader.load());
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void switchSceneMouse(MouseEvent event) {
+        ScreenManager.getInstance().show(Screen.TASK_DETAILS, currentTask.getId());
     }
 
     // 🔥 HÀM CLAMP CHUẨN

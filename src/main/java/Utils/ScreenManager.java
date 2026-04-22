@@ -8,8 +8,6 @@ import javafx.scene.layout.BorderPane;
 
 public class ScreenManager {
     private SidebarController sidebarController;
-    private Screen currentScreen;
-    private Screen previousScreen;
 
     public void setSidebarController(SidebarController sidebarController){
         this.sidebarController = sidebarController;
@@ -44,6 +42,34 @@ public class ScreenManager {
             );
 
             Parent view = loader.load();
+
+            if (sidebarController != null) {
+                sidebarController.setActive1(screen);
+            }
+
+            DialogManager.getInstance().closeAll();
+
+            rootLayout.setCenter(view);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void show(Screen screen, Object data){
+
+        try{
+
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource(screen.getFxmlPath())
+            );
+
+            Parent view = loader.load();
+            Object controller = loader.getController();
+
+            if(controller instanceof DataReceiver){
+                ((DataReceiver<Object>) controller).initData(data);
+            }
 
             if (sidebarController != null) {
                 sidebarController.setActive1(screen);

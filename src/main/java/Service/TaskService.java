@@ -24,17 +24,17 @@ public class TaskService {
         this.taskDAO = taskDAO;
     }
 
-    public String createTask(String title, String description, Priority priority, TaskStatus taskStatus, LocalDateTime deadline, int projectId) {
+    public int createTask(String title, String description, Priority priority, TaskStatus taskStatus, LocalDateTime deadline, int projectId) {
         if(title == null || title.isBlank()){
-            return "Vui lòng nhập tên công việc";
+            throw new IllegalArgumentException("Vui lòng nhập tên công việc");
         }
 
         if(title.length() > 255){
-            return "Tên đăng nhập quá dài";
+            throw new IllegalArgumentException("Tên đăng nhập quá dài");
         }
 
         if(taskDAO.existsByTitleAndProject(title, projectId)){
-            return "Tên công việc bị trùng";
+            throw new IllegalArgumentException("Tên công việc bị trùng");
         }
 
         Task task = new Task();
@@ -45,8 +45,8 @@ public class TaskService {
         task.setDeadline(deadline);
         task.setProjectId(projectId);
 
-        taskDAO.insert2(task);
-        return "SUCCESS";
+        int taskId = taskDAO.insert2(task); //vua insert vua lay taskid
+        return taskId;
     }
 
     public List<TaskDashboardDTO> getDashboardMyTask(int userId){
