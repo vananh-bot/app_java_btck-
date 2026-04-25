@@ -1,7 +1,10 @@
 package DAO;
 
 import Model.UserProject;
+
+import java.sql.Connection;
 import java.util.List;
+import Enum.Role;
 
 public interface UserProjectDAOInterface {
 
@@ -22,4 +25,7 @@ public interface UserProjectDAOInterface {
 
     boolean exists(int userId, int projectId);
     // 🔥 check user đã join chưa (tránh duplicate)
+    boolean addMember(Connection conn, int userId, int projectId);
+
+    boolean addUserToProject(Connection conn, int userId, int projectId, Role role);
 }

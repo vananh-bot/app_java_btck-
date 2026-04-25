@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox alignment="CENTER_LEFT" prefHeight="65.0" spacing="15.0" styleClass="member-row" stylesheets="@../css/member-list.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MemberRowController">
+    <children>
+
+        <ImageView fx:id="imgAvatar" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+            <HBox.margin>
+                <Insets left="5.0" />
+            </HBox.margin>
+        </ImageView>
+
+        <VBox alignment="CENTER_LEFT" spacing="2.0">
+            <children>
+                <Label fx:id="lblName" styleClass="member-name" text="Họ và Tên" />
+                <Label fx:id="lblEmail" styleClass="member-email" text="abc@gmail.com" />
+            </children>
+        </VBox>
+
+        <Region HBox.hgrow="ALWAYS" />
+
+        <Label fx:id="lblRole" styleClass="role-tag-member" text="THÀNH VIÊN">
+            <HBox.margin>
+                <Insets right="10.0" />
+            </HBox.margin>
+        </Label>
+
+    </children>
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+</HBox>

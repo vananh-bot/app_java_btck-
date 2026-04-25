@@ -55,6 +55,7 @@ public class LoginController {
             User user = userDAO.findByName(inputName);
             if (user != null) {
                 UserSession.login(user); // Cất vào kho
+                UserSession.setEmail(user.getEmail());
             }
 
 //            errorLabel.setStyle("-fx-text-fill: green;");

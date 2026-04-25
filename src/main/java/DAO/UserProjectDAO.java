@@ -1,5 +1,6 @@
 package DAO;
 
+import DTO.MemberDTO;
 import Model.UserProject;
 import Enum.Role;
 import database.JDBCUtil;
@@ -151,5 +152,55 @@ public class UserProjectDAO implements UserProjectDAOInterface {
             e.printStackTrace();
             return false;
         }
+    }
+    @Override
+    public boolean addUserToProject(Connection conn, int userId, int projectId, Role role) {
+        String sql = "INSERT INTO user_project (user_id, project_id, role, joined_at) VALUES (?, ?, ?, ?)";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+            ps.setInt(2, projectId);
+            ps.setString(3, role.name());
+            ps.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLIntegrityConstraintViolationException e) {
+            return false;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Override
+    public boolean addMember(Connection conn, int userId, int projectId) {
+        return addUserToProject(conn, userId, projectId, Role.MEMBER);
+    }
+    public List<MemberDTO> getMembersFullInfo(int projectId) {
+        List<MemberDTO> list = new ArrayList<>();
+        // Câu lệnh SQL JOIN để lấy cả thông tin User và Role cùng lúc
+        String sql = "SELECT u.id, u.name, u.email, up.role " +
+                "FROM user_project up " +
+                "JOIN users u ON up.user_id = u.id " +
+                "WHERE up.project_id = ?";
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, projectId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new MemberDTO(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        Role.valueOf(rs.getString("role"))
+                ));
+            }
+            System.out.println("TOTAL FROM DB: " + list.size());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }
