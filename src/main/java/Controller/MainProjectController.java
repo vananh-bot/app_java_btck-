@@ -178,7 +178,7 @@ public class MainProjectController implements DataReceiver<Integer> {
     }
 
     private void updateProjectLinkName(int projectId){
-       String name= projectService.getProjectName(projectId);
+        String name= projectService.getProjectName(projectId);
         if (mainProjectLink != null) {
             mainProjectLink.setText(name);
             projectName.setText(name);

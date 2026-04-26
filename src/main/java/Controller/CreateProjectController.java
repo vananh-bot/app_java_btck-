@@ -6,6 +6,7 @@ import Utils.DialogManager;
 import Utils.SceneNavigator;
 import Utils.ScreenManager;
 import Utils.UserSession;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,11 +26,23 @@ public class CreateProjectController {
     @FXML private TextArea enter;
     @FXML private TextArea describe;
     @FXML private StackPane overlay;
+    @FXML
+    private Button create;
+    @FXML
+    private ProgressIndicator loading;
+    @FXML
+    private Label alert;
 
     private ProjectService projectService;
 
     public CreateProjectController() {
         this.projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO(), new InviteDAO(), new TaskDAO());
+    }
+
+    @FXML
+    private void initialize(){
+        alert.setText("");
+        loading.setVisible(false);
     }
 
     @FXML
@@ -39,34 +52,54 @@ public class CreateProjectController {
         int currentUserId = UserSession.getUserId();
 
         if (name.isEmpty()) {
-            showNotify("Lỗi", "Tên dự án không được để trống!", Alert.AlertType.WARNING);
+            alert.setText("Tên dự án không được để trống!");
             return;
         }
 
-        if (projectService.isNameDuplicate(currentUserId, name)) {
-            showNotify("Trùng tên", "Dự án '" + name + "' đã tồn tại. Thử tên khác nhé!", Alert.AlertType.ERROR);
-            return;
-        }
+        loading.setVisible(true);
+        create.setText("");
+        create.setDisable(true);
+        loading.setProgress(-1);
 
-        int projectId = projectService.createProject(name, description, currentUserId);
-        if (projectId != -1) {
-            ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW, projectId);
-        } else {
-            showNotify("Thất bại", "Không thể tạo dự án. Hãy thử lại sau!", Alert.AlertType.ERROR);
-        }
+        Task<Integer> task = new Task<Integer>() {
+            @Override
+            protected Integer call() throws Exception {
+                if (projectService.isNameDuplicate(currentUserId, name)) {
+                    return -2;
+                }
+                return projectService.createProject(name, description, currentUserId);
+            }
+        };
 
+        task.setOnSucceeded(e -> {
+            loading.setVisible(false);
+            create.setText("Tạo dự án");
+            create.setDisable(false);
+
+            int projectId = task.getValue();
+
+            if(projectId == -2){
+                alert.setText("Trùng tên dự án. Thử tên khác nhé!");
+            } else if(projectId > 0){
+                ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW, projectId);
+            } else {
+                alert.setText("Không thể tạo dự án!");
+            }
+        });
+        task.setOnFailed(e -> showError());
+
+        new Thread(task).start();
+    }
+
+    private void showError(){
+        loading.setVisible(false);
+        create.setText("Tạo dự án");
+        create.setDisable(false);
+        alert.setText("Lỗi hệ thống!");
     }
     @FXML
     private void handleCancel(ActionEvent event) {
         DialogManager.getInstance().close(overlay);
     }
 
-
-    private void showNotify(String title, String content, Alert.AlertType type) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
 }

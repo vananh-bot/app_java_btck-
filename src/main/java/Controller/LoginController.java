@@ -6,6 +6,7 @@ import Model.User;
 // Nhớ import thêm 2 cái này để hết báo đỏ
 import Utils.UserSession;
 import Utils.SceneNavigator;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import java.io.IOException;
 
@@ -26,6 +28,12 @@ public class LoginController {
     @FXML private Hyperlink register;
     @FXML private Label errorLabel;
 
+    @FXML
+    private ProgressIndicator loading;
+    @FXML
+    private Label alertAfterRegister;
+
+
     // SỬA LỖI 1: Khai báo đối tượng userDAO để gọi được hàm findByName
     private final UserDAO userDAO = new UserDAO();
     private final LoginService loginService = new LoginService();
@@ -36,6 +44,7 @@ public class LoginController {
         passwordvisible.setVisible(false);
         eyeclose.setVisible(true);
         eyeopen.setVisible(false);
+        loading.setVisible(false);
     }
 
     @FXML
@@ -44,29 +53,46 @@ public class LoginController {
             System.err.println("LỖI: Bạn chưa đặt fx:id cho errorLabel trong Scene Builder!");
             return;
         }
+        loading.setVisible(true);
+        signin.setDisable(true);
+        signin.setText("");
+        loading.setProgress(-1);
 
         String inputName = username.getText().trim();
         String inputPass = password.isVisible() ? password.getText() : passwordvisible.getText();
 
-        String result = loginService.login(inputName, inputPass);
-
-        if ("SUCCESS".equals(result)) {
-            // SỬA LỖI 2: Gọi findByName qua đối tượng userDAO (viết thường) thay vì UserDAO (viết hoa)
-            User user = userDAO.findByName(inputName);
-            if (user != null) {
-                UserSession.login(user); // Cất vào kho
+        Task<String> task = new Task<>() {
+            @Override
+            protected String call() {
+                return loginService.login(inputName, inputPass);
             }
+        };
 
-//            errorLabel.setStyle("-fx-text-fill: green;");
-//            errorLabel.setText("Đăng nhập thành công!");
-//            errorLabel.setVisible(true);
+        task.setOnSucceeded(e -> {
 
-            goToMainScreen(event);
-        } else {
-            errorLabel.setText(result);
-            errorLabel.setStyle("-fx-text-fill: red;");
-            errorLabel.setVisible(true);
-        }
+            loading.setVisible(false);
+            signin.setDisable(false);
+            signin.setText("Đăng nhập ->");
+
+            String result = task.getValue();
+
+            if ("SUCCESS".equals(result)) {
+
+                User user = userDAO.findByName(inputName);
+                if (user != null) {
+                    UserSession.login(user);
+                }
+
+                goToMainScreen(event);
+
+            } else {
+                errorLabel.setText(result);
+                errorLabel.setStyle("-fx-text-fill: red;");
+                errorLabel.setVisible(true);
+            }
+        });
+
+        new Thread(task).start();
     }
 
     // GIỮ NGUYÊN TOÀN BỘ CODE CŨ BÊN DƯỚI

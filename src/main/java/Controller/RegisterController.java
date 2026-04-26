@@ -2,16 +2,13 @@ package Controller;
 
 import DAO.UserDAO;
 import Service.RegisterService;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -57,6 +54,10 @@ public class RegisterController {
     private Button signup;
 
     @FXML
+    private ProgressIndicator loading;
+
+
+    @FXML
     public void initialize() {
         passwordvisible1.setVisible(false);
         passwordvisible2.setVisible(false);
@@ -69,6 +70,8 @@ public class RegisterController {
 
         passwordvisible1.textProperty().bindBidirectional(password1.textProperty());
         passwordvisible2.textProperty().bindBidirectional(password2.textProperty());
+
+        loading.setVisible(false);
     }
 
     @FXML
@@ -117,7 +120,7 @@ public class RegisterController {
         }
     }
     @FXML
-    public void handleRegister(ActionEvent event){
+    public void handleRegister(ActionEvent event) {
         String userName = name.getText().trim();
         String userEmail = email.getText().trim();
 
@@ -129,24 +132,48 @@ public class RegisterController {
                 ? passwordvisible2.getText()
                 : password2.getText();
 
-        try{
-            RegisterService service = new RegisterService(new UserDAO());
-            String result = service.register(userName, userEmail, pass1, pass2);
+        loading.setVisible(true);
+        signup.setDisable(true);
+        signup.setText("");
+        loading.setProgress(-1);
 
-            error.setVisible(true);
+        RegisterService service = new RegisterService(new UserDAO());
 
-            if("SUCCESS".equals(result)){
-                handleGoToLogin(event);
-            } else {
-                error.setStyle("-fx-text-fill: #ff0000;");
-                error.setText(result);
+        Task<String> task = new Task<String>() {
+            @Override
+            protected String call() throws Exception {
+                return service.register(userName, userEmail, pass1, pass2);
             }
+        };
 
-        } catch(Exception e){
-            e.printStackTrace();
-            error.setVisible(true);
-            error.setText("Lỗi hệ thống!");
+        task.setOnSucceeded(e -> handleResult(task.getValue(), event));
+        task.setOnFailed(e -> showError());
+
+        new Thread(task).start();
+    }
+    private void handleResult(String result, ActionEvent event){
+        loading.setVisible(false);
+        signup.setDisable(false);
+        signup.setText("Đăng kí ->");
+
+        error.setVisible(true);
+
+        if("SUCCESS".equals(result)){
+            handleGoToLogin(event);
+        } else {
+            error.setStyle("-fx-text-fill: #ff0000;");
+            error.setText(result);
         }
+
+    }
+
+    private void showError(){
+        loading.setVisible(false);
+        signup.setDisable(false);
+        signup.setText("Đăng kí ->");
+
+        error.setVisible(true);
+        error.setText("Lỗi hệ thống!");
     }
     @FXML
     void handleGoToLogin(ActionEvent event) {

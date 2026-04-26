@@ -4,6 +4,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -227,7 +228,12 @@
                                           </padding>
                                           <children>
                                               <ToggleButton fx:id="btncancel" contentDisplay="CENTER" mnemonicParsing="false" onAction="#cancelAddTask" prefHeight="38.0" prefWidth="66.0" style="-fx-background-radius: 20; -fx-font-weight: bold;" styleClass="button-cancel" text="Hủy" textAlignment="RIGHT" />
-                                              <ToggleButton fx:id="btnAddTask" mnemonicParsing="false" onAction="#addTask" prefHeight="41.0" prefWidth="150.0" style="-fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" styleClass="primay-button" text="Thêm công việc" />
+                              <StackPane>
+                                 <children>
+                                                    <ToggleButton fx:id="btnAddTask" mnemonicParsing="false" onAction="#addTask" prefHeight="41.0" prefWidth="150.0" style="-fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" styleClass="primay-button" text="Thêm công việc" />
+                                    <ProgressIndicator fx:id="loading" progress="0.0" styleClass="white-spinner" stylesheets="@../css/loadingSpinner.css" />
+                                 </children>
+                              </StackPane>
                                           </children>
                                       </HBox>
                                   </children>

@@ -1,0 +1,13 @@
+.purple-spinner{
+    -fx-progress-color: #5208e8;
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+}
+
+.white-spinner{
+    -fx-pref-height: 20px;
+    -fx-pref-width: 20px;
+    -fx-progress-color: white;
+    -fx-scale-x: 0.7;
+    -fx-scale-y: 0.7;
+}

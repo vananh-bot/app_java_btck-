@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
@@ -29,6 +30,8 @@ public class AllProjectController implements Initializable {
     @FXML private FlowPane projectContainer;
     @FXML private TextField searchInput;
     @FXML private Button createProject;
+    @FXML
+    private ProgressIndicator loading;
 
     private ProjectService projectService;
     private List<ProjectCardDTO> allProjectDTOs = new ArrayList<>();
@@ -75,6 +78,7 @@ public class AllProjectController implements Initializable {
     }
 
     private void loadData(int userId) {
+        showLoading(true);
         new Thread(() -> {
             try {
                 long startTime = System.currentTimeMillis();
@@ -90,10 +94,18 @@ public class AllProjectController implements Initializable {
 
                 Platform.runLater(() -> applyDeltaUISafely(newMap));
 
+                showLoading(false);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }).start();
+    }
+
+    private void showLoading(boolean b){
+        loading.setVisible(b);
+        loading.setManaged(b);
+        loading.setProgress(-1);
     }
 
     private void applyDeltaUISafely(Map<Integer, ProjectCardDTO> newMap) {

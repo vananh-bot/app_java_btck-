@@ -17,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -78,6 +79,9 @@ public class DashboardController {
     private Label welcome;
 
     @FXML
+    private ProgressIndicator loading;
+
+    @FXML
     void initialize(){
         userId = UserSession.getUserId();
         loadDashboardData();
@@ -88,6 +92,8 @@ public class DashboardController {
     }
 
     void loadDashboardData(){
+        showLoading(true);
+
         new Thread(() -> {
 
             List<ProjectDashboardDTO> projects = projectService.getDashboardProjects(userId);
@@ -99,9 +105,19 @@ public class DashboardController {
 
                 renderDashboardProjects(projects);
                 renderDashboardMyTask(tasks);
+
+                showLoading(false);
             });
 
         }).start();
+    }
+
+    private void showLoading(boolean b){
+
+        loading.setVisible(b);
+        loading.setManaged(b);
+        loading.setProgress(-1);
+
     }
 
     private void renderDashboardProjects(List<ProjectDashboardDTO> projects){

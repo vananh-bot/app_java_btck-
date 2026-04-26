@@ -8,6 +8,7 @@ import Utils.DataReceiver;
 import Utils.DialogManager;
 import Utils.SceneNavigator;
 import Utils.ScreenManager;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -40,6 +41,8 @@ public class CreateTaskController implements DataReceiver<Integer> {
     private TextArea description;
     @FXML
     private TextArea title;
+    @FXML
+    private ProgressIndicator loading;
 
     private int currentProjectId;
 
@@ -52,6 +55,8 @@ public class CreateTaskController implements DataReceiver<Integer> {
     private ToggleGroup priorityGroup;
 
     public void initialize(){
+        loading.setVisible(false);
+
         //khởi tạo status group
         statusGroup = new ToggleGroup();
         btntodo.setToggleGroup(statusGroup);
@@ -110,22 +115,44 @@ public class CreateTaskController implements DataReceiver<Integer> {
         LocalDate date = btndeadline.getValue();
         LocalDateTime taskDeadline = date.atStartOfDay();
 
-        try {
-            TaskService service = new TaskService(new TaskDAO());
-            int taskId = service.createTask(taskTitle, taskDescription, taskPriority, taskStatus, taskDeadline, currentProjectId);
+        loading.setVisible(true);
+        btnAddTask.setDisable(true);
+        loading.setProgress(-1);
+        btnAddTask.setText("");
 
+        TaskService service = new TaskService(new TaskDAO());
+
+        Task<Integer> task = new Task<Integer>() {
+            @Override
+            protected Integer call() throws Exception {
+                return service.createTask(taskTitle, taskDescription, taskPriority, taskStatus, taskDeadline, currentProjectId);
+            }
+        };
+
+        task.setOnSucceeded(e -> {
+            loading.setVisible(false);
+            btnAddTask.setDisable(false);
+            btnAddTask.setText("Tạo công việc");
+
+            int taskId = task.getValue();
             ScreenManager.getInstance().show(Screen.TASK_DETAILS, taskId);
+        });
 
-        } catch (IllegalArgumentException e){
-            error.setVisible(true);
-            error.setStyle("-fx-text-fill: #ff0000;");
-            error.setText(e.getMessage());
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            error.setVisible(true);
-            error.setText("Lỗi hệ thống!");
-        }
+        task.setOnFailed(e -> {
+            loading.setVisible(false);
+            btnAddTask.setDisable(false);
+            btnAddTask.setText("Tạo công việc");
+
+            Throwable ex = task.getException();
+            if(ex instanceof IllegalArgumentException) {
+                error.setVisible(true);
+                error.setStyle("-fx-text-fill: #ff0000;");
+                error.setText(ex.getMessage());
+            } else {
+                error.setVisible(true);
+                error.setText("Lỗi hệ thống!");
+            }
+        });
     }
 
     @FXML
