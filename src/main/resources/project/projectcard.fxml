@@ -10,9 +10,9 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="225.0" prefWidth="400.0" stylesheets="@../css/allmyproject.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProjectCardController">
+<AnchorPane prefHeight="228.0" prefWidth="400.0" stylesheets="@../css/allmyproject.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProjectCardController">
    <children>
-      <VBox prefHeight="225.0" prefWidth="400.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 15, 0, 0, 5);">
+      <VBox prefHeight="225.0" prefWidth="400.0" styleClass="project-card">
          <children>
             <HBox prefHeight="148.0" prefWidth="400.0">
                <children>

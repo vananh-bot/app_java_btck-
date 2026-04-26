@@ -13,9 +13,11 @@ import Utils.ScreenManager;
 import Utils.UserSession;
 
 import javafx.animation.PauseTransition;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
@@ -29,9 +31,16 @@ public class TokenController {
     private StackPane overlay;
 
     private InviteService inviteService;
+    @FXML
+    private ProgressIndicator loading;
+    private int currentUserId;
+    private String currentUserEmail;
 
     @FXML
     public void initialize() {
+        currentUserId = UserSession.getUserId();
+        currentUserEmail = UserSession.getEmail();
+        loading.setVisible(false);
         inviteService = new InviteService(new InviteLinkDAO(), new EmailInviteDAO(), new JoinRequestDAO(), new UserProjectDAO());
         btnJoin.setOnAction(event -> handleJoinProject());
     }
@@ -44,34 +53,40 @@ public class TokenController {
             return;
         }
 
-        int currentUserId = UserSession.getUserId();
-        String currentUserEmail = UserSession.getEmail();
-        // Tạm hardcode để test, nhớ đổi thành getEmail() từ Session thực tế nhé
-//        int currentUserId = 38;
-//        String currentUserEmail = "hahoaiphuong07012006@gmail.com";
-
+        loading.setVisible(true);
         btnJoin.setDisable(true);
-        btnJoin.setText("Đang kiểm tra...");
+        loading.setProgress(-1);
+        btnJoin.setText("");
 
-        try {
-            // Gọi Service (Nếu có lỗi, nó sẽ văng thẳng xuống block catch ở dưới)
-            int joinedProjectId = inviteService.acceptEmailInvite(token, currentUserId, currentUserEmail);
+        Task<Integer> task = new Task<Integer>() {
+            @Override
+            protected Integer call() throws Exception {
+                return inviteService.acceptEmailInvite(token, currentUserId, currentUserEmail);
+            }
+        };
 
-            // Nếu chạy được đến dòng này nghĩa là TẤT CẢ ĐỀU ĐÚNG
+        task.setOnSucceeded(event -> {
+            int joinedProjectId = task.getValue();
+
             showInlineMessage("Thành công! Đang chuyển hướng...", true);
             txtToken.clear();
 
-            //UserSession.setCurrentProjectId(joinedProjectId);
-            ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW,joinedProjectId);
+            ScreenManager.getInstance()
+                    .show(Screen.MAIN_PROJECT_VIEW, joinedProjectId);
+        });
 
-        } catch (Exception e) {
-            // CỰC KỲ VI DIỆU: e.getMessage() chính là câu tiếng Việt bạn viết ở Tầng Service!
-            showInlineMessage(e.getMessage(), false);
-
-        } finally {
+        task.setOnFailed(event -> {
+            loading.setVisible(false);
             btnJoin.setDisable(false);
             btnJoin.setText("Tham gia dự án");
-        }
+            Throwable e = task.getException();
+            showInlineMessage(e.getMessage(), false);
+        });
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+
     }
 
     private void showInlineMessage(String message, boolean isSuccess) {

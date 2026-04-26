@@ -138,6 +138,9 @@
                                              </children>
                                           </VBox>
                                        </children>
+                                       <VBox.margin>
+                                          <Insets left="17.0" right="17.0" />
+                                       </VBox.margin>
                                     </StackPane>
                                                     <VBox prefHeight="284.0" prefWidth="791.0">
                                                         <children>

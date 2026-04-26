@@ -3,7 +3,15 @@
     -fx-background-color: white;
     -fx-background-radius: 20; /* Bo tròn mạnh tay vào mới đẹp */
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 15, 0, 0, 5);
-    -fx-padding: 25;
+    -fx-cursor: hand;
+}
+.project-card:hover{
+    -fx-background-color:#eef0ff;
+}
+
+/* pressed */
+.project-card:pressed{
+    -fx-background-color:#dde0ff;
 }
 
 .btn-new-project:pressed {

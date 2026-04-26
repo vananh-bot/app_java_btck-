@@ -49,7 +49,7 @@
                                 </HBox>
                             </children>
                         </HBox>
-                        <HBox prefHeight="147.0" prefWidth="1086.0">
+                        <HBox prefHeight="147.0" prefWidth="1086.0" styleClass="grey_pane">
                             <children>
                                 <Label alignment="CENTER" prefHeight="70.0" prefWidth="269.0" text="Dự án của tôi" textAlignment="RIGHT" HBox.hgrow="ALWAYS">
                                     <font>
@@ -105,7 +105,7 @@
                                 <Insets bottom="15.0" left="25.0" right="20.0" top="15.0" />
                             </padding>
                         </HBox>
-                        <StackPane VBox.vgrow="ALWAYS">
+                        <StackPane styleClass="grey_pane" VBox.vgrow="ALWAYS">
                             <children>
                                 <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefWidth="1086.0" style="-fx-background-color: transparent; -fx-background: transparent;">
                                     <content>
@@ -127,7 +127,7 @@
                                     <children>
                                         <ImageView fitHeight="318.0" fitWidth="386.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@../images/emptyProject.png" />
+                                                <Image url="@../images/emptyProject-removebg-preview.png" />
                                             </image>
                                         </ImageView>
                                         <Label styleClass="setFontInVbox" text="Không có dự án nào">
