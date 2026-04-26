@@ -8,7 +8,7 @@ public class User {
     private String password;
     private String name;
     private boolean isVerified;
-
+    private String otpCode;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -52,4 +52,6 @@ public class User {
     public void setVerified(boolean verified) { isVerified = verified; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public String getOtpCode() { return otpCode; }
+    public void setOtpCode(String otpCode) { this.otpCode = otpCode; }
 }

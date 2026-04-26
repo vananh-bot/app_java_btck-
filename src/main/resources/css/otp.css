@@ -1,0 +1,81 @@
+
+.otp-container {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);
+}
+
+.title-label {
+    -fx-font-size: 24px;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E88E5;
+}
+
+.info-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #616161;
+}
+
+.email-highlight {
+    -fx-font-size: 13px;
+    -fx-text-fill: #1E88E5;
+    -fx-font-weight: bold;
+}
+
+.otp-field {
+    -fx-alignment: center;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-background-color: #FAFAFA;
+    -fx-border-color: #E0E0E0;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.otp-field:focused {
+    -fx-border-color: #1E88E5;
+    -fx-background-color: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(30, 136, 229, 0.2), 5, 0, 0, 0);
+}
+
+.error-label {
+    -fx-text-fill: #D32F2F;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.timer-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #757575;
+}
+
+.verify-button {
+    -fx-background-color: #1E88E5;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.verify-button:hover {
+    -fx-background-color: #1565C0;
+}
+
+.resend-link {
+    -fx-text-fill: #1E88E5;
+    -fx-font-size: 13px;
+    -fx-underline: false;
+}
+
+.resend-link:hover {
+    -fx-text-fill: #1565C0;
+}
+
+.timer-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #FF9800;
+    -fx-font-weight: bold;
+}
