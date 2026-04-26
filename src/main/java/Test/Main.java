@@ -11,7 +11,7 @@ public class Main extends Application {
     public void start(Stage stage) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/auth/login.fxml")
+                    getClass().getResource("/invite/token.fxml")
             );
 
             Scene scene = new Scene(loader.load());

@@ -81,6 +81,7 @@ public class LoginController {
                 User user = userDAO.findByName(inputName);
                 if (user != null) {
                     UserSession.login(user);
+                    UserSession.setEmail(user.getEmail());
                 }
 
                 goToMainScreen(event);

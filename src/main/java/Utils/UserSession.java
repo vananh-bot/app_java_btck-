@@ -4,6 +4,8 @@ import Model.User;
 
 public class UserSession {
     private static User currentUser;
+    private static String email = "";
+
 
     public static void login(User user) {
         currentUser = user;
@@ -20,5 +22,13 @@ public class UserSession {
     // BỔ SUNG HÀM NÀY ĐỂ HẾT BÁO ĐỎ Ở CONTROLLER
     public static int getUserId() {
         return (currentUser != null) ? currentUser.getId() : -1;
+    }
+
+    public static String getEmail() {
+        return email;
+    }
+
+    public static void setEmail(String userEmail) {
+        email = userEmail;
     }
 }
