@@ -1,0 +1,115 @@
+/* --- CẤU HÌNH KHUNG CHUNG (MemberList) --- */
+.dialog-pane {
+    -fx-background-color: white;
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+    /* Hiệu ứng đổ bóng mờ nhẹ của DialogManager */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 20, 0, 0, 10);
+}
+
+.title-label {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e293b; /* Màu xanh đen Slate */
+}
+
+/* Nút X: Tàng hình */
+.close-btn {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.close-btn:hover {
+    -fx-background-color: #f1f5f9;
+}
+
+/* Trạng thái bình thường của thanh search */
+.search-bar-container {
+    -fx-background-color: #f1f5f9;
+    -fx-border-color: #e2e8f0;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}
+
+/* Class này sẽ được Java "mặc vào" cho HBox khi bạn click vào ô nhập */
+.search-active {
+    -fx-background-color: white;
+    -fx-border-color: #314CA3;
+    -fx-effect: dropshadow(three-pass-box, rgba(59,130,246,0.1), 5, 0, 0, 0);
+}
+.search-field {
+    -fx-background-color: transparent; /* Tàng hình, dùng nền của container */
+    -fx-border-color: transparent;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+}
+
+/* Tắt viền ScrollPane */
+.member-scroll {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+.member-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Nút Mời thành viên mới */
+.invite-btn {
+    -fx-background-color: #263c85; /* Xanh dương nổi bật */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 12px 25px;
+    -fx-cursor: hand;
+}
+
+.invite-btn:hover {
+    -fx-background-color: #314CA3;
+}
+
+/* --- CẤU HÌNH CARD NHỎ (MemberRow) --- */
+.member-row {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+}
+
+/* Hiệu ứng khi lướt chuột qua thẻ thành viên */
+.member-row:hover {
+    -fx-background-color: #f8fafc;
+}
+
+.member-name {
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+    -fx-text-fill: #1e293b;
+}
+
+.member-email {
+    -fx-text-fill: #64748b;
+    -fx-font-size: 15px;
+}
+
+/* Style chung cho Role Tag */
+.role-tag-member, .role-tag-owner {
+    -fx-padding: 3px 12px;
+    -fx-background-radius: 12px;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+/* Màu cho Thành viên mặc định (Xám nhạt) */
+.role-tag-member {
+    -fx-background-color: #e2e8f0;
+    -fx-text-fill: #475569;
+}
+
+/* Màu cho Admin/Owner (Xanh nhạt) - Sẽ gán bằng code Java */
+.role-tag-owner {
+    -fx-background-color: #dbeafe;
+    -fx-text-fill: #314CA3;
+}

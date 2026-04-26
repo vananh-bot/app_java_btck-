@@ -8,6 +8,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -90,6 +92,18 @@
                                       <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
                                   </HBox.margin>
                               </VBox>
+                        <Button minHeight="41.0" minWidth="55.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="55.0" styleClass="circle-button">
+                           <HBox.margin>
+                              <Insets bottom="20.0" left="80.0" />
+                           </HBox.margin>
+                           <graphic>
+                              <ImageView fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/group_add_24dp_5208E8_FILL0_wght400_GRAD0_opsz24.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                               <Button fx:id="createTask" mnemonicParsing="false" onAction="#handleOpenCreateTask" styleClass="addTaskButton" text="Thêm công việc ">
                                   <graphic>
                                       <Label prefHeight="16.0" prefWidth="16.0" text="+" textFill="WHITE">
@@ -99,7 +113,7 @@
                                       </Label>
                                   </graphic>
                                   <HBox.margin>
-                                      <Insets bottom="20.0" left="150.0" />
+                                      <Insets bottom="20.0" left="10.0" />
                                   </HBox.margin>
                               </Button>
                           </children>
