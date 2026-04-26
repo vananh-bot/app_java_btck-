@@ -5,6 +5,7 @@ import Model.User;
 public class UserSession {
     private static User currentUser;
     private static String email = "";
+    private static int currentProjectId = -1;
 
 
     public static void login(User user) {
@@ -30,5 +31,12 @@ public class UserSession {
 
     public static void setEmail(String userEmail) {
         email = userEmail;
+    }
+    public static void setCurrentProjectId(int projectId) {
+        currentProjectId = projectId;
+    }
+
+    public static int getCurrentProjectId() {
+        return currentProjectId;
     }
 }

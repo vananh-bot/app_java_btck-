@@ -51,7 +51,6 @@ public class AllProjectController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        emptyProject.setVisible(false);
         projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO(), new InviteDAO(), new TaskDAO());
 
         setupSearchLogic();
@@ -276,6 +275,10 @@ public class AllProjectController implements Initializable {
 
     private void openProjectDetails(int projectId) {
         ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW, projectId);
+    }
+    @FXML
+    public void EnterToken(ActionEvent event) {
+        DialogManager.getInstance().show(Screen.ENTER_TOKEN);
     }
 
     public void createNewProject(ActionEvent event) {

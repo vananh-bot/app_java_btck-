@@ -51,22 +51,55 @@
                   </HBox>
                       <HBox prefHeight="147.0" prefWidth="1086.0">
                           <children>
-                              <Label alignment="CENTER" prefHeight="70.0" prefWidth="269.0" text="Dự án của tôi" textAlignment="RIGHT">
+                              <Label alignment="CENTER" prefHeight="70.0" prefWidth="269.0" text="Dự án của tôi" textAlignment="RIGHT" HBox.hgrow="ALWAYS">
                                   <font>
                                       <Font name="System Bold" size="35.0" />
                                   </font>
                               </Label>
-                              <HBox prefHeight="100.0" prefWidth="674.0" />
-                              <VBox prefHeight="100.0" prefWidth="131.0">
-                                  <children>
-                                      <VBox prefHeight="34.0" prefWidth="131.0" />
-                                      <Button fx:id="createProject" mnemonicParsing="false" onAction="#createNewProject" prefHeight="34.0" prefWidth="121.0" styleClass="primay-button" text="+ Dự án mới">
-                                          <font>
-                                              <Font size="13.0" />
-                                          </font>
-                                      </Button>
-                                  </children>
+                              <HBox prefHeight="93.0" prefWidth="510.0" HBox.hgrow="ALWAYS" />
+                        <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                           <children>
+                                    <VBox prefHeight="117.0" prefWidth="157.0" HBox.hgrow="ALWAYS">
+                                        <children>
+                                            <VBox prefHeight="34.0" prefWidth="131.0" />
+                                            <Button fx:id="token" alignment="CENTER" maxHeight="34.0" maxWidth="140.0" minHeight="34.0" minWidth="140.0" mnemonicParsing="false" onAction="#EnterToken" prefHeight="34.0" prefWidth="140.0" styleClass="token">
+                                                <font>
+                                                    <Font size="13.0" />
+                                                </font>
+                                       <VBox.margin>
+                                          <Insets right="5.0" />
+                                       </VBox.margin>
+                                       <graphic>
+                                          <HBox alignment="CENTER" prefHeight="25.0" prefWidth="95.0" spacing="5.0">
+                                             <children>
+                                                <ImageView fitHeight="16.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../images/door-key.png" />
+                                                   </image>
+                                                </ImageView>
+                                                <Label text="Nhập mã mời">
+                                                   <font>
+                                                      <Font name="System Bold" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                       </graphic>
+                                            </Button>
+                                        </children>
+                                    </VBox>
+                              <VBox prefHeight="100.0" prefWidth="131.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <VBox prefHeight="34.0" prefWidth="131.0" />
+                                    <Button fx:id="createProject1" maxHeight="34.0" maxWidth="121.0" minHeight="34.0" minWidth="121.0" mnemonicParsing="false" onAction="#createNewProject" prefHeight="34.0" prefWidth="121.0" styleClass="primay-button" text="+ Dự án mới" VBox.vgrow="ALWAYS">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
                               </VBox>
+                           </children>
+                        </HBox>
                           </children>
                           <padding>
                               <Insets bottom="15.0" left="25.0" right="20.0" top="15.0" />
