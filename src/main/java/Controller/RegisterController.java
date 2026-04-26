@@ -172,11 +172,11 @@ public class RegisterController {
                 RegisterService service = new RegisterService(new UserDAO());
                 service.setupUser(name,email,pass);
                 error.setStyle("-fx-text-fill: #048000;");
-                error.setText("Đăng ký thành công rực rỡ! Đăng nhập thôi ní.");
+                error.setText("Đăng ký thành công! Vui lòng bấm đăng nhập để tiếp tục.");
                 clearForm();
             } else {
                 error.setStyle("-fx-text-fill: #ff0000;");
-                error.setText("Ní chưa xác thực OTP mà!");
+                error.setText("Đăng kí thật bại vì bạn chưa xác thực OTP");
             }
         } catch (IOException e) {
             e.printStackTrace();
