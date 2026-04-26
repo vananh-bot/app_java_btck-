@@ -8,6 +8,7 @@ import DAO.UserProjectDAO;
 
 // Nhớ import thêm 3 dòng này để chuyển màn hình
 import Enum.Screen;
+import Utils.DialogManager;
 import Utils.ScreenManager;
 import Utils.UserSession;
 
@@ -16,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 public class TokenController {
@@ -23,6 +25,8 @@ public class TokenController {
     @FXML private TextField txtToken;
     @FXML private Button btnJoin,close;
     @FXML private Label lblMessage;
+    @FXML
+    private StackPane overlay;
 
     private InviteService inviteService;
 
@@ -40,11 +44,11 @@ public class TokenController {
             return;
         }
 
-//        int currentUserId = UserSession.getUserId();
-//        String currentUserEmail = UserSession.getEmail();
+        int currentUserId = UserSession.getUserId();
+        String currentUserEmail = UserSession.getEmail();
         // Tạm hardcode để test, nhớ đổi thành getEmail() từ Session thực tế nhé
-        int currentUserId = 38;
-        String currentUserEmail = "hahoaiphuong07012006@gmail.com";
+//        int currentUserId = 38;
+//        String currentUserEmail = "hahoaiphuong07012006@gmail.com";
 
         btnJoin.setDisable(true);
         btnJoin.setText("Đang kiểm tra...");
@@ -58,7 +62,7 @@ public class TokenController {
             txtToken.clear();
 
             //UserSession.setCurrentProjectId(joinedProjectId);
-            ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW);
+            ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW,joinedProjectId);
 
         } catch (Exception e) {
             // CỰC KỲ VI DIỆU: e.getMessage() chính là câu tiếng Việt bạn viết ở Tầng Service!
@@ -81,10 +85,9 @@ public class TokenController {
         pause.setOnFinished(event -> lblMessage.setText(""));
         pause.play();
     }
+
     @FXML
     private void handleCancel(javafx.event.ActionEvent event) {
-        // Lấy Stage (cửa sổ) hiện tại và đóng nó lại
-        javafx.stage.Stage stage = (javafx.stage.Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        stage.close();
+        DialogManager.getInstance().close(overlay);
     }
 }

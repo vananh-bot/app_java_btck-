@@ -155,3 +155,14 @@
     -fx-font-family: "Inter 18pt light";
     -fx-font-weight: bold;
 }
+.token {
+    -fx-background-color: white;
+    -fx-border-color: #2E2580;
+    -fx-background-radius: 25;
+    -fx-border-radius: 25;
+    -fx-cursor: hand;
+}
+.token:hover{
+    -fx-background-color: #EEEEEE;
+    -fx-border-color: #3D31A8;
+}

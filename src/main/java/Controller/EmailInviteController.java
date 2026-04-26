@@ -7,6 +7,7 @@ import DAO.JoinRequestDAO;
 import DAO.UserProjectDAO;
 
 import Utils.DialogManager;
+import Utils.UserSession;
 import javafx.animation.PauseTransition;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -33,8 +34,6 @@ public class EmailInviteController {
     // 2. Khai báo Service xử lý logic
     private InviteService inviteService;
 
-    // Giả sử Project ID hiện tại đang là 1
-    private int currentProjectId = 1;
 
     @FXML
     public void initialize() {
@@ -72,6 +71,11 @@ public class EmailInviteController {
     // Hàm xử lý gửi email cực gọn (Không cần ô nhập Tên nữa)
     private void handleSendEmail() {
         String email = txtEmail.getText().trim();
+        int currentProjectId = UserSession.getCurrentProjectId();
+        if (currentProjectId == -1) {
+            showInlineMessage("Bạn chưa chọn dự án!", false);
+            return;
+        }
 
         // 1. Kiểm tra rỗng cho Email
         if (email.isEmpty()) {
@@ -115,7 +119,10 @@ public class EmailInviteController {
             btnSend.setText("Gửi lời mời");
             btnSend.setDisable(false);
 
-            showInlineMessage("Gửi email thất bại", false);
+            Throwable ex = task.getException();
+            ex.printStackTrace(); // in lỗi thật
+
+            showInlineMessage(ex.getMessage(), false); // hiển thị lỗi thật
         });
         new Thread(task).start();
     }

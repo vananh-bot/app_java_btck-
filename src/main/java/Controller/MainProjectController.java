@@ -51,6 +51,7 @@ public class MainProjectController implements DataReceiver<Integer> {
     @Override
     public void initData(Integer projectId){
         this.projectId = projectId;
+        UserSession.setCurrentProjectId(projectId);
         init(projectId);
     }
 

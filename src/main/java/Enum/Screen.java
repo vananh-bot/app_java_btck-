@@ -11,7 +11,8 @@ public enum Screen {
     LOGIN("/auth/login.fxml"),
     REGISTER("/auth/register.fxml"),
     MEMBER_LIST("/invite/MemberList.fxml"),
-    INVITE_MEMBER("/invite/email.fxml");
+    INVITE_MEMBER("/invite/email.fxml"),
+    ENTER_TOKEN("/invite/token.fxml");
 
     private final String fxmlPath;
 

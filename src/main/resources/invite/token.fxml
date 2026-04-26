@@ -6,54 +6,76 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 
-<AnchorPane prefHeight="200.0" prefWidth="500.0" styleClass="card" stylesheets="@../css/sharelink.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TokenController">
+<StackPane fx:id="overlay" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TokenController">
    <children>
-      <Button fx:id="close" layoutY="-8.0" mnemonicParsing="false" onAction="#handleCancel" prefHeight="62.0" prefWidth="65.0" style="-fx-background-color: transparent; -fx-cursor: hand;" AnchorPane.rightAnchor="-49.0" AnchorPane.topAnchor="-48.0">
-         <graphic>
-            <ImageView fitHeight="44.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/close.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
-      <VBox alignment="CENTER" layoutX="80.0" layoutY="78.4" prefHeight="297.0" prefWidth="436.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
+      <VBox maxHeight="300.0" maxWidth="500.0" minHeight="300.0" minWidth="500.0" prefHeight="300.0" prefWidth="500.0" styleClass="card" stylesheets="@../css/email.css" StackPane.alignment="CENTER">
          <children>
-            <Label styleClass="title-label" stylesheets="@../css/sharelink.css" text="Nhập mã tham gia dự án">
+            <HBox alignment="CENTER_RIGHT">
                <VBox.margin>
-                  <Insets bottom="5.0" />
+                  <Insets />
                </VBox.margin>
-            </Label>
-            <Label styleClass="subtitle-text" stylesheets="@../css/sharelink.css" text="Nhập mã token bạn đã nhận được để tham gia vào dự án">
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-            </Label>
-            <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Label styleClass="section-label" stylesheets="@../css/sharelink.css" text="MÃ TOKEN DỰ ÁN">
+                  <Button fx:id="close" mnemonicParsing="false" onAction="#handleCancel" prefHeight="28.0" prefWidth="44.0" style="-fx-background-color: transparent; -fx-cursor: hand;">
+                     <graphic>
+                        <ImageView fitHeight="44.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/close.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <VBox alignment="CENTER" prefHeight="297.0" prefWidth="436.0">
+               <children>
+                  <Label styleClass="title-label" stylesheets="@../css/sharelink.css" text="Nhập mã tham gia dự án">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="txtToken" styleClass="text-field-custom" stylesheets="@../css/sharelink.css" />
+                  <Label styleClass="subtitle-text" stylesheets="@../css/sharelink.css" text="Nhập mã token bạn đã nhận được để tham gia vào dự án">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label styleClass="section-label" stylesheets="@../css/sharelink.css" text="MÃ TOKEN DỰ ÁN">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="20.0" right="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="txtToken" styleClass="text-field-custom" stylesheets="@../css/sharelink.css">
+                           <VBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <Label fx:id="lblMessage">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Button fx:id="btnJoin" mnemonicParsing="false" prefHeight="51.0" prefWidth="236.0" styleClass="submit-button" stylesheets="@../css/sharelink.css" text="Tham gia dự án">
+                     <VBox.margin>
+                        <Insets bottom="15.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
                </children>
             </VBox>
-            <Label fx:id="lblMessage">
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
-            </Label>
-            <Button fx:id="btnJoin" mnemonicParsing="false" prefHeight="51.0" prefWidth="236.0" styleClass="submit-button" stylesheets="@../css/sharelink.css" text="Tham gia dự án">
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </Button>
          </children>
+         <StackPane.margin>
+            <Insets />
+         </StackPane.margin>
       </VBox>
    </children>
-</AnchorPane>
+</StackPane>
