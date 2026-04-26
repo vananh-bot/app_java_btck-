@@ -2,23 +2,35 @@ package Controller;
 
 import DTO.MemberDTO;
 import Service.MemberService;
+import Utils.DataReceiver;
+import Utils.DialogManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.List;
+import Enum.Screen;
 
-public class MemberListController {
+public class MemberListController implements DataReceiver<Integer> {
 
     @FXML private VBox memberContainer;
     @FXML private TextField txtSearch;
+    @FXML
+    private StackPane overlay;
 
     private final MemberService memberService = new MemberService();
     private List<MemberDTO> allMembers = new ArrayList<>();
     private int currentProjectId;
+
+    @Override
+    public void initData(Integer projectId){
+        this.currentProjectId = projectId;
+        loadData();
+    }
 
     @FXML
     public void initialize() {
@@ -27,11 +39,6 @@ public class MemberListController {
             List<MemberDTO> filtered = memberService.filterMembers(allMembers, newVal);
             renderMembers(filtered);
         });
-    }
-
-    public void setProjectInfo(int projectId) {
-        this.currentProjectId = projectId;
-        loadData();
     }
 
     private void loadData() {
@@ -79,13 +86,10 @@ public class MemberListController {
     }
     @FXML
     private void handleClose(javafx.event.ActionEvent event) {
-        // Lấy Stage (cửa sổ) hiện tại và đóng nó lại
-        javafx.stage.Stage stage = (javafx.stage.Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        stage.close();
+        DialogManager.getInstance().close(overlay);
     }
     @FXML
     private void handleOpenInvite(javafx.event.ActionEvent event) {
-        System.out.println("Nút Mời thành viên đã được bấm!");
-        // Tạm thời để in ra console để test, sau này sẽ gọi DialogManager mở màn hình mời
+        DialogManager.getInstance().show(Screen.INVITE_MEMBER);
     }
 }

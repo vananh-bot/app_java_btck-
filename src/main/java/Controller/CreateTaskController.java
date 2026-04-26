@@ -153,6 +153,7 @@ public class CreateTaskController implements DataReceiver<Integer> {
                 error.setText("Lỗi hệ thống!");
             }
         });
+        new Thread(task).start();
     }
 
     @FXML

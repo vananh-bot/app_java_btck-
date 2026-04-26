@@ -9,7 +9,9 @@ public enum Screen {
     NOTIFICATION("/notification/notification.fxml"),
     CREATE_TASK("/task/createTask.fxml"),
     LOGIN("/auth/login.fxml"),
-    REGISTER("/auth/register.fxml");
+    REGISTER("/auth/register.fxml"),
+    MEMBER_LIST("/invite/MemberList.fxml"),
+    INVITE_MEMBER("/invite/email.fxml");
 
     private final String fxmlPath;
 

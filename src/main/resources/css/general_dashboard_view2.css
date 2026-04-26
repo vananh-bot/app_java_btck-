@@ -234,3 +234,10 @@
     -fx-font-family: "Inter 18pt light"
 }
 
+.vbox_card{
+    -fx-alignment: center;
+}
+.setFontInVbox{
+    -fx-font-size: 17px;
+    -fx-font-family: "Inter 18pt light"
+}

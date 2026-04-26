@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="overlay" style="-fx-background-color: #F3F4F6;" stylesheets="@../css/createTask.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CreateTaskController">
+<StackPane fx:id="overlay" styleClass="dialog-pane" stylesheets="@../css/createTask.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CreateTaskController">
           <children>
               <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="535.0" prefWidth="603.0" style="-fx-background-color: white; -fx-background-radius: 25;">
                   <children>

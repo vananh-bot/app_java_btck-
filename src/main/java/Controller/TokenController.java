@@ -57,7 +57,7 @@ public class TokenController {
             showInlineMessage("Thành công! Đang chuyển hướng...", true);
             txtToken.clear();
 
-            UserSession.setCurrentProjectId(joinedProjectId);
+            //UserSession.setCurrentProjectId(joinedProjectId);
             ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW);
 
         } catch (Exception e) {

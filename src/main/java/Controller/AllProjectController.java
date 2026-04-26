@@ -13,11 +13,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 import java.net.URL;
@@ -33,6 +35,9 @@ public class AllProjectController implements Initializable {
     @FXML
     private ProgressIndicator loading;
 
+    @FXML
+    private VBox emptyProject;
+
     private ProjectService projectService;
     private List<ProjectCardDTO> allProjectDTOs = new ArrayList<>();
 
@@ -46,6 +51,7 @@ public class AllProjectController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        emptyProject.setVisible(false);
         projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO(), new InviteDAO(), new TaskDAO());
 
         setupSearchLogic();
@@ -92,10 +98,11 @@ public class AllProjectController implements Initializable {
                     newMap.put(dto.getProject().getId(), dto);
                 }
 
-                Platform.runLater(() -> applyDeltaUISafely(newMap));
-
-                showLoading(false);
-
+                Platform.runLater(() -> {
+                    applyDeltaUISafely(newMap);
+                    updateEmptyState();
+                    showLoading(false);
+                });
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -187,6 +194,7 @@ public class AllProjectController implements Initializable {
             entry.getValue().setVisible(visible);
             entry.getValue().setManaged(visible);
         }
+        updateEmptyState();
     }
 
     private String normalize(String text) {
@@ -257,6 +265,13 @@ public class AllProjectController implements Initializable {
             projectContainer.getChildren().remove(card);
             projectCardMap.remove(projectId);
         }
+        updateEmptyState();
+    }
+    private void updateEmptyState(){
+        boolean hasProject = projectContainer.getChildren().stream().anyMatch(Node::isVisible);
+
+        emptyProject.setVisible(!hasProject);
+        emptyProject.setManaged(!hasProject);
     }
 
     private void openProjectDetails(int projectId) {

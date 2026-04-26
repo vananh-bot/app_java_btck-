@@ -173,6 +173,12 @@ public class MainProjectController implements DataReceiver<Integer> {
         DialogManager.getInstance().show(Screen.CREATE_TASK, projectId);
     }
 
+    @FXML
+    void inviteAndMemberList(ActionEvent event) {
+        DialogManager.getInstance().show(Screen.MEMBER_LIST, projectId);
+    }
+
+    @FXML
     public void handleProject(ActionEvent event) {
         ScreenManager.getInstance().show(Screen.ALL_MY_PROJECT);
     }

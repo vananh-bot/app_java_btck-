@@ -82,7 +82,15 @@ public class DashboardController {
     private ProgressIndicator loading;
 
     @FXML
+    private VBox emptyMyTask;
+
+    @FXML
+    private VBox emptyProject;
+
+    @FXML
     void initialize(){
+        emptyProject.setVisible(false);
+        emptyMyTask.setVisible(false);
         userId = UserSession.getUserId();
         loadDashboardData();
 
@@ -105,6 +113,8 @@ public class DashboardController {
 
                 renderDashboardProjects(projects);
                 renderDashboardMyTask(tasks);
+
+                updateEmptyState();
 
                 showLoading(false);
             });
@@ -226,6 +236,16 @@ public class DashboardController {
             card.setVisible(visible);
             card.setManaged(visible);
         }
+        updateEmptyState();
+    }
+    private void updateEmptyState(){
+        boolean hasTask = taskCardMap.values().stream().anyMatch(Node::isVisible);
+        emptyMyTask.setVisible(!hasTask);
+        emptyMyTask.setManaged(!hasTask);
+
+        boolean hasProject = projectCardMap.values().stream().anyMatch(Node::isVisible);
+        emptyProject.setVisible(!hasProject);
+        emptyProject.setManaged(!hasProject);
     }
 
     @FXML

@@ -22,12 +22,12 @@ public class test extends Application {
         MemberListController controller = loader.getController();
 
         // 4. TRUYỀN ID ẢO LÀ 1 ĐỂ CHẠY THỬ
-        if (controller != null) {
-            controller.setProjectInfo(1);
-            System.out.println("Đã truyền Project ID = 1 vào Controller thành công.");
-        } else {
-            System.err.println("Lỗi: Không tìm thấy MemberListController. Hãy kiểm tra fx:controller trong file FXML.");
-        }
+//        if (controller != null) {
+//            controller.setProjectInfo(1);
+//            System.out.println("Đã truyền Project ID = 1 vào Controller thành công.");
+//        } else {
+//            System.err.println("Lỗi: Không tìm thấy MemberListController. Hãy kiểm tra fx:controller trong file FXML.");
+//        }
 
         // 5. Thiết lập Stage và hiển thị
         primaryStage.setTitle("Chương trình chạy thử: Danh sách thành viên");

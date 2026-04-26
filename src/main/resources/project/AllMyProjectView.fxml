@@ -7,6 +7,8 @@
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
@@ -70,22 +72,40 @@
                               <Insets bottom="15.0" left="25.0" right="20.0" top="15.0" />
                           </padding>
                       </HBox>
-                      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefWidth="1086.0" style="-fx-background-color: transparent; -fx-background: transparent;" VBox.vgrow="ALWAYS">
-                          <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="1072.0" style="-fx-background-color: transparent;">
-                                  <children>
-                                      <FlowPane fx:id="projectContainer" hgap="25.0" layoutX="50.0" layoutY="9.0" prefWidth="1000.0" vgap="25.0">
-                                          <padding>
-                                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                          </padding>
-                                      </FlowPane>
-                                  </children>
-                                  <padding>
-                                      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                  </padding>
-                              </AnchorPane>
-                          </content>
-                      </ScrollPane>
+                  <StackPane VBox.vgrow="ALWAYS">
+                     <children>
+                            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefWidth="1086.0" style="-fx-background-color: transparent; -fx-background: transparent;">
+                                <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="1072.0" style="-fx-background-color: transparent;">
+                                        <children>
+                                            <FlowPane fx:id="projectContainer" hgap="25.0" layoutX="50.0" layoutY="9.0" prefWidth="1000.0" vgap="25.0">
+                                                <padding>
+                                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                                </padding>
+                                            </FlowPane>
+                                        </children>
+                                        <padding>
+                                            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                        </padding>
+                                    </AnchorPane>
+                                </content>
+                            </ScrollPane>
+                        <VBox fx:id="emptyProject" prefHeight="200.0" prefWidth="100.0" styleClass="vbox_card">
+                           <children>
+                              <ImageView fitHeight="318.0" fitWidth="386.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/emptyProject.png" />
+                                 </image>
+                              </ImageView>
+                              <Label styleClass="setFontInVbox" text="Không có dự án nào">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                  </StackPane>
                   </children>
               </VBox>
             <ProgressIndicator fx:id="loading" progress="0.0" styleClass="purple-spinner" stylesheets="@../css/loadingSpinner.css" />

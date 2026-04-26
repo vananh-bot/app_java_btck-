@@ -39,7 +39,7 @@ public class DialogManager {
             Parent dialog = loader.load();
 
             // blur nền
-            rootLayout.setEffect(new GaussianBlur(40));
+            rootLayout.setEffect(new GaussianBlur(30));
 
             rootStack.getChildren().add(dialog);
 
@@ -76,7 +76,9 @@ public class DialogManager {
     public void close(Node dialog){
         rootStack.getChildren().remove(dialog);
 
-        rootLayout.setEffect(null);
+        if(rootStack.getChildren().size() <= 1){
+            rootLayout.setEffect(null);
+        }
     }
     public void closeAll(){
         if(rootStack != null){

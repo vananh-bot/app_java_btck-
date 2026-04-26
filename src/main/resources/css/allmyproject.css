@@ -147,3 +147,11 @@
     -fx-background-color: honeydew;
     -fx-background-radius: 10;
 }
+.vbox_card{
+    -fx-alignment: top-center;
+}
+.setFontInVbox{
+    -fx-font-size: 24px;
+    -fx-font-family: "Inter 18pt light";
+    -fx-font-weight: bold;
+}

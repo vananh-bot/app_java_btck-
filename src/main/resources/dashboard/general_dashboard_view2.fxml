@@ -108,15 +108,33 @@
                                                             <Insets bottom="7.0" left="20.0" />
                                                         </VBox.margin>
                                                     </HBox>
-                                          <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="281.0" prefWidth="767.0" styleClass="listTask">
-                                             <content>
-                                                <VBox fx:id="listTask" prefHeight="43.0" prefWidth="761.0" spacing="5.0">
-                                                   <padding>
-                                                      <Insets bottom="9.0" left="5.0" right="5.0" top="5.0" />
-                                                   </padding>
-                                                </VBox>
-                                             </content>
-                                          </ScrollPane>
+                                    <StackPane>
+                                       <children>
+                                                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="281.0" prefWidth="767.0" styleClass="listTask">
+                                                   <content>
+                                                      <VBox fx:id="listTask" prefHeight="43.0" prefWidth="761.0" spacing="5.0">
+                                                         <padding>
+                                                            <Insets bottom="9.0" left="5.0" right="5.0" top="5.0" />
+                                                         </padding>
+                                                      </VBox>
+                                                   </content>
+                                                </ScrollPane>
+                                          <VBox fx:id="emptyMyTask" prefHeight="200.0" prefWidth="100.0" styleClass="vbox_card" StackPane.alignment="CENTER">
+                                             <children>
+                                                <ImageView fitHeight="152.0" fitWidth="408.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../images/emptyMyTask.png" />
+                                                   </image>
+                                                </ImageView>
+                                                <Label alignment="CENTER" prefHeight="15.0" prefWidth="211.0" styleClass="setFontInVbox" text="Không có nhiệm vụ nào">
+                                                   <font>
+                                                      <Font name="System Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </StackPane>
                                                     <VBox prefHeight="284.0" prefWidth="791.0">
                                                         <children>
                                                             <HBox prefHeight="27.0" prefWidth="791.0" spacing="5.0">
@@ -147,22 +165,40 @@
                                                                     <Insets bottom="5.0" left="20.0" top="17.0" />
                                                                 </VBox.margin>
                                                             </HBox>
-                                                <ScrollPane fitToHeight="true" prefHeight="252.0" prefWidth="744.0">
-                                                   <content>
-                                                      <HBox fx:id="listActiveProject" alignment="CENTER_LEFT" prefHeight="212.0" prefWidth="741.0" spacing="18.0">
-                                                         <padding>
-                                                            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                                                         </padding>
-                                                      </HBox>
-                                                   </content>
-                                                   <VBox.margin>
-                                                      <Insets bottom="8.0" left="17.0" right="17.0" top="11.0" />
-                                                   </VBox.margin>
-                                             <styleClass>
-                                                <String fx:value="activeProject" />
-                                                <String fx:value="listTask" />
-                                             </styleClass>
-                                                </ScrollPane>
+                                          <StackPane>
+                                             <VBox.margin>
+                                                <Insets bottom="8.0" left="17.0" right="17.0" top="11.0" />
+                                             </VBox.margin>
+                                             <children>
+                                                      <ScrollPane fitToHeight="true" prefHeight="252.0" prefWidth="744.0">
+                                                         <content>
+                                                            <HBox fx:id="listActiveProject" alignment="CENTER_LEFT" prefHeight="212.0" prefWidth="741.0" spacing="18.0">
+                                                               <padding>
+                                                                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                                               </padding>
+                                                            </HBox>
+                                                         </content>
+                                                   <styleClass>
+                                                      <String fx:value="activeProject" />
+                                                      <String fx:value="listTask" />
+                                                   </styleClass>
+                                                      </ScrollPane>
+                                                <VBox fx:id="emptyProject" prefHeight="200.0" prefWidth="100.0" styleClass="vbox_card">
+                                                   <children>
+                                                      <ImageView fitHeight="136.0" fitWidth="243.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@../images/emptyProject.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <Label alignment="CENTER" prefHeight="15.0" prefWidth="211.0" styleClass="setFontInVbox" text="Không có dự án nào">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </StackPane>
                                                         </children>
                                                     </VBox>
                                                 </children>

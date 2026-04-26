@@ -92,7 +92,7 @@
                                       <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
                                   </HBox.margin>
                               </VBox>
-                        <Button minHeight="41.0" minWidth="55.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="55.0" styleClass="circle-button">
+                        <Button minHeight="41.0" minWidth="55.0" mnemonicParsing="false" onAction="#inviteAndMemberList" prefHeight="41.0" prefWidth="55.0" styleClass="circle-button">
                            <HBox.margin>
                               <Insets bottom="20.0" left="80.0" />
                            </HBox.margin>
