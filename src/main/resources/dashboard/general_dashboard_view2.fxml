@@ -24,7 +24,7 @@
         <URL value="@../css/general_dashboard_view2.css" />
     </stylesheets>
             <children>
-                <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="1053.0" styleClass="bottom_border">
+                <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="1053.0">
                     <children>
                         <HBox prefHeight="30.0" prefWidth="556.0" styleClass="search-container">
                             <HBox.margin>
@@ -42,7 +42,11 @@
                                     </HBox.margin></TextField>
                             </children>
                         </HBox>
-                    </children></HBox>
+                    </children>
+         <styleClass>
+            <String fx:value="bottom_border" />
+            <String fx:value="white_pane" />
+         </styleClass></HBox>
                 <HBox prefHeight="668.0" prefWidth="1087.0" styleClass="grey_color">
                     <children>
             <StackPane>

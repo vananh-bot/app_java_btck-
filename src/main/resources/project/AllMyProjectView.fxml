@@ -49,63 +49,67 @@
                               </HBox>
                           </children>
                   </HBox>
-                      <HBox prefHeight="147.0" prefWidth="1086.0">
-                          <children>
-                              <Label alignment="CENTER" prefHeight="70.0" prefWidth="269.0" text="Dự án của tôi" textAlignment="RIGHT">
-                                  <font>
-                                      <Font name="System Bold" size="35.0" />
-                                  </font>
-                              </Label>
-                              <HBox prefHeight="100.0" prefWidth="674.0" />
-                              <VBox prefHeight="100.0" prefWidth="131.0">
-                                  <children>
-                                      <VBox prefHeight="34.0" prefWidth="131.0" />
-                                      <Button fx:id="createProject" mnemonicParsing="false" onAction="#createNewProject" prefHeight="34.0" prefWidth="121.0" styleClass="primay-button" text="+ Dự án mới">
-                                          <font>
-                                              <Font size="13.0" />
-                                          </font>
-                                      </Button>
-                                  </children>
-                              </VBox>
-                          </children>
-                          <padding>
-                              <Insets bottom="15.0" left="25.0" right="20.0" top="15.0" />
-                          </padding>
-                      </HBox>
-                  <StackPane VBox.vgrow="ALWAYS">
+                  <VBox prefHeight="650.0" prefWidth="1087.0" styleClass="grey_pane">
                      <children>
-                            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefWidth="1086.0" style="-fx-background-color: transparent; -fx-background: transparent;">
-                                <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="1072.0" style="-fx-background-color: transparent;">
+                            <HBox prefHeight="147.0" prefWidth="1087.0">
+                                <children>
+                                    <Label alignment="CENTER" prefHeight="70.0" prefWidth="269.0" text="Dự án của tôi" textAlignment="RIGHT">
+                                        <font>
+                                            <Font name="System Bold" size="35.0" />
+                                        </font>
+                                    </Label>
+                                    <HBox prefHeight="100.0" prefWidth="674.0" />
+                                    <VBox prefHeight="72.0" prefWidth="121.0">
                                         <children>
-                                            <FlowPane fx:id="projectContainer" hgap="25.0" layoutX="50.0" layoutY="9.0" prefWidth="1000.0" vgap="25.0">
-                                                <padding>
-                                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                                </padding>
-                                            </FlowPane>
+                                            <VBox prefHeight="34.0" prefWidth="131.0" />
+                                            <Button fx:id="createProject" mnemonicParsing="false" onAction="#createNewProject" prefHeight="34.0" prefWidth="121.0" styleClass="primay-button" text="+ Dự án mới">
+                                                <font>
+                                                    <Font size="13.0" />
+                                                </font>
+                                            </Button>
                                         </children>
-                                        <padding>
-                                            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                        </padding>
-                                    </AnchorPane>
-                                </content>
-                            </ScrollPane>
-                        <VBox fx:id="emptyProject" prefHeight="200.0" prefWidth="100.0" styleClass="vbox_card">
+                                    </VBox>
+                                </children>
+                                <padding>
+                                    <Insets bottom="15.0" left="25.0" right="20.0" top="15.0" />
+                                </padding>
+                            </HBox>
+                        <StackPane VBox.vgrow="ALWAYS">
                            <children>
-                              <ImageView fitHeight="318.0" fitWidth="386.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/emptyProject.png" />
-                                 </image>
-                              </ImageView>
-                              <Label styleClass="setFontInVbox" text="Không có dự án nào">
-                                 <font>
-                                    <Font name="System Bold" size="12.0" />
-                                 </font>
-                              </Label>
+                                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefWidth="1086.0" style="-fx-background-color: transparent; -fx-background: transparent;">
+                                      <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="1072.0" style="-fx-background-color: transparent;">
+                                              <children>
+                                                  <FlowPane fx:id="projectContainer" hgap="25.0" layoutX="50.0" layoutY="9.0" prefWidth="1000.0" vgap="25.0">
+                                                      <padding>
+                                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                                      </padding>
+                                                  </FlowPane>
+                                              </children>
+                                              <padding>
+                                                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                              </padding>
+                                          </AnchorPane>
+                                      </content>
+                                  </ScrollPane>
+                              <VBox fx:id="emptyProject" prefHeight="200.0" prefWidth="100.0" styleClass="vbox_card">
+                                 <children>
+                                    <ImageView fitHeight="318.0" fitWidth="386.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/emptyProject-removebg-preview.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label styleClass="setFontInVbox" text="Không có dự án nào">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
+                        </StackPane>
                      </children>
-                  </StackPane>
+                  </VBox>
                   </children>
               </VBox>
             <ProgressIndicator fx:id="loading" progress="0.0" styleClass="purple-spinner" stylesheets="@../css/loadingSpinner.css" />

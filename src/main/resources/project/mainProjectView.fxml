@@ -63,7 +63,7 @@
                               </HBox>
                           </children>
                   </HBox>
-                      <HBox alignment="BOTTOM_LEFT" prefHeight="87.0" prefWidth="1087.0">
+                      <HBox alignment="BOTTOM_LEFT" prefHeight="87.0" prefWidth="1087.0" styleClass="grey_pane" stylesheets="@../css/taskdetails.css">
                           <children>
                               <VBox prefHeight="69.0" prefWidth="754.0" spacing="4.0">
                                   <children>
@@ -118,7 +118,7 @@
                               </Button>
                           </children>
                       </HBox>
-                      <HBox prefHeight="577.0" prefWidth="1087.0" spacing="20.0">
+                      <HBox prefHeight="577.0" prefWidth="1087.0" spacing="20.0" styleClass="grey_pane" stylesheets="@../css/taskdetails.css">
                           <children>
                               <VBox prefHeight="571.0" prefWidth="349.0" spacing="5.0">
                                   <children>
