@@ -6,6 +6,15 @@ public class UserSession {
     private static User currentUser;
     private static String email = "";
     private static int currentProjectId = -1;
+    private static int currentTaskId = -1;
+
+    public static void setCurrentTaskId(int taskId) {
+        currentTaskId = taskId;
+    }
+
+    public static int getCurrentTaskId() {
+        return currentTaskId;
+    }
 
 
     public static void login(User user) {

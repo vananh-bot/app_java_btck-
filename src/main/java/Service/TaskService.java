@@ -53,4 +53,8 @@ public class TaskService {
         List<TaskDashboardDTO> dashboardMyTask = taskDAO.getDashboardMyTask(userId);
         return dashboardMyTask;
     }
+
+    public Task getTaskById(int taskId) {
+        return taskDAO.getById(taskId);
+    }
 }

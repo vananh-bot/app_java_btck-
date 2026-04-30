@@ -7,6 +7,11 @@ import DAO.TaskDAO; // Thêm import TaskDAO
 import DTO.ProjectCardDTO; // Thêm import DTO
 import Model.Project;
 import Model.Task;
+import DAO.NotificationDAO;
+import DAO.UserDAO;
+import Enum.NotificationType;
+import Model.Notification;
+import Utils.AppEventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,11 +104,40 @@ public class ProjectService {
     }
 
     public boolean joinByToken(String token, int userId){
+        System.out.println("=== JOIN PROJECT CALLED ===");
+
         Project project = projectDAO.findByInviteCode(token);
-        if (project != null) {
-        return userProjectDAO.addMemberToProject(userId, project.getId());
-    }
-        return false;
+
+        if (project == null) {
+            System.out.println("❌ Project NOT FOUND with token: " + token);
+            return false;
+        }
+
+        System.out.println("✔ Found project: " + project.getId());
+
+        boolean added = userProjectDAO.addMemberToProject(userId, project.getId());
+
+        if (!added) {
+            System.out.println("❌ Add member FAILED");
+            return false;
+        }
+
+        System.out.println("✔ Member added SUCCESS");
+
+        // ===== TẠO NOTIFICATION =====
+        NotificationDAO notificationDAO = new NotificationDAO();
+        UserDAO userDAO = new UserDAO();
+
+        String userName = userDAO.findById(userId).getName();
+
+        List<Integer> memberIds = projectDAO.getMemberIds(project.getId());
+
+        System.out.println("Members: " + memberIds);
+
+
+        System.out.println("=== JOIN DONE ===");
+
+        return true;
     }
 
     public boolean isNameDuplicate(int currentUserId, String name) {

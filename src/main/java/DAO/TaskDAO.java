@@ -363,4 +363,46 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
 
         return list;
     }
+
+
+    public Integer getProjectIdByTaskId(int taskId) {
+        String sql = "SELECT project_id FROM tasks WHERE id = ?";
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, taskId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("project_id");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
+    public List<Task> getAllTasks() {
+        List<Task> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM tasks";
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                list.add(mapTask(rs));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 }

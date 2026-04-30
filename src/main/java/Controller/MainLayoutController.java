@@ -16,20 +16,28 @@ public class MainLayoutController {
     private StackPane rootStack;
 
     @FXML
+    private StackPane contentArea;
+
+    @FXML
     void initialize(){
 
-        // đưa rootLayout cho ScreenManager
-        ScreenManager.getInstance().setRootLayout(rootLayout);
+        ScreenManager sm = ScreenManager.getInstance();
 
-        DialogManager.getInstance().setRootStack(rootStack, rootLayout);
+        sm.setRootLayout(rootLayout);
 
-        // mở dashboard mặc định
-        ScreenManager.getInstance().show(Screen.DASHBOARD);
+        DialogManager.getInstance()
+                .setRootStack(rootStack, rootLayout);
+
+        // màn mặc định
+        sm.show(Screen.DASHBOARD);
 
     }
 
     public BorderPane getRootLayout(){
         return rootLayout;
+    }
+    public StackPane getContentArea(){
+        return contentArea;
     }
 
 }

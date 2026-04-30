@@ -353,4 +353,31 @@ public class ProjectDAO implements ProjectDAOInterface {
 
         return dtoList;
     }
+
+    public List<Integer> getMemberIds(int projectId) {
+        List<Integer> ids = new ArrayList<>();
+
+        String sql = """
+        SELECT user_id
+        FROM user_project
+        WHERE project_id = ?
+    """;
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, projectId);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                ids.add(rs.getInt("user_id"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ids;
+    }
 }

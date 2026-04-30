@@ -9,6 +9,10 @@ import javafx.scene.layout.BorderPane;
 public class ScreenManager {
     private SidebarController sidebarController;
 
+
+    private Screen currentScreen;
+    private Screen previousScreen;
+
     public void setSidebarController(SidebarController sidebarController){
         this.sidebarController = sidebarController;
     }
@@ -26,6 +30,15 @@ public class ScreenManager {
         return instance;
     }
 
+    public Screen getCurrentScreen(){
+        return currentScreen;
+    }
+
+    public Screen getPreviousScreen(){
+        return previousScreen;
+    }
+
+
     public void setRootLayout(BorderPane rootLayout){
         this.rootLayout = rootLayout;
     }
@@ -33,7 +46,10 @@ public class ScreenManager {
         return rootLayout;
     }
 
+    // ================= SHOW NORMAL =================
     public void show(Screen screen){
+
+        if(screen == null || rootLayout == null) return;
 
         try{
 
@@ -43,16 +59,29 @@ public class ScreenManager {
 
             Parent view = loader.load();
 
+            // update state
+            previousScreen = currentScreen;
+            currentScreen = screen;
+
+            // update sidebar highlight
             if (sidebarController != null) {
                 sidebarController.setActive1(screen);
             }
 
+            // close dialogs
             DialogManager.getInstance().closeAll();
 
+            // change view
             rootLayout.setCenter(view);
 
         }catch(Exception e){
             e.printStackTrace();
+        }
+    }
+
+    public void back(){
+        if(previousScreen != null){
+            show(previousScreen);
         }
     }
 
@@ -83,4 +112,6 @@ public class ScreenManager {
             e.printStackTrace();
         }
     }
+
+
 }
