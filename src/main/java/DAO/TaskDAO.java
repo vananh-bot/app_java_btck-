@@ -312,8 +312,9 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
                 "\n" +
                 "FROM tasks t\n" +
                 "JOIN projects p ON t.project_id = p.id\n" +
+                "JOIN user_project up ON p.id = up.project_id\n" +
                 "\n" +
-                "WHERE p.owner_id = ?\n" +
+                "WHERE up.user_id = ?\n" +
                 "  AND t.status <> 'DONE'\n" +
                 "\n" +
                 "ORDER BY\n" +

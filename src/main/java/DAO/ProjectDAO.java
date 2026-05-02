@@ -251,9 +251,10 @@ public class ProjectDAO implements ProjectDAOInterface {
                 "    SUM(CASE WHEN t.status = 'DONE' THEN 1 ELSE 0 END) AS doneCount\n" +
                 "\n" +
                 "FROM projects p\n" +
+                "JOIN user_project up ON p.id = up.project_id\n" +
                 "LEFT JOIN tasks t ON p.id = t.project_id\n" +
                 "\n" +
-                "WHERE p.owner_id = ?\n" +
+                "WHERE up.user_id = ?\n" +
                 "\n" +
                 "GROUP BY p.id, p.name\n" +
                 "\n" +
