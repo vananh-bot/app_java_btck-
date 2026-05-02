@@ -109,16 +109,16 @@ public class ProjectService {
         Project project = projectDAO.findByInviteCode(token);
 
         if (project == null) {
-            System.out.println("❌ Project NOT FOUND with token: " + token);
+            System.out.println(" Project NOT FOUND with token: " + token);
             return false;
         }
 
-        System.out.println("✔ Found project: " + project.getId());
+        System.out.println("Found project: " + project.getId());
 
         boolean added = userProjectDAO.addMemberToProject(userId, project.getId());
 
         if (!added) {
-            System.out.println("❌ Add member FAILED");
+            System.out.println("Add member FAILED");
             return false;
         }
 

@@ -68,17 +68,21 @@ public class ItemController {
     public void initialize() {
 
         rootItem.setOnMouseClicked(e -> {
-            if (notification != null && !notification.isRead()) {
+            if (notification == null) return;
+
+            if (!notification.isRead()) {
                 notificationService.markAsRead(notification.getId());
                 notification.setRead(true);
                 updateReadStatus();
             }
 
-            if (notification != null && notification.getTaskId() != null) {
-                if (openTaskHandler != null) {
-                    openTaskHandler.accept(notification.getTaskId());
-                }
+            if (notification.getTaskId() != null && openTaskHandler != null) {
+                openTaskHandler.accept(notification.getTaskId());
             }
+        });
+
+        btnProject.addEventFilter(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> {
+            e.consume();
         });
     }
 
@@ -168,6 +172,7 @@ public class ItemController {
     // ================= CLICK OPEN PROJECT =================
     @FXML
     private void handleOpenProject() {
+        System.out.println("CLICK PROJECT: " + notification.getProjectId());
         if (notification != null && notification.getProjectId() != null) {
 
             if (openProjectHandler != null) {

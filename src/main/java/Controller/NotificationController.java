@@ -96,6 +96,23 @@ public class NotificationController {
 
             showNotifications(unread);            // filter
         });
+
+        tick_all.setOnAction(e -> {
+            notificationService.markAllAsRead(currentUserId);
+            notifications.forEach(n -> n.setRead(true));
+
+            refreshCurrentTab(); // 🔥 gọn + clean
+            updateCounter();
+        });
+    }
+    private void refreshCurrentTab() {
+        if (unread_list.getStyleClass().contains("active")) {
+            showNotifications(
+                    notifications.stream().filter(n -> !n.isRead()).toList()
+            );
+        } else {
+            showNotifications(notifications);
+        }
     }
 
     // ================= INIT =================
@@ -156,7 +173,7 @@ public class NotificationController {
 
         UserSession.setCurrentProjectId(projectId);
 
-        ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW);
+        ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW, projectId);
     }
 
     // ================= COUNTER =================
@@ -165,25 +182,5 @@ public class NotificationController {
         number_unread.setText(String.valueOf(notificationService.countUnread(currentUserId)));
     }
 
-    // ================= ACTIONS =================
-    private void setupActions() {
 
-        all_list.setOnMouseClicked(e ->
-                showNotifications(notifications)
-        );
-
-        unread_list.setOnMouseClicked(e -> {
-
-            List<NotificationDTO> unread = notifications.stream()
-                    .filter(n -> !n.isRead())
-                    .collect(Collectors.toList());
-
-            showNotifications(unread);
-        });
-
-        tick_all.setOnAction(e -> {
-            notificationService.markAllAsRead(currentUserId);
-            loadNotifications();
-        });
-    }
 }

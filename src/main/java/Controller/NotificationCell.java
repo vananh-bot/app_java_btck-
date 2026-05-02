@@ -21,7 +21,6 @@ public class NotificationCell extends ListCell<NotificationDTO> {
     private Node view;
     private ItemController controller;
 
-    // 👉 callback mở project
     private Consumer<Integer> openProjectHandler;
 
     public NotificationCell(NotificationService ns,
@@ -35,7 +34,6 @@ public class NotificationCell extends ListCell<NotificationDTO> {
         this.userService = us;
     }
 
-    // 👉 nhận event từ NotificationController
     public void setOpenProjectHandler(Consumer<Integer> handler) {
         this.openProjectHandler = handler;
     }
@@ -45,14 +43,12 @@ public class NotificationCell extends ListCell<NotificationDTO> {
         super.updateItem(item, empty);
 
         if (empty || item == null) {
-            setText(null);
             setGraphic(null);
             return;
         }
 
         try {
             if (view == null) {
-
                 FXMLLoader loader = new FXMLLoader(
                         getClass().getResource("/notification/item.fxml")
                 );
@@ -60,35 +56,31 @@ public class NotificationCell extends ListCell<NotificationDTO> {
                 view = loader.load();
                 controller = loader.getController();
 
-                controller.setServices(
-                        notificationService,
-                        projectService,
-                        taskService
-                );
-
-                // 👉 forward click project từ ItemController
-                controller.setOpenProjectHandler(projectId -> {
-                    if (openProjectHandler != null) {
-                        openProjectHandler.accept(projectId);
-                    }
-                });
+                controller.setServices(notificationService, projectService, taskService);
             }
 
+            // 🔥 LUÔN SET LẠI HANDLER (rất quan trọng)
+            controller.setOpenProjectHandler(projectId -> {
+                if (openProjectHandler != null) {
+                    openProjectHandler.accept(projectId);
+                }
+            });
+
+            controller.setOpenTaskHandler(taskId -> {
+                if (openTaskHandler != null) {
+                    openTaskHandler.accept(taskId);
+                }
+            });
+
+            // 🔥 LUÔN SET DATA
             controller.setData(item);
 
-            setText(null);
             setGraphic(view);
 
         } catch (Exception e) {
             e.printStackTrace();
             setGraphic(null);
         }
-
-        controller.setOpenTaskHandler(taskId -> {
-            if (openTaskHandler != null) {
-                openTaskHandler.accept(taskId);
-            }
-        });
     }
 
     private Consumer<Integer> openTaskHandler;
