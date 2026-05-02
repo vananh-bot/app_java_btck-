@@ -19,6 +19,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -27,6 +28,7 @@ import Service.helper.TaskUIHelper;
 import Service.helper.TaskSearchHelper;
 import Enum.Screen;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +41,9 @@ public class MainProjectController implements DataReceiver<Integer> {
     @FXML private TextField searchField;
     @FXML private Hyperlink projectLink, mainProjectLink;
     @FXML private Label projectName;
+    @FXML
+    private ProgressIndicator loading;
+    private final URL taskCard = getClass().getResource("/task/TaskCard.fxml");
 
     // ================= SERVICES =================
     private int projectId;
@@ -48,49 +53,65 @@ public class MainProjectController implements DataReceiver<Integer> {
             new ProjectDAO()
     );
 
-    @Override
-    public void initData(Integer projectId){
-        this.projectId = projectId;
-        UserSession.setCurrentProjectId(projectId);
-        init(projectId);
-    }
-
     // Lưu UI hiện tại để diff
     private List<Task> currentTodo = new ArrayList<>();
     private List<Task> currentInProgress = new ArrayList<>();
     private List<Task> currentDone = new ArrayList<>();
 
+    @Override
+    public void initData(Integer projectId){
+        this.projectId = projectId;
+        loading.setVisible(true);
+        loading.setManaged(true);
+        loading.setProgress(-1);
+
+        javafx.concurrent.Task<Void> task = new javafx.concurrent.Task<>(){
+            String name;
+
+            @Override
+            protected Void call(){
+                name = projectService.getProjectName(projectId);
+                taskService.init(projectId);
+                return null;
+            }
+
+            @Override
+            protected void succeeded(){
+                updateProjectLinkName(name);
+                init();
+                refresh();
+
+                loading.setVisible(false);
+            }
+        };
+
+        new Thread(task).start();
+
+    }
     // ================= INIT =================
-    public void init(int projectId) {
-        taskService.init(projectId);
-        updateProjectLinkName(projectId);
+    public void init() {
         if (vboxTodo != null) vboxTodo.setCache(true);
         if (vboxInProgress != null) vboxInProgress.setCache(true);
         if (vboxDone != null) vboxDone.setCache(true);
 
         // Chuyển logic Drag-Drop sang Helper
-        TaskUIHelper.setupColumnDragDrop(vboxTodo, TaskStatus.TODO, taskService, this::loadTasks);
-        TaskUIHelper.setupColumnDragDrop(vboxInProgress, TaskStatus.IN_PROGRESS, taskService, this::loadTasks);
-        TaskUIHelper.setupColumnDragDrop(vboxDone, TaskStatus.DONE, taskService, this::loadTasks);
+        TaskUIHelper.setupColumnDragDrop(vboxTodo, TaskStatus.TODO, taskService, this::refresh);
+        TaskUIHelper.setupColumnDragDrop(vboxInProgress, TaskStatus.IN_PROGRESS, taskService, this::refresh);
+        TaskUIHelper.setupColumnDragDrop(vboxDone, TaskStatus.DONE, taskService, this::refresh);
 
         if (searchField != null) {
-            searchDelay = new Timeline(new KeyFrame(Duration.millis(300), e -> loadTasks()));
+            searchDelay = new Timeline(new KeyFrame(Duration.millis(300), e -> refresh()));
             searchDelay.setCycleCount(1);
             searchField.textProperty().addListener((obs, oldVal, newVal) -> {
                 searchDelay.stop();
                 searchDelay.play();
             });
         }
-
-        loadTasks();
-        taskService.startRealtimeUpdates(this::loadTasks);
     }
 
     // ================= LOAD & RENDER =================
-    private void loadTasks() {
-        List<Task> allTasks = taskService.getCachedTasks();
+    private void loadTasks(List<Task> allTasks) {
         String searchKey = searchField.getText();
-
         // Uỷ quyền sort cho Helper
         List<Task> sortedTasks = TaskSearchHelper.searchAndSort(allTasks, searchKey);
 
@@ -106,6 +127,10 @@ public class MainProjectController implements DataReceiver<Integer> {
             }
         }
         render(todo, inProgress, done);
+    }
+    private void refresh() {
+        List<Task> allTasks = taskService.getCachedTasks();
+        loadTasks(allTasks);
     }
 
     private void render(List<Task> todo, List<Task> inProgress, List<Task> done) {
@@ -154,7 +179,7 @@ public class MainProjectController implements DataReceiver<Integer> {
 
     private VBox createCardFromFXML(Task task) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/task/TaskCard.fxml"));
+            FXMLLoader loader = new FXMLLoader(taskCard);
             VBox card = loader.load();
             TaskCardController controller = loader.getController();
             controller.updateUI(task, searchField.getText());
@@ -184,8 +209,7 @@ public class MainProjectController implements DataReceiver<Integer> {
         ScreenManager.getInstance().show(Screen.ALL_MY_PROJECT);
     }
 
-    private void updateProjectLinkName(int projectId){
-        String name= projectService.getProjectName(projectId);
+    private void updateProjectLinkName(String name){
         if (mainProjectLink != null) {
             mainProjectLink.setText(name);
             projectName.setText(name);

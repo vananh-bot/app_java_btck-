@@ -5,17 +5,6 @@ import Model.User;
 public class UserSession {
     private static User currentUser;
     private static String email = "";
-    private static int currentProjectId = -1;
-    private static int currentTaskId = -1;
-
-    public static void setCurrentTaskId(int taskId) {
-        currentTaskId = taskId;
-    }
-
-    public static int getCurrentTaskId() {
-        return currentTaskId;
-    }
-
 
     public static void login(User user) {
         currentUser = user;
@@ -30,22 +19,17 @@ public class UserSession {
     }
 
     // BỔ SUNG HÀM NÀY ĐỂ HẾT BÁO ĐỎ Ở CONTROLLER
-    public static int getUserId() {
+    public static int getUserId()
+    {
         return (currentUser != null) ? currentUser.getId() : -1;
     }
 
-    public static String getEmail() {
+    public static String getEmail()
+    {
         return email;
     }
 
     public static void setEmail(String userEmail) {
         email = userEmail;
-    }
-    public static void setCurrentProjectId(int projectId) {
-        currentProjectId = projectId;
-    }
-
-    public static int getCurrentProjectId() {
-        return currentProjectId;
     }
 }

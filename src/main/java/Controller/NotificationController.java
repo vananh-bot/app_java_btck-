@@ -13,11 +13,13 @@ import Utils.SceneNavigator;
 import Utils.ScreenManager;
 import Utils.UserSession;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.HBox;
 import Enum.Screen;
 
@@ -45,6 +47,8 @@ public class NotificationController {
 
     @FXML
     private Button tick_all;
+    @FXML
+    private ProgressIndicator loading;
 
     private NotificationService notificationService;
     private ProjectService projectService;
@@ -101,18 +105,9 @@ public class NotificationController {
             notificationService.markAllAsRead(currentUserId);
             notifications.forEach(n -> n.setRead(true));
 
-            refreshCurrentTab(); // 🔥 gọn + clean
-            updateCounter();
-        });
-    }
-    private void refreshCurrentTab() {
-        if (unread_list.getStyleClass().contains("active")) {
-            showNotifications(
-                    notifications.stream().filter(n -> !n.isRead()).toList()
-            );
-        } else {
             showNotifications(notifications);
-        }
+            updateCounter(notifications.size(), 0);
+        });
     }
 
     // ================= INIT =================
@@ -125,24 +120,55 @@ public class NotificationController {
 
     // ================= LOAD =================
     private void loadNotifications() {
-        notifications = notificationService.getNotificationDTOByUserId(currentUserId);
-        showNotifications(notifications);
-        updateCounter();
-    }
+        showLoading(true);
 
-    public void refreshNotifications() {
-        loadNotifications();
+        javafx.concurrent.Task<Void> task = new javafx.concurrent.Task<>(){
+            List<NotificationDTO> list;
+            int total;
+            int unread;
+
+            @Override
+            protected Void call(){
+                list = notificationService.getNotificationDTOByUserId(currentUserId);
+                total = notificationService.countAll(currentUserId);
+                unread = notificationService.countUnread(currentUserId);
+                return null;
+            }
+
+            @Override
+            protected void succeeded() {
+                notifications = list;
+
+                showNotifications(list);
+
+                updateCounter(total, unread);
+
+                showLoading(false);
+            }
+        };
+
+        new Thread(task).start();
+
     }
 
     // ================= VIEW =================
     private void showNotifications(List<NotificationDTO> list) {
+        if (list == null) list = List.of();
         list_notification.setItems(FXCollections.observableArrayList(list));
     }
 
+    private void showLoading(boolean b){
+        loading.setVisible(b);
+        loading.setManaged(b);
+        loading.setProgress(-1);
+
+        list_notification.setDisable(b);
+        tick_all.setDisable(b);
+        all_list.setDisable(b);
+        unread_list.setDisable(b);
+    }
 
     private void openTaskDetail(int taskId) {
-        UserSession.setCurrentTaskId(taskId);
-
         ScreenManager.getInstance().show(Screen.TASK_DETAILS, taskId);
     }
 
@@ -170,17 +196,12 @@ public class NotificationController {
 
     // ================= OPEN PROJECT =================
     private void openProject(int projectId) {
-
-        UserSession.setCurrentProjectId(projectId);
-
         ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW, projectId);
     }
 
     // ================= COUNTER =================
-    private void updateCounter() {
-        number_all.setText(String.valueOf(notificationService.countAll(currentUserId)));
-        number_unread.setText(String.valueOf(notificationService.countUnread(currentUserId)));
+    private void updateCounter(int total, int unread) {
+        number_all.setText(String.valueOf(total));
+        number_unread.setText(String.valueOf(unread));
     }
-
-
 }

@@ -12,7 +12,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -53,9 +52,9 @@
                <children>
                               <HBox prefHeight="659.0" prefWidth="1088.0">
                                   <children>
-                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="711.0" prefWidth="793.0" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="659.0" prefWidth="1106.0" style="-fx-background-color: transparent; -fx-border-color: transparent;">
                            <content>
-                                            <VBox prefWidth="795.0">
+                                            <VBox prefHeight="755.0" prefWidth="929.0">
                                                 <children>
                                                     <VBox prefHeight="76.0" prefWidth="773.0" spacing="4.0">
                                                         <children>
@@ -89,7 +88,7 @@
                                                 <Font name="Tahoma Bold" size="11.0" />
                                              </font>
                                              <VBox.margin>
-                                                <Insets bottom="11.0" left="600.0" top="5.0" />
+                                                <Insets bottom="11.0" left="870.0" top="5.0" />
                                              </VBox.margin>
                                           </Button>
                                                     <HBox prefHeight="35.0" prefWidth="791.0" spacing="3.0" styleClass="setFontContent">
@@ -151,7 +150,7 @@
                                                                             <Image url="@../images/icons8-popup-64-removebg-preview.png" />
                                                                         </image>
                                                                     </ImageView>
-                                                                    <Label prefHeight="17.0" prefWidth="622.0" text="Dự án đang hoạt động">
+                                                                    <Label prefHeight="17.0" prefWidth="885.0" text="Dự án đang hoạt động">
                                                                         <font>
                                                                             <Font name="Tahoma Bold" size="12.0" />
                                                                         </font>
@@ -212,118 +211,6 @@
                                             </VBox>
                            </content>
                         </ScrollPane>
-                                      <VBox prefHeight="659.0" prefWidth="299.0">
-                                          <padding>
-                                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                          </padding>
-                                          <children>
-                                              <Region prefHeight="89.0" prefWidth="286.0" />
-                                              <VBox prefHeight="583.0" prefWidth="286.0">
-                                                  <children>
-                                                      <HBox prefHeight="37.0" prefWidth="286.0" spacing="7.0">
-                                                          <children>
-                                                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                                                  <image>
-                                                                      <Image url="@../images/appointment-reminders--v2-removebg-preview.png" />
-                                                                  </image>
-                                                              </ImageView>
-                                                              <Label text="Hoạt động và thông báo ">
-                                                                  <font>
-                                                                      <Font name="Tahoma Bold" size="12.0" />
-                                                                  </font>
-                                                                  <HBox.margin>
-                                                                      <Insets top="5.0" />
-                                                                  </HBox.margin>
-                                                              </Label>
-                                                          </children>
-                                                          <VBox.margin>
-                                                              <Insets left="18.0" />
-                                                          </VBox.margin>
-                                                      </HBox>
-                                          <ScrollPane styleClass="notificationList">
-                                             <content>
-                                                <VBox fx:id="listNotification" prefHeight="371.0" prefWidth="286.0" spacing="23.0">
-                                                   <padding>
-                                                      <Insets bottom="13.0" left="13.0" right="13.0" top="16.0" />
-                                                   </padding>
-                                                   <children>
-                                                      <HBox spacing="10.0">
-                                                         <children>
-                                                            <ImageView fitHeight="23.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
-                                                               <image>
-                                                                  <Image url="@../images/icons8-task-90.png" />
-                                                               </image>
-                                                            </ImageView>
-                                                            <VBox spacing="7.0">
-                                                               <children>
-                                                                  <Label fx:id="taskAssinged" text="Hà Linh đã để lại một nhận xét trong Biện thự Park City: &quot;cần sửa lại bản thiết kế chi tiết và bao quát hơn&quot;">
-                                                                     <font>
-                                                                        <Font name="Arial" size="11.0" />
-                                                                     </font>
-                                                                     <styleClass>
-                                                                        <String fx:value="newLine" />
-                                                                        <String fx:value="notification" />
-                                                                     </styleClass>
-                                                                  </Label>
-                                                                  <Label layoutX="10.0" layoutY="10.0" styleClass="newLine" text="10 phút trước " textFill="#7c7a7a" />
-                                                               </children>
-                                                            </VBox>
-                                                         </children>
-                                                      </HBox>
-                                                      <HBox layoutX="19.0" layoutY="23.0" spacing="10.0">
-                                                         <children>
-                                                            <ImageView fitHeight="23.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
-                                                               <image>
-                                                                  <Image url="@../images/icons8-deadline-64-removebg-preview.png" />
-                                                               </image>
-                                                            </ImageView>
-                                                            <VBox spacing="7.0">
-                                                               <children>
-                                                                  <Label fx:id="deadline" text="Hà Linh đã để lại một nhận xét trong Biện thự Park City: &quot;cần sửa lại bản thiết kế chi tiết và bao quát hơn&quot;">
-                                                                     <font>
-                                                                        <Font name="Tahoma" size="11.0" />
-                                                                     </font>
-                                                                     <styleClass>
-                                                                        <String fx:value="newLine" />
-                                                                        <String fx:value="notification" />
-                                                                     </styleClass>
-                                                                  </Label>
-                                                                  <Label layoutX="10.0" layoutY="10.0" styleClass="newLine" text="10 phút trước " textFill="#7c7a7a" />
-                                                               </children>
-                                                            </VBox>
-                                                         </children>
-                                                      </HBox>
-                                                      <HBox layoutX="19.0" layoutY="23.0" spacing="10.0">
-                                                         <children>
-                                                            <ImageView fitHeight="23.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
-                                                               <image>
-                                                                  <Image url="@../images/icons8-invite-64-removebg-preview.png" />
-                                                               </image>
-                                                            </ImageView>
-                                                            <VBox spacing="7.0">
-                                                               <children>
-                                                                  <Label fx:id="invitation" text="Hà Linh đã để lại một nhận xét trong Biện thự Park City: &quot;cần sửa lại bản thiết kế chi tiết và bao quát hơn&quot;">
-                                                                     <font>
-                                                                        <Font name="Tahoma" size="11.0" />
-                                                                     </font>
-                                                                     <styleClass>
-                                                                        <String fx:value="newLine" />
-                                                                        <String fx:value="notification" />
-                                                                     </styleClass>
-                                                                  </Label>
-                                                                  <Label layoutX="10.0" layoutY="10.0" styleClass="newLine" text="10 phút trước " textFill="#7c7a7a" />
-                                                               </children>
-                                                            </VBox>
-                                                         </children>
-                                                      </HBox>
-                                                   </children>
-                                                </VBox>
-                                             </content>
-                                          </ScrollPane>
-                                                  </children>
-                                              </VBox>
-                                          </children>
-                        </VBox>
                                   </children>
                               </HBox>
                   <ProgressIndicator fx:id="loading" maxHeight="50.0" maxWidth="50.0" prefHeight="33.0" prefWidth="75.0" progress="0.0" styleClass="purple-spinner" stylesheets="@../css/loadingSpinner.css" />

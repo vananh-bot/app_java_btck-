@@ -116,7 +116,7 @@ public class DashboardController {
 
                 updateEmptyState();
 
-                showLoading(false);
+                Platform.runLater(() -> showLoading(false));
             });
 
         }).start();

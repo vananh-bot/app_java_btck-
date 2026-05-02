@@ -90,6 +90,6 @@ public class MemberListController implements DataReceiver<Integer> {
     }
     @FXML
     private void handleOpenInvite(javafx.event.ActionEvent event) {
-        DialogManager.getInstance().show(Screen.INVITE_MEMBER);
+        DialogManager.getInstance().show(Screen.INVITE_MEMBER, currentProjectId);
     }
 }

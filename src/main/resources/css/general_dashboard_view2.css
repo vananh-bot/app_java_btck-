@@ -181,42 +181,6 @@
 .progress-high .bar {
     -fx-background-color: #2ecc71;
 }
-
-.notificationList{
-    -fx-background-color: #ffffff;
-    -fx-background-radius: 21;
-    -fx-border-radius: 21;
-}
-.notificationList .viewport {
-    -fx-background-color: #ffffff;
-    -fx-background-radius: 21;
-}
-.notificationList .scroll-bar:horizontal {
-    -fx-opacity: 0;
-    -fx-pref-height: 8;
-}
-
-.notificationList .scroll-bar:vertical {
-    -fx-opacity: 0;
-    -fx-pref-width: 0;
-}
-.notificationList:hover {
-    -fx-scale-x: 1.0001;
-    -fx-scale-y: 1.0001;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0.1, 0, 2);
-    -fx-cursor: hand;
-}
-
-.notification{
-
-}
-.notification:hover {
-    -fx-scale-x: 1.0001;
-    -fx-scale-y: 1.0001;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0.1, 0, 2);
-    -fx-cursor: hand;
-}
-
 .setfont{
     -fx-font-size: 12px;
     -fx-font-family: Inter;
@@ -240,4 +204,9 @@
 .setFontInVbox{
     -fx-font-size: 17px;
     -fx-font-family: "Inter 18pt light"
+}
+.scroll-pane .scroll-bar {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
 }

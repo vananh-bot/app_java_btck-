@@ -6,6 +6,7 @@ import DAO.InviteLinkDAO;
 import DAO.JoinRequestDAO;
 import DAO.UserProjectDAO;
 
+import Utils.DataReceiver;
 import Utils.DialogManager;
 import Utils.UserSession;
 import javafx.animation.PauseTransition;
@@ -17,7 +18,7 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import Enum.Screen;
 
-public class EmailInviteController {
+public class EmailInviteController implements DataReceiver<Integer> {
     @FXML
     private TextField txtEmail;
 
@@ -34,6 +35,8 @@ public class EmailInviteController {
     // 2. Khai báo Service xử lý logic
     private InviteService inviteService;
 
+    private int currentProjectId;
+
 
     @FXML
     public void initialize() {
@@ -49,6 +52,11 @@ public class EmailInviteController {
         // Bắt sự kiện khi người dùng click vào nút Gửi
         btnSend.setOnAction(event -> handleSendEmail());
 
+    }
+
+    @Override
+    public void initData(Integer projectId){
+        currentProjectId = projectId;
     }
 
     private void showInlineMessage(String message, boolean isSuccess) {
@@ -71,7 +79,6 @@ public class EmailInviteController {
     // Hàm xử lý gửi email cực gọn (Không cần ô nhập Tên nữa)
     private void handleSendEmail() {
         String email = txtEmail.getText().trim();
-        int currentProjectId = UserSession.getCurrentProjectId();
         if (currentProjectId == -1) {
             showInlineMessage("Bạn chưa chọn dự án!", false);
             return;
