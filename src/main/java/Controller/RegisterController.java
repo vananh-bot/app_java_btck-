@@ -144,7 +144,7 @@ public class RegisterController {
             currentOtp = String.valueOf((int) ((Math.random() * 899999) + 100000));
 
             error.setStyle("-fx-text-fill: #0078d4;");
-            error.setText("Đang gửi mã xác nhận vào Email...");
+            error.setText("Đã gửi mã xác nhận vào Email...");
             error.setVisible(true);
             MailService mailService = new MailService();
             mailService.sendEmail(userEmail, "Xác nhận tài khoản FlowTask", currentOtp);
@@ -172,7 +172,7 @@ public class RegisterController {
                 RegisterService service = new RegisterService(new UserDAO());
                 service.setupUser(name,email,pass);
                 error.setStyle("-fx-text-fill: #048000;");
-                error.setText("Đăng ký thành công! Vui lòng bấm đăng nhập để tiếp tục.");
+                error.setText("ĐĂNG KÍ THÀNH CÔNG!");
                 clearForm();
             } else {
                 error.setStyle("-fx-text-fill: #ff0000;");
@@ -187,7 +187,6 @@ public class RegisterController {
     void handleGoToLogin(ActionEvent event) {
         SceneNavigator.switchScene(event, SceneNavigator.LOGIN, "FlowTask");
     }
-
     @FXML
     private void clearForm() {
         name.clear();

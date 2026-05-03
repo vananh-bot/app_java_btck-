@@ -9,7 +9,6 @@ module com.example.flowtask {
     requires java.xml.crypto;
     requires mysql.connector.j;
     requires com.google.protobuf;
-
     requires jakarta.mail;
 
     opens Controller to javafx.fxml;

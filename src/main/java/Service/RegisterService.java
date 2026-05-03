@@ -39,6 +39,9 @@ public class RegisterService {
         }
         return "SUCCESS";
     }
+    public String doneregister(){
+        return "ĐĂNG KÍ THÀNH CÔNG! Vui lòng đăng nhập để tiếp tục";
+    }
     public void setupUser(String name, String email, String pass){
         User user = new User();
         user.setName(name);
