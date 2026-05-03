@@ -3,25 +3,16 @@ package Controller;
 import DAO.*;
 import Service.ProjectService;
 import Utils.DialogManager;
-import Utils.SceneNavigator;
 import Utils.ScreenManager;
 import Utils.UserSession;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 import javafx.event.ActionEvent;
-import java.io.IOException;
 import Enum.Screen;
+
 public class CreateProjectController {
     @FXML private TextArea enter;
     @FXML private TextArea describe;

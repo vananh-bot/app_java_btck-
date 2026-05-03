@@ -1,5 +1,6 @@
 package DAO;
 
+import DTO.TaskDashboardDTO;
 import Model.*;
 import database.JDBCUtil;
 import Enum.TaskStatus;

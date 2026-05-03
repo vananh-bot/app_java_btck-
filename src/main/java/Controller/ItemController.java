@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.NotificationDTO;
+import DTO.NotificationDTO;
 import Service.NotificationService;
 import Service.ProjectService;
 import Service.TaskService;

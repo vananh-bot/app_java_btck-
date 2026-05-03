@@ -5,7 +5,6 @@ import Enum.TaskStatus;
 import Model.Comment;
 import Model.SubTask;
 import Model.Task;
-import Service.TaskService;
 import Service.TaskService1;
 import Utils.*;
 import javafx.animation.FadeTransition;
@@ -15,11 +14,8 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,12 +24,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
-
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -90,8 +83,6 @@ public class TaskController implements DataReceiver<Integer> {
         };
 
         new Thread(task).start();
-
-
     }
 
     // ================= INIT =================

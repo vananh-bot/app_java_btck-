@@ -1,4 +1,4 @@
-package Model;
+package DTO;
 
 import Enum.NotificationType;
 

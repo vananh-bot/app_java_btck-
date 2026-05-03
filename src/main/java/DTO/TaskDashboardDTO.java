@@ -1,4 +1,4 @@
-package Model;
+package DTO;
 
 import java.time.LocalDateTime;
 import Enum.Priority;

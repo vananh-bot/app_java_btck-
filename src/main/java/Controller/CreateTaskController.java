@@ -20,8 +20,6 @@ import Enum.Screen;
 
 
 public class CreateTaskController implements DataReceiver<Integer> {
-    private TaskService taskService;
-
     @FXML
     private StackPane overlay;
 

@@ -6,19 +6,14 @@ import DAO.UserProjectDAO;
 import DAO.TaskDAO; // Thêm import TaskDAO
 import DTO.ProjectCardDTO; // Thêm import DTO
 import Model.Project;
-import Model.Task;
 import DAO.NotificationDAO;
 import DAO.UserDAO;
-import Enum.NotificationType;
-import Model.Notification;
-import Utils.AppEventBus;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import java.util.UUID;
 
-import Model.ProjectDashboardDTO;
+import DTO.ProjectDashboardDTO;
 
 
 public class ProjectService {

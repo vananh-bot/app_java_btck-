@@ -3,18 +3,14 @@ package Controller;
 import DAO.ProjectDAO;
 import DAO.TaskDAO;
 import DAO.UserDAO;
-import Model.NotificationDTO;
+import DTO.NotificationDTO;
 import Service.NotificationService;
 import Service.ProjectService;
 import Service.TaskService;
 import Service.UserService;
-import Utils.DialogManager;
-import Utils.SceneNavigator;
 import Utils.ScreenManager;
 import Utils.UserSession;
 import javafx.collections.FXCollections;
-import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,7 +20,6 @@ import javafx.scene.layout.HBox;
 import Enum.Screen;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class NotificationController {
 

@@ -3,7 +3,6 @@ package Controller;
 import DAO.UserDAO;
 import Service.LoginService;
 import Model.User;
-// Nhớ import thêm 2 cái này để hết báo đỏ
 import Utils.UserSession;
 import Utils.SceneNavigator;
 import javafx.concurrent.Task;
@@ -15,9 +14,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import java.io.IOException;
+
 
 public class LoginController {
 
@@ -138,21 +136,6 @@ public class LoginController {
 
     @FXML
     public void goToResigter(ActionEvent actionEvent) {
-        try {
-
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/auth/register.fxml")
-            );
-
-            Parent root = loader.load();
-
-            Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-
-            stage.setScene(new Scene(root));
-            stage.setTitle("Register");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        SceneNavigator.switchScene(actionEvent, SceneNavigator.REGISTER, "FlowTask");
     }
 }

@@ -1,9 +1,8 @@
 package Controller;
 
 import DAO.*;
-import Model.Project;
-import Model.ProjectDashboardDTO;
-import Model.TaskDashboardDTO;
+import DTO.ProjectDashboardDTO;
+import DTO.TaskDashboardDTO;
 import Service.ProjectService;
 import Service.TaskService;
 import Utils.DialogManager;
@@ -13,8 +12,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
@@ -22,7 +19,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import Enum.Screen;
 
 import javafx.event.ActionEvent;
@@ -115,8 +111,7 @@ public class DashboardController {
                 renderDashboardMyTask(tasks);
 
                 updateEmptyState();
-
-                Platform.runLater(() -> showLoading(false));
+                showLoading(false);
             });
 
         }).start();
