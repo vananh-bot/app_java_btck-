@@ -1,6 +1,5 @@
 package Service;
 
-import DAO.InviteDAO;
 import DAO.ProjectDAO;
 import DAO.UserProjectDAO;
 import DAO.TaskDAO; // Thêm import TaskDAO
@@ -19,17 +18,14 @@ import DTO.ProjectDashboardDTO;
 public class ProjectService {
     private ProjectDAO projectDAO;
     private UserProjectDAO userProjectDAO;
-    private InviteDAO inviteDAO;
     private TaskDAO taskDAO;
 
     public ProjectService(ProjectDAO projectDAO,
                           UserProjectDAO userProjectDAO,
-                          InviteDAO inviteDAO,
                           TaskDAO taskDAO) {
 
         this.projectDAO = projectDAO;
         this.userProjectDAO = userProjectDAO;
-        this.inviteDAO = inviteDAO;
         this.taskDAO = taskDAO;
     }
 

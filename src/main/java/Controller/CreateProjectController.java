@@ -27,7 +27,7 @@ public class CreateProjectController {
     private ProjectService projectService;
 
     public CreateProjectController() {
-        this.projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO(), new InviteDAO(), new TaskDAO());
+        this.projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO(), new TaskDAO());
     }
 
     @FXML

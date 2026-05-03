@@ -1,6 +1,5 @@
 package Service;
 
-import DAO.TaskAssignmentDAO;
 import DAO.TaskDAO;
 import Model.Task;
 import DTO.TaskDashboardDTO;
@@ -11,14 +10,6 @@ import java.util.List;
 
 public class TaskService {
     private TaskDAO taskDAO;
-    private TaskAssignmentDAO taskAssignmentDAO;
-
-    public TaskService(TaskDAO taskDAO,
-                       TaskAssignmentDAO taskAssignmentDAO) {
-
-        this.taskDAO = taskDAO;
-        this.taskAssignmentDAO = taskAssignmentDAO;
-    }
 
     public TaskService(TaskDAO taskDAO) {
         this.taskDAO = taskDAO;
@@ -45,7 +36,7 @@ public class TaskService {
         task.setDeadline(deadline);
         task.setProjectId(projectId);
 
-        int taskId = taskDAO.insert2(task); //vua insert vua lay taskid
+        int taskId = taskDAO.insert(task); //vua insert vua lay taskid
         return taskId;
     }
 

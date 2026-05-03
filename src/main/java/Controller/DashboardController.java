@@ -29,8 +29,8 @@ import java.util.*;
 public class DashboardController {
 
     private int userId;
-    private ProjectService projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO(), new InviteDAO(), new TaskDAO());
-    private TaskService taskService = new TaskService(new TaskDAO(), new TaskAssignmentDAO());
+    private ProjectService projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO(), new TaskDAO());
+    private TaskService taskService = new TaskService(new TaskDAO());
     private final URL projectCardFXML = getClass().getResource("/dashboard/dashboardProjectCard.fxml");
     private final URL taskCardFXML = getClass().getResource("/dashboard/dashboardMyTaskCard.fxml");
 

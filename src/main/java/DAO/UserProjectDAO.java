@@ -10,9 +10,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class UserProjectDAO implements UserProjectDAOInterface {
-
-    private int projectId;
-
     @Override
     public boolean insert(UserProject up) {
         String sql = "INSERT INTO user_project(user_id, project_id, role) VALUES (?, ?, ?)";

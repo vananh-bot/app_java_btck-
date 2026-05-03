@@ -52,7 +52,7 @@ public class AllProjectController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         emptyProject.setVisible(false);
-        projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO(), new InviteDAO(), new TaskDAO());
+        projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO(),new TaskDAO());
 
         setupSearchLogic();
 
