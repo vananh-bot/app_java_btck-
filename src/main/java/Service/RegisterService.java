@@ -18,8 +18,16 @@ public class RegisterService {
             return "Vui lòng nhập đầy đủ thông tin!";
         }
 
+        if (userDAO.findByName(name) != null) {
+            return "Tên đăng nhập đã tồn tại!";
+        }
+
         if (!Validator.isValidEmail(email)) {
             return "Email không hợp lệ!";
+        }
+
+        if (userDAO.findByEmail(email) != null) {
+            return "Email đã tồn tại!";
         }
 
         if (!Validator.isPasswordValid(pass1)) {
@@ -29,21 +37,13 @@ public class RegisterService {
         if (!Validator.isPasswordMatch(pass1, pass2)) {
             return "Mật khẩu không khớp!";
         }
-
-        if (userDAO.findByEmail(email) != null) {
-            return "Email đã tồn tại!";
-        }
-
-        if(userDAO.findByName(name) != null){
-            return "Tên đã tồn tại!";
-        }
-
+        return "SUCCESS";
+    }
+    public void setupUser(String name, String email, String pass){
         User user = new User();
         user.setName(name);
         user.setEmail(email);
-        user.setPassword(pass1);
-
+        user.setPassword(pass);
         userDAO.insert(user);
-        return "SUCCESS";
     }
 }
