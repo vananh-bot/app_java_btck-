@@ -25,6 +25,8 @@ public class DashboardMyTaskCardController {
 
     @FXML
     private VBox task;
+    @FXML
+    private Label nameOfProject;
 
     private int taskId;
 
@@ -32,6 +34,7 @@ public class DashboardMyTaskCardController {
         taskId = task.getId();
 
         nameOfTask.setText(task.getTitle());
+        nameOfProject.setText(task.getProjectName());
         Priority priority1 = task.getPriority();
         switch (priority1){
             case HIGH:
@@ -85,5 +88,6 @@ public class DashboardMyTaskCardController {
     public String getDeadline(){
         return datetime.getText();
     }
+    public String getProjectName() {return nameOfProject.getText();}
 
 }

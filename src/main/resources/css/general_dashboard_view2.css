@@ -210,3 +210,9 @@
     -fx-pref-width: 0;
     -fx-pref-height: 0;
 }
+
+.project-name {
+    -fx-text-fill: #888888;   /* xám nhẹ */
+    -fx-font-size: 12px;
+    -fx-font-weight: normal;
+}

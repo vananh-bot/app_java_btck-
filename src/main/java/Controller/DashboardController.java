@@ -226,7 +226,8 @@ public class DashboardController {
             DashboardMyTaskCardController controller = (DashboardMyTaskCardController) card.getUserData();
             boolean visible = controller.getTaskName().toLowerCase().contains(keyword) ||
                     controller.getPriority().toLowerCase().contains(keyword) ||
-                    controller.getDeadline().toLowerCase().contains(keyword);
+                    controller.getDeadline().toLowerCase().contains(keyword) ||
+                    controller.getProjectName().toLowerCase().contains(keyword);
 
             card.setVisible(visible);
             card.setManaged(visible);

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="task" onMouseClicked="#goToTaskDetails" prefHeight="74.0" prefWidth="768.0" spacing="9.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DashboardMyTaskCardController">
+<VBox fx:id="task" onMouseClicked="#goToTaskDetails" prefHeight="74.0" prefWidth="768.0" spacing="5.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DashboardMyTaskCardController">
     <stylesheets>
         <URL value="@../css/general_dashboard_view2.css" />
     </stylesheets>
@@ -27,6 +27,31 @@
                 <String fx:value="task" />
             </styleClass>
         </Label>
+      <HBox>
+         <VBox.margin>
+            <Insets left="9.0" />
+         </VBox.margin>
+         <children>
+            <ImageView fitHeight="16.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/folder_24dp_5208E8_FILL0_wght400_GRAD0_opsz24.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="nameOfProject" text="Lên kế hoạch chi tiết cho tháng 3 ">
+               <font>
+                  <Font name="Tahoma Bold" size="12.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="newLine" />
+                  <String fx:value="project-name" />
+                  <String fx:value="task" />
+               </styleClass>
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
         <HBox prefHeight="0.0" prefWidth="751.0" spacing="9.0">
             <children>
                 <Label fx:id="priority" prefHeight="20.0" text="* ƯU TIÊN CAO" HBox.hgrow="NEVER" />

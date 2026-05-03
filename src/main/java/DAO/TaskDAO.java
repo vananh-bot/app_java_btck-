@@ -273,7 +273,8 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
                 "    t.id,\n" +
                 "    t.title,\n" +
                 "    t.priority,\n" +
-                "    t.deadline\n" +
+                "    t.deadline,\n" +
+                "    p.name AS project_name" +
                 "\n" +
                 "FROM tasks t\n" +
                 "JOIN projects p ON t.project_id = p.id\n" +
@@ -315,11 +316,12 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
             while(rs.next()){
                 int id = rs.getInt("id");
                 String title = rs.getString("title");
+                String projectName = rs.getString("project_name");
                 Priority priority = Priority.valueOf(rs.getString("priority"));
                 Timestamp ts = rs.getTimestamp("deadline");
                 LocalDateTime deadline = ts != null ? ts.toLocalDateTime() : null;
 
-                TaskDashboardDTO task = new TaskDashboardDTO(id, title, priority, deadline);
+                TaskDashboardDTO task = new TaskDashboardDTO(id, title, projectName, priority, deadline);
                 list.add(task);
             }
 
