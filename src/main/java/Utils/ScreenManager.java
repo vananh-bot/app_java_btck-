@@ -30,15 +30,6 @@ public class ScreenManager {
         return instance;
     }
 
-    public Screen getCurrentScreen(){
-        return currentScreen;
-    }
-
-    public Screen getPreviousScreen(){
-        return previousScreen;
-    }
-
-
     public void setRootLayout(BorderPane rootLayout){
         this.rootLayout = rootLayout;
     }

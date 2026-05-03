@@ -3,7 +3,7 @@ package Service;
 import DAO.TaskAssignmentDAO;
 import DAO.TaskDAO;
 import Model.Task;
-import Model.TaskDashboardDTO;
+import DTO.TaskDashboardDTO;
 import Enum.Priority;
 import Enum.TaskStatus;
 import java.time.LocalDateTime;

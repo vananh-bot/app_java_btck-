@@ -2,7 +2,7 @@ package DAO;
 
 import Enum.NotificationType;
 import Model.Notification;
-import Model.NotificationDTO;
+import DTO.NotificationDTO;
 import database.JDBCUtil;
 
 import java.sql.*;

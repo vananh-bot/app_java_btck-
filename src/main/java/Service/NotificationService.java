@@ -2,7 +2,7 @@ package Service;
 
 import DAO.NotificationDAO;
 import Enum.NotificationType;
-import Model.NotificationDTO;
+import DTO.NotificationDTO;
 import Utils.TimeUtil;
 
 import java.util.List;

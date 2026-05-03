@@ -79,6 +79,6 @@ public class SidebarController {
 
     @FXML
     void goToLogin(ActionEvent event) {
-        Utils.SceneNavigator.switchScene(event, SceneNavigator.LOGIN, "Đăng nhập");
+        Utils.SceneNavigator.switchScene(event, SceneNavigator.LOGIN, "FlowTask");
     }
 }

@@ -8,15 +8,12 @@ import DAO.UserProjectDAO;
 
 import Utils.DataReceiver;
 import Utils.DialogManager;
-import Utils.UserSession;
 import javafx.animation.PauseTransition;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-import Enum.Screen;
 
 public class EmailInviteController implements DataReceiver<Integer> {
     @FXML

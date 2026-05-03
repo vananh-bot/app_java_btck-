@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.TaskDashboardDTO;
+import DTO.TaskDashboardDTO;
 import Utils.ScreenManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

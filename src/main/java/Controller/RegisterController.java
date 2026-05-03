@@ -3,9 +3,9 @@ package Controller;
 import DAO.UserDAO;
 import Service.MailService;
 import Service.RegisterService;
+import Utils.SceneNavigator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -185,20 +185,7 @@ public class RegisterController {
     }
     @FXML
     void handleGoToLogin(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/auth/login.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            stage.setScene(new Scene(root));
-            stage.setTitle("Login");
-
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneNavigator.switchScene(event, SceneNavigator.LOGIN, "FlowTask");
     }
 
     @FXML

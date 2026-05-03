@@ -15,4 +15,5 @@ module com.example.flowtask {
     opens Controller to javafx.fxml;
     opens Test to javafx.graphics, javafx.fxml;
     opens Model to javafx.base;
+    opens DTO to javafx.base;
 }
