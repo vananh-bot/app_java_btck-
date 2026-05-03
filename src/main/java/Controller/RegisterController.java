@@ -1,14 +1,18 @@
 package Controller;
 
 import DAO.UserDAO;
+import Service.MailService;
 import Service.RegisterService;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -52,11 +56,8 @@ public class RegisterController {
 
     @FXML
     private Button signup;
-
     @FXML
-    private ProgressIndicator loading;
-
-
+    private String currentOtp;
     @FXML
     public void initialize() {
         passwordvisible1.setVisible(false);
@@ -70,8 +71,6 @@ public class RegisterController {
 
         passwordvisible1.textProperty().bindBidirectional(password1.textProperty());
         passwordvisible2.textProperty().bindBidirectional(password2.textProperty());
-
-        loading.setVisible(false);
     }
 
     @FXML
@@ -132,48 +131,57 @@ public class RegisterController {
                 ? passwordvisible2.getText()
                 : password2.getText();
 
-        loading.setVisible(true);
-        signup.setDisable(true);
-        signup.setText("");
-        loading.setProgress(-1);
+        try {
+            RegisterService service = new RegisterService(new UserDAO());
+            String checkResult = service.register(userName, userEmail, pass1, pass2);
 
-        RegisterService service = new RegisterService(new UserDAO());
-
-        Task<String> task = new Task<String>() {
-            @Override
-            protected String call() throws Exception {
-                return service.register(userName, userEmail, pass1, pass2);
+            if (!"SUCCESS".equals(checkResult)) {
+                error.setStyle("-fx-text-fill: #ff0000;");
+                error.setText(checkResult);
+                error.setVisible(true);
+                return;
             }
-        };
+            currentOtp = String.valueOf((int) ((Math.random() * 899999) + 100000));
 
-        task.setOnSucceeded(e -> handleResult(task.getValue(), event));
-        task.setOnFailed(e -> showError());
+            error.setStyle("-fx-text-fill: #0078d4;");
+            error.setText("Đã gửi mã xác nhận vào Email...");
+            error.setVisible(true);
+            MailService mailService = new MailService();
+            mailService.sendEmail(userEmail, "Xác nhận tài khoản FlowTask", currentOtp);
+            showOtpVerification(userName, userEmail, pass1);
 
-        new Thread(task).start();
-    }
-    private void handleResult(String result, ActionEvent event){
-        loading.setVisible(false);
-        signup.setDisable(false);
-        signup.setText("Đăng kí ->");
-
-        error.setVisible(true);
-
-        if("SUCCESS".equals(result)){
-            handleGoToLogin(event);
-        } else {
-            error.setStyle("-fx-text-fill: #ff0000;");
-            error.setText(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            error.setText("Lỗi hệ thống!");
         }
-
     }
+    private void showOtpVerification(String name, String email, String pass) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/auth/otpview.fxml"));
+            Parent root = loader.load();
 
-    private void showError(){
-        loading.setVisible(false);
-        signup.setDisable(false);
-        signup.setText("Đăng kí ->");
+            OtpController controller = loader.getController();
+            controller.setGeneratedOtp(currentOtp);
+            controller.setUserEmail(email);
 
-        error.setVisible(true);
-        error.setText("Lỗi hệ thống!");
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Xác thực FlowTask");
+            stage.showAndWait();
+            if (controller.isVerified()) {
+                RegisterService service = new RegisterService(new UserDAO());
+                service.setupUser(name,email,pass);
+                error.setStyle("-fx-text-fill: #048000;");
+                error.setText("ĐĂNG KÍ THÀNH CÔNG!");
+                clearForm();
+            } else {
+                error.setStyle("-fx-text-fill: #ff0000;");
+                error.setText("Đăng kí thật bại vì bạn chưa xác thực OTP");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            error.setText("Không thể mở cửa sổ xác thực!");
+        }
     }
     @FXML
     void handleGoToLogin(ActionEvent event) {
@@ -192,7 +200,6 @@ public class RegisterController {
             e.printStackTrace();
         }
     }
-
     @FXML
     private void clearForm() {
         name.clear();
@@ -214,5 +221,4 @@ public class RegisterController {
         eyeclose1.setVisible(false);
         eyeclose2.setVisible(false);
     }
-
 }
