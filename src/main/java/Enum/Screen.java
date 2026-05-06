@@ -12,7 +12,11 @@ public enum Screen {
     REGISTER("/auth/register.fxml"),
     MEMBER_LIST("/invite/MemberList.fxml"),
     INVITE_MEMBER("/invite/email.fxml"),
-    ENTER_TOKEN("/invite/token.fxml");
+    ENTER_TOKEN("/invite/token.fxml"),
+    EMAIL_FORGOT("/auth/emailforgot.fxml"),
+    TOKEN_AUTHENTIC("/auth/tokenauthentic.fxml"),
+    NEW_PASSWORDD("/auth/forgotpassword.fxml");
+
 
     private final String fxmlPath;
 
