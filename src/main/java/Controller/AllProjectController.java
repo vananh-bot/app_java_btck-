@@ -1,6 +1,7 @@
 package Controller;
 
-import DTO.ProjectCardDTO;
+import Cache.ProjectCache;
+import DTO.ProjectDashboardDTO;
 import Service.ProjectService;
 import Utils.DialogManager;
 import Utils.ScreenManager;
@@ -27,6 +28,8 @@ import java.text.Normalizer;
 import java.util.*;
 import Enum.Screen;
 
+import static Service.helper.TaskSearchHelper.normalize;
+
 public class AllProjectController implements Initializable {
 
     @FXML private FlowPane projectContainer;
@@ -39,67 +42,57 @@ public class AllProjectController implements Initializable {
     private VBox emptyProject;
 
     private ProjectService projectService;
-    private List<ProjectCardDTO> allProjectDTOs = new ArrayList<>();
 
     // Timer cho Search và Sort
     private Timeline searchDelay;
     private Timeline sortDelay;
 
     // Lưu trữ trạng thái UI
-    private Map<Integer, ProjectCardDTO> oldDataMap = new HashMap<>();
+    private Map<Integer, ProjectDashboardDTO> oldDataMap = new HashMap<>();
     private Map<Integer, AnchorPane> projectCardMap = new HashMap<>();
+
+    private ProjectCache projectCache = ProjectCache.getInstance();
+
+    private List<ProjectDashboardDTO> allProjectDTOs = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        showLoading(false);
         emptyProject.setVisible(false);
-        projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO(),new TaskDAO());
+        projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO());
 
         setupSearchLogic();
 
-        Platform.runLater(() -> {
+
             int currentUserId = UserSession.getUserId();
-            if (currentUserId != -1) {
-                projectCardMap.clear();
-                oldDataMap.clear();
-                loadData(currentUserId);
-            } else {
-                System.err.println("Cảnh báo: UserId đang là -1!");
+            if(currentUserId == -1) return;
+
+            if(!projectCache.getAll().isEmpty()) {
+                applyDeltaUISafely(projectCache.getAll());
             }
 
-            if (projectContainer.getScene() != null) {
-                projectContainer.getScene().windowProperty().addListener((obsWin, oldWin, newWin) -> {
-                    if (newWin != null) {
-                        newWin.focusedProperty().addListener((obsFocus, oldFocus, isFocused) -> {
-                            if (isFocused) {
-                                int userId = UserSession.getUserId();
-                                if (userId != -1) {
-                                    loadData(userId);
-                                }
-                            }
-                        });
-                    }
-                });
-            }
-        });
+            loadData(currentUserId);
+
     }
 
     private void loadData(int userId) {
-        showLoading(true);
+
+        //first load
+        if(projectCache.getAll().isEmpty())
+            showLoading(true);
+
         new Thread(() -> {
             try {
-                long startTime = System.currentTimeMillis();
-                List<ProjectCardDTO> newList = projectService.getAllMyProjects(userId);
-                long endTime = System.currentTimeMillis();
+//                long startTime = System.currentTimeMillis();
+//                List<ProjectDashboardDTO> newList = projectService.getAllMyProjects(userId);
+//                long endTime = System.currentTimeMillis();
+//
+//                System.out.println("Đã tải " + newList.size() + " dự án. Thời gian DB: " + (endTime - startTime) + "ms");
 
-                System.out.println("Đã tải " + newList.size() + " dự án. Thời gian DB: " + (endTime - startTime) + "ms");
-
-                Map<Integer, ProjectCardDTO> newMap = new HashMap<>();
-                for (ProjectCardDTO dto : newList) {
-                    newMap.put(dto.getProject().getId(), dto);
-                }
+                List<ProjectDashboardDTO> newList = projectService.getAllMyProjects(userId);
 
                 Platform.runLater(() -> {
-                    applyDeltaUISafely(newMap);
+                    applyDeltaUISafely(newList);
                     updateEmptyState();
                     showLoading(false);
                 });
@@ -115,13 +108,21 @@ public class AllProjectController implements Initializable {
         loading.setProgress(-1);
     }
 
-    private void applyDeltaUISafely(Map<Integer, ProjectCardDTO> newMap) {
+    private void applyDeltaUISafely(List<ProjectDashboardDTO> list) {
+        Map<Integer, ProjectDashboardDTO> newMap = new HashMap<>();
+        for (ProjectDashboardDTO dto : list) {
+            newMap.put(dto.getId(), dto);
+            projectCache.put(dto);
+        }
+        allProjectDTOs = new ArrayList<>(list);
+
+
         try {
             // 1. Update / Add
-            for (Map.Entry<Integer, ProjectCardDTO> entry : newMap.entrySet()) {
+            for (Map.Entry<Integer, ProjectDashboardDTO> entry : newMap.entrySet()) {
                 int id = entry.getKey();
-                ProjectCardDTO newDto = entry.getValue();
-                ProjectCardDTO oldDto = oldDataMap.get(id);
+                ProjectDashboardDTO newDto = entry.getValue();
+                ProjectDashboardDTO oldDto = oldDataMap.get(id);
 
                 if (oldDto == null) {
                     AnchorPane newCard = createProjectCard(newDto);
@@ -151,7 +152,6 @@ public class AllProjectController implements Initializable {
             }
 
             oldDataMap = newMap;
-            allProjectDTOs = new ArrayList<>(newMap.values());
 
             // 3. Giữ nguyên trạng thái Search nếu đang gõ dở
             String keyword = normalize(searchInput.getText());
@@ -184,9 +184,9 @@ public class AllProjectController implements Initializable {
 
     private void triggerSearch(String keyword) {
         Set<Integer> visibleIds = new HashSet<>();
-        for (ProjectCardDTO dto : allProjectDTOs) {
-            if (normalize(dto.getProject().getName()).contains(keyword)) {
-                visibleIds.add(dto.getProject().getId());
+        for (ProjectDashboardDTO dto : projectCache.getAll()) {
+            if (normalize(dto.getName()).contains(keyword)) {
+                visibleIds.add(dto.getId());
             }
         }
         for (Map.Entry<Integer, AnchorPane> entry : projectCardMap.entrySet()) {
@@ -197,20 +197,14 @@ public class AllProjectController implements Initializable {
         updateEmptyState();
     }
 
-    private String normalize(String text) {
-        if (text == null) return "";
-        String n = Normalizer.normalize(text, Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
-        return n.replaceAll("[^a-zA-Z0-9 ]", "").toLowerCase().trim();
-    }
-
     /* =========================================
      * LOGIC SẮP XẾP ĐÃ ĐƯỢC KHÔI PHỤC
      * ========================================= */
     private void sortUI() {
         allProjectDTOs = projectService.sortByScore(new ArrayList<>(allProjectDTOs));
         List<AnchorPane> newOrder = new ArrayList<>();
-        for (ProjectCardDTO dto : allProjectDTOs) {
-            AnchorPane card = projectCardMap.get(dto.getProject().getId());
+        for (ProjectDashboardDTO dto : allProjectDTOs) {
+            AnchorPane card = projectCardMap.get(dto.getId());
             if (card != null) {
                 newOrder.add(card);
             }
@@ -232,15 +226,15 @@ public class AllProjectController implements Initializable {
     /* =========================================
      * TIỆN ÍCH KHÁC
      * ========================================= */
-    private boolean isChanged(ProjectCardDTO oldDto, ProjectCardDTO newDto) {
-        return !Objects.equals(oldDto.getProject().getName(), newDto.getProject().getName())
-                || !Objects.equals(oldDto.getProject().getDescription(), newDto.getProject().getDescription())
-                || oldDto.getTodoCount() != newDto.getTodoCount()
+    private boolean isChanged(ProjectDashboardDTO oldDto, ProjectDashboardDTO newDto) {
+        return !Objects.equals(oldDto.getName(), newDto.getName())
+//                || !Objects.equals(oldDto.getProject().getDescription(), newDto.getProject().getDescription())
+                || oldDto.getToDoCount() != newDto.getToDoCount()
                 || oldDto.getInProgressCount() != newDto.getInProgressCount()
                 || oldDto.getDoneCount() != newDto.getDoneCount();
     }
 
-    private AnchorPane createProjectCard(ProjectCardDTO dto) throws Exception {
+    private AnchorPane createProjectCard(ProjectDashboardDTO dto) throws Exception {
         URL fxmlLocation = getClass().getResource("/project/projectcard.fxml");
         FXMLLoader loader = new FXMLLoader(fxmlLocation);
         AnchorPane card = loader.load();
@@ -252,7 +246,7 @@ public class AllProjectController implements Initializable {
 
         card.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2) {
-                openProjectDetails(dto.getProject().getId());
+                openProjectDetails(dto.getId());
             }
         });
 

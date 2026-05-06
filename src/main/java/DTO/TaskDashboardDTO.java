@@ -2,6 +2,7 @@ package DTO;
 
 import java.time.LocalDateTime;
 import Enum.Priority;
+import Enum.TaskStatus;
 
 public class TaskDashboardDTO {
     private int id;
@@ -17,7 +18,6 @@ public class TaskDashboardDTO {
         this.priority = priority;
         this.deadline = deadline;
     }
-
     public int getId() {
         return id;
     }

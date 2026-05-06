@@ -1,9 +1,9 @@
 package Service;
 
+import Cache.ProjectCache;
 import DAO.ProjectDAO;
 import DAO.UserProjectDAO;
 import DAO.TaskDAO; // Thêm import TaskDAO
-import DTO.ProjectCardDTO; // Thêm import DTO
 import Model.Project;
 import DAO.NotificationDAO;
 import DAO.UserDAO;
@@ -18,30 +18,28 @@ import DTO.ProjectDashboardDTO;
 public class ProjectService {
     private ProjectDAO projectDAO;
     private UserProjectDAO userProjectDAO;
-    private TaskDAO taskDAO;
+    private ProjectCache projectCache = ProjectCache.getInstance();
 
     public ProjectService(ProjectDAO projectDAO,
-                          UserProjectDAO userProjectDAO,
-                          TaskDAO taskDAO) {
+                          UserProjectDAO userProjectDAO) {
 
         this.projectDAO = projectDAO;
         this.userProjectDAO = userProjectDAO;
-        this.taskDAO = taskDAO;
     }
 
     public ProjectService(ProjectDAO projectDAO) {
         this.projectDAO = projectDAO;
     }
 
-    public List<ProjectCardDTO> getAllMyProjects(int userId) {
+    public List<ProjectDashboardDTO> getAllMyProjects(int userId) {
         return projectDAO.getAllProjectCardsWithTaskCount(userId);
     }
 
-    public List<ProjectCardDTO> sortByScore(List<ProjectCardDTO> list) {
+    public List<ProjectDashboardDTO> sortByScore(List<ProjectDashboardDTO> list) {
         list.sort((a, b) -> {
 
-            int totalA = a.getTodoCount() + a.getInProgressCount() + a.getDoneCount();
-            int totalB = b.getTodoCount() + b.getInProgressCount() + b.getDoneCount();
+            int totalA = a.getToDoCount() + a.getInProgressCount() + a.getDoneCount();
+            int totalB = b.getToDoCount() + b.getInProgressCount() + b.getDoneCount();
 
             boolean isDoneA = totalA > 0 && a.getDoneCount() == totalA;
             boolean isDoneB = totalB > 0 && b.getDoneCount() == totalB;
@@ -51,8 +49,8 @@ public class ProjectService {
             if (!isDoneA && isDoneB) return -1;
 
             //  Rule 2: chưa done hết → sort theo điểm
-            int scoreA = a.getTodoCount() * 2 + a.getInProgressCount() * 3;
-            int scoreB = b.getTodoCount() * 2 + b.getInProgressCount() * 3;
+            int scoreA = a.getToDoCount() * 2 + a.getInProgressCount() * 3;
+            int scoreB = b.getToDoCount() * 2 + b.getInProgressCount() * 3;
 
             return Integer.compare(scoreB, scoreA); // giảm dần
         });
@@ -141,7 +139,14 @@ public class ProjectService {
         return dashboardProject;
     }
     public String getProjectName(int projectId){
-        Project project=projectDAO.findById(projectId);
+        ProjectDashboardDTO p = projectCache.get(projectId);
+        if(p != null) return p.getName();
+
+        Project project = projectDAO.findById(projectId);
+        if (project == null) return null;
+
+        // 3. optional: put cache lại
+        projectCache.put(new ProjectDashboardDTO(project.getId(), project.getName(), 0, 0, 0));
         return project.getName();
     }
 }

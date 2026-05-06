@@ -1,5 +1,6 @@
 package Controller;
 
+import Cache.ProjectCache;
 import DTO.ProjectDashboardDTO;
 import Utils.ScreenManager;
 import javafx.animation.KeyFrame;
@@ -12,6 +13,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import Enum.Screen;
+
+import java.util.Objects;
 
 
 public class DashboardProjectCardController {
@@ -41,6 +44,9 @@ public class DashboardProjectCardController {
     private VBox projectCard;
 
     private int projectId;
+    private ProjectDashboardDTO currentProject;
+
+    private ProjectCache projectCache = ProjectCache.getInstance();
 
     @FXML
     public void initialize(){
@@ -53,6 +59,7 @@ public class DashboardProjectCardController {
     }
 
     public void setData(ProjectDashboardDTO project){
+        this.currentProject = project;
         projectId = project.getId();
 
         lblProjectName.setText(project.getName());
@@ -103,7 +110,18 @@ public class DashboardProjectCardController {
 
     @FXML
     void goToProjectAfterClickCard(MouseEvent event) {
+        projectCache.put(currentProject);
         ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW, projectId);
+    }
+
+    public boolean isSame(ProjectDashboardDTO newProjects){
+        if(currentProject == null) return false;
+
+        return Objects.equals(currentProject.getDoneCount(), newProjects.getDoneCount()) &&
+                Objects.equals(currentProject.getToDoCount(), newProjects.getToDoCount()) &&
+                Objects.equals(currentProject.getInProgressCount(), newProjects.getInProgressCount()) &&
+                Objects.equals(currentProject.getProgress(), newProjects.getProgress()) &&
+                Objects.equals(currentProject.getName(), newProjects.getName());
     }
 
 }

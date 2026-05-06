@@ -1,5 +1,6 @@
 package Controller;
 
+import Cache.DashboardCache;
 import Utils.SceneNavigator;
 import Utils.ScreenManager;
 import javafx.fxml.FXML;
@@ -79,6 +80,7 @@ public class SidebarController {
 
     @FXML
     void goToLogin(ActionEvent event) {
+        DashboardCache.getInstance().clear();
         Utils.SceneNavigator.switchScene(event, SceneNavigator.LOGIN, "FlowTask");
     }
 }

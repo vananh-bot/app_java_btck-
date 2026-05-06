@@ -1,6 +1,9 @@
 package Controller;
 
+import Cache.ProjectCache;
+import Cache.TaskCache;
 import DAO.ProjectDAO;
+import DTO.ProjectDashboardDTO;
 import Enum.TaskStatus;
 import Model.Task;
 import Service.ProjectService;
@@ -35,8 +38,6 @@ public class MainProjectController implements DataReceiver<Integer> {
     @FXML private TextField searchField;
     @FXML private Hyperlink projectLink, mainProjectLink;
     @FXML private Label projectName;
-    @FXML
-    private ProgressIndicator loading;
     private final URL taskCard = getClass().getResource("/task/TaskCard.fxml");
 
     // ================= SERVICES =================
@@ -52,30 +53,27 @@ public class MainProjectController implements DataReceiver<Integer> {
     private List<Task> currentInProgress = new ArrayList<>();
     private List<Task> currentDone = new ArrayList<>();
 
+
+
     @Override
     public void initData(Integer projectId){
         this.projectId = projectId;
-        loading.setVisible(true);
-        loading.setManaged(true);
-        loading.setProgress(-1);
+
+        ProjectDashboardDTO projectCache = ProjectCache.getInstance().get(projectId);
+        if(projectCache != null)
+            updateProjectLinkName(projectCache.getName());
 
         javafx.concurrent.Task<Void> task = new javafx.concurrent.Task<>(){
-            String name;
-
             @Override
             protected Void call(){
-                name = projectService.getProjectName(projectId);
                 taskService.init(projectId);
                 return null;
             }
 
             @Override
             protected void succeeded(){
-                updateProjectLinkName(name);
                 init();
                 refresh();
-
-                loading.setVisible(false);
             }
         };
 
@@ -208,6 +206,5 @@ public class MainProjectController implements DataReceiver<Integer> {
             mainProjectLink.setText(name);
             projectName.setText(name);
         }
-
     }
 }

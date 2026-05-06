@@ -11,6 +11,8 @@ import Enum.Priority;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
+
 import Enum.Screen;
 
 public class DashboardMyTaskCardController {
@@ -30,7 +32,10 @@ public class DashboardMyTaskCardController {
 
     private int taskId;
 
+    private TaskDashboardDTO currentTask;
+
     void setData(TaskDashboardDTO task){
+        this.currentTask = task;
         taskId = task.getId();
 
         nameOfTask.setText(task.getTitle());
@@ -89,5 +94,14 @@ public class DashboardMyTaskCardController {
         return datetime.getText();
     }
     public String getProjectName() {return nameOfProject.getText();}
+
+    public boolean isSame(TaskDashboardDTO newTask){
+        if(currentTask == null) return false;
+
+        return Objects.equals(currentTask.getTitle(), newTask.getTitle()) &&
+                Objects.equals(currentTask.getPriority(), newTask.getPriority()) &&
+                Objects.equals(currentTask.getDeadline(), newTask.getDeadline()) &&
+                Objects.equals(currentTask.getProjectName(), newTask.getProjectName());
+    }
 
 }

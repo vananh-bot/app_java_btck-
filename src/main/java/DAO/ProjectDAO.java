@@ -1,6 +1,5 @@
 package DAO;
 
-import DTO.ProjectCardDTO;
 import Model.User;
 import Model.Project;
 import database.JDBCUtil;
@@ -219,15 +218,13 @@ public class ProjectDAO implements ProjectDAOInterface {
     }
 
     public boolean isProjectNameExists(int userId, String projectName) {
-        String sql = "SELECT 1 FROM projects p " +
-                "JOIN user_project up ON p.id = up.project_id " +
-                "WHERE up.user_id = ? AND LOWER(p.name) = LOWER(?)";
+        String sql = "SELECT 1 FROM projects WHERE owner_id = ? AND LOWER(name) = LOWER(?)";
 
         try (Connection conn = JDBCUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, userId);
-            ps.setString(2, projectName);
+            ps.setString(2, projectName.trim());
 
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next();
@@ -303,8 +300,8 @@ public class ProjectDAO implements ProjectDAOInterface {
         }
         return projects;
     }
-    public List<ProjectCardDTO> getAllProjectCardsWithTaskCount(int userId) {
-        List<ProjectCardDTO> dtoList = new ArrayList<>();
+    public List<ProjectDashboardDTO> getAllProjectCardsWithTaskCount(int userId) {
+        List<ProjectDashboardDTO> dtoList = new ArrayList<>();
 
         // Câu SQL thần thánh: Gộp 3 bảng và tự đếm số Task trong 1 lần chạy
         String sql = "SELECT p.id, p.name, p.description, p.owner_id, p.invite_code, p.created_at, " +
@@ -343,7 +340,7 @@ public class ProjectDAO implements ProjectDAOInterface {
                     int done = rs.getInt("done_count");
 
                     // 3. Đóng gói vào DTO và ném vào danh sách
-                    dtoList.add(new ProjectCardDTO(p, todo, inProgress, done));
+                    dtoList.add(new ProjectDashboardDTO(p.getId(), p.getName(), todo, inProgress, done));
                 }
             }
         } catch (SQLException e) {

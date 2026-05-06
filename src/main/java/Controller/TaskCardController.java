@@ -1,5 +1,6 @@
 package Controller;
 
+import Cache.TaskCache;
 import Model.Task;
 import Service.helper.TaskUIHelper;
 import Utils.ScreenManager;
@@ -122,6 +123,7 @@ public class TaskCardController {
     }
 
     private void switchSceneMouse(MouseEvent event) {
+        TaskCache.getInstance().put(currentTask);
         ScreenManager.getInstance().show(Screen.TASK_DETAILS, currentTask.getId());
     }
 

@@ -1,8 +1,11 @@
 package DTO;
 
+import java.time.LocalDateTime;
+
 public class ProjectDashboardDTO {
     private int id;
     private String name;
+    private int ownerId;
     private int toDoCount, doneCount, inProgressCount;
     private double progress;
 

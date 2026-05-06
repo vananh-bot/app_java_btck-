@@ -1,5 +1,6 @@
 package Controller;
 
+import Cache.DashboardCache;
 import DAO.*;
 import DTO.ProjectDashboardDTO;
 import DTO.TaskDashboardDTO;
@@ -9,6 +10,7 @@ import Utils.DialogManager;
 import Utils.ScreenManager;
 import Utils.UserSession;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -26,16 +28,15 @@ import javafx.event.ActionEvent;
 import java.net.URL;
 import java.util.*;
 
+import static Service.helper.TaskSearchHelper.normalize;
+
 public class DashboardController {
 
     private int userId;
-    private ProjectService projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO(), new TaskDAO());
+    private ProjectService projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO());
     private TaskService taskService = new TaskService(new TaskDAO());
     private final URL projectCardFXML = getClass().getResource("/dashboard/dashboardProjectCard.fxml");
     private final URL taskCardFXML = getClass().getResource("/dashboard/dashboardMyTaskCard.fxml");
-
-    private List<ProjectDashboardDTO> cachedProjects = new ArrayList<>();
-    private List<TaskDashboardDTO> cachedTasks = new ArrayList<>();
 
     private Map<Integer, Node> projectCardMap = new HashMap<>();
     private Map<Integer, Node> taskCardMap = new HashMap<>();
@@ -82,12 +83,28 @@ public class DashboardController {
 
     @FXML
     private VBox emptyProject;
+    private boolean isLoading = false;
+
+    private DashboardCache cache = DashboardCache.getInstance();
+    private final long TTL = 5000;
+
+
 
     @FXML
     void initialize(){
         emptyProject.setVisible(false);
         emptyMyTask.setVisible(false);
+        showLoading(false);
         userId = UserSession.getUserId();
+
+        if(!cache.getTasks().isEmpty()){
+            renderDashboardMyTask(cache.getTasks());
+        }
+
+        if(!cache.getProjects().isEmpty()){
+            renderDashboardProjects(cache.getProjects());
+        }
+
         loadDashboardData();
 
         searchBar.textProperty().addListener((obs, oldValue, newValue) -> {
@@ -96,33 +113,44 @@ public class DashboardController {
     }
 
     void loadDashboardData(){
-        showLoading(true);
+        long now = System.currentTimeMillis();
 
-        new Thread(() -> {
+        if(now - cache.getLastFetchTime() < TTL) {
+            return;
+        }
 
-            List<ProjectDashboardDTO> projects = projectService.getDashboardProjects(userId);
-            List<TaskDashboardDTO> tasks = taskService.getDashboardMyTask(userId);
+        if(isLoading) return;
+        isLoading = true;
 
-            Platform.runLater(() -> {
-                cachedProjects = projects;
-                cachedTasks = tasks;
+        boolean isFirst = cache.getTasks().isEmpty() && cache.getProjects().isEmpty();
+        if(isFirst) showLoading(true);
 
-                renderDashboardProjects(projects);
-                renderDashboardMyTask(tasks);
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                List<ProjectDashboardDTO> projects = projectService.getDashboardProjects(userId);
+                List<TaskDashboardDTO> tasks = taskService.getDashboardMyTask(userId);
 
-                updateEmptyState();
-                showLoading(false);
-            });
+                Platform.runLater(() -> {
+                    cache.setData(tasks, projects);
 
-        }).start();
+                    renderDashboardProjects(projects);
+                    renderDashboardMyTask(tasks);
+
+                    updateEmptyState();
+                    showLoading(false);
+                    isLoading = false;
+                });
+                return null;
+            }
+        };
+        new Thread(task).start();
     }
 
     private void showLoading(boolean b){
-
         loading.setVisible(b);
         loading.setManaged(b);
-        loading.setProgress(-1);
-
+        if(b) loading.setProgress(-1);
     }
 
     private void renderDashboardProjects(List<ProjectDashboardDTO> projects){
@@ -135,7 +163,10 @@ public class DashboardController {
             if(projectCardMap.containsKey(projectId)){
                 Node card = projectCardMap.get(projectId);
                 DashboardProjectCardController controller = (DashboardProjectCardController) card.getUserData();
-                controller.setData(project);
+
+                if(!controller.isSame(project)) {
+                    controller.setData(project);
+                }
             } else {
                 Node card = createDashboardProjectCard(project);
                 if(card != null){
@@ -178,7 +209,8 @@ public class DashboardController {
             if(taskCardMap.containsKey(taskId)){
                 Node card = taskCardMap.get(taskId);
                 DashboardMyTaskCardController controller = (DashboardMyTaskCardController) card.getUserData();
-                controller.setData(task);
+                if(!controller.isSame(task))
+                    controller.setData(task);
             } else {
                 Node card = createDashboardMyTaskCard(task);
                 if(card != null){
@@ -212,11 +244,11 @@ public class DashboardController {
     }
 
     private void triggerSearch(String keyword){
-        keyword = keyword.toLowerCase().trim();
+        String searchKey = normalize(keyword.toLowerCase().trim());
 
         for(Node card : projectCardMap.values()){
             DashboardProjectCardController controller = (DashboardProjectCardController) card.getUserData();
-            boolean visible = controller.getProjectName().toLowerCase().contains(keyword);
+            boolean visible = normalize(controller.getProjectName()).contains(keyword);
 
             card.setVisible(visible);
             card.setManaged(visible);
@@ -224,10 +256,10 @@ public class DashboardController {
 
         for(Node card : taskCardMap.values()){
             DashboardMyTaskCardController controller = (DashboardMyTaskCardController) card.getUserData();
-            boolean visible = controller.getTaskName().toLowerCase().contains(keyword) ||
-                    controller.getPriority().toLowerCase().contains(keyword) ||
-                    controller.getDeadline().toLowerCase().contains(keyword) ||
-                    controller.getProjectName().toLowerCase().contains(keyword);
+            boolean visible = normalize(controller.getTaskName()).contains(keyword) ||
+                    normalize(String.valueOf(controller.getPriority())).contains(keyword) ||
+                    normalize(controller.getDeadline()).contains(keyword) ||
+                    normalize(controller.getProjectName()).contains(keyword);
 
             card.setVisible(visible);
             card.setManaged(visible);

@@ -1,6 +1,8 @@
 package Controller;
 
+import Cache.ProjectCache;
 import DAO.*;
+import DTO.ProjectDashboardDTO;
 import Service.ProjectService;
 import Utils.DialogManager;
 import Utils.ScreenManager;
@@ -26,8 +28,10 @@ public class CreateProjectController {
 
     private ProjectService projectService;
 
+    private ProjectCache projectCache = ProjectCache.getInstance();
+
     public CreateProjectController() {
-        this.projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO(), new TaskDAO());
+        this.projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO());
     }
 
     @FXML
@@ -55,9 +59,6 @@ public class CreateProjectController {
         Task<Integer> task = new Task<Integer>() {
             @Override
             protected Integer call() throws Exception {
-                if (projectService.isNameDuplicate(currentUserId, name)) {
-                    return -2;
-                }
                 return projectService.createProject(name, description, currentUserId);
             }
         };
@@ -69,9 +70,10 @@ public class CreateProjectController {
 
             int projectId = task.getValue();
 
-            if(projectId == -2){
-                alert.setText("Trùng tên dự án. Thử tên khác nhé!");
-            } else if(projectId > 0){
+            if(projectId > 0){
+                ProjectDashboardDTO project = new ProjectDashboardDTO(projectId, name, 0, 0, 0);
+                projectCache.put(project);
+
                 ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW, projectId);
             } else {
                 alert.setText("Không thể tạo dự án!");
@@ -86,7 +88,7 @@ public class CreateProjectController {
         loading.setVisible(false);
         create.setText("Tạo dự án");
         create.setDisable(false);
-        alert.setText("Lỗi hệ thống!");
+        alert.setText("Dự án bị trùng tên! Vui lòng nhập tên khác");
     }
     @FXML
     private void handleCancel(ActionEvent event) {

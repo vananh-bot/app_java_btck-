@@ -1,6 +1,6 @@
 package Controller;
 
-import DTO.ProjectCardDTO;
+import DTO.ProjectDashboardDTO;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.animation.KeyFrame;
@@ -27,7 +27,7 @@ public class ProjectCardController {
     private final double CIRCUMFERENCE = 2 * Math.PI * RADIUS;
     private Timeline timeline;
     private Timeline numberAnim;
-    private ProjectCardDTO dto;
+    private ProjectDashboardDTO dto;
 
     public void setProgress(double progress) {
         // 👉 fix dữ liệu
@@ -131,12 +131,12 @@ public class ProjectCardController {
                 )
         );
     }
-    public void setProjectData(ProjectCardDTO dto) {
-        if (dto == null || dto.getProject() == null) return;
+    public void setProjectData(ProjectDashboardDTO dto) {
+        if (dto == null) return;
         this.dto=dto;
-        lblProjectName.setText(dto.getProject().getName());
+        lblProjectName.setText(dto.getName());
 
-        lblTodoCount.setText(String.valueOf(dto.getTodoCount()));
+        lblTodoCount.setText(String.valueOf(dto.getToDoCount()));
         lblInProgressCount.setText(String.valueOf(dto.getInProgressCount()));
         lblDoneCount.setText(String.valueOf(dto.getDoneCount()));
         System.out.println("1. Tiến độ từ DTO: " + dto.getProgress());

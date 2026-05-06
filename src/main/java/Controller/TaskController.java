@@ -1,11 +1,13 @@
 package Controller;
 
+import Cache.TaskCache;
+import DAO.TaskDAO;
 import Enum.Priority;
 import Enum.TaskStatus;
 import Model.Comment;
 import Model.SubTask;
 import Model.Task;
-import Service.TaskService1;
+import Service.TaskService;
 import Utils.*;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -37,10 +39,11 @@ import Enum.Screen;
 
 public class TaskController implements DataReceiver<Integer> {
 
-    private final TaskService1 taskService = new TaskService1();
+    private final TaskService taskService = new TaskService(new TaskDAO());
     private int currentTaskId;
     private int currentUserId;
     private Task currentTask;
+    private TaskCache taskCache = TaskCache.getInstance();
 
     private final DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -50,35 +53,59 @@ public class TaskController implements DataReceiver<Integer> {
         this.currentTaskId = taskId;
         currentUserId = UserSession.getUserId();
 
+        // ================= CHECK CACHE TRƯỚC =================
+        Task cached = taskCache.get(taskId);
+
+        if (cached != null) {
+            currentTask = cached;
+            loadTaskUI(cached, null);
+
+            // load phần phụ async (không cache)
+            new Thread(() -> {
+                List<SubTask> subTasks = taskService.getSubTasks(taskId);
+                List<Comment> comments = taskService.getComments(taskId);
+
+                Platform.runLater(() -> {
+                    loadSubTasks(subTasks);
+                    loadComments(comments);
+                });
+            }).start();
+
+            loading.setVisible(false);
+            return;
+        }
+
+        // ================= KHÔNG CÓ CACHE -> LOAD DB =================
         loading.setVisible(true);
         loading.setManaged(true);
         loading.setProgress(-1);
 
-        javafx.concurrent.Task<Void> task = new javafx.concurrent.Task<>(){
-            Model.Task taskData;
+        javafx.concurrent.Task<Task> task = new javafx.concurrent.Task<>() {
             List<SubTask> subTasks;
             List<Comment> comments;
             String project;
 
             @Override
-            protected Void call(){
-                taskData = taskService.getTaskById(currentTaskId);
+            protected Task call() {
+                Task t = taskService.getTaskById(currentTaskId);
                 subTasks = taskService.getSubTasks(currentTaskId);
                 comments = taskService.getComments(currentTaskId);
-                project = taskService.getProjectNameByTaskId(currentTaskId);
-                return null;
+                project = taskService.getProjectNameByProjectId(t.getProjectId());
+                return t;
             }
 
             @Override
-            protected void succeeded(){
-                currentTask = taskData;
-                loadTaskUI(currentTask, project);
+            protected void succeeded() {
+                currentTask = getValue();
 
+                // ================= PUT CACHE =================
+                taskCache.put(currentTask);
+
+                loadTaskUI(currentTask, project);
                 loadSubTasks(subTasks);
                 loadComments(comments);
 
                 loading.setVisible(false);
-
             }
         };
 
@@ -174,7 +201,10 @@ public class TaskController implements DataReceiver<Integer> {
 
         currentTask.setStatus(comboStatus.getValue());
 
-        new Thread(() -> taskService.updateTask(currentTask)).start();
+        new Thread(() -> {
+            taskCache.update(currentTask);
+            taskService.updateTask(currentTask);
+        }).start();
     }
 
     private void updatePriority() {
@@ -183,7 +213,10 @@ public class TaskController implements DataReceiver<Integer> {
 
         currentTask.setPriority(comboPriority.getValue());
 
-        new Thread(() -> taskService.updateTask(currentTask)).start();
+        new Thread(() -> {
+            taskCache.update(currentTask);
+            taskService.updateTask(currentTask);
+        }).start();
     }
 
     private void updateDeadline() {
@@ -193,7 +226,10 @@ public class TaskController implements DataReceiver<Integer> {
         currentTask.setDeadline(comboDeadline.getValue().atStartOfDay());
         deadline.setText(currentTask.getDeadline().format(formatter));
 
-        new Thread(() -> taskService.updateTask(currentTask)).start();
+        new Thread(() -> {
+            taskCache.update(currentTask);
+            taskService.updateTask(currentTask);
+        }).start();
     }
 
 
