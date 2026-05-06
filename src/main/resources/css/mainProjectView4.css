@@ -288,3 +288,11 @@
 .circle-button:pressed {
     -fx-background-color: #dfe3ff;
 }
+.description {
+    -fx-wrap-text: false;
+    -fx-text-overrun: ellipsis;
+}
+.description:hover {
+    -fx-cursor: hand;
+    -fx-text-fill: #3b82f6;
+}

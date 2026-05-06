@@ -1,6 +1,8 @@
 package Controller;
 
 import Cache.DashboardCache;
+import Cache.ProjectCache;
+import Cache.TaskCache;
 import Utils.SceneNavigator;
 import Utils.ScreenManager;
 import javafx.fxml.FXML;
@@ -81,6 +83,8 @@ public class SidebarController {
     @FXML
     void goToLogin(ActionEvent event) {
         DashboardCache.getInstance().clear();
+        ProjectCache.getInstance().clear();
+        TaskCache.getInstance().clear();
         Utils.SceneNavigator.switchScene(event, SceneNavigator.LOGIN, "FlowTask");
     }
 }

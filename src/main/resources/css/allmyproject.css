@@ -174,3 +174,31 @@
     -fx-background-color: #EEEEEE;
     -fx-border-color: #3D31A8;
 }
+.owner-label {
+    -fx-font-size: 15px;
+    -fx-text-fill: #888888;
+}
+.todo {
+    -fx-background-color: mistyrose;
+    -fx-background-radius: 10;
+}        /* Màu xám dịu */
+.in-progress {
+    -fx-background-color: ivory;
+    -fx-background-radius: 10;
+} /* Xanh tím đặc trưng của bạn */
+.done {
+    -fx-background-color: honeydew;
+    -fx-background-radius: 10;
+}
+
+.progress-high {
+    -fx-stroke: #EF4444;
+}
+
+.progress-medium {
+    -fx-stroke: #F59E0B;
+}
+
+.progress-low {
+    -fx-stroke: #10B981;
+}

@@ -49,72 +49,55 @@ public class TaskController implements DataReceiver<Integer> {
             DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @Override
-    public void initData(Integer taskId){
+    public void initData(Integer taskId) {
         this.currentTaskId = taskId;
         currentUserId = UserSession.getUserId();
 
-        // ================= CHECK CACHE TRƯỚC =================
         Task cached = taskCache.get(taskId);
 
+        // ================= 1. RENDER CACHE NHANH =================
         if (cached != null) {
             currentTask = cached;
             loadTaskUI(cached, null);
-
-            // load phần phụ async (không cache)
-            new Thread(() -> {
-                List<SubTask> subTasks = taskService.getSubTasks(taskId);
-                List<Comment> comments = taskService.getComments(taskId);
-
-                Platform.runLater(() -> {
-                    loadSubTasks(subTasks);
-                    loadComments(comments);
-                });
-            }).start();
-
-            loading.setVisible(false);
-            return;
+        } else {
+            loading.setVisible(true);
+            loading.setManaged(true);
+            loading.setProgress(-1);
         }
 
-        // ================= KHÔNG CÓ CACHE -> LOAD DB =================
-        loading.setVisible(true);
-        loading.setManaged(true);
-        loading.setProgress(-1);
+        // ================= 2. LUÔN LOAD FULL TASK =================
+        new Thread(() -> {
 
-        javafx.concurrent.Task<Task> task = new javafx.concurrent.Task<>() {
-            List<SubTask> subTasks;
-            List<Comment> comments;
-            String project;
+            Task fullTask = taskService.getTaskById(taskId);
 
-            @Override
-            protected Task call() {
-                Task t = taskService.getTaskById(currentTaskId);
-                subTasks = taskService.getSubTasks(currentTaskId);
-                comments = taskService.getComments(currentTaskId);
-                project = taskService.getProjectNameByProjectId(t.getProjectId());
-                return t;
-            }
+            List<SubTask> subTasks = taskService.getSubTasks(taskId);
+            List<Comment> comments = taskService.getComments(taskId);
 
-            @Override
-            protected void succeeded() {
-                currentTask = getValue();
+            String projectName =
+                    taskService.getProjectNameByProjectId(fullTask.getProjectId());
 
-                // ================= PUT CACHE =================
-                taskCache.put(currentTask);
+            Platform.runLater(() -> {
 
-                loadTaskUI(currentTask, project);
+                currentTask = fullTask;
+
+                // update cache (overwrite)
+                taskCache.put(fullTask);
+
+                // update UI full data
+                loadTaskUI(fullTask, projectName);
                 loadSubTasks(subTasks);
                 loadComments(comments);
 
                 loading.setVisible(false);
-            }
-        };
+            });
 
-        new Thread(task).start();
+        }).start();
     }
 
     // ================= INIT =================
     @FXML
     public void initialize() {
+        loading.setVisible(false);
         comboStatus.setEditable(false);
         comboPriority.setEditable(false);
         comboDeadline.setEditable(false);
@@ -177,7 +160,7 @@ public class TaskController implements DataReceiver<Integer> {
         if (project != null) {
             projectName.setText(project);
         } else {
-            projectName.setText("No Project");
+            projectName.setText("...");
         }
 
         description.setText(task.getDescription());

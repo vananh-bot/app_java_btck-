@@ -6,6 +6,7 @@ import Service.MailService;
 import database.JDBCUtil;
 import Enum.TaskStatus;
 import Enum.Priority;
+import jdk.jshell.Snippet;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -276,6 +277,7 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
                 "    t.id,\n" +
                 "    t.title,\n" +
                 "    t.priority,\n" +
+                "    t.status,\n" +
                 "    t.deadline,\n" +
                 "    p.name AS project_name" +
                 "\n" +
@@ -319,12 +321,13 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
             while(rs.next()){
                 int id = rs.getInt("id");
                 String title = rs.getString("title");
+                TaskStatus status = TaskStatus.valueOf(rs.getString("status"));
                 String projectName = rs.getString("project_name");
                 Priority priority = Priority.valueOf(rs.getString("priority"));
                 Timestamp ts = rs.getTimestamp("deadline");
                 LocalDateTime deadline = ts != null ? ts.toLocalDateTime() : null;
 
-                TaskDashboardDTO task = new TaskDashboardDTO(id, title, projectName, priority, deadline);
+                TaskDashboardDTO task = new TaskDashboardDTO(id, title, projectName, status, priority, deadline);
                 list.add(task);
             }
 
@@ -452,6 +455,7 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
                         rs.getInt("id"),
                         rs.getString("title"),
                         rs.getString("project_name"),
+                        null,
                         null,
                         rs.getTimestamp("deadline").toLocalDateTime()
                 );

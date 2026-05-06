@@ -234,85 +234,20 @@ public class ProjectDAO implements ProjectDAOInterface {
         }
         return false;
     }
-
-    public List<ProjectDashboardDTO> getDashboardProject(int userId){
-        List<ProjectDashboardDTO> projects = new ArrayList<>();
-
-        String sql = "SELECT \n" +
-                "    p.id,\n" +
-                "    p.name,\n" +
-                "\n" +
-                "    SUM(CASE WHEN t.status = 'TODO' THEN 1 ELSE 0 END) AS toDoCount,\n" +
-                "    SUM(CASE WHEN t.status = 'IN_PROGRESS' THEN 1 ELSE 0 END) AS inProgressCount,\n" +
-                "    SUM(CASE WHEN t.status = 'DONE' THEN 1 ELSE 0 END) AS doneCount\n" +
-                "\n" +
-                "FROM projects p\n" +
-                "JOIN user_project up ON p.id = up.project_id\n" +
-                "LEFT JOIN tasks t ON p.id = t.project_id\n" +
-                "\n" +
-                "WHERE up.user_id = ?\n" +
-                "\n" +
-                "GROUP BY p.id, p.name\n" +
-                "\n" +
-                "ORDER BY\n" +
-                "SUM(\n" +
-                "    CASE \n" +
-                "        WHEN t.status = 'DONE' THEN 0\n" +
-                "        WHEN t.status = 'IN_PROGRESS' THEN\n" +
-                "            (CASE t.priority \n" +
-                "                WHEN 'HIGH' THEN 3\n" +
-                "                WHEN 'MEDIUM' THEN 2\n" +
-                "                WHEN 'LOW' THEN 1\n" +
-                "            END) * 2\n" +
-                "        WHEN t.status = 'TODO' THEN\n" +
-                "            (CASE t.priority \n" +
-                "                WHEN 'HIGH' THEN 3\n" +
-                "                WHEN 'MEDIUM' THEN 2\n" +
-                "                WHEN 'LOW' THEN 1\n" +
-                "            END)\n" +
-                "    END\n" +
-                ") DESC\n" +
-                "\n" +
-                "LIMIT 20;";
-
-        try (Connection connection = JDBCUtil.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql);){
-
-            ps.setInt(1, userId);
-
-            ResultSet rs = ps.executeQuery();
-
-            while(rs.next()){
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                int toDoCount = rs.getInt("toDoCount");
-                int inProgressCount = rs.getInt("inProgressCount");
-                int doneCount = rs.getInt("doneCount");
-
-                ProjectDashboardDTO project = new ProjectDashboardDTO(id, name, toDoCount, inProgressCount, doneCount);
-
-                projects.add(project);
-            }
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException("getDashboardProject failed");
-        }
-        return projects;
-    }
     public List<ProjectDashboardDTO> getAllProjectCardsWithTaskCount(int userId) {
         List<ProjectDashboardDTO> dtoList = new ArrayList<>();
 
         // Câu SQL thần thánh: Gộp 3 bảng và tự đếm số Task trong 1 lần chạy
-        String sql = "SELECT p.id, p.name, p.description, p.owner_id, p.invite_code, p.created_at, " +
+        String sql = "SELECT p.id, p.name, p.description, p.owner_id, u.name AS owner_name, p.invite_code, p.created_at, " +
                 "SUM(CASE WHEN t.status = 'TODO' THEN 1 ELSE 0 END) AS todo_count, " +
                 "SUM(CASE WHEN t.status = 'IN_PROGRESS' THEN 1 ELSE 0 END) AS in_progress_count, " +
                 "SUM(CASE WHEN t.status = 'DONE' THEN 1 ELSE 0 END) AS done_count " +
                 "FROM projects p " +
                 "JOIN user_project up ON p.id = up.project_id " +
                 "LEFT JOIN tasks t ON p.id = t.project_id " +
+                "JOIN users u ON p.owner_id = u.id " +
                 "WHERE up.user_id = ? " +
-                "GROUP BY p.id, p.name, p.description, p.owner_id, p.invite_code, p.created_at";
+                "GROUP BY p.id, p.name, p.description, p.owner_id, u.name, p.invite_code, p.created_at";
 
         try (Connection conn = JDBCUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -338,9 +273,10 @@ public class ProjectDAO implements ProjectDAOInterface {
                     int todo = rs.getInt("todo_count");
                     int inProgress = rs.getInt("in_progress_count");
                     int done = rs.getInt("done_count");
+                    String ownerName = rs.getString("owner_name");
 
                     // 3. Đóng gói vào DTO và ném vào danh sách
-                    dtoList.add(new ProjectDashboardDTO(p.getId(), p.getName(), todo, inProgress, done));
+                    dtoList.add(new ProjectDashboardDTO(p.getId(), p.getName(), todo, inProgress, done, p.getOwnerId(), ownerName));
                 }
             }
         } catch (SQLException e) {
@@ -384,6 +320,18 @@ public class ProjectDAO implements ProjectDAOInterface {
             ps.setInt(1, projectId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) return rs.getString("name");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "Dự án không xác định";
+    }
+    public String getDescriptionByProjectId(int projectId) {
+        String sql = "SELECT description FROM projects WHERE id = ?";
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, projectId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getString("description");
         } catch (SQLException e) {
             e.printStackTrace();
         }

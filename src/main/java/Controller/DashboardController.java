@@ -1,6 +1,7 @@
 package Controller;
 
 import Cache.DashboardCache;
+import Cache.ProjectCache;
 import DAO.*;
 import DTO.ProjectDashboardDTO;
 import DTO.TaskDashboardDTO;
@@ -9,6 +10,8 @@ import Service.TaskService;
 import Utils.DialogManager;
 import Utils.ScreenManager;
 import Utils.UserSession;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -19,11 +22,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import Enum.Screen;
 
 import javafx.event.ActionEvent;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.*;
@@ -36,11 +41,14 @@ public class DashboardController {
     private ProjectService projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO());
     private TaskService taskService = new TaskService(new TaskDAO());
     private Service.NotificationService notificationService = new Service.NotificationService();
-    private final URL projectCardFXML = getClass().getResource("/dashboard/dashboardProjectCard.fxml");
+    private final URL projectCardFXML = getClass().getResource("/project/projectcard.fxml");
     private final URL taskCardFXML = getClass().getResource("/dashboard/dashboardMyTaskCard.fxml");
 
-    private Map<Integer, Node> projectCardMap = new HashMap<>();
-    private Map<Integer, Node> taskCardMap = new HashMap<>();
+    private List<ProjectDashboardDTO> allProjects = new ArrayList<>();
+    private List<TaskDashboardDTO> allTasks = new ArrayList<>();
+
+    private Timeline sortDelay;
+    private Timeline searchDelay;
 
 
     @FXML
@@ -87,7 +95,7 @@ public class DashboardController {
     private boolean isLoading = false;
 
     private DashboardCache cache = DashboardCache.getInstance();
-    private final long TTL = 5000;
+    private ProjectCache projectCache = ProjectCache.getInstance();
 
 
 
@@ -98,47 +106,42 @@ public class DashboardController {
         showLoading(false);
         userId = UserSession.getUserId();
 
-        if(!cache.getTasks().isEmpty()){
-            renderDashboardMyTask(cache.getTasks());
-        }
+        setupSearch();
 
-        if(!cache.getProjects().isEmpty()){
-            renderDashboardProjects(cache.getProjects());
+        if (!cache.getTasks().isEmpty() || !projectCache.getAll().isEmpty()) {
+            applyData(projectCache.getAll(), cache.getTasks());
         }
 
         loadDashboardData();
+    }
 
-        searchBar.textProperty().addListener((obs, oldValue, newValue) -> {
-            triggerSearch(newValue);
-        });
+    private void applyData(List<ProjectDashboardDTO> projects, List<TaskDashboardDTO> tasks) {
+        allProjects = new ArrayList<>(projects);
+        allTasks = new ArrayList<>(tasks);
+
+        scheduleRender();
     }
 
     void loadDashboardData(){
-        long now = System.currentTimeMillis();
-
-        if(now - cache.getLastFetchTime() < TTL) {
-            return;
-        }
-
         if(isLoading) return;
         isLoading = true;
 
 
-        boolean isFirst = cache.getTasks().isEmpty() && cache.getProjects().isEmpty();
+        boolean isFirst = cache.getTasks().isEmpty() && projectCache.getAll().isEmpty();
         if(isFirst) showLoading(true);
 
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                List<ProjectDashboardDTO> projects = projectService.getDashboardProjects(userId);
+                List<ProjectDashboardDTO> projects = projectService.getAllMyProjects(userId);
                 List<TaskDashboardDTO> tasks = taskService.getDashboardMyTask(userId);
+                notificationService.scanAndSendOverdueEmailsOnly();
 
                 Platform.runLater(() -> {
-                    cache.setData(tasks, projects);
-                    notificationService.scanAndSendOverdueEmailsOnly();
+                    cache.setData(tasks);
+                    projectCache.putList(projects);
 
-                    renderDashboardProjects(projects);
-                    renderDashboardMyTask(tasks);
+                    applyData(projects, tasks);
 
                     updateEmptyState();
                     showLoading(false);
@@ -156,35 +159,15 @@ public class DashboardController {
         if(b) loading.setProgress(-1);
     }
 
-    private void renderDashboardProjects(List<ProjectDashboardDTO> projects){
-        Set<Integer> currentIds = new HashSet<>();
+    private void setupSearch() {
+        searchDelay = new Timeline(
+                new KeyFrame(Duration.millis(300), e -> triggerSearch(searchBar.getText()))
+        );
+        searchDelay.setCycleCount(1);
 
-        for(ProjectDashboardDTO project : projects){
-            int projectId = project.getId();
-            currentIds.add(projectId);
-
-            if(projectCardMap.containsKey(projectId)){
-                Node card = projectCardMap.get(projectId);
-                DashboardProjectCardController controller = (DashboardProjectCardController) card.getUserData();
-
-                if(!controller.isSame(project)) {
-                    controller.setData(project);
-                }
-            } else {
-                Node card = createDashboardProjectCard(project);
-                if(card != null){
-                    listActiveProject.getChildren().add(card);
-                    projectCardMap.put(projectId, card);
-                }
-            }
-        }
-
-        projectCardMap.entrySet().removeIf(entry ->{
-            if(!currentIds.contains(entry.getKey())){
-                listActiveProject.getChildren().remove(entry.getValue());
-                return true;
-            }
-            return false;
+        searchBar.textProperty().addListener((obs, oldVal, newVal) -> {
+            searchDelay.stop();
+            searchDelay.play();
         });
     }
 
@@ -192,44 +175,14 @@ public class DashboardController {
         try {
             FXMLLoader loader = new FXMLLoader(projectCardFXML);
             Node card = loader.load();
-            DashboardProjectCardController controller = loader.getController();
-            controller.setData(project);
+            ProjectCardController controller = loader.getController();
+            controller.setProjectData(project);
             card.setUserData(controller);
             return card;
         } catch (Exception e)
         { e.printStackTrace();
             return null;
         }
-    }
-
-    void renderDashboardMyTask(List<TaskDashboardDTO> tasks){
-        Set<Integer> currentIds = new HashSet<>();
-
-        for(TaskDashboardDTO task : tasks){
-            int taskId = task.getId();
-            currentIds.add(taskId);
-
-            if(taskCardMap.containsKey(taskId)){
-                Node card = taskCardMap.get(taskId);
-                DashboardMyTaskCardController controller = (DashboardMyTaskCardController) card.getUserData();
-                if(!controller.isSame(task))
-                    controller.setData(task);
-            } else {
-                Node card = createDashboardMyTaskCard(task);
-                if(card != null){
-                    listTask.getChildren().add(card);
-                    taskCardMap.put(taskId, card);
-                }
-            }
-        }
-
-        taskCardMap.entrySet().removeIf(entry ->{
-            if(!currentIds.contains(entry.getKey())){
-                listTask.getChildren().remove(entry.getValue());
-                return true;
-            }
-            return false;
-        });
     }
 
     private Node createDashboardMyTaskCard(TaskDashboardDTO task){
@@ -247,36 +200,71 @@ public class DashboardController {
     }
 
     private void triggerSearch(String keyword){
-        String searchKey = normalize(keyword.toLowerCase().trim());
+        String searchKey = normalize(keyword.trim());
 
-        for(Node card : projectCardMap.values()){
-            DashboardProjectCardController controller = (DashboardProjectCardController) card.getUserData();
-            boolean visible = normalize(controller.getProjectName()).contains(keyword);
+        for(Node node : listActiveProject.getChildren()){
+            ProjectCardController controller = (ProjectCardController) node.getUserData();
+            boolean visible = normalize(controller.getProjectName()).contains(searchKey) ||
+                    normalize(controller.getOwnerName()).contains(searchKey);
 
-            card.setVisible(visible);
-            card.setManaged(visible);
+            node.setVisible(visible);
+            node.setManaged(visible);
         }
 
-        for(Node card : taskCardMap.values()){
-            DashboardMyTaskCardController controller = (DashboardMyTaskCardController) card.getUserData();
-            boolean visible = normalize(controller.getTaskName()).contains(keyword) ||
-                    normalize(String.valueOf(controller.getPriority())).contains(keyword) ||
-                    normalize(controller.getDeadline()).contains(keyword) ||
-                    normalize(controller.getProjectName()).contains(keyword);
+        for(Node node : listTask.getChildren()){
+            DashboardMyTaskCardController controller = (DashboardMyTaskCardController) node.getUserData();
+            boolean visible = normalize(controller.getTaskName()).contains(searchKey) ||
+                    normalize(String.valueOf(controller.getPriority())).contains(searchKey) ||
+                    normalize(controller.getDeadline()).contains(searchKey) ||
+                    normalize(controller.getProjectName()).contains(searchKey);
 
-            card.setVisible(visible);
-            card.setManaged(visible);
+            node.setVisible(visible);
+            node.setManaged(visible);
         }
         updateEmptyState();
     }
     private void updateEmptyState(){
-        boolean hasTask = taskCardMap.values().stream().anyMatch(Node::isVisible);
+        boolean hasTask = listTask.getChildren().stream().anyMatch(Node::isVisible);
         emptyMyTask.setVisible(!hasTask);
         emptyMyTask.setManaged(!hasTask);
 
-        boolean hasProject = projectCardMap.values().stream().anyMatch(Node::isVisible);
+        boolean hasProject = listActiveProject.getChildren().stream().anyMatch(Node::isVisible);
         emptyProject.setVisible(!hasProject);
         emptyProject.setManaged(!hasProject);
+    }
+
+    private void renderUI(){
+        // 🔥 SORT PROJECT
+        allProjects = projectService.sortByScore(new ArrayList<>(allProjects));
+
+        List<Node> projectNodes = new ArrayList<>();
+        for (ProjectDashboardDTO dto : allProjects) {
+            Node node = createDashboardProjectCard(dto);
+            if (node != null) projectNodes.add(node);
+        }
+        listActiveProject.getChildren().setAll(projectNodes);
+
+        // 🔥 TASK: giữ nguyên DB
+        List<Node> taskNodes = new ArrayList<>();
+        for (TaskDashboardDTO dto : allTasks) {
+            Node node = createDashboardMyTaskCard(dto);
+            if (node != null) taskNodes.add(node);
+        }
+        listTask.getChildren().setAll(taskNodes);
+
+        triggerSearch(searchBar.getText());
+        updateEmptyState();
+    }
+
+    private void scheduleRender() {
+        if (sortDelay == null) {
+            sortDelay = new Timeline(
+                    new KeyFrame(Duration.millis(200), e -> renderUI())
+            );
+            sortDelay.setCycleCount(1);
+        }
+        sortDelay.stop();
+        sortDelay.play();
     }
 
     @FXML

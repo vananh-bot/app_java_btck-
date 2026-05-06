@@ -134,10 +134,6 @@ public class ProjectService {
             return projectDAO.isProjectNameExists(currentUserId, name.trim());
     }
 
-    public List<ProjectDashboardDTO> getDashboardProjects(int userId){
-        List<ProjectDashboardDTO> dashboardProject = projectDAO.getDashboardProject(userId);
-        return dashboardProject;
-    }
     public String getProjectName(int projectId){
         ProjectDashboardDTO p = projectCache.get(projectId);
         if(p != null) return p.getName();
@@ -145,8 +141,15 @@ public class ProjectService {
         Project project = projectDAO.findById(projectId);
         if (project == null) return null;
 
-        // 3. optional: put cache lại
-        projectCache.put(new ProjectDashboardDTO(project.getId(), project.getName(), 0, 0, 0));
+        ProjectDashboardDTO dto = new ProjectDashboardDTO();
+        dto.setId(project.getId());
+        dto.setName(project.getName());
+
+        projectCache.put(dto);
+
         return project.getName();
+    }
+    public String getDescriptionByProjectId(int projectId){
+        return projectDAO.getDescriptionByProjectId(projectId);
     }
 }

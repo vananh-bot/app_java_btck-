@@ -10,6 +10,8 @@ module com.example.flowtask {
     requires mysql.connector.j;
     requires com.google.protobuf;
     requires jakarta.mail;
+    requires jdk.jshell;
+    requires javafx.base;
 
     opens Controller to javafx.fxml;
     opens Test to javafx.graphics, javafx.fxml;

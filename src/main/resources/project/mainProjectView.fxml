@@ -75,18 +75,35 @@
                                               <Insets left="9.0" />
                                           </VBox.margin>
                                       </Label>
-                                      <Label text="Bắt đầu ngay bây giờ, làm liên tục, không gián đoạn cho đến khi hoàn thành." textFill="#464646">
-                                          <font>
-                                              <Font name="Tahoma" size="11.0" />
-                                          </font>
-                                          <VBox.margin>
-                                              <Insets left="9.0" />
-                                          </VBox.margin>
-                                          <styleClass>
-                                              <String fx:value="setFontContent" />
-                                              <String fx:value="newLine" />
-                                          </styleClass>
-                                      </Label>
+                              <HBox>
+                                 <VBox.margin>
+                                    <Insets left="9.0" />
+                                 </VBox.margin>
+                                 <children>
+                                            <Label prefHeight="42.0" prefWidth="71.0" text="Mô tả dự án: " textFill="#464646">
+                                                <font>
+                                                    <Font name="Tahoma" size="11.0" />
+                                                </font>
+                                                <styleClass>
+                                                    <String fx:value="setFontContent" />
+                                                    <String fx:value="newLine" />
+                                                </styleClass>
+                                            </Label>
+                                    <Label fx:id="description" layoutX="10.0" layoutY="10.0" maxWidth="400.0" prefHeight="42.0" textFill="#464646">
+                                       <font>
+                                          <Font name="Tahoma" size="11.0" />
+                                       </font>
+                                       <styleClass>
+                                          <String fx:value="setFontContent" />
+                                          <String fx:value="newLine" />
+                                          <String fx:value="description" />
+                                       </styleClass>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
                                   </children>
                                   <HBox.margin>
                                       <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />

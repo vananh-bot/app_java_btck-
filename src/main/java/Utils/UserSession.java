@@ -32,4 +32,7 @@ public class UserSession {
     public static void setEmail(String userEmail) {
         email = userEmail;
     }
+    public String getUserName(){
+        return currentUser.getName();
+    }
 }

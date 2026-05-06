@@ -6,24 +6,19 @@ public class ProjectDashboardDTO {
     private int id;
     private String name;
     private int ownerId;
+    private String ownerName;
     private int toDoCount, doneCount, inProgressCount;
-    private double progress;
 
-    public ProjectDashboardDTO(int id, String name, int toDoCount, int inProgressCount, int doneCount){
+    public ProjectDashboardDTO(int id, String name, int toDoCount, int inProgressCount, int doneCount, int ownerId, String ownerName){
         this.id = id;
         this.name = name;
         this.toDoCount = toDoCount;
         this.inProgressCount = inProgressCount;
         this.doneCount = doneCount;
-
-        int total = toDoCount + inProgressCount + doneCount;
-
-        if(total == 0){
-            this.progress = 0;
-        } else {
-            this.progress = (double) doneCount / total;
-        }
+        this.ownerId = ownerId;
+        this.ownerName = ownerName;
     }
+    public ProjectDashboardDTO(){}
 
     public int getId() {
         return id;
@@ -66,10 +61,22 @@ public class ProjectDashboardDTO {
     }
 
     public double getProgress() {
-        return progress;
+        int total = toDoCount + inProgressCount + doneCount;
+        return total == 0 ? 0 : (double) doneCount / total;
+    }
+    public int getOwnerId() {
+        return ownerId;
     }
 
-    public void setProgress(double progress) {
-        this.progress = progress;
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 }

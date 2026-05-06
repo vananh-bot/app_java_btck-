@@ -39,6 +39,8 @@ public class MainProjectController implements DataReceiver<Integer> {
     @FXML private Hyperlink projectLink, mainProjectLink;
     @FXML private Label projectName;
     private final URL taskCard = getClass().getResource("/task/TaskCard.fxml");
+    @FXML
+    private Label description;
 
     // ================= SERVICES =================
     private int projectId;
@@ -64,14 +66,18 @@ public class MainProjectController implements DataReceiver<Integer> {
             updateProjectLinkName(projectCache.getName());
 
         javafx.concurrent.Task<Void> task = new javafx.concurrent.Task<>(){
+            String descriptionText;
             @Override
             protected Void call(){
+                descriptionText = projectService.getDescriptionByProjectId(projectId);
+
                 taskService.init(projectId);
                 return null;
             }
 
             @Override
             protected void succeeded(){
+                updateDescription(descriptionText);
                 init();
                 refresh();
             }
@@ -206,5 +212,10 @@ public class MainProjectController implements DataReceiver<Integer> {
             mainProjectLink.setText(name);
             projectName.setText(name);
         }
+    }
+    private void updateDescription(String descriptionText){
+        if(descriptionText != null && !descriptionText.isBlank()){
+            description.setText(descriptionText);
+        }  else description.setText("Không có mô tả dự án");
     }
 }

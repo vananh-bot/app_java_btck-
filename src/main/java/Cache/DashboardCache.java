@@ -10,7 +10,6 @@ public class DashboardCache {
     private static final DashboardCache instance = new DashboardCache();
 
     private List<TaskDashboardDTO> tasks = new ArrayList<>();
-    private List<ProjectDashboardDTO> projects = new ArrayList<>();
     private long lastFetchTime = 0;
 
     private DashboardCache (){
@@ -25,23 +24,18 @@ public class DashboardCache {
         return tasks;
     }
 
-    public List<ProjectDashboardDTO> getProjects() {
-        return projects;
-    }
 
     public long getLastFetchTime() {
         return lastFetchTime;
     }
 
-    public synchronized void setData(List<TaskDashboardDTO> tasks, List<ProjectDashboardDTO> projects){
+    public synchronized void setData(List<TaskDashboardDTO> tasks){
         this.tasks = tasks;
-        this.projects = projects;
         this.lastFetchTime = System.currentTimeMillis();
 
     }
     public synchronized void clear(){
         tasks.clear();
-        projects.clear();
         lastFetchTime = 0;
     }
 }

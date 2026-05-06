@@ -18,6 +18,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
@@ -231,7 +232,8 @@ public class AllProjectController implements Initializable {
 //                || !Objects.equals(oldDto.getProject().getDescription(), newDto.getProject().getDescription())
                 || oldDto.getToDoCount() != newDto.getToDoCount()
                 || oldDto.getInProgressCount() != newDto.getInProgressCount()
-                || oldDto.getDoneCount() != newDto.getDoneCount();
+                || oldDto.getDoneCount() != newDto.getDoneCount()
+                || !Objects.equals(oldDto.getOwnerName(), newDto.getOwnerName());
     }
 
     private AnchorPane createProjectCard(ProjectDashboardDTO dto) throws Exception {
@@ -243,12 +245,6 @@ public class AllProjectController implements Initializable {
         if (controller != null) {
             controller.setProjectData(dto);
         }
-
-        card.setOnMouseClicked(e -> {
-            if (e.getClickCount() == 2) {
-                openProjectDetails(dto.getId());
-            }
-        });
 
         return card;
     }
@@ -266,10 +262,6 @@ public class AllProjectController implements Initializable {
 
         emptyProject.setVisible(!hasProject);
         emptyProject.setManaged(!hasProject);
-    }
-
-    private void openProjectDetails(int projectId) {
-        ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW, projectId);
     }
     @FXML
     public void EnterToken(ActionEvent event) {

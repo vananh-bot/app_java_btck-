@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="700.0" prefWidth="1087.0" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DashboardController">
+<VBox prefWidth="1087.0" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DashboardController">
     <stylesheets>
         <URL value="@../css/global.css" />
         <URL value="@../css/taskdetails.css" />
@@ -46,7 +46,7 @@
             <String fx:value="bottom_border" />
             <String fx:value="white_pane" />
          </styleClass></HBox>
-                <HBox prefHeight="668.0" prefWidth="1087.0" styleClass="grey_color">
+                <HBox prefWidth="1087.0" styleClass="grey_color">
                     <children>
             <StackPane>
                <children>
@@ -54,7 +54,7 @@
                                   <children>
                         <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="659.0" prefWidth="1106.0" style="-fx-background-color: transparent; -fx-border-color: transparent;">
                            <content>
-                                            <VBox prefHeight="755.0" prefWidth="929.0">
+                                            <VBox prefWidth="929.0">
                                                 <children>
                                                     <VBox prefHeight="76.0" prefWidth="773.0" spacing="4.0">
                                                         <children>
@@ -176,7 +176,7 @@
                                                 <Insets bottom="8.0" left="17.0" right="17.0" top="11.0" />
                                              </VBox.margin>
                                              <children>
-                                                      <ScrollPane fitToHeight="true" prefHeight="252.0" prefWidth="744.0">
+                                                      <ScrollPane fitToHeight="true" prefWidth="744.0">
                                                          <content>
                                                             <HBox fx:id="listActiveProject" alignment="CENTER_LEFT" prefHeight="212.0" prefWidth="741.0" spacing="18.0">
                                                                <padding>
@@ -189,7 +189,7 @@
                                                       <String fx:value="listTask" />
                                                    </styleClass>
                                                       </ScrollPane>
-                                                <VBox fx:id="emptyProject" prefHeight="200.0" prefWidth="100.0" styleClass="vbox_card">
+                                                <VBox fx:id="emptyProject" prefWidth="100.0" styleClass="vbox_card">
                                                    <children>
                                                       <ImageView fitHeight="136.0" fitWidth="243.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>

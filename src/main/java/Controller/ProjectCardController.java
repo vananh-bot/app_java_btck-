@@ -1,11 +1,13 @@
 package Controller;
 
 import DTO.ProjectDashboardDTO;
+import Utils.ScreenManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import javafx.scene.paint.Color;
@@ -13,6 +15,9 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.animation.Interpolator;
+import Enum.Screen;
+
+import java.util.Objects;
 
 public class ProjectCardController {
     @FXML private Label lblProjectName;
@@ -22,6 +27,8 @@ public class ProjectCardController {
 
     @FXML private Circle progressCircle;
     @FXML private Label percentLabel;
+    @FXML
+    private Label createdBy;
 
     private final double RADIUS = 45;
     private final double CIRCUMFERENCE = 2 * Math.PI * RADIUS;
@@ -135,13 +142,36 @@ public class ProjectCardController {
         if (dto == null) return;
         this.dto=dto;
         lblProjectName.setText(dto.getName());
+        createdBy.setText(dto.getOwnerName() != null ? dto.getOwnerName() : "Unknown");
 
         lblTodoCount.setText(String.valueOf(dto.getToDoCount()));
         lblInProgressCount.setText(String.valueOf(dto.getInProgressCount()));
         lblDoneCount.setText(String.valueOf(dto.getDoneCount()));
-        System.out.println("1. Tiến độ từ DTO: " + dto.getProgress());
-        System.out.println("2. Biến percentLabel đang là: " + percentLabel);
         setProgress(dto.getProgress());
+    }
+
+    public boolean isChanged(ProjectDashboardDTO newDto) {
+        if (dto == null) return true;
+        return !Objects.equals(dto.getName(), newDto.getName())
+//                || !Objects.equals(oldDto.getProject().getDescription(), newDto.getProject().getDescription())
+                || dto.getToDoCount() != newDto.getToDoCount()
+                || dto.getInProgressCount() != newDto.getInProgressCount()
+                || dto.getDoneCount() != newDto.getDoneCount()
+                || !Objects.equals(dto.getOwnerName(), newDto.getOwnerName());
+    }
+
+    public String getOwnerName(){
+        return dto != null && dto.getOwnerName() != null
+                ? dto.getOwnerName()
+                : "";
+    }
+    public String getProjectName(){
+        return dto.getName();
+    }
+
+    @FXML
+    private void openProjectDetails(MouseEvent event) {
+        ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW, dto.getId());
     }
 
 }

@@ -27,6 +27,12 @@ public class ProjectCache {
         if(project == null) return;
         cache.put(project.getId(), project);
     }
+    public void putList(List<ProjectDashboardDTO> projectList){
+        if(projectList.isEmpty()) return;
+        for(ProjectDashboardDTO p : projectList){
+            put(p);
+        }
+    }
 
     public ProjectDashboardDTO get(int id){
         return cache.get(id);
