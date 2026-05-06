@@ -8,6 +8,7 @@ import DAO.UserProjectDAO;
 
 // Nhớ import thêm 3 dòng này để chuyển màn hình
 import Enum.Screen;
+import Service.NotificationService;
 import Utils.DialogManager;
 import Utils.ScreenManager;
 import Utils.UserSession;
@@ -41,7 +42,8 @@ public class TokenController {
         currentUserId = UserSession.getUserId();
         currentUserEmail = UserSession.getEmail();
         loading.setVisible(false);
-        inviteService = new InviteService(new InviteLinkDAO(), new EmailInviteDAO(), new JoinRequestDAO(), new UserProjectDAO());
+        NotificationService notificationService = new NotificationService();
+        inviteService = new InviteService(new InviteLinkDAO(), new EmailInviteDAO(), new JoinRequestDAO(), new UserProjectDAO(),notificationService);
         btnJoin.setOnAction(event -> handleJoinProject());
     }
 

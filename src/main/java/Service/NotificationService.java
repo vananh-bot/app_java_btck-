@@ -1,8 +1,13 @@
 package Service;
 
 import DAO.NotificationDAO;
+import DAO.ProjectDAO;
+import DAO.TaskDAO;
+import DAO.UserProjectDAO;
+import DTO.TaskDashboardDTO;
 import Enum.NotificationType;
 import DTO.NotificationDTO;
+import Model.Notification;
 import Utils.TimeUtil;
 
 import java.util.List;
@@ -10,7 +15,10 @@ import java.util.List;
 public class NotificationService {
 
     private final NotificationDAO notificationDAO = new NotificationDAO();
-
+    private final TaskDAO taskDAO = new TaskDAO();
+    private final MailService mailService = new MailService();
+    private final ProjectDAO projectDAO = new ProjectDAO();
+    private final UserProjectDAO userProjectDAO = new UserProjectDAO();
     // ================= GET ALL (DTO - UI READY) =================
     public List<NotificationDTO> getNotificationDTOByUserId(int userId) {
         List<NotificationDTO> list =
@@ -94,8 +102,44 @@ public class NotificationService {
                         "Task \"" + dto.getTaskTitle() + "\" sắp đến hạn"
                 );
             }
-
-
+            case JOIN_PROJECT -> {
+                dto.setIconPath("/images/new_member.png");
+                dto.setThemeClass("green");
+                dto.setMessage(dto.getCreatorName() + " đã tham gia vào dự án");
+            }
         }
+    }
+    public void scanAndSendOverdueEmailsOnly() {
+        List<TaskDashboardDTO> overdueTasks = taskDAO.getTasksForOverdueEmail();
+        for (TaskDashboardDTO task : overdueTasks) {
+            mailService.sendTaskOverdue(
+                    task.getUserEmail(),
+                    task.getProjectName(),
+                    task.getTitle(),
+                    "ngay bây giờ"
+            );
+            taskDAO.markAsOverdueNotified(task.getId());
+        }
+    }
+    public void notifyNewMemberJoined(int projectId, int newMemberId, String userName) {
+        new Thread(() -> {
+            try {
+                String projectName = projectDAO.getProjectNameById(projectId);
+
+                // 2. Lấy danh sách email của tất cả thành viên CŨ trong dự án
+                List<String> emails = userProjectDAO.getMemberEmailsByProjectId(projectId, newMemberId);
+
+                // 3. Bắn mail cho từng người
+                if (emails != null && !emails.isEmpty()) {
+                    for (String email : emails) {
+                        mailService.sendJoinSuccessEmail(email, projectName, userName);
+                    }
+                    System.out.println("==> FlowTask: Đã gửi thông báo thành viên mới cho " + emails.size() + " người.");
+                }
+            } catch (Exception e) {
+                System.err.println("==> FlowTask LỖI: Không thể gửi thông báo gia nhập dự án.");
+                e.printStackTrace();
+            }
+        }).start();
     }
 }

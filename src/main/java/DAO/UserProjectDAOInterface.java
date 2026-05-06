@@ -28,4 +28,5 @@ public interface UserProjectDAOInterface {
     boolean addMember(Connection conn, int userId, int projectId);
 
     boolean addUserToProject(Connection conn, int userId, int projectId, Role role);
+    List<String> getMemberEmailsByProjectId(int projectId, int excludedUserId);
 }

@@ -28,6 +28,7 @@ public class SchedulerService {
 
                 new DeadlineNotificationService()
                         .checkUpcomingDeadlines();
+                new NotificationService().scanAndSendOverdueEmailsOnly();
 
             } catch (Exception e) {
                 e.printStackTrace();

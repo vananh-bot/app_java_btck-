@@ -6,6 +6,7 @@ import DAO.InviteLinkDAO;
 import DAO.JoinRequestDAO;
 import DAO.UserProjectDAO;
 
+import Service.NotificationService;
 import Utils.DataReceiver;
 import Utils.DialogManager;
 import javafx.animation.PauseTransition;
@@ -37,12 +38,14 @@ public class EmailInviteController implements DataReceiver<Integer> {
 
     @FXML
     public void initialize() {
+        NotificationService notificationService = new NotificationService();
         // Khởi tạo các DAO và truyền vào InviteService
         inviteService = new InviteService(
                 new InviteLinkDAO(),
                 new EmailInviteDAO(),
                 new JoinRequestDAO(),
-                new UserProjectDAO()
+                new UserProjectDAO(),
+                notificationService
         );
         loading.setVisible(false);
 

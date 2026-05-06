@@ -35,6 +35,7 @@ public class DashboardController {
     private int userId;
     private ProjectService projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO());
     private TaskService taskService = new TaskService(new TaskDAO());
+    private Service.NotificationService notificationService = new Service.NotificationService();
     private final URL projectCardFXML = getClass().getResource("/dashboard/dashboardProjectCard.fxml");
     private final URL taskCardFXML = getClass().getResource("/dashboard/dashboardMyTaskCard.fxml");
 
@@ -122,6 +123,7 @@ public class DashboardController {
         if(isLoading) return;
         isLoading = true;
 
+
         boolean isFirst = cache.getTasks().isEmpty() && cache.getProjects().isEmpty();
         if(isFirst) showLoading(true);
 
@@ -133,6 +135,7 @@ public class DashboardController {
 
                 Platform.runLater(() -> {
                     cache.setData(tasks, projects);
+                    notificationService.scanAndSendOverdueEmailsOnly();
 
                     renderDashboardProjects(projects);
                     renderDashboardMyTask(tasks);

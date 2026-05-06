@@ -4,10 +4,7 @@ import DAO.TaskDAO;
 import Enum.Priority;
 import Enum.TaskStatus;
 import Service.TaskService;
-import Utils.DataReceiver;
-import Utils.DialogManager;
-import Utils.SceneNavigator;
-import Utils.ScreenManager;
+import Utils.*;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -112,7 +109,7 @@ public class CreateTaskController implements DataReceiver<Integer> {
         TaskStatus taskStatus = (TaskStatus) statusGroup.getSelectedToggle().getUserData();
         LocalDate date = btndeadline.getValue();
         LocalDateTime taskDeadline = date.atStartOfDay();
-
+        String currentUsername = UserSession.getCurrentUser().getName();
         loading.setVisible(true);
         btnAddTask.setDisable(true);
         loading.setProgress(-1);
@@ -120,40 +117,40 @@ public class CreateTaskController implements DataReceiver<Integer> {
 
         TaskService service = new TaskService(new TaskDAO());
 
-        Task<Integer> task = new Task<Integer>() {
+        javafx.concurrent.Task<Integer> workerTask = new javafx.concurrent.Task<Integer>() {
             @Override
             protected Integer call() throws Exception {
-                return service.createTask(taskTitle, taskDescription, taskPriority, taskStatus, taskDeadline, currentProjectId);
+                return service.createTask(taskTitle, taskDescription, taskPriority, taskStatus, taskDeadline, currentProjectId, currentUsername);
             }
         };
-
-        task.setOnSucceeded(e -> {
+        workerTask.setOnSucceeded(e -> {
             loading.setVisible(false);
             btnAddTask.setDisable(false);
             btnAddTask.setText("Tạo công việc");
 
-            int taskId = task.getValue();
+            int taskId = workerTask.getValue();
             ScreenManager.getInstance().show(Screen.TASK_DETAILS, taskId);
         });
 
-        task.setOnFailed(e -> {
+        workerTask.setOnFailed(e -> {
             loading.setVisible(false);
             btnAddTask.setDisable(false);
             btnAddTask.setText("Tạo công việc");
 
-            Throwable ex = task.getException();
-            if(ex instanceof IllegalArgumentException) {
+            Throwable ex = workerTask.getException();
+            ex.printStackTrace();
+            if (ex instanceof IllegalArgumentException) {
                 error.setVisible(true);
                 error.setStyle("-fx-text-fill: #ff0000;");
                 error.setText(ex.getMessage());
             } else {
                 error.setVisible(true);
-                error.setText("Lỗi hệ thống!");
+                error.setText("Lỗi hệ thống hoặc Mail!");
             }
         });
-        new Thread(task).start();
-    }
 
+        new Thread(workerTask).start();
+    }
     @FXML
     void cancelAddTask(ActionEvent event) {
         DialogManager.getInstance().close(overlay);

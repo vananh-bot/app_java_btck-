@@ -158,7 +158,7 @@ public class RegisterController {
             error.setText("Đã gửi mã xác nhận vào Email...");
             error.setVisible(true);
             MailService mailService = new MailService();
-            mailService.sendEmail(userEmail, "Xác nhận tài khoản FlowTask", currentOtp);
+            mailService.sendOtpEmail(userEmail, currentOtp);
             showOtpVerification(userName, userEmail, pass1);
 
         });
