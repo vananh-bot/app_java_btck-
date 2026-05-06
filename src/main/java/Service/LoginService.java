@@ -23,7 +23,4 @@ public class LoginService {
             return "Mật khẩu không chính xác!";
         }
     }
-    public String doneregister(){
-        return "ĐĂNG KÍ THÀNH CÔNG! Vui lòng đăng nhập để tiếp tục";
-    }
 }

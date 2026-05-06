@@ -25,7 +25,7 @@ public class LoginController {
     @FXML private Button signin;
     @FXML private Hyperlink register;
     @FXML private Label errorLabel;
-
+    @FXML private Label forgotpassword;
     @FXML
     private ProgressIndicator loading;
     @FXML
