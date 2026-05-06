@@ -42,7 +42,7 @@ public class OtpController {
             secondsRemaining--;
             int mins = secondsRemaining / 60;
             int secs = secondsRemaining % 60;
-            timerLabel.setText(String.format("Mã OTP sẽ hết hạn trong %02d:%02d giây", mins, secs));
+            timerLabel.setText(String.format("Mã OTP sẽ hết hạn trong %02d:%02d phút", mins, secs));
 
             if (secondsRemaining <= 0) {
                 timeline.stop();
@@ -111,7 +111,7 @@ public class OtpController {
     @FXML
     void handleResend() {
         generatedOtp = String.valueOf((int) ((Math.random() * 899999) + 100000));
-        new MailService().sendEmail(userEmail, "Gửi lại mã xác thực FlowTask", generatedOtp);
+        new MailService().resendOtpEmail(userEmail, generatedOtp);
 
         errorLabel.setStyle("-fx-text-fill: #008000;");
         errorLabel.setText("Đã gửi lại mã mới!");

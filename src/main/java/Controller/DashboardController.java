@@ -31,6 +31,7 @@ public class DashboardController {
     private int userId;
     private ProjectService projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO(), new TaskDAO());
     private TaskService taskService = new TaskService(new TaskDAO());
+    private Service.NotificationService notificationService = new Service.NotificationService();
     private final URL projectCardFXML = getClass().getResource("/dashboard/dashboardProjectCard.fxml");
     private final URL taskCardFXML = getClass().getResource("/dashboard/dashboardMyTaskCard.fxml");
 
@@ -99,7 +100,7 @@ public class DashboardController {
         showLoading(true);
 
         new Thread(() -> {
-
+            notificationService.scanAndSendOverdueEmailsOnly();
             List<ProjectDashboardDTO> projects = projectService.getDashboardProjects(userId);
             List<TaskDashboardDTO> tasks = taskService.getDashboardMyTask(userId);
 

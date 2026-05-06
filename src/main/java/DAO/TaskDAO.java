@@ -2,6 +2,7 @@ package DAO;
 
 import DTO.TaskDashboardDTO;
 import Model.*;
+import Service.MailService;
 import database.JDBCUtil;
 import Enum.TaskStatus;
 import Enum.Priority;
@@ -37,7 +38,9 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
             ResultSet rs = ps.getGeneratedKeys();
 
             if (rs.next()) {
-                return rs.getInt(1);
+                int newId = rs.getInt(1);
+                task.setId(newId);
+                return newId;
             }
 
             return -1;
@@ -372,5 +375,105 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
         }
 
         return list;
+    }
+    public List<String> getEmailsInProject(int projectId) {
+        List<String> emails = new ArrayList<>();
+        String sql = "SELECT u.email FROM users u JOIN user_project up ON u.id = up.user_id WHERE up.project_id = ?";
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, projectId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    String email = rs.getString("email");
+                    if (email != null) emails.add(email);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return emails;
+    }
+    public String getProjectNameById(int projectId) {
+        String sql = "SELECT name FROM projects WHERE id = ?";
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, projectId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("name");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi lấy tên project (ID: " + projectId + "): " + e.getMessage());
+        }
+        return "Dự án chung (FlowTask)";
+    }
+    public String getEmailByUserId(int userId) {
+        String sql = "SELECT email FROM users WHERE id = ?";
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("email");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi lấy email user (ID: " + userId + "): " + e.getMessage());
+        }
+        return null;
+    }
+    public List<TaskDashboardDTO> getTasksForOverdueEmail() {
+        List<TaskDashboardDTO> list = new ArrayList<>();
+        String sql = """
+        SELECT t.id, t.title, p.name AS project_name, u.email, t.deadline
+        FROM tasks t
+        JOIN projects p ON t.project_id = p.id
+        JOIN user_project up ON p.id = up.project_id
+        JOIN users u ON up.user_id = u.id
+        WHERE t.deadline < NOW() 
+          AND t.status <> 'DONE' 
+          AND t.overdue_notified = 0
+    """;
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                TaskDashboardDTO dto = new TaskDashboardDTO(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("project_name"),
+                        null,
+                        rs.getTimestamp("deadline").toLocalDateTime()
+                );
+                dto.setUserEmail(rs.getString("email"));
+                list.add(dto);
+            }
+        } catch (SQLException e) {
+            System.err.println("Lỗi SQL getTasksForOverdueEmail: " + e.getMessage());
+        }
+        return list;
+    }
+    public void markAsOverdueNotified(int taskId) {
+        String sql = "UPDATE tasks SET overdue_notified = 1 WHERE id = ?";
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, taskId);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            System.err.println("Lỗi cập nhật overdue_notified cho task " + taskId);
+        }
     }
 }

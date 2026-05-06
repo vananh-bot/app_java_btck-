@@ -380,4 +380,16 @@ public class ProjectDAO implements ProjectDAOInterface {
 
         return ids;
     }
+    public String getProjectNameById(int projectId) {
+        String sql = "SELECT name FROM projects WHERE id = ?";
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, projectId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getString("name");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "Dự án không xác định";
+    }
 }

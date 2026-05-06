@@ -9,6 +9,7 @@ public class TaskDashboardDTO {
     private LocalDateTime deadline;
     private Priority priority;
     private String projectName;
+    private String userEmail;
 
     public TaskDashboardDTO(int id, String title, String projectName, Priority priority, LocalDateTime deadline){
         this.id = id;
@@ -56,5 +57,11 @@ public class TaskDashboardDTO {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+    public void setUserEmail(String userEmail){
+        this.userEmail = userEmail;
+    }
+    public String getUserEmail(){
+        return userEmail;
     }
 }

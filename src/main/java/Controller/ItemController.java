@@ -105,6 +105,7 @@ public class ItemController {
         switch (n.getType()) {
             case COMMENT -> lblTitle.setText("Có bình luận mới trong task");
             case DEADLINE -> lblTitle.setText("Deadline sắp đến");
+            case JOIN_PROJECT -> lblTitle.setText("Thành viên mới gia nhập");
         }
         lblTitle.setFont(BOLD);
 
@@ -114,7 +115,7 @@ public class ItemController {
                     + " đã bình luận trong task \"" + n.getTaskTitle() + "\"";
 
             case DEADLINE -> "Task \"" + n.getTaskTitle() + "\" sắp đến hạn";
-
+            case JOIN_PROJECT -> n.getCreatorName() + " đã gia nhập dự án của bạn";
         };
 
         lblMessage.setText(msg);
@@ -147,6 +148,7 @@ public class ItemController {
         String path = switch (n.getType()) {
             case COMMENT -> "/images/comment.png";
             case DEADLINE -> "/images/timer.png";
+            case JOIN_PROJECT -> "/images/user_add.png";
         };
 
         image.setImage(new Image(getClass().getResourceAsStream(path)));
@@ -165,6 +167,11 @@ public class ItemController {
                 backgroud_image.getStyleClass().add("yellow_bg");
                 btnProject.getStyleClass().add("yellow_text");
                 image.getStyleClass().add("icon_deadline");
+            }
+            case JOIN_PROJECT -> {
+                backgroud_image.getStyleClass().add("green_bg");
+                btnProject.getStyleClass().add("green_text");
+                image.getStyleClass().add("icon_join");
             }
         }
     }

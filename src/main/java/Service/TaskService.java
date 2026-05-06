@@ -10,12 +10,12 @@ import java.util.List;
 
 public class TaskService {
     private TaskDAO taskDAO;
-
+    private MailService mailservice = new MailService();
     public TaskService(TaskDAO taskDAO) {
         this.taskDAO = taskDAO;
     }
 
-    public int createTask(String title, String description, Priority priority, TaskStatus taskStatus, LocalDateTime deadline, int projectId) {
+    public int createTask(String title, String description, Priority priority, TaskStatus taskStatus, LocalDateTime deadline, int projectId, String assignerName) {
         if(title == null || title.isBlank()){
             throw new IllegalArgumentException("Vui lòng nhập tên công việc");
         }
@@ -37,6 +37,23 @@ public class TaskService {
         task.setProjectId(projectId);
 
         int taskId = taskDAO.insert(task); //vua insert vua lay taskid
+        if (taskId > 0) {
+            String projectName = taskDAO.getProjectNameById(projectId);
+
+            List<String> allMemberEmails = taskDAO.getEmailsInProject(projectId);
+            String deadlineStr = (deadline != null) ? deadline.toString().replace("T", " ") : "Không có hạn";
+            if (allMemberEmails != null && !allMemberEmails.isEmpty()) {
+                for (String email : allMemberEmails) {
+                    mailservice.sendNewTaskAssignment(
+                            email,
+                            projectName,
+                            title,
+                            assignerName,
+                            deadlineStr
+                    );
+                }
+            }
+        }
         return taskId;
     }
 

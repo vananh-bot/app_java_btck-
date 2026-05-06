@@ -14,6 +14,7 @@ public class InviteService {
     private JoinRequestDAO joinRequestDAO;
     private UserProjectDAOInterface userProjectDAO;
     private UserDAO userDAO = new UserDAO();
+    private NotificationService notificationService;
     private ProjectService projectService = new ProjectService(
             new ProjectDAO()
     );
@@ -21,11 +22,13 @@ public class InviteService {
     public InviteService(InviteLinkDAO linkDAO,
                          EmailInviteDAO emailDAO,
                          JoinRequestDAO requestDAO,
-                         UserProjectDAOInterface userProjectDAO) {
+                         UserProjectDAOInterface userProjectDAO,
+                         NotificationService notificationService) {
         this.inviteLinkDAO = linkDAO;
         this.emailInviteDAO = emailDAO;
         this.joinRequestDAO = requestDAO;
         this.userProjectDAO = userProjectDAO;
+        this.notificationService = notificationService;
     }
 
     // 🔗 tạo link
@@ -167,7 +170,8 @@ public class InviteService {
             // --- Vượt qua 3 ải kiểm tra, tiến hành thêm user ---
             userProjectDAO.addMember(conn, userId, invite.getProjectId());
             emailInviteDAO.updateStatus(conn, invite.getId(), InviteStatus.ACCEPTED);
-
+            // Sau khi insert thành công vào bảng user_project
+            notificationService.notifyNewMemberJoined(invite.getProjectId(), userId, currentUserEmail);
             conn.commit();
             return invite.getProjectId();
 

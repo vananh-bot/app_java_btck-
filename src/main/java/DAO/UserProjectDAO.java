@@ -200,4 +200,23 @@ public class UserProjectDAO implements UserProjectDAOInterface {
         }
         return list;
     }
+    @Override
+    public List<String> getMemberEmailsByProjectId(int projectId, int excludedUserId) {
+        List<String> emails = new ArrayList<>();
+        String sql = "SELECT u.email FROM users u " +
+                "JOIN user_project up ON u.id = up.user_id " +
+                "WHERE up.project_id = ? AND u.id <> ?";
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, projectId);
+            ps.setInt(2, excludedUserId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                emails.add(rs.getString("email"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return emails;
+    }
 }

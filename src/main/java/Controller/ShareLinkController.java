@@ -7,6 +7,7 @@ import DAO.JoinRequestDAO;
 import DAO.UserProjectDAO;
 import Enum.JoinMode;
 
+import Service.NotificationService;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -40,11 +41,13 @@ public class ShareLinkController {
     @FXML
     public void initialize() {
         // Khởi tạo các DAO và Service (giống hệt bên EmailInviteController)
+        NotificationService notificationService = new NotificationService();
         inviteService = new InviteService(
                 new InviteLinkDAO(),
                 new EmailInviteDAO(),
                 new JoinRequestDAO(),
-                new UserProjectDAO()
+                new UserProjectDAO(),
+                notificationService
         );
 
         // Đặt UserData cho các Toggle để dễ dàng lấy ra Enum tương ứng

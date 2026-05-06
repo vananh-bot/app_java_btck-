@@ -17,6 +17,7 @@ public class DeadlineNotificationService {
     private final TaskDAO taskDAO = new TaskDAO();
     private final NotificationDAO notificationDAO = new NotificationDAO();
     private final ProjectDAO projectDAO = new ProjectDAO();
+    private final MailService mailService = new MailService();
 
     public void checkUpcomingDeadlines() {
 
@@ -40,6 +41,7 @@ public class DeadlineNotificationService {
                 if (projectId == null) continue;
 
                 List<Integer> memberIds = projectDAO.getMemberIds(projectId);
+                String projectName = taskDAO.getProjectNameById(projectId);
                 boolean hasNew = false;
 
                 for (Integer memberId : memberIds) {
@@ -55,6 +57,10 @@ public class DeadlineNotificationService {
                     n.setMessage("Task \"" + task.getTitle() + "\" sẽ đến hạn trong 1 ngày");
                     n.setType(NotificationType.DEADLINE);
                     n.setRead(false);
+                    String memberEmail = taskDAO.getEmailByUserId(memberId);
+                    if (memberEmail != null) {
+                        mailService.sendTaskReminder(memberEmail, projectName, task.getTitle(), "24 giờ");
+                    }
                     hasNew = true;
                     notificationDAO.insert(n);
                 }
