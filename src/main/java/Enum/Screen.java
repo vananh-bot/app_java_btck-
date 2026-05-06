@@ -13,9 +13,9 @@ public enum Screen {
     MEMBER_LIST("/invite/MemberList.fxml"),
     INVITE_MEMBER("/invite/email.fxml"),
     ENTER_TOKEN("/invite/token.fxml"),
-    EMAIL_FORGOT("/auth/emailforgot.fxml"),
-    TOKEN_AUTHENTIC("/auth/tokenauthentic.fxml"),
-    NEW_PASSWORDD("/auth/forgotpassword.fxml");
+    EMAIL_FORGOT("/auth/forgotpassword.fxml"),
+    TOKEN_AUTHENTIC("/auth/AccountVerification.fxml"),
+    NEW_PASSWORDD("/auth/resetpassword.fxml");
 
 
     private final String fxmlPath;

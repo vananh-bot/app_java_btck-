@@ -18,9 +18,9 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginController">
+<StackPane fx:id="rootStack" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginController">
    <children>
-      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="764.0" styleClass="white-pane" stylesheets="@../css/auth.css">
+      <Pane fx:id="rootLayout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="764.0" styleClass="white-pane" stylesheets="@../css/auth.css">
          <children>
             <HBox alignment="CENTER" layoutX="51.0" layoutY="66.0" prefHeight="386.0" prefWidth="664.0" spacing="30.0">
                <children>
