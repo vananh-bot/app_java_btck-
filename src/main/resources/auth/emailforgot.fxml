@@ -25,7 +25,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <TextField fx:id="enteremail" onAction="#enterEmail" />
+                  <TextField fx:id="enteremail"  />
                   <Label fx:id="lblError" />
                   <Button fx:id="sendtoken" mnemonicParsing="false" onAction="#sendToken" text="Button" />
                </children>
