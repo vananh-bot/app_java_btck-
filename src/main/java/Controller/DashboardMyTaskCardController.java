@@ -1,6 +1,9 @@
 package Controller;
 
-import Model.TaskDashboardDTO;
+import Cache.TaskCache;
+import DTO.TaskDashboardDTO;
+import Model.Task;
+import Utils.ScreenManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -10,6 +13,9 @@ import Enum.Priority;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
+
+import Enum.Screen;
 
 public class DashboardMyTaskCardController {
     @FXML
@@ -23,13 +29,19 @@ public class DashboardMyTaskCardController {
 
     @FXML
     private VBox task;
+    @FXML
+    private Label nameOfProject;
 
     private int taskId;
 
+    private TaskDashboardDTO currentTask;
+
     void setData(TaskDashboardDTO task){
+        this.currentTask = task;
         taskId = task.getId();
 
         nameOfTask.setText(task.getTitle());
+        nameOfProject.setText(task.getProjectName());
         Priority priority1 = task.getPriority();
         switch (priority1){
             case HIGH:
@@ -69,26 +81,29 @@ public class DashboardMyTaskCardController {
     }
     @FXML
     void goToTaskDetails(MouseEvent event) {
-//        try {
-//            FXMLLoader loader = new FXMLLoader(
-//                    getClass().getResource("/task/taskdetails.fxml")
-//            );
-//
-//            Parent view = loader.load();
-//
-//            TaskController controller = loader.getController();
-//
-//            // 👉 truyền ID
-//            controller.setTaskId(taskId);
-//
-//            Stage stage = (Stage) projectCard.getScene().getWindow();
-//            stage.getScene().setRoot(view);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        ScreenManager.getInstance().show(Screen.TASK_DETAILS, taskId);
+    }
 
-            System.out.println("Fake open taskId: " + taskId);
+    public String getTaskName(){
+        return nameOfTask.getText();
+    }
+
+    public String getPriority(){
+        return priority.getText();
+    }
+
+    public String getDeadline(){
+        return datetime.getText();
+    }
+    public String getProjectName() {return nameOfProject.getText();}
+
+    public boolean isSame(TaskDashboardDTO newTask){
+        if(currentTask == null) return false;
+
+        return Objects.equals(currentTask.getTitle(), newTask.getTitle()) &&
+                Objects.equals(currentTask.getPriority(), newTask.getPriority()) &&
+                Objects.equals(currentTask.getDeadline(), newTask.getDeadline()) &&
+                Objects.equals(currentTask.getProjectName(), newTask.getProjectName());
     }
 
 }

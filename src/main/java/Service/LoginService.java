@@ -8,7 +8,6 @@ public class LoginService {
     private UserDAO userDAO = new UserDAO();
 
     public String login(String username, String password) {
-        // 1. Kiểm tra đầu vào trống
         if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
             return "Vui lòng nhập đầy đủ thông tin!";
         }

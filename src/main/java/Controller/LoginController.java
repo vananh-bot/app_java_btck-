@@ -3,9 +3,10 @@ package Controller;
 import DAO.UserDAO;
 import Service.LoginService;
 import Model.User;
-// Nhớ import thêm 2 cái này để hết báo đỏ
+import Utils.DialogManager;
 import Utils.UserSession;
 import Utils.SceneNavigator;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,8 +15,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import java.io.IOException;
+import Enum.Screen;
+
 
 public class LoginController {
 
@@ -25,6 +29,14 @@ public class LoginController {
     @FXML private Button signin;
     @FXML private Hyperlink register;
     @FXML private Label errorLabel;
+    @FXML private Label forgotpassword;
+    @FXML private StackPane rootStack;
+    @FXML private Pane rootLayout;
+    @FXML
+    private ProgressIndicator loading;
+    @FXML
+    private Label alertAfterRegister;
+
 
     // SỬA LỖI 1: Khai báo đối tượng userDAO để gọi được hàm findByName
     private final UserDAO userDAO = new UserDAO();
@@ -36,6 +48,13 @@ public class LoginController {
         passwordvisible.setVisible(false);
         eyeclose.setVisible(true);
         eyeopen.setVisible(false);
+        loading.setVisible(false);
+        if (rootStack != null && rootLayout != null) {
+            DialogManager.getInstance().setRootStack(rootStack, rootLayout);
+        }
+        forgotpassword.setOnMouseClicked(event -> {
+            DialogManager.getInstance().show(Screen.EMAIL_FORGOT);
+        });
     }
 
     @FXML
@@ -44,36 +63,69 @@ public class LoginController {
             System.err.println("LỖI: Bạn chưa đặt fx:id cho errorLabel trong Scene Builder!");
             return;
         }
+        loading.setVisible(true);
+        signin.setDisable(true);
+        signin.setText("");
+        loading.setProgress(-1);
 
         String inputName = username.getText().trim();
         String inputPass = password.isVisible() ? password.getText() : passwordvisible.getText();
 
-        String result = loginService.login(inputName, inputPass);
-
-        if ("SUCCESS".equals(result)) {
-            // SỬA LỖI 2: Gọi findByName qua đối tượng userDAO (viết thường) thay vì UserDAO (viết hoa)
-            User user = userDAO.findByName(inputName);
-            if (user != null) {
-                UserSession.login(user); // Cất vào kho
+        Task<String> task = new Task<>() {
+            @Override
+            protected String call() {
+                return loginService.login(inputName, inputPass);
             }
+        };
 
-            errorLabel.setStyle("-fx-text-fill: green;");
-            errorLabel.setText("Đăng nhập thành công!");
-            errorLabel.setVisible(true);
+        task.setOnSucceeded(e -> {
 
-            // Giữ nguyên hàm chuyển màn cũ của bạn
-            goToMainScreen(event);
-        } else {
-            errorLabel.setText(result);
-            errorLabel.setStyle("-fx-text-fill: red;");
-            errorLabel.setVisible(true);
-        }
+            loading.setVisible(false);
+            signin.setDisable(false);
+            signin.setText("Đăng nhập ->");
+
+            String result = task.getValue();
+
+            if ("SUCCESS".equals(result)) {
+
+                User user = userDAO.findByName(inputName);
+                if (user != null) {
+                    UserSession.login(user);
+                    UserSession.setEmail(user.getEmail());
+                }
+
+                goToMainScreen(event);
+
+            } else {
+                errorLabel.setText(result);
+                errorLabel.setStyle("-fx-text-fill: red;");
+                errorLabel.setVisible(true);
+            }
+        });
+
+        new Thread(task).start();
     }
 
     // GIỮ NGUYÊN TOÀN BỘ CODE CŨ BÊN DƯỚI
     @FXML
     void goToMainScreen(ActionEvent event) {
-        Utils.SceneNavigator.switchScene(event, SceneNavigator.DASHBOARD, "Tổng quan");
+        try {
+
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/layout/MainLayoutView.fxml")
+            );
+
+            Parent root = loader.load();
+
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Task Manager");
+            stage.centerOnScreen();
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -96,6 +148,6 @@ public class LoginController {
 
     @FXML
     public void goToResigter(ActionEvent actionEvent) {
-        Utils.SceneNavigator.switchScene(actionEvent, SceneNavigator.REGISTER, "Đăng kí");
+        SceneNavigator.switchScene(actionEvent, SceneNavigator.REGISTER, "FlowTask");
     }
 }

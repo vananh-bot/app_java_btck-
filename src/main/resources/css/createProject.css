@@ -1,3 +1,6 @@
+.dialog-pane {
+    -fx-background-color: rgba(0,0,0,0.25);
+}
 .create-button {
     -fx-background-color: #5208e8;
     -fx-cursor: hand; /* Nhớ thêm cái này để chuột biến thành hình bàn tay */

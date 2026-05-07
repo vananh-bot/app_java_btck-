@@ -1,13 +1,14 @@
 package Controller;
 
+import Cache.TaskCache;
+import DAO.TaskDAO;
 import Enum.Priority;
 import Enum.TaskStatus;
 import Model.Comment;
 import Model.SubTask;
 import Model.Task;
-import Service.TaskService1;
-import Utils.SceneNavigator;
-import Utils.TimeUtil;
+import Service.TaskService;
+import Utils.*;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -15,11 +16,8 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,34 +26,84 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
-
-import java.io.IOException;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javafx.scene.text.Font;
 import javafx.scene.paint.Color;
+import Enum.Screen;
 
 
-public class TaskController {
+public class TaskController implements DataReceiver<Integer> {
 
-    private final TaskService1 taskService = new TaskService1();
+    private final TaskService taskService = new TaskService(new TaskDAO());
     private int currentTaskId;
-    private int currentUserId = 26;
+    private int currentUserId;
     private Task currentTask;
+    private TaskCache taskCache = TaskCache.getInstance();
 
     private final DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
+    @Override
+    public void initData(Integer taskId) {
+        this.currentTaskId = taskId;
+        currentUserId = UserSession.getUserId();
+
+        Task cached = taskCache.get(taskId);
+
+        // ================= 1. RENDER CACHE NHANH =================
+        if (cached != null) {
+            currentTask = cached;
+            loadTaskUI(cached, null);
+        } else {
+            loading.setVisible(true);
+            loading.setManaged(true);
+            loading.setProgress(-1);
+        }
+
+        // ================= 2. LUÔN LOAD FULL TASK =================
+        new Thread(() -> {
+
+            Task fullTask = taskService.getTaskById(taskId);
+
+            List<SubTask> subTasks = taskService.getSubTasks(taskId);
+            List<Comment> comments = taskService.getComments(taskId);
+
+            String projectName =
+                    taskService.getProjectNameByProjectId(fullTask.getProjectId());
+
+            Platform.runLater(() -> {
+
+                currentTask = fullTask;
+
+                // update cache (overwrite)
+                taskCache.put(fullTask);
+
+                // update UI full data
+                loadTaskUI(fullTask, projectName);
+                loadSubTasks(subTasks);
+                loadComments(comments);
+
+                loading.setVisible(false);
+            });
+
+        }).start();
+    }
+
     // ================= INIT =================
     @FXML
     public void initialize() {
+        loading.setVisible(false);
+        comboStatus.setEditable(false);
+        comboPriority.setEditable(false);
+        comboDeadline.setEditable(false);
 
-        comboStatus.getItems().setAll("TODO", "IN_PROGRESS", "DONE");
-        comboPriority.getItems().setAll("LOW", "MEDIUM", "HIGH");
+        comboStatus.getItems().setAll(TaskStatus.values());
+        comboPriority.getItems().setAll(Priority.values());
 
         comboStatus.setOnAction(e -> updateStatus());
         comboPriority.setOnAction(e -> updatePriority());
@@ -82,107 +130,76 @@ public class TaskController {
         description.setFont(Font.loadFont(
                 getClass().getResourceAsStream("/fonts/Inter_18pt-Medium.ttf"), 11.5));
 
-        loadTask(1);
-    }
+        comboDeadline.setDayCellFactory(datePicker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
 
-    private int taskId;
+                if (empty) return;
 
-    public void setTaskId(int taskId){
-        this.taskId = taskId;
+                if (date.isBefore(LocalDate.now())) {
+                    setStyle("-fx-background-color: #ffe6e6; -fx-text-fill: red;");
+                } else if (date.equals(LocalDate.now())) {
+                    setStyle("-fx-background-color: #fff3cd;");
+                } else {
+                    setStyle("");
+                }
+            }
+        });
     }
 
     // ================= LOAD TASK =================
 
-    public void loadTask(int taskId) {
+    public void loadTaskUI(Task task, String project) {
 
-        this.currentTaskId = taskId;
+        if (task == null) return;
 
-        currentTask = taskService.getTaskById(taskId);
-
-        if (currentTask == null) return;
-
-        taskName.setText(currentTask.getTitle());
-        taskName1.setText(currentTask.getTitle());
-        String project = taskService.getProjectNameByTaskId(currentTaskId);
+        taskName.setText(task.getTitle());
+        taskName1.setText(task.getTitle());
 
         if (project != null) {
             projectName.setText(project);
         } else {
-            projectName.setText("No Project");
-        }
-        System.out.println(projectName);
-        description.setText(currentTask.getDescription());
-
-        comboStatus.setValue(currentTask.getStatus().name());
-        comboPriority.setValue(currentTask.getPriority().name());
-
-        if (currentTask.getDeadline() != null) {
-            comboDeadline.setValue(currentTask.getDeadline().toLocalDate());
-            deadline.setText(currentTask.getDeadline().format(formatter));
+            projectName.setText("...");
         }
 
-        createTime.setText(TimeUtil.toRelative(currentTask.getCreatedAt()));
-        updateTime.setText(TimeUtil.toRelative(currentTask.getUpdatedAt()));
+        description.setText(task.getDescription());
 
-        loadSubTasks();
-        loadComments();
+        comboStatus.setValue(task.getStatus());
+        comboPriority.setValue(task.getPriority());
+
+        if (task.getDeadline() != null) {
+            comboDeadline.setValue(task.getDeadline().toLocalDate());
+            deadline.setText(task.getDeadline().format(formatter));
+        }
+
+        createTime.setText(TimeUtil.toRelative(task.getCreatedAt()));
+        updateTime.setText(TimeUtil.toRelative(task.getUpdatedAt()));
     }
 
-
-    public void createTask() {
-
-        currentTask = taskService.getTaskById(taskId);
-
-        if (currentTask == null) return;
-
-        taskName.setText(currentTask.getTitle());
-        taskName1.setText(currentTask.getTitle());
-        String project = taskService.getProjectNameByTaskId(currentTaskId);
-
-        if (project != null) {
-            projectName.setText(project);
-        } else {
-            projectName.setText("No Project");
-        }
-        System.out.println(projectName);
-        description.setText(currentTask.getDescription());
-
-        comboStatus.setValue(currentTask.getStatus().name());
-        comboPriority.setValue(currentTask.getPriority().name());
-
-        if (currentTask.getDeadline() != null) {
-            comboDeadline.setValue(currentTask.getDeadline().toLocalDate());
-            deadline.setText(currentTask.getDeadline().format(formatter));
-        }
-
-        createTime.setText(TimeUtil.toRelative(currentTask.getCreatedAt()));
-        updateTime.setText(TimeUtil.toRelative(currentTask.getUpdatedAt()));
-
-        loadSubTasks();
-        loadComments();
-    }
-
-
-    private Task getTask() {
-        return taskService.getTaskById(currentTaskId);
-    }
 
     private void updateStatus() {
 
         if (currentTask == null || comboStatus.getValue() == null) return;
 
-        currentTask.setStatus(TaskStatus.valueOf(comboStatus.getValue()));
+        currentTask.setStatus(comboStatus.getValue());
 
-        new Thread(() -> taskService.updateTask(currentTask)).start();
+        new Thread(() -> {
+            taskCache.update(currentTask);
+            taskService.updateTask(currentTask);
+        }).start();
     }
 
     private void updatePriority() {
 
         if (currentTask == null || comboPriority.getValue() == null) return;
 
-        currentTask.setPriority(Priority.valueOf(comboPriority.getValue()));
+        currentTask.setPriority(comboPriority.getValue());
 
-        new Thread(() -> taskService.updateTask(currentTask)).start();
+        new Thread(() -> {
+            taskCache.update(currentTask);
+            taskService.updateTask(currentTask);
+        }).start();
     }
 
     private void updateDeadline() {
@@ -192,20 +209,18 @@ public class TaskController {
         currentTask.setDeadline(comboDeadline.getValue().atStartOfDay());
         deadline.setText(currentTask.getDeadline().format(formatter));
 
-        new Thread(() -> taskService.updateTask(currentTask)).start();
+        new Thread(() -> {
+            taskCache.update(currentTask);
+            taskService.updateTask(currentTask);
+        }).start();
     }
 
 
-    private void loadSubTasks() {
-
+    private void loadSubTasks(List<SubTask> subTasks) {
         checkList.getChildren().clear();
-
-        List<SubTask> list = taskService.getSubTasks(currentTaskId);
-
-        for (SubTask s : list) {
+        for (SubTask s : subTasks) {
             checkList.getChildren().add(createSubTaskRow(s));
         }
-
         updateProgress();
     }
     @FXML
@@ -368,18 +383,15 @@ public class TaskController {
     }
 
 
-    private void loadComments() {
+    private void loadComments(List<Comment> comments) {
 
-        List<Comment> list = taskService.getComments(currentTaskId);
+        if (comments == null) return;
 
-        if (list == null) return;
-
-
-        if (comment.getChildren().size() == list.size()) return;
+        if (comment.getChildren().size() == comments.size()) return;
 
         comment.getChildren().clear();
 
-        for (Comment c : list) {
+        for (Comment c : comments) {
             comment.getChildren().add(createCommentItem(c));
         }
 
@@ -490,22 +502,18 @@ public class TaskController {
 
     //convert
     @FXML
-    void convert_dashboard(ActionEvent event) {
-        SceneNavigator.switchScene(event, SceneNavigator.DASHBOARD, "dashboard");
+    void convert_allMyProject(ActionEvent event) {
+        ScreenManager.getInstance().show(Screen.ALL_MY_PROJECT);
 
     }
 
     @FXML
     void convert_mainProject(ActionEvent event) {
-        SceneNavigator.switchScene(event, SceneNavigator.MAIN_PROJECT_VIEW, "mainProjectView");
+        ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW, currentTask.getProjectId());
     }
 
     @FXML
     void convert_taskDetail(ActionEvent event) {
-
-    }
-    @FXML
-    void convert_notification(ActionEvent event) {
 
     }
 
@@ -515,8 +523,8 @@ public class TaskController {
     @FXML private VBox comment;
 
     @FXML private DatePicker comboDeadline;
-    @FXML private ComboBox<String> comboPriority;
-    @FXML private ComboBox<String> comboStatus;
+    @FXML private ComboBox<Priority> comboPriority;
+    @FXML private ComboBox<TaskStatus> comboStatus;
 
     @FXML private TextArea description;
     @FXML private ProgressBar progress;
@@ -533,9 +541,6 @@ public class TaskController {
     private Label titleMini1;
 
     @FXML
-    private Label titleMini10;
-
-    @FXML
     private Label titleMini2;
 
     @FXML
@@ -549,10 +554,6 @@ public class TaskController {
 
     @FXML
     private Label titleMini8;
-
-    @FXML
-    private Label titleMini9;
-
     @FXML private ScrollPane commentScroll;
     @FXML private ScrollPane subTaskScroll;
     @FXML
@@ -560,8 +561,5 @@ public class TaskController {
     @FXML
     private Hyperlink projectName;
     @FXML
-    private Hyperlink dashborad;
-    @FXML
-    private Label dashboard1;
-
+    private ProgressIndicator loading;
 }

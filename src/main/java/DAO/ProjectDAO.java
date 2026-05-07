@@ -6,7 +6,6 @@ import database.JDBCUtil;
 
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.util.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import Model.ProjectDashboardDTO;
+import DTO.ProjectDashboardDTO;
 
 public class ProjectDAO implements ProjectDAOInterface {
 
@@ -57,6 +56,23 @@ public class ProjectDAO implements ProjectDAOInterface {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
+    }
+
+    public boolean updateDescription(int projectId, String description) {
+        String sql = "UPDATE projects SET description=? WHERE id=?";
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, description);
+            ps.setInt(2, projectId);
+
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Update description failed for projectId=" + projectId);
+            e.printStackTrace();
+        }
+
         return false;
     }
 
@@ -219,15 +235,13 @@ public class ProjectDAO implements ProjectDAOInterface {
     }
 
     public boolean isProjectNameExists(int userId, String projectName) {
-        String sql = "SELECT 1 FROM projects p " +
-                "JOIN user_project up ON p.id = up.project_id " +
-                "WHERE up.user_id = ? AND LOWER(p.name) = LOWER(?)";
+        String sql = "SELECT 1 FROM projects WHERE owner_id = ? AND LOWER(name) = LOWER(?)";
 
         try (Connection conn = JDBCUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, userId);
-            ps.setString(2, projectName);
+            ps.setString(2, projectName.trim());
 
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next();
@@ -237,69 +251,103 @@ public class ProjectDAO implements ProjectDAOInterface {
         }
         return false;
     }
+    public List<ProjectDashboardDTO> getAllProjectCardsWithTaskCount(int userId) {
+        List<ProjectDashboardDTO> dtoList = new ArrayList<>();
 
-    public List<ProjectDashboardDTO> getDashboardProject(int userId){
-        List<ProjectDashboardDTO> projects = new ArrayList<>();
+        // Câu SQL thần thánh: Gộp 3 bảng và tự đếm số Task trong 1 lần chạy
+        String sql = "SELECT p.id, p.name,  CONCAT(LEFT(p.description, 120), '...') AS preview_description, p.owner_id, u.name AS owner_name, p.invite_code, p.created_at, " +
+                "SUM(CASE WHEN t.status = 'TODO' THEN 1 ELSE 0 END) AS todo_count, " +
+                "SUM(CASE WHEN t.status = 'IN_PROGRESS' THEN 1 ELSE 0 END) AS in_progress_count, " +
+                "SUM(CASE WHEN t.status = 'DONE' THEN 1 ELSE 0 END) AS done_count " +
+                "FROM projects p " +
+                "JOIN user_project up ON p.id = up.project_id " +
+                "LEFT JOIN tasks t ON p.id = t.project_id " +
+                "JOIN users u ON p.owner_id = u.id " +
+                "WHERE up.user_id = ? " +
+                "GROUP BY p.id, p.name, p.owner_id, u.name, p.invite_code, p.created_at";
 
-        String sql = "SELECT \n" +
-                "    p.id,\n" +
-                "    p.name,\n" +
-                "\n" +
-                "    SUM(CASE WHEN t.status = 'TODO' THEN 1 ELSE 0 END) AS toDoCount,\n" +
-                "    SUM(CASE WHEN t.status = 'IN_PROGRESS' THEN 1 ELSE 0 END) AS inProgressCount,\n" +
-                "    SUM(CASE WHEN t.status = 'DONE' THEN 1 ELSE 0 END) AS doneCount\n" +
-                "\n" +
-                "FROM projects p\n" +
-                "LEFT JOIN tasks t ON p.id = t.project_id\n" +
-                "\n" +
-                "WHERE p.owner_id = ?\n" +
-                "\n" +
-                "GROUP BY p.id, p.name\n" +
-                "\n" +
-                "ORDER BY\n" +
-                "SUM(\n" +
-                "    CASE \n" +
-                "        WHEN t.status = 'DONE' THEN 0\n" +
-                "        WHEN t.status = 'IN_PROGRESS' THEN\n" +
-                "            (CASE t.priority \n" +
-                "                WHEN 'HIGH' THEN 3\n" +
-                "                WHEN 'MEDIUM' THEN 2\n" +
-                "                WHEN 'LOW' THEN 1\n" +
-                "            END) * 2\n" +
-                "        WHEN t.status = 'TODO' THEN\n" +
-                "            (CASE t.priority \n" +
-                "                WHEN 'HIGH' THEN 3\n" +
-                "                WHEN 'MEDIUM' THEN 2\n" +
-                "                WHEN 'LOW' THEN 1\n" +
-                "            END)\n" +
-                "    END\n" +
-                ") DESC\n" +
-                "\n" +
-                "LIMIT 20;";
-
-        try (Connection connection = JDBCUtil.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql);){
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, userId);
 
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    // 1. Tạo đối tượng Project (có xử lý ngày tháng)
+                    Timestamp ts = rs.getTimestamp("created_at");
+                    LocalDateTime createdAt = (ts != null) ? ts.toLocalDateTime() : null;
+
+                    int id = rs.getInt("id");
+                    String name = rs.getString("name");
+                    String previewDescription =  rs.getString("preview_description");
+                    int ownerId = rs.getInt("owner_id");
+
+                    // 2. Lấy số đếm Task đã được MySQL tính sẵn
+                    int todo = rs.getInt("todo_count");
+                    int inProgress = rs.getInt("in_progress_count");
+                    int done = rs.getInt("done_count");
+                    String ownerName = rs.getString("owner_name");
+
+                    // 3. Đóng gói vào DTO và ném vào danh sách
+                    dtoList.add(new ProjectDashboardDTO(id, name, todo, inProgress, done, ownerId, ownerName, previewDescription));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi chạy query getAllProjectCardsWithTaskCount:");
+            e.printStackTrace();
+        }
+
+        return dtoList;
+    }
+
+    public List<Integer> getMemberIds(int projectId) {
+        List<Integer> ids = new ArrayList<>();
+
+        String sql = """
+        SELECT user_id
+        FROM user_project
+        WHERE project_id = ?
+    """;
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, projectId);
+
             ResultSet rs = ps.executeQuery();
 
-            while(rs.next()){
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                int toDoCount = rs.getInt("toDoCount");
-                int inProgressCount = rs.getInt("inProgressCount");
-                int doneCount = rs.getInt("doneCount");
-
-                ProjectDashboardDTO project = new ProjectDashboardDTO(id, name, toDoCount, inProgressCount, doneCount);
-
-                projects.add(project);
+            while (rs.next()) {
+                ids.add(rs.getInt("user_id"));
             }
 
-
         } catch (SQLException e) {
-            throw new RuntimeException("getDashboardProject failed");
+            e.printStackTrace();
         }
-        return projects;
+
+        return ids;
+    }
+    public String getProjectNameById(int projectId) {
+        String sql = "SELECT name FROM projects WHERE id = ?";
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, projectId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getString("name");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "Dự án không xác định";
+    }
+    public String getDescriptionByProjectId(int projectId) {
+        String sql = "SELECT description FROM projects WHERE id = ?";
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, projectId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getString("description");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "Dự án không xác định";
     }
 }

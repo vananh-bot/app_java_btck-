@@ -3,7 +3,15 @@
     -fx-background-color: white;
     -fx-background-radius: 20; /* Bo tròn mạnh tay vào mới đẹp */
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 15, 0, 0, 5);
-    -fx-padding: 25;
+    -fx-cursor: hand;
+}
+.project-card:hover{
+    -fx-background-color:#eef0ff;
+}
+
+/* pressed */
+.project-card:pressed{
+    -fx-background-color:#dde0ff;
 }
 
 .btn-new-project:pressed {
@@ -146,4 +154,51 @@
 .done {
     -fx-background-color: honeydew;
     -fx-background-radius: 10;
+}
+.vbox_card{
+    -fx-alignment: top-center;
+}
+.setFontInVbox{
+    -fx-font-size: 24px;
+    -fx-font-family: "Inter 18pt light";
+    -fx-font-weight: bold;
+}
+.token {
+    -fx-background-color: white;
+    -fx-border-color: #2E2580;
+    -fx-background-radius: 25;
+    -fx-border-radius: 25;
+    -fx-cursor: hand;
+}
+.token:hover{
+    -fx-background-color: #EEEEEE;
+    -fx-border-color: #3D31A8;
+}
+.owner-label {
+    -fx-font-size: 15px;
+    -fx-text-fill: #888888;
+}
+.todo {
+    -fx-background-color: mistyrose;
+    -fx-background-radius: 10;
+}        /* Màu xám dịu */
+.in-progress {
+    -fx-background-color: ivory;
+    -fx-background-radius: 10;
+} /* Xanh tím đặc trưng của bạn */
+.done {
+    -fx-background-color: honeydew;
+    -fx-background-radius: 10;
+}
+
+.progress-high {
+    -fx-stroke: #EF4444;
+}
+
+.progress-medium {
+    -fx-stroke: #F59E0B;
+}
+
+.progress-low {
+    -fx-stroke: #10B981;
 }

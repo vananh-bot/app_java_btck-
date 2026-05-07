@@ -1,7 +1,9 @@
 package DAO;
 
 import Model.User;
+import Enum.Role;
 
+import java.sql.Connection;
 import java.util.List;
 
 public interface UserInterfaceDao <T>{
@@ -12,4 +14,5 @@ public interface UserInterfaceDao <T>{
     T findByName(String name);
     T findByEmail(String email);
     T findById(int id);
+
 }

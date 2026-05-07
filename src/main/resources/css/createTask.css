@@ -1,4 +1,8 @@
 
+.dialog-pane {
+    -fx-background-color: rgba(0,0,0,0.25);
+}
+
 .button-purple {
     -fx-background-color: #5208e8;
     -fx-text-fill: white;

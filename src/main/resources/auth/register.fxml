@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -256,18 +257,23 @@
                               <Insets bottom="-8.0" />
                            </VBox.margin>
                         </VBox>
-                        <Button fx:id="signup" mnemonicParsing="false" onAction="#handleRegister" prefHeight="29.0" prefWidth="170.0" text="Đăng ký -&gt;" textFill="WHITE">
-                           <styleClass>
-                              <String fx:value="btn-login" />
-                              <String fx:value="box2-border" />
-                           </styleClass>
-                           <font>
-                              <Font name="Monospaced Bold" size="10.0" />
-                           </font>
+                        <StackPane>
                            <VBox.margin>
                               <Insets left="30.0" right="20.0" />
                            </VBox.margin>
-                        </Button>
+                           <children>
+                              <Button fx:id="signup" mnemonicParsing="false" onAction="#handleRegister" prefHeight="29.0" prefWidth="170.0" text="Đăng ký -&gt;" textFill="WHITE">
+                                 <styleClass>
+                                    <String fx:value="btn-login" />
+                                    <String fx:value="box2-border" />
+                                 </styleClass>
+                                 <font>
+                                    <Font name="Monospaced Bold" size="10.0" />
+                                 </font>
+                              </Button>
+                              <ProgressIndicator fx:id="loading" progress="0.0" styleClass="white-spinner" stylesheets="@../css/loadingSpinner.css" />
+                           </children>
+                        </StackPane>
                         <Line endX="68.0" opacity="0.05" startX="-100.0">
                            <VBox.margin>
                               <Insets left="30.0" top="9.0" />

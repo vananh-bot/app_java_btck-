@@ -1,30 +1,43 @@
 package Controller;
 
+import Cache.ProjectCache;
 import DAO.*;
+import DTO.ProjectDashboardDTO;
 import Service.ProjectService;
-import Utils.SceneNavigator;
+import Utils.DialogManager;
+import Utils.ScreenManager;
 import Utils.UserSession;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
+import javafx.scene.layout.StackPane;
 
 import javafx.event.ActionEvent;
-import java.io.IOException;
+import Enum.Screen;
+
 public class CreateProjectController {
     @FXML private TextArea enter;
     @FXML private TextArea describe;
+    @FXML private StackPane overlay;
+    @FXML
+    private Button create;
+    @FXML
+    private ProgressIndicator loading;
+    @FXML
+    private Label alert;
 
     private ProjectService projectService;
 
+    private ProjectCache projectCache = ProjectCache.getInstance();
+
     public CreateProjectController() {
-        this.projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO(), new InviteDAO(), new TaskDAO());
+        this.projectService = new ProjectService(new ProjectDAO(), new UserProjectDAO());
+    }
+
+    @FXML
+    private void initialize(){
+        alert.setText("");
+        loading.setVisible(false);
     }
 
     @FXML
@@ -32,41 +45,55 @@ public class CreateProjectController {
         String name = enter.getText().trim();
         String description = describe.getText().trim();
         int currentUserId = UserSession.getUserId();
+        String currentUserName = UserSession.getCurrentUser().getName();
 
         if (name.isEmpty()) {
-            showNotify("Lỗi", "Tên dự án không được để trống!", Alert.AlertType.WARNING);
+            alert.setText("Tên dự án không được để trống!");
             return;
         }
 
-        if (projectService.isNameDuplicate(currentUserId, name)) {
-            showNotify("Trùng tên", "Dự án '" + name + "' đã tồn tại. Thử tên khác nhé!", Alert.AlertType.ERROR);
-            return;
-        }
+        loading.setVisible(true);
+        create.setText("");
+        create.setDisable(true);
+        loading.setProgress(-1);
 
-        boolean success = projectService.createProject(name, description, currentUserId);
-        if (success) {
-            showNotify("Thành công", "Tạo dự án thành công", Alert.AlertType.INFORMATION);
-            Utils.SceneNavigator.switchScene(event, SceneNavigator.MAIN_PROJECT_VIEW, "Dự án chính");
-        } else {
-            showNotify("Thất bại", "Không thể tạo dự án. Hãy thử lại sau!", Alert.AlertType.ERROR);
-        }
+        Task<Integer> task = new Task<Integer>() {
+            @Override
+            protected Integer call() throws Exception {
+                return projectService.createProject(name, description, currentUserId);
+            }
+        };
 
+        task.setOnSucceeded(e -> {
+            loading.setVisible(false);
+            create.setText("Tạo dự án");
+            create.setDisable(false);
+
+            int projectId = task.getValue();
+
+            if(projectId > 0){
+                ProjectDashboardDTO project = new ProjectDashboardDTO(projectId, name, 0, 0, 0, currentUserId, currentUserName, projectService.convertToPreviewDescription(description));
+                projectCache.put(project);
+
+                ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW, projectId);
+            } else {
+                alert.setText("Không thể tạo dự án!");
+            }
+        });
+        task.setOnFailed(e -> showError());
+
+        new Thread(task).start();
+    }
+
+    private void showError(){
+        loading.setVisible(false);
+        create.setText("Tạo dự án");
+        create.setDisable(false);
+        alert.setText("Dự án bị trùng tên! Vui lòng nhập tên khác");
     }
     @FXML
     private void handleCancel(ActionEvent event) {
-        Utils.SceneNavigator.switchScene(event, SceneNavigator.ALL_PROJECTS, "Tất cả dự án");
+        DialogManager.getInstance().close(overlay);
     }
 
-    private void closeWindow() {
-        Stage stage = (Stage) enter.getScene().getWindow();
-        stage.close();
-    }
-
-    private void showNotify(String title, String content, Alert.AlertType type) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
 }

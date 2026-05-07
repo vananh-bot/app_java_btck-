@@ -1,54 +1,45 @@
 package Service;
 
-import DAO.InviteDAO;
+import Cache.ProjectCache;
 import DAO.ProjectDAO;
 import DAO.UserProjectDAO;
 import DAO.TaskDAO; // Thêm import TaskDAO
-import DTO.ProjectCardDTO; // Thêm import DTO
 import Model.Project;
-import Model.Task;
+import DAO.NotificationDAO;
+import DAO.UserDAO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import java.util.UUID;
 
-import Model.ProjectDashboardDTO;
+import DTO.ProjectDashboardDTO;
 
 
 public class ProjectService {
     private ProjectDAO projectDAO;
     private UserProjectDAO userProjectDAO;
-    private InviteDAO inviteDAO;
-    private TaskDAO taskDAO;
+    private ProjectCache projectCache = ProjectCache.getInstance();
 
     public ProjectService(ProjectDAO projectDAO,
-                          UserProjectDAO userProjectDAO,
-                          InviteDAO inviteDAO,
-                          TaskDAO taskDAO) {
+                          UserProjectDAO userProjectDAO) {
 
         this.projectDAO = projectDAO;
         this.userProjectDAO = userProjectDAO;
-        this.inviteDAO = inviteDAO;
-        this.taskDAO = taskDAO;
     }
 
-    public List<ProjectCardDTO> getAllMyProjects(int userId) {
-        List<ProjectCardDTO> dtoList = new ArrayList<>();
-
-        List<Project> rawProjects = projectDAO.findByUserId(userId);
-
-        for (Project p : rawProjects) {
-            // ⚡ chỉ trả project, chưa load task
-            dtoList.add(new ProjectCardDTO(p, 0, 0, 0));
-        }
-        return dtoList;
+    public ProjectService(ProjectDAO projectDAO) {
+        this.projectDAO = projectDAO;
     }
-    public List<ProjectCardDTO> sortByScore(List<ProjectCardDTO> list) {
+
+    public List<ProjectDashboardDTO> getAllMyProjects(int userId) {
+        return projectDAO.getAllProjectCardsWithTaskCount(userId);
+    }
+
+    public List<ProjectDashboardDTO> sortByScore(List<ProjectDashboardDTO> list) {
         list.sort((a, b) -> {
 
-            int totalA = a.getTodoCount() + a.getInProgressCount() + a.getDoneCount();
-            int totalB = b.getTodoCount() + b.getInProgressCount() + b.getDoneCount();
+            int totalA = a.getToDoCount() + a.getInProgressCount() + a.getDoneCount();
+            int totalB = b.getToDoCount() + b.getInProgressCount() + b.getDoneCount();
 
             boolean isDoneA = totalA > 0 && a.getDoneCount() == totalA;
             boolean isDoneB = totalB > 0 && b.getDoneCount() == totalB;
@@ -58,18 +49,17 @@ public class ProjectService {
             if (!isDoneA && isDoneB) return -1;
 
             //  Rule 2: chưa done hết → sort theo điểm
-            int scoreA = a.getTodoCount() * 2 + a.getInProgressCount() * 3;
-            int scoreB = b.getTodoCount() * 2 + b.getInProgressCount() * 3;
+            int scoreA = a.getToDoCount() * 2 + a.getInProgressCount() * 3;
+            int scoreB = b.getToDoCount() * 2 + b.getInProgressCount() * 3;
 
             return Integer.compare(scoreB, scoreA); // giảm dần
         });
 
         return list;
     }
-    public boolean createProject(String name, String description, int userId) {
+    public int createProject(String name, String description, int userId) {
         if (projectDAO.isProjectNameExists(userId, name)) {
-            System.out.println("Tên dự án đã tồn tại!");
-            return false;
+            throw new IllegalArgumentException("Tên dự án đã tồn tại!");
         }
 
         Project project = new Project();
@@ -83,10 +73,11 @@ public class ProjectService {
         int projectId = projectDAO.insert(project);
 
         if (projectId > 0) {
-            return userProjectDAO.addMemberToProject(userId, projectId);
+            boolean added =  userProjectDAO.addMemberToProject(userId, projectId);
+            if(added) return projectId;
         }
 
-        return false;
+        return -1;
     }
 
     public void inviteByEmail(int projectId, String email) {
@@ -102,11 +93,40 @@ public class ProjectService {
     }
 
     public boolean joinByToken(String token, int userId){
+        System.out.println("=== JOIN PROJECT CALLED ===");
+
         Project project = projectDAO.findByInviteCode(token);
-        if (project != null) {
-        return userProjectDAO.addMemberToProject(userId, project.getId());
-    }
-        return false;
+
+        if (project == null) {
+            System.out.println(" Project NOT FOUND with token: " + token);
+            return false;
+        }
+
+        System.out.println("Found project: " + project.getId());
+
+        boolean added = userProjectDAO.addMemberToProject(userId, project.getId());
+
+        if (!added) {
+            System.out.println("Add member FAILED");
+            return false;
+        }
+
+        System.out.println("✔ Member added SUCCESS");
+
+        // ===== TẠO NOTIFICATION =====
+        NotificationDAO notificationDAO = new NotificationDAO();
+        UserDAO userDAO = new UserDAO();
+
+        String userName = userDAO.findById(userId).getName();
+
+        List<Integer> memberIds = projectDAO.getMemberIds(project.getId());
+
+        System.out.println("Members: " + memberIds);
+
+
+        System.out.println("=== JOIN DONE ===");
+
+        return true;
     }
 
     public boolean isNameDuplicate(int currentUserId, String name) {
@@ -114,10 +134,32 @@ public class ProjectService {
             return projectDAO.isProjectNameExists(currentUserId, name.trim());
     }
 
-    public List<ProjectDashboardDTO> getDashboardProjects(int userId){
-        List<ProjectDashboardDTO> dashboardProject = projectDAO.getDashboardProject(userId);
-        return dashboardProject;
+    public String getProjectName(int projectId){
+        ProjectDashboardDTO p = projectCache.get(projectId);
+        if(p != null) return p.getName();
+
+        Project project = projectDAO.findById(projectId);
+        if (project == null) return null;
+
+        ProjectDashboardDTO dto = new ProjectDashboardDTO();
+        dto.setId(project.getId());
+        dto.setName(project.getName());
+
+        projectCache.put(dto);
+
+        return project.getName();
     }
+    public String getDescriptionByProjectId(int projectId){
+        return projectDAO.getDescriptionByProjectId(projectId);
+    }
+    public void updateDescription(int projectId, String description){
+        projectDAO.updateDescription(projectId, description);
+    }
+    public String convertToPreviewDescription(String description){
+        if(description == null) {
+            return "Không có mô tả dự án";
+        }
 
-
+        return description.length() < 120 ? description : description.substring(0, 120) + "...";
+    }
 }

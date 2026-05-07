@@ -1,30 +1,36 @@
 package Controller;
 
+import Cache.ProjectCache;
+import Cache.TaskCache;
+import DAO.ProjectDAO;
+import DTO.ProjectDashboardDTO;
 import Enum.TaskStatus;
 import Model.Task;
+import Service.ProjectService;
 import Service.TaskQueryService;
-import Utils.SceneNavigator;
+import Utils.*;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import Service.helper.TaskUIHelper;
 import Service.helper.TaskSearchHelper;
+import Enum.Screen;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainProjectController {
+public class MainProjectController implements DataReceiver<Integer> {
 
     // ================= UI =================
     @FXML private VBox vboxTodo;
@@ -32,49 +38,83 @@ public class MainProjectController {
     @FXML private VBox vboxDone;
     @FXML private TextField searchField;
     @FXML private Hyperlink projectLink, mainProjectLink;
+    @FXML private Label projectName;
+    private final URL taskCard = getClass().getResource("/task/TaskCard.fxml");
+    @FXML
+    private Label description;
 
     // ================= SERVICES =================
     private int projectId;
     private TaskQueryService taskService = new TaskQueryService();
     private Timeline searchDelay;
+    private ProjectService projectService = new ProjectService(
+            new ProjectDAO()
+    );
 
     // Lưu UI hiện tại để diff
     private List<Task> currentTodo = new ArrayList<>();
     private List<Task> currentInProgress = new ArrayList<>();
     private List<Task> currentDone = new ArrayList<>();
 
-    // ================= INIT =================
-    public void init(int projectId) {
-        this.projectId = projectId;
-        taskService.init(projectId);
 
+
+    @Override
+    public void initData(Integer projectId){
+        this.projectId = projectId;
+
+        ProjectDashboardDTO projectCache = ProjectCache.getInstance().get(projectId);
+        if(projectCache != null){
+            updateProjectLinkName(projectCache.getName());
+
+            updateDescription(projectCache.getPreviewDescription());
+        }
+
+        javafx.concurrent.Task<Void> task = new javafx.concurrent.Task<>(){
+            @Override
+            protected Void call(){
+                taskService.init(projectId);
+                return null;
+            }
+
+            @Override
+            protected void succeeded(){
+                init();
+                refresh();
+            }
+        };
+
+        new Thread(task).start();
+
+    }
+
+    @FXML
+    public  void initialize(){
+        ScreenManager.getInstance().setMainProjectController(this);
+    }
+    // ================= INIT =================
+    public void init() {
         if (vboxTodo != null) vboxTodo.setCache(true);
         if (vboxInProgress != null) vboxInProgress.setCache(true);
         if (vboxDone != null) vboxDone.setCache(true);
 
         // Chuyển logic Drag-Drop sang Helper
-        TaskUIHelper.setupColumnDragDrop(vboxTodo, TaskStatus.TODO, taskService, this::loadTasks);
-        TaskUIHelper.setupColumnDragDrop(vboxInProgress, TaskStatus.IN_PROGRESS, taskService, this::loadTasks);
-        TaskUIHelper.setupColumnDragDrop(vboxDone, TaskStatus.DONE, taskService, this::loadTasks);
+        TaskUIHelper.setupColumnDragDrop(vboxTodo, TaskStatus.TODO, taskService, this::refresh);
+        TaskUIHelper.setupColumnDragDrop(vboxInProgress, TaskStatus.IN_PROGRESS, taskService, this::refresh);
+        TaskUIHelper.setupColumnDragDrop(vboxDone, TaskStatus.DONE, taskService, this::refresh);
 
         if (searchField != null) {
-            searchDelay = new Timeline(new KeyFrame(Duration.millis(300), e -> loadTasks()));
+            searchDelay = new Timeline(new KeyFrame(Duration.millis(300), e -> refresh()));
             searchDelay.setCycleCount(1);
             searchField.textProperty().addListener((obs, oldVal, newVal) -> {
                 searchDelay.stop();
                 searchDelay.play();
             });
         }
-
-        loadTasks();
-        taskService.startRealtimeUpdates(this::loadTasks);
     }
 
     // ================= LOAD & RENDER =================
-    private void loadTasks() {
-        List<Task> allTasks = taskService.getCachedTasks();
+    private void loadTasks(List<Task> allTasks) {
         String searchKey = searchField.getText();
-
         // Uỷ quyền sort cho Helper
         List<Task> sortedTasks = TaskSearchHelper.searchAndSort(allTasks, searchKey);
 
@@ -90,6 +130,10 @@ public class MainProjectController {
             }
         }
         render(todo, inProgress, done);
+    }
+    private void refresh() {
+        List<Task> allTasks = taskService.getCachedTasks();
+        loadTasks(allTasks);
     }
 
     private void render(List<Task> todo, List<Task> inProgress, List<Task> done) {
@@ -138,7 +182,7 @@ public class MainProjectController {
 
     private VBox createCardFromFXML(Task task) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/task/TaskCard.fxml"));
+            FXMLLoader loader = new FXMLLoader(taskCard);
             VBox card = loader.load();
             TaskCardController controller = loader.getController();
             controller.updateUI(task, searchField.getText());
@@ -155,12 +199,32 @@ public class MainProjectController {
     // ================= ACTIONS =================
     @FXML
     private void handleOpenCreateTask(ActionEvent event){
-        Utils.SceneNavigator.switchScene(event, SceneNavigator.CREATE_TASK, "Tạo công việc");
-
+        DialogManager.getInstance().show(Screen.CREATE_TASK, projectId);
     }
 
+    @FXML
+    void inviteAndMemberList(ActionEvent event) {
+        DialogManager.getInstance().show(Screen.MEMBER_LIST, projectId);
+    }
+
+    @FXML
     public void handleProject(ActionEvent event) {
-        Utils.SceneNavigator.switchScene(event, SceneNavigator.ALL_PROJECTS, "Tất cả dự án của tôi");
+        ScreenManager.getInstance().show(Screen.ALL_MY_PROJECT);
     }
 
+    private void updateProjectLinkName(String name){
+        if (mainProjectLink != null) {
+            mainProjectLink.setText(name);
+            projectName.setText(name);
+        }
+    }
+    public void updateDescription(String descriptionText){
+        if(descriptionText != null && !descriptionText.isBlank()){
+            description.setText(descriptionText);
+        }  else description.setText("Không có mô tả dự án");
+    }
+    @FXML
+    void descriptionView(MouseEvent event) {
+        DialogManager.getInstance().show(Screen.DESCRIPTION_PROJECT, projectId);
+    }
 }

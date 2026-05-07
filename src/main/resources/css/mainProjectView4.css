@@ -3,6 +3,9 @@
     -fx-font-size: 10px;
     -fx-font-weight: bold;
 }
+.grey_pane{
+    -fx-background-color: #F5F5F5;
+}
 
 .blue_color{
     -fx-background-color: #EAF6FF;
@@ -235,6 +238,7 @@
 .setFontTitle{
     -fx-font-size: 24px;
     -fx-font-family: "Inter 24pt";
+    -fx-font-weight: bold;
 }
 
 .setFontContent{
@@ -266,4 +270,29 @@
     -fx-font-weight: bold;
     -fx-text-fill: #5208e8;
     -fx-underline: false;
+}
+.circle-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 50;
+
+    -fx-min-width: 38;
+    -fx-min-height: 38;
+    -fx-max-width: 38;
+    -fx-max-height: 38;
+
+    -fx-cursor: hand;
+}
+.circle-button:hover {
+    -fx-background-color: #eef0ff;
+}
+.circle-button:pressed {
+    -fx-background-color: #dfe3ff;
+}
+.description {
+    -fx-wrap-text: false;
+    -fx-text-overrun: ellipsis;
+}
+.description:hover {
+    -fx-cursor: hand;
+    -fx-text-fill: #3b82f6;
 }

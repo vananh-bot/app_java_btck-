@@ -3,6 +3,9 @@
     -fx-font-size: 10;
     -fx-font-weight: bold;
 }
+.grey_pane{
+    -fx-background-color: #F5F5F5;
+}
 
 .blue_color{
     -fx-background-color: #EAF6FF;

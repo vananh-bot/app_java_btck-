@@ -4,21 +4,21 @@ import DAO.TaskDAO;
 import Enum.Priority;
 import Enum.TaskStatus;
 import Service.TaskService;
-import Utils.SceneNavigator;
+import Utils.*;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import Enum.Screen;
 
 
-public class CreateTaskController {
-    private TaskService taskService;
-
-//    public TaskController(TaskService taskService) {
-//        this.taskService = taskService;
-//    }
+public class CreateTaskController implements DataReceiver<Integer> {
+    @FXML
+    private StackPane overlay;
 
     @FXML
     private Label error;
@@ -36,10 +36,13 @@ public class CreateTaskController {
     private TextArea description;
     @FXML
     private TextArea title;
+    @FXML
+    private ProgressIndicator loading;
 
-    private int currentProjectId = 1;
+    private int currentProjectId;
 
-    public void setProjectId(int projectId){
+    @Override
+    public void initData(Integer projectId){
         this.currentProjectId = projectId;
     }
 
@@ -47,6 +50,8 @@ public class CreateTaskController {
     private ToggleGroup priorityGroup;
 
     public void initialize(){
+        loading.setVisible(false);
+
         //khởi tạo status group
         statusGroup = new ToggleGroup();
         btntodo.setToggleGroup(statusGroup);
@@ -104,32 +109,51 @@ public class CreateTaskController {
         TaskStatus taskStatus = (TaskStatus) statusGroup.getSelectedToggle().getUserData();
         LocalDate date = btndeadline.getValue();
         LocalDateTime taskDeadline = date.atStartOfDay();
+        String currentUsername = UserSession.getCurrentUser().getName();
+        loading.setVisible(true);
+        btnAddTask.setDisable(true);
+        loading.setProgress(-1);
+        btnAddTask.setText("");
 
-        try {
-            TaskService service = new TaskService(new TaskDAO());
-            String result = service.createTask(taskTitle, taskDescription, taskPriority, taskStatus, taskDeadline, currentProjectId);
+        TaskService service = new TaskService(new TaskDAO());
 
-            error.setVisible(true);
-            if("SUCCESS".equals(result)){
-                goToTaskDetails(event);
-            } else {
-                error.setStyle("-fx-text-fill: #ff0000;");
-                error.setText(result);
+        javafx.concurrent.Task<Integer> workerTask = new javafx.concurrent.Task<Integer>() {
+            @Override
+            protected Integer call() throws Exception {
+                return service.createTask(taskTitle, taskDescription, taskPriority, taskStatus, taskDeadline, currentProjectId, currentUsername);
             }
-        } catch(Exception e){
-            e.printStackTrace();
-            error.setVisible(true);
-            error.setText("Lỗi hệ thống!");
-        }
-    }
+        };
+        workerTask.setOnSucceeded(e -> {
+            loading.setVisible(false);
+            btnAddTask.setDisable(false);
+            btnAddTask.setText("Tạo công việc");
 
+            int taskId = workerTask.getValue();
+            ScreenManager.getInstance().show(Screen.TASK_DETAILS, taskId);
+        });
+
+        workerTask.setOnFailed(e -> {
+            loading.setVisible(false);
+            btnAddTask.setDisable(false);
+            btnAddTask.setText("Tạo công việc");
+
+            Throwable ex = workerTask.getException();
+            ex.printStackTrace();
+            if (ex instanceof IllegalArgumentException) {
+                error.setVisible(true);
+                error.setStyle("-fx-text-fill: #ff0000;");
+                error.setText(ex.getMessage());
+            } else {
+                error.setVisible(true);
+                error.setText("Lỗi hệ thống hoặc Mail!");
+            }
+        });
+
+        new Thread(workerTask).start();
+    }
     @FXML
     void cancelAddTask(ActionEvent event) {
-        SceneNavigator.switchScene(event, SceneNavigator.MAIN_PROJECT_VIEW, "mainProjectView");
-    }
-
-    void goToTaskDetails(ActionEvent event){
-        SceneNavigator.switchScene(event, SceneNavigator.TASK_DETAILS, "taskDetails");
+        DialogManager.getInstance().close(overlay);
     }
 
 }

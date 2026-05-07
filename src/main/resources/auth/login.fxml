@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -17,9 +18,9 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginController">
+<StackPane fx:id="rootStack" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginController">
    <children>
-      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="764.0" styleClass="white-pane" stylesheets="@../css/auth.css">
+      <Pane fx:id="rootLayout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="764.0" styleClass="white-pane" stylesheets="@../css/auth.css">
          <children>
             <HBox alignment="CENTER" layoutX="51.0" layoutY="66.0" prefHeight="386.0" prefWidth="664.0" spacing="30.0">
                <children>
@@ -69,7 +70,7 @@
                         <String fx:value="vbox" />
                      </styleClass>
                      <children>
-                        <Label prefHeight="27.0" prefWidth="230.0" />
+                        <Label fx:id="alertAfterRegister" prefHeight="27.0" prefWidth="230.0" />
                         <Label prefHeight="28.0" prefWidth="230.0" text="      FlowTask">
                            <font>
                               <Font name="Calibri Bold" size="19.0" />
@@ -168,19 +169,30 @@
                            <padding>
                               <Insets left="30.0" top="6.0" />
                            </padding></Label>
-                        <Button fx:id="signin" mnemonicParsing="false" onAction="#handleLogin" prefHeight="29.0" prefWidth="170.0" text="Đăng nhập -&gt;" textFill="WHITE">
+                        <StackPane>
                            <VBox.margin>
                               <Insets left="30.0" right="20.0" top="10.0" />
                            </VBox.margin>
+                           <children>
+                              <Button fx:id="signin" mnemonicParsing="false" onAction="#handleLogin" prefHeight="29.0" prefWidth="170.0" text="Đăng nhập -&gt;" textFill="WHITE">
+                                 <font>
+                                    <Font name="Monospaced Regular" size="10.0" />
+                                 </font>
+                                 <styleClass>
+                                    <String fx:value="box2-border" />
+                                    <String fx:value="btn-login" />
+                                 </styleClass>
+                              </Button>
+                              <ProgressIndicator fx:id="loading" prefHeight="20.0" prefWidth="20.0" progress="0.0" styleClass="white-spinner" stylesheets="@../css/loadingSpinner.css" />
+                           </children>
+                        </StackPane>
+                        <Label fx:id="forgotpassword" alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="67.0" styleClass="forgot-password-label" text="Quên mật khẩu?">
                            <font>
-                              <Font name="Monospaced Regular" size="10.0" />
+                              <Font size="9.0" />
                            </font>
-                           <styleClass>
-                              <String fx:value="box2-border" />
-                              <String fx:value="btn-login" />
-                           </styleClass>
-                        </Button>
-                        <Label prefHeight="18.0" prefWidth="238.0" />
+                           <VBox.margin>
+                              <Insets left="135.0" />
+                           </VBox.margin></Label>
                         <Line endX="68.0" opacity="0.05" startX="-100.0">
                            <VBox.margin>
                               <Insets left="30.0" />

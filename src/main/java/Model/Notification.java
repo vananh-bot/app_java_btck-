@@ -1,22 +1,130 @@
 package Model;
 
-import java.time.LocalDateTime;
 import Enum.NotificationType;
 
+import java.time.LocalDateTime;
+
 public class Notification {
+
     private int id;
+
     private int userId;
-    private String content;
+    private Integer projectId;
+    private Integer taskId;
+
+    private String title;
+    private String message;
+
     private NotificationType type;
-    private boolean is_read;
-    private int targetId;
-    private String targetType;
-    private LocalDateTime created_at;
 
+    private boolean isRead;
 
-    public void markAsRead(){
-        is_read = true;
-   }
+    private Integer createdBy;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    private User sender;
+    private Project project;
+    private Task task;
+
+    public Notification() {
+    }
+
+    public Notification(int id, int userId, Integer projectId, Integer taskId,
+                        String title, String message,
+                        NotificationType type, boolean isRead,
+                        Integer createdBy,
+                        LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
+        this.userId = userId;
+        this.projectId = projectId;
+        this.taskId = taskId;
+        this.title = title;
+        this.message = message;
+        this.type = type;
+        this.isRead = isRead;
+        this.createdBy = createdBy;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public Notification(int userId, Integer projectId, Integer taskId,
+                        String title, String message,
+                        NotificationType type, Integer createdBy) {
+        this.userId = userId;
+        this.projectId = projectId;
+        this.taskId = taskId;
+        this.title = title;
+        this.message = message;
+        this.type = type;
+        this.createdBy = createdBy;
+        this.isRead = false;
+    }
+
+    public void markAsRead() {
+        this.isRead = true;
+    }
+
+    public boolean isUnread() {
+        return !isRead;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public Integer getProjectId() {
+        return projectId;
+    }
+
+    public Integer getTaskId() {
+        return taskId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public NotificationType getType() {
+        return type;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public Integer getCreatedBy() {
+        return createdBy;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public User getSender() {
+        return sender;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public Task getTask() {
+        return task;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -26,57 +134,51 @@ public class Notification {
         this.userId = userId;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
     }
 
-    public String getContent() {
-        return content;
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
     }
 
-    public void setType(String type) {
-        this.type = NotificationType.valueOf(type);
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setRead(boolean isRead) {
-        this.is_read = isRead;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public void setCreatedAt(LocalDateTime createAt) {
-        this.created_at = createAt;
+    public void setType(NotificationType type) {
+        this.type = type;
     }
 
-    public int getId() {
-        return id;
+    public void setRead(boolean read) {
+        isRead = read;
     }
 
-    public boolean isRead() {
-        return is_read;
-    }
-    public void setTargetId(int targetId) {
-        this.targetId = targetId;
+    public void setCreatedBy(Integer createdBy) {
+        this.createdBy = createdBy;
     }
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
-    }
-    public void setTargetType(String targetType) {
-        this.targetType = targetType;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public int getUserId() {
-        return userId;
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
-    public String getType() {
-        return type.toString();
+    public void setSender(User sender) {
+        this.sender = sender;
     }
 
-    public int getTargetId() {
-        return targetId;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
-    public String getTargetType() {
-        return targetType;
+    public void setTask(Task task) {
+        this.task = task;
     }
 }
