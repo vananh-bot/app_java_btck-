@@ -116,7 +116,7 @@ public class NotificationService {
                     task.getUserEmail(),
                     task.getProjectName(),
                     task.getTitle(),
-                    "ngay bây giờ"
+                    "trễ"
             );
             taskDAO.markAsOverdueNotified(task.getId());
         }

@@ -199,59 +199,6 @@ public class MailService {
                 "    </div>" +
                 "</div>";
     }
-    private String createBaseTemplateJoin(String title, String description, String taskName, String footerDetail, String brandColor) {
-        String headerIcon = "https://cdn-icons-png.flaticon.com/512/4345/4345573.png"; // Mặc định
-        if (brandColor.equalsIgnoreCase("#F44336")) headerIcon = "https://cdn-icons-png.flaticon.com/512/564/564619.png";
-        if (brandColor.equalsIgnoreCase("#FF9800")) headerIcon = "https://cdn-icons-png.flaticon.com/512/2972/2972531.png";
-        if (brandColor.equalsIgnoreCase("#4CAF50")) headerIcon = "https://cdn-icons-png.flaticon.com/512/1165/1165230.png";
-        String bodyEmoji = "📝";
-        if (brandColor.equalsIgnoreCase("#F44336")) bodyEmoji = "🚨";
-        if (brandColor.equalsIgnoreCase("#FF9800")) bodyEmoji = "⏳";
-        if (brandColor.equalsIgnoreCase("#4CAF50")) bodyEmoji = "🎉";
-        return "<div style=\"background-color: #f4f7fa; padding: 40px 0; font-family: 'Segoe UI', Roboto, Arial, sans-serif;\">" +
-                "    <div style=\"max-width: 580px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: 1px solid #eef2f6;\">" +
-                "        " +
-                "        <!-- Header -->" +
-                "        <div style=\"padding: 30px 40px; border-bottom: 1px solid #f0f0f0;\">" +
-                "            <table width=\"100%\">" +
-                "                <tr>" +
-                "                    <td>" +
-                "                        <div style=\"font-size: 24px; font-weight: 800; color: #1a1f36; letter-spacing: -1px;\">Flow<span style=\"color: " + brandColor + ";\">Task</span></div>" +
-                "                    </td>" +
-                "                    <td align=\"right\">" +
-                "                        <img src=\"" + headerIcon + "\" width=\"30\" height=\"30\" style=\"vertical-align: middle; opacity: 0.9;\">" +
-                "                    </td>" +
-                "                </tr>" +
-                "            </table>" +
-                "        </div>" +
-                "        " +
-                "        <div style=\"padding: 40px;\">" +
-                "            <div style=\"margin-bottom: 25px;\">" +
-                "                <!-- Fix ở đây: Dùng Emoji thay vì chèn biến link vào span -->" +
-                "                <div style=\"font-size: 45px; margin-bottom: 10px;\">" + bodyEmoji + "</div>" +
-                "                <h1 style=\"color: #111111; font-size: 26px; font-weight: 800; margin: 10px 0 10px 0; line-height: 1.2;\">" + title + "</h1>" +
-                "                <p style=\"color: #555555; font-size: 15px; line-height: 1.6; margin: 0;\">" + description + "</p>" +
-                "            </div>" +
-                "            " +
-                "            <div style=\"background-color: #fcfcfc; border-radius: 12px; padding: 25px; border-left: 6px solid " + brandColor + "; border-right: 1px solid #eee; border-top: 1px solid #eee; border-bottom: 1px solid #eee;\">" +
-                "                <div style=\"color: #999; font-size: 11px; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; margin-bottom: 8px;\">Nhiệm vụ cần thực hiện</div>" +
-                "                <div style=\"color: #222; font-size: 18px; font-weight: 700; margin-bottom: 12px; line-height: 1.4;\">" + taskName + "</div>" +
-                "                <div style=\"background-color: " + brandColor + "15; color: " + brandColor + "; padding: 6px 12px; border-radius: 6px; font-size: 13px; font-weight: 700; display: inline-block;\">" +
-                "                    " + footerDetail + "" +
-                "                </div>" +
-                "            </div>" +
-                "            " +
-                "            <div style=\"text-align: center; margin-top: 35px;\">" +
-                "                <a href=\"#\" style=\"background-color: #1a1f36; color: #ffffff; padding: 16px 35px; text-decoration: none; font-weight: 800; border-radius: 12px; font-size: 14px; display: inline-block; letter-spacing: 0.5px;\">MỞ FLOWTASK NGAY</a>" +
-                "            </div>" +
-                "        </div>" +
-                "        " +
-                "        <div style=\"background-color: #fafafa; padding: 20px; text-align: center; border-top: 1px solid #eee;\">" +
-                "            <p style=\"margin: 0; color: #aaa; font-size: 11px; font-weight: 500;\">Đội ngũ phát triển FlowTask - ProPTIT</p>" +
-                "        </div>" +
-                "    </div>" +
-                "</div>";
-    }
     private Session getSession() {
         Properties prop = new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");
