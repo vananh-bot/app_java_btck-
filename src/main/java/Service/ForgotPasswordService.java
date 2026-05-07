@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class ForgotPasswordService {
 
-    private final EmailService emailService = new EmailService();
+    private final MailService mailService = new MailService();
     private final PasswordResetDAO passwordResetDAO = new PasswordResetDAO();
     private final UserDAO userDAO = new UserDAO();
     public boolean requestOtp(String email) {
@@ -18,11 +18,7 @@ public class ForgotPasswordService {
 
         String otpToken = generateSixDigitToken();
         passwordResetDAO.insert(email, otpToken);
-
-        new Thread(() -> {
-            emailService.sendForgotPasswordToken(email, otpToken);
-        }).start();
-
+        mailService.sendForgotPasswordToken(email, otpToken);
         return true;
     }
     public boolean verifyOtp(String email, String otp) {

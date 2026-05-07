@@ -14,6 +14,7 @@ public class InviteService {
     private JoinRequestDAO joinRequestDAO;
     private UserProjectDAOInterface userProjectDAO;
     private UserDAO userDAO = new UserDAO();
+    private MailService mailService = new MailService();
     private NotificationService notificationService;
     private ProjectService projectService = new ProjectService(
             new ProjectDAO()
@@ -128,10 +129,7 @@ public class InviteService {
         invite.setStatus(InviteStatus.PENDING);
 
         emailInviteDAO.create(invite);
-
-        // 4. Gọi EmailService để gửi thư
-        EmailService emailService = new EmailService();
-        emailService.sendInvite(email, inviteeName, projectName, token);
+        mailService.sendInvite(email, inviteeName, projectName, token);
     }
 
     //  accept email (transaction chuẩn)
@@ -172,9 +170,10 @@ public class InviteService {
             emailInviteDAO.updateStatus(conn, invite.getId(), InviteStatus.ACCEPTED);
             // Sau khi insert thành công vào bảng user_project
             notificationService.notifyNewMemberJoined(invite.getProjectId(), userId, currentUserEmail);
+            String projectName = projectService.getProjectName(invite.getProjectId());
+            mailService.sendJoinSuccessEmail(currentUserEmail,projectName,currentUserEmail);
             conn.commit();
             return invite.getProjectId();
-
         } catch (Exception e) {
             if (conn != null) {
                 try { conn.rollback(); } catch (Exception ex) { ex.printStackTrace(); }
