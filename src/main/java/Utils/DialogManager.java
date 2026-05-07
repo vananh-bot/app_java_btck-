@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import Enum.Screen;
 
@@ -12,7 +13,7 @@ public class DialogManager {
 
     private static DialogManager instance;
     private StackPane rootStack;
-    private BorderPane rootLayout;
+    private Pane rootLayout;
 
     private DialogManager(){}
 
@@ -23,7 +24,7 @@ public class DialogManager {
         return instance;
     }
 
-    public void setRootStack(StackPane rootStack, BorderPane rootLayout){
+    public void setRootStack(StackPane rootStack, Pane rootLayout){
         this.rootStack = rootStack;
         this.rootLayout = rootLayout;
     }

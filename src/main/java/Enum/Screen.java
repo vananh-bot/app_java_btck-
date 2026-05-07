@@ -13,7 +13,10 @@ public enum Screen {
     MEMBER_LIST("/invite/MemberList.fxml"),
     INVITE_MEMBER("/invite/email.fxml"),
     ENTER_TOKEN("/invite/token.fxml"),
-    DESCRIPTION_PROJECT("/project/descriptioncard.fxml");
+    DESCRIPTION_PROJECT("/project/descriptioncard.fxml"),
+    EMAIL_FORGOT("/auth/forgotpassword.fxml"),
+    TOKEN_AUTHENTIC("/auth/AccountVerification.fxml"),
+    NEW_PASSWORDD("/auth/resetpassword.fxml");
 
     private final String fxmlPath;
 

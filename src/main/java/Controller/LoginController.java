@@ -3,6 +3,7 @@ package Controller;
 import DAO.UserDAO;
 import Service.LoginService;
 import Model.User;
+import Utils.DialogManager;
 import Utils.UserSession;
 import Utils.SceneNavigator;
 import javafx.concurrent.Task;
@@ -14,7 +15,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import Enum.Screen;
 
 
 public class LoginController {
@@ -25,7 +29,9 @@ public class LoginController {
     @FXML private Button signin;
     @FXML private Hyperlink register;
     @FXML private Label errorLabel;
-
+    @FXML private Label forgotpassword;
+    @FXML private StackPane rootStack;
+    @FXML private Pane rootLayout;
     @FXML
     private ProgressIndicator loading;
     @FXML
@@ -43,6 +49,12 @@ public class LoginController {
         eyeclose.setVisible(true);
         eyeopen.setVisible(false);
         loading.setVisible(false);
+        if (rootStack != null && rootLayout != null) {
+            DialogManager.getInstance().setRootStack(rootStack, rootLayout);
+        }
+        forgotpassword.setOnMouseClicked(event -> {
+            DialogManager.getInstance().show(Screen.EMAIL_FORGOT);
+        });
     }
 
     @FXML

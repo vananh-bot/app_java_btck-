@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<StackPane fx:id="overlay" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TokenForgetController">
+   <children>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="400.0">
+         <children>
+            <VBox alignment="CENTER" layoutX="9.0" layoutY="4.0" prefHeight="475.0" prefWidth="400.0" spacing="20.0" styleClass="otp-container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            
+                <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="320.0">
+                     <children>
+                            <Button fx:id="backButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleCancel" prefHeight="30.0" prefWidth="37.0" styleClass="back-button" text="←">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Button>
+                        <Label prefHeight="26.0" prefWidth="167.0" styleClass="header-title" text="Xác thực tài khoản" />
+                     </children>
+                  </HBox>
+                    <!-- HBox này giúp nút quay lại nằm bên trái và tiêu đề nằm giữa/phải -->
+                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <children> <!-- Tạo khoảng trống nhỏ -->
+                            <Label alignment="CENTER" prefHeight="24.0" prefWidth="324.0" styleClass="title" text="Xác thực tài khoản" />
+                        </children>
+                        <VBox.margin>
+                            <Insets bottom="10.0" />
+                        </VBox.margin>
+                    </HBox>
+            
+                    <VBox alignment="CENTER" spacing="3.0">
+                        <children>
+                            <Label styleClass="info-label" text="Vui lòng nhập mã xác thực gồm 6 chữ số đã được gửi" />
+                            <HBox alignment="CENTER" spacing="5.0">
+                                <children>
+                                    <Label styleClass="info-label" text="đến email của bạn" />
+                                </children>
+                            </HBox>
+                        </children>
+                    </VBox>
+            
+                    <HBox alignment="CENTER" spacing="10.0" styleClass="otp-input-group">
+                        <children>
+                            <TextField fx:id="otp1" prefHeight="55.0" prefWidth="45.0" styleClass="otp-field" />
+                            <TextField fx:id="otp2" prefHeight="55.0" prefWidth="45.0" styleClass="otp-field" />
+                            <TextField fx:id="otp3" prefHeight="55.0" prefWidth="45.0" styleClass="otp-field" />
+                            <TextField fx:id="otp4" prefHeight="55.0" prefWidth="45.0" styleClass="otp-field" />
+                            <TextField fx:id="otp5" prefHeight="55.0" prefWidth="45.0" styleClass="otp-field" />
+                            <TextField fx:id="otp6" prefHeight="55.0" prefWidth="45.0" styleClass="otp-field" />
+                        </children>
+                    </HBox>
+            
+                    <Label fx:id="lblError" styleClass="error-label" text="Mã OTP không đúng!" visible="false" />
+            
+                    <Label fx:id="timerLabel" styleClass="timer-label" text="Mã OTP sẽ hết hạn trong 01:00 giây" />
+            
+                    <Button fx:id="verifyButton" mnemonicParsing="false" onAction="#handleVerifyToken" prefHeight="45.0" prefWidth="320.0" styleClass="primary-button" text="XÁC NHẬN MÃ" />
+            
+                    <Hyperlink fx:id="lblResend" onAction="#handleResendToken" styleClass="resend-link" text="Gửi lại mã 🕒" />
+                </children>
+            
+                <padding>
+                    <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
+                </padding>
+            
+                <stylesheets>
+                    <URL value="@../css/otp.css" />
+                    <URL value="@../css/forgotpassword.css" />
+                </stylesheets>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

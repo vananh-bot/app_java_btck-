@@ -201,6 +201,22 @@ public class UserDAO implements UserInterfaceDao<User> {
                 updatedAt
         );
     }
+    public boolean updatePassword(String email, String newPassword) {
+        String sql = "UPDATE users SET password=? WHERE email=?";
 
+        try (
+                Connection con = JDBCUtil.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)
+        ) {
+            ps.setString(1, newPassword);
+            ps.setString(2, email);
+
+            // Trả về true nếu có ít nhất 1 dòng được cập nhật thành công
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Update password failed", e);
+        }
+    }
 
 }
