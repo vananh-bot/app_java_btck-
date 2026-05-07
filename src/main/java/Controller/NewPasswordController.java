@@ -36,6 +36,11 @@ public class NewPasswordController {
 
     @FXML
     public void initialize() {
+        newEyeClose.setFocusTraversable(false);
+        newEyeOpen.setFocusTraversable(false);
+
+        confirmEyeClose.setFocusTraversable(false);
+        confirmEyeOpen.setFocusTraversable(false);
         newPasswordVisible.textProperty().bindBidirectional(newPasswordField.textProperty());
         confirmPasswordVisible.textProperty().bindBidirectional(confirmPasswordField.textProperty());
     }
@@ -46,6 +51,8 @@ public class NewPasswordController {
         newPasswordVisible.setVisible(true);
         newEyeClose.setVisible(false);
         newEyeOpen.setVisible(true);
+        newPasswordVisible.requestFocus();
+        newPasswordVisible.positionCaret(newPasswordVisible.getText().length());
     }
 
     @FXML
@@ -54,6 +61,8 @@ public class NewPasswordController {
         newPasswordVisible.setVisible(false);
         newEyeClose.setVisible(true);
         newEyeOpen.setVisible(false);
+        newPasswordField.requestFocus();
+        newPasswordField.positionCaret(newPasswordField.getText().length());
     }
 
     @FXML
@@ -62,6 +71,8 @@ public class NewPasswordController {
         confirmPasswordVisible.setVisible(true);
         confirmEyeClose.setVisible(false);
         confirmEyeOpen.setVisible(true);
+        confirmPasswordVisible.requestFocus();
+        confirmPasswordVisible.positionCaret(confirmPasswordVisible.getText().length());
     }
 
     @FXML
@@ -70,6 +81,8 @@ public class NewPasswordController {
         confirmPasswordVisible.setVisible(false);
         confirmEyeClose.setVisible(true);
         confirmEyeOpen.setVisible(false);
+        confirmPasswordField.requestFocus();
+        confirmPasswordField.positionCaret(confirmPasswordField.getText().length());
     }
 
     @FXML
