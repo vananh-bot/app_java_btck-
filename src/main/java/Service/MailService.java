@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class MailService {
     private final String username = "flowtask.app2006@gmail.com";
-    private final String password = "ggfr lgrp onuz hesq";
+    private final String password = "cxvo hbaa tidf ofwd";
     public void sendEmail(String toEmail, String subject, String htmlContent) {
         new Thread(() -> {
             try {
