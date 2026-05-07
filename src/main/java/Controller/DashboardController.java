@@ -104,6 +104,7 @@ public class DashboardController {
         emptyProject.setVisible(false);
         emptyMyTask.setVisible(false);
         showLoading(false);
+        updateEmptyState();
         userId = UserSession.getUserId();
 
         setupSearch();
