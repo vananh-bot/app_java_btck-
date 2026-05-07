@@ -1,5 +1,6 @@
 package Service;
 
+import Utils.AppErrorHandler;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -22,7 +23,7 @@ public class MailService {
                 System.out.println("==> FlowTask: Đã gửi mail thành công!");
             } catch (Exception e) {
                 System.err.println("==> FlowTask LỖI: Không gửi được mail!");
-                e.printStackTrace();
+                AppErrorHandler.handle(e);
             }
         }).start();
     }

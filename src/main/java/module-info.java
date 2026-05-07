@@ -12,6 +12,7 @@ module com.example.flowtask {
     requires jakarta.mail;
     requires jdk.jshell;
     requires javafx.base;
+    requires com.zaxxer.hikari;
 
     opens Controller to javafx.fxml;
     opens Test to javafx.graphics, javafx.fxml;

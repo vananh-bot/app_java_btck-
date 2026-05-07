@@ -1,6 +1,7 @@
 package DAO;
 import DAO.EmailInviteDAOInterface;
 import Model.EmailInvite;
+import Utils.AppErrorHandler;
 import database.JDBCUtil;
 import java.sql.*;
 import java.util.*;
@@ -22,7 +23,7 @@ public class EmailInviteDAO implements EmailInviteDAOInterface {
 
             ps.executeUpdate();
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
     }
 
@@ -32,9 +33,12 @@ public class EmailInviteDAO implements EmailInviteDAOInterface {
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, token);
-            ResultSet rs = ps.executeQuery();
+            try (ResultSet rs = ps.executeQuery()) {
 
-            if (rs.next()) return map(rs);
+                if (rs.next()) {
+                    return map(rs);
+                }
+            }
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -50,12 +54,15 @@ public class EmailInviteDAO implements EmailInviteDAOInterface {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, projectId);
-            ResultSet rs = ps.executeQuery();
+            try (ResultSet rs = ps.executeQuery()) {
 
-            while (rs.next()) list.add(map(rs));
+                while (rs.next()) {
+                    list.add(map(rs));
+                }
+            }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return list;
     }
@@ -69,7 +76,7 @@ public class EmailInviteDAO implements EmailInviteDAOInterface {
             ps.setInt(2, id);
             ps.executeUpdate();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            AppErrorHandler.handle(e);
         }
     }
 
@@ -84,7 +91,7 @@ public class EmailInviteDAO implements EmailInviteDAOInterface {
             ps.executeUpdate();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
     }
 

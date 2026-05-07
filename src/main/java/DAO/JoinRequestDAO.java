@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.*;
 
 import Model.JoinRequest;
+import Utils.AppErrorHandler;
 import database.JDBCUtil;
 import Enum.RequestStatus;
 
@@ -20,7 +21,7 @@ public class JoinRequestDAO implements JoinRequestDAOInterface {
             ps.setString(3, r.getStatus().name());
             ps.executeUpdate();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            AppErrorHandler.handle(e);
         }
     }
 
@@ -33,12 +34,15 @@ public class JoinRequestDAO implements JoinRequestDAOInterface {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, projectId);
-            ResultSet rs = ps.executeQuery();
+            try (ResultSet rs = ps.executeQuery()) {
 
-            while (rs.next()) list.add(map(rs));
+                while (rs.next()) {
+                    list.add(map(rs));
+                }
+            }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return list;
     }
@@ -52,12 +56,15 @@ public class JoinRequestDAO implements JoinRequestDAOInterface {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, userId);
-            ResultSet rs = ps.executeQuery();
+            try (ResultSet rs = ps.executeQuery()) {
 
-            while (rs.next()) list.add(map(rs));
+                while (rs.next()) {
+                    list.add(map(rs));
+                }
+            }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return list;
     }
@@ -68,12 +75,15 @@ public class JoinRequestDAO implements JoinRequestDAOInterface {
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
+            try (ResultSet rs = ps.executeQuery()) {
 
-            if (rs.next()) return map(rs);
+                if (rs.next()) {
+                    return map(rs);
+                }
+            }
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            AppErrorHandler.handle(e);
         }
         return null;
     }
@@ -87,7 +97,7 @@ public class JoinRequestDAO implements JoinRequestDAOInterface {
             ps.setInt(2, id);
             ps.executeUpdate();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            AppErrorHandler.handle(e);
         }
     }
     private JoinRequest map(ResultSet rs) throws SQLException {

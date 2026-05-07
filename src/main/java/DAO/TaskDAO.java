@@ -2,11 +2,10 @@ package DAO;
 
 import DTO.TaskDashboardDTO;
 import Model.*;
-import Service.MailService;
+import Utils.AppErrorHandler;
 import database.JDBCUtil;
 import Enum.TaskStatus;
 import Enum.Priority;
-import jdk.jshell.Snippet;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -14,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskDAO implements TaskInterfaceDAO<Task> {
+
     // ================= INSERT =================
     public int insert(Task task) {
         String sql = "INSERT INTO tasks (title, description, status, priority, deadline, project_id) VALUES (?, ?, ?, ?, ?, ?)";
@@ -36,17 +36,17 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
             ps.executeUpdate();
 
             // lay id task vua tao
-            ResultSet rs = ps.getGeneratedKeys();
-
-            if (rs.next()) {
-                int newId = rs.getInt(1);
-                task.setId(newId);
-                return newId;
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    int newId = rs.getInt(1);
+                    task.setId(newId);
+                    return newId;
+                }
             }
-
             return -1;
         } catch (SQLException e) {
-            throw new RuntimeException("Insert task failed", e);
+            AppErrorHandler.handle(e);
+            return -1; // Lỗi mạng / DB thì trả về -1
         }
     }
 
@@ -60,9 +60,12 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
             ps.setString(1, title.trim());
             ps.setInt(2, projectId);
 
-            return ps.executeQuery().next();
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AppErrorHandler.handle(e);
+            return false;
         }
     }
 
@@ -76,7 +79,8 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new RuntimeException("Delete failed", e);
+            AppErrorHandler.handle(e);
+            return false;
         }
     }
 
@@ -102,7 +106,8 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
             ps.setInt(6, task.getId());
             return ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Update failed", e);
+            AppErrorHandler.handle(e);
+            return 0;
         }
     }
 
@@ -116,7 +121,7 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
             ps.setInt(2, taskId);
             ps.executeUpdate();
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
     }
 
@@ -129,12 +134,14 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) return mapTask(rs);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapTask(rs);
+                }
+            }
 
         } catch (SQLException e) {
-            throw new RuntimeException("getById failed", e);
+            AppErrorHandler.handle(e);
         }
         return null;
     }
@@ -171,7 +178,7 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
             while (rs.next()) list.add(mapTask(rs));
 
         } catch (SQLException e) {
-            throw new RuntimeException("Deadline query failed", e);
+            AppErrorHandler.handle(e);
         }
 
         return list;
@@ -186,20 +193,20 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, taskId);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                Comment c = new Comment();
-                c.setId(rs.getInt("id"));
-                c.setTaskId(rs.getInt("task_id"));
-                c.setUserName(rs.getString("user_name"));
-                c.setContent(rs.getString("content"));
-                c.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
-                list.add(c);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Comment c = new Comment();
+                    c.setId(rs.getInt("id"));
+                    c.setTaskId(rs.getInt("task_id"));
+                    c.setUserName(rs.getString("user_name"));
+                    c.setContent(rs.getString("content"));
+                    c.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+                    list.add(c);
+                }
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return list;
@@ -218,7 +225,7 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
             ps.executeUpdate();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
     }
 
@@ -260,16 +267,19 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
             if (param instanceof String) ps.setString(1, (String) param);
             else ps.setInt(1, (Integer) param);
 
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) list.add(mapTask(rs));
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(mapTask(rs));
+                }
+            }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Query failed", e);
+            AppErrorHandler.handle(e);
         }
 
         return list;
     }
+
     public List<TaskDashboardDTO> getDashboardMyTask(int userId){
         List<TaskDashboardDTO> list = new ArrayList<>();
 
@@ -313,26 +323,26 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
                 "t.deadline ASC;";
 
         try (Connection connection = JDBCUtil.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql);
-        ){
+             PreparedStatement ps = connection.prepareStatement(sql)){
+
             ps.setInt(1, userId);
-            ResultSet rs = ps.executeQuery();
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()){
+                    int id = rs.getInt("id");
+                    String title = rs.getString("title");
+                    TaskStatus status = TaskStatus.valueOf(rs.getString("status"));
+                    String projectName = rs.getString("project_name");
+                    Priority priority = Priority.valueOf(rs.getString("priority"));
+                    Timestamp ts = rs.getTimestamp("deadline");
+                    LocalDateTime deadline = ts != null ? ts.toLocalDateTime() : null;
 
-            while(rs.next()){
-                int id = rs.getInt("id");
-                String title = rs.getString("title");
-                TaskStatus status = TaskStatus.valueOf(rs.getString("status"));
-                String projectName = rs.getString("project_name");
-                Priority priority = Priority.valueOf(rs.getString("priority"));
-                Timestamp ts = rs.getTimestamp("deadline");
-                LocalDateTime deadline = ts != null ? ts.toLocalDateTime() : null;
-
-                TaskDashboardDTO task = new TaskDashboardDTO(id, title, projectName, status, priority, deadline);
-                list.add(task);
+                    TaskDashboardDTO task = new TaskDashboardDTO(id, title, projectName, status, priority, deadline);
+                    list.add(task);
+                }
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("getDashboardMyTask failed");
+            AppErrorHandler.handle(e);
         }
 
         return list;
@@ -346,19 +356,18 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, taskId);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                return rs.getInt("project_id");
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("project_id");
+                }
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return null;
     }
-
 
     public List<Task> getAllTasks() {
         List<Task> list = new ArrayList<>();
@@ -374,11 +383,12 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return list;
     }
+
     public List<String> getEmailsInProject(int projectId) {
         List<String> emails = new ArrayList<>();
         String sql = "SELECT u.email FROM users u JOIN user_project up ON u.id = up.user_id WHERE up.project_id = ?";
@@ -394,10 +404,11 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return emails;
     }
+
     public String getProjectNameById(int projectId) {
         String sql = "SELECT name FROM projects WHERE id = ?";
 
@@ -412,10 +423,11 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Lỗi khi lấy tên project (ID: " + projectId + "): " + e.getMessage());
+            AppErrorHandler.handle(e);
         }
         return "Dự án chung (FlowTask)";
     }
+
     public String getEmailByUserId(int userId) {
         String sql = "SELECT email FROM users WHERE id = ?";
         try (Connection conn = JDBCUtil.getConnection();
@@ -429,10 +441,11 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Lỗi khi lấy email user (ID: " + userId + "): " + e.getMessage());
+            AppErrorHandler.handle(e);
         }
         return null;
     }
+
     public List<TaskDashboardDTO> getTasksForOverdueEmail() {
         List<TaskDashboardDTO> list = new ArrayList<>();
         String sql = """
@@ -444,29 +457,31 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
         WHERE t.deadline < NOW() 
           AND t.status <> 'DONE' 
           AND t.overdue_notified = 0
-    """;
+        """;
 
         try (Connection conn = JDBCUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                TaskDashboardDTO dto = new TaskDashboardDTO(
-                        rs.getInt("id"),
-                        rs.getString("title"),
-                        rs.getString("project_name"),
-                        null,
-                        null,
-                        rs.getTimestamp("deadline").toLocalDateTime()
-                );
-                dto.setUserEmail(rs.getString("email"));
-                list.add(dto);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    TaskDashboardDTO dto = new TaskDashboardDTO(
+                            rs.getInt("id"),
+                            rs.getString("title"),
+                            rs.getString("project_name"),
+                            null,
+                            null,
+                            rs.getTimestamp("deadline").toLocalDateTime()
+                    );
+                    dto.setUserEmail(rs.getString("email"));
+                    list.add(dto);
+                }
             }
         } catch (SQLException e) {
-            System.err.println("Lỗi SQL getTasksForOverdueEmail: " + e.getMessage());
+            AppErrorHandler.handle(e);
         }
         return list;
     }
+
     public void markAsOverdueNotified(int taskId) {
         String sql = "UPDATE tasks SET overdue_notified = 1 WHERE id = ?";
 
@@ -477,7 +492,7 @@ public class TaskDAO implements TaskInterfaceDAO<Task> {
             ps.executeUpdate();
 
         } catch (SQLException e) {
-            System.err.println("Lỗi cập nhật overdue_notified cho task " + taskId);
+            AppErrorHandler.handle(e);
         }
     }
 }

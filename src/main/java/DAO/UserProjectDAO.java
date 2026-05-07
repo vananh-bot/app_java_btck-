@@ -3,6 +3,7 @@ package DAO;
 import DTO.MemberDTO;
 import Model.UserProject;
 import Enum.Role;
+import Utils.AppErrorHandler;
 import database.JDBCUtil;
 
 import java.sql.*;
@@ -24,7 +25,7 @@ public class UserProjectDAO implements UserProjectDAOInterface {
         } catch (SQLIntegrityConstraintViolationException e) {
             System.out.println("User đã ở trong project rồi!");
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return false;
     }
@@ -40,7 +41,7 @@ public class UserProjectDAO implements UserProjectDAOInterface {
 
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return false;
     }
@@ -59,7 +60,7 @@ public class UserProjectDAO implements UserProjectDAOInterface {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return list;
     }
@@ -78,7 +79,7 @@ public class UserProjectDAO implements UserProjectDAOInterface {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return list;
     }
@@ -97,7 +98,7 @@ public class UserProjectDAO implements UserProjectDAOInterface {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return null;
     }
@@ -114,7 +115,7 @@ public class UserProjectDAO implements UserProjectDAOInterface {
                 return rs.next();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return false;
     }
@@ -146,7 +147,7 @@ public class UserProjectDAO implements UserProjectDAOInterface {
             System.out.println("Lỗi: Người dùng đã là thành viên của dự án này");
             return false;
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
             return false;
         }
     }
@@ -166,7 +167,8 @@ public class UserProjectDAO implements UserProjectDAOInterface {
         } catch (SQLIntegrityConstraintViolationException e) {
             return false;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            AppErrorHandler.handle(e);
+            return false;
         }
     }
     @Override
@@ -185,18 +187,20 @@ public class UserProjectDAO implements UserProjectDAOInterface {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, projectId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(new MemberDTO(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getString("email"),
-                        Role.valueOf(rs.getString("role"))
-                ));
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    list.add(new MemberDTO(
+                            rs.getInt("id"),
+                            rs.getString("name"),
+                            rs.getString("email"),
+                            Role.valueOf(rs.getString("role"))
+                    ));
+                }
             }
             System.out.println("TOTAL FROM DB: " + list.size());
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return list;
     }
@@ -210,12 +214,14 @@ public class UserProjectDAO implements UserProjectDAOInterface {
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, projectId);
             ps.setInt(2, excludedUserId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                emails.add(rs.getString("email"));
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    emails.add(rs.getString("email"));
+                }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return emails;
     }

@@ -2,6 +2,7 @@ package DAO;
 
 import Model.User;
 import Model.Project;
+import Utils.AppErrorHandler;
 import database.JDBCUtil;
 
 import java.sql.*;
@@ -37,7 +38,7 @@ public class ProjectDAO implements ProjectDAOInterface {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return -1;
     }
@@ -54,7 +55,7 @@ public class ProjectDAO implements ProjectDAOInterface {
 
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return false;
     }
@@ -70,7 +71,7 @@ public class ProjectDAO implements ProjectDAOInterface {
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             System.err.println("Update description failed for projectId=" + projectId);
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return false;
@@ -85,7 +86,7 @@ public class ProjectDAO implements ProjectDAOInterface {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return false;
     }
@@ -103,7 +104,7 @@ public class ProjectDAO implements ProjectDAOInterface {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return null;
     }
@@ -120,7 +121,7 @@ public class ProjectDAO implements ProjectDAOInterface {
                 list.add(mapProject(rs));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return list;
     }
@@ -139,7 +140,7 @@ public class ProjectDAO implements ProjectDAOInterface {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return list;
     }
@@ -157,7 +158,7 @@ public class ProjectDAO implements ProjectDAOInterface {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return null;
     }
@@ -229,7 +230,7 @@ public class ProjectDAO implements ProjectDAOInterface {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return project;
     }
@@ -247,7 +248,7 @@ public class ProjectDAO implements ProjectDAOInterface {
                 return rs.next();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return false;
     }
@@ -294,7 +295,7 @@ public class ProjectDAO implements ProjectDAOInterface {
             }
         } catch (SQLException e) {
             System.err.println("Lỗi khi chạy query getAllProjectCardsWithTaskCount:");
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return dtoList;
@@ -314,14 +315,15 @@ public class ProjectDAO implements ProjectDAOInterface {
 
             ps.setInt(1, projectId);
 
-            ResultSet rs = ps.executeQuery();
+            try (ResultSet rs = ps.executeQuery()) {
 
-            while (rs.next()) {
-                ids.add(rs.getInt("user_id"));
+                while (rs.next()) {
+                    ids.add(rs.getInt("user_id"));
+                }
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return ids;
@@ -331,10 +333,14 @@ public class ProjectDAO implements ProjectDAOInterface {
         try (Connection conn = JDBCUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, projectId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) return rs.getString("name");
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    return rs.getString("name");
+                }
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return "Dự án không xác định";
     }
@@ -343,10 +349,14 @@ public class ProjectDAO implements ProjectDAOInterface {
         try (Connection conn = JDBCUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, projectId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) return rs.getString("description");
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    return rs.getString("description");
+                }
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return "Dự án không xác định";
     }

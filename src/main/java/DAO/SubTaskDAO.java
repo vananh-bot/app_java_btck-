@@ -1,6 +1,7 @@
 package DAO;
 
 import Model.SubTask;
+import Utils.AppErrorHandler;
 import database.JDBCUtil;
 
 import java.sql.Connection;
@@ -25,7 +26,7 @@ public class SubTaskDAO implements SubTaskInterfaceDao {
             return ps.executeUpdate() > 0;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return false;
     }
@@ -44,7 +45,7 @@ public class SubTaskDAO implements SubTaskInterfaceDao {
             return ps.executeUpdate() > 0;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return false;
     }
@@ -60,7 +61,7 @@ public class SubTaskDAO implements SubTaskInterfaceDao {
             return ps.executeUpdate() > 0;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return false;
     }
@@ -75,20 +76,22 @@ public class SubTaskDAO implements SubTaskInterfaceDao {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, taskId);
-            ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
-                SubTask s = new SubTask();
-                s.setId(rs.getInt("id"));
-                s.setTaskId(rs.getInt("task_id"));
-                s.setTitle(rs.getString("title"));
-                s.setCompleted(rs.getBoolean("completed"));
+            try (ResultSet rs = ps.executeQuery()) {
 
-                list.add(s);
+                while (rs.next()) {
+                    SubTask s = new SubTask();
+                    s.setId(rs.getInt("id"));
+                    s.setTaskId(rs.getInt("task_id"));
+                    s.setTitle(rs.getString("title"));
+                    s.setCompleted(rs.getBoolean("completed"));
+
+                    list.add(s);
+                }
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return list;
@@ -105,7 +108,7 @@ public class SubTaskDAO implements SubTaskInterfaceDao {
 
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return false;
     }

@@ -3,6 +3,7 @@ package DAO;
 import Enum.NotificationType;
 import Model.Notification;
 import DTO.NotificationDTO;
+import Utils.AppErrorHandler;
 import database.JDBCUtil;
 
 import java.sql.*;
@@ -20,11 +21,15 @@ public class NotificationDAO {
 
             ps.setInt(1, userId);
 
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) return rs.getInt(1);
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return 0;
@@ -43,11 +48,15 @@ public class NotificationDAO {
 
             ps.setInt(1, userId);
 
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) return rs.getInt(1);
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return 0;
@@ -81,7 +90,7 @@ public class NotificationDAO {
             return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return false;
@@ -103,13 +112,15 @@ public class NotificationDAO {
 
             ps.setInt(1, userId);
 
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(mapNotification(rs));
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    list.add(mapNotification(rs));
+                }
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return list;
@@ -131,13 +142,15 @@ public class NotificationDAO {
 
             ps.setInt(1, userId);
 
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(mapNotification(rs));
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    list.add(mapNotification(rs));
+                }
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return list;
@@ -160,13 +173,14 @@ public class NotificationDAO {
             ps.setInt(1, userId);
             ps.setString(2, type.name());
 
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(mapNotification(rs));
-            }
+            try (ResultSet rs = ps.executeQuery()) {
 
+                while (rs.next()) {
+                    list.add(mapNotification(rs));
+                }
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return list;
@@ -183,7 +197,7 @@ public class NotificationDAO {
             return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return false;
@@ -199,7 +213,7 @@ public class NotificationDAO {
             return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return false;
@@ -216,7 +230,7 @@ public class NotificationDAO {
             return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return false;
@@ -237,11 +251,15 @@ public class NotificationDAO {
             ps.setInt(2, taskId);
             ps.setString(3, NotificationType.DEADLINE.name());
 
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) return rs.getInt(1) > 0;
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    return rs.getInt(1)>0;
+                }
+            }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return false;
@@ -298,14 +316,15 @@ public class NotificationDAO {
                 ps.setString(2, type.name());
             }
 
-            ResultSet rs = ps.executeQuery();
+            try (ResultSet rs = ps.executeQuery()) {
 
-            while (rs.next()) {
-                list.add(mapDTO(rs));
+                while (rs.next()) {
+                    list.add(mapDTO(rs));
+                }
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return list;

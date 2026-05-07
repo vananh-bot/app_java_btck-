@@ -4,6 +4,7 @@ import Model.InviteLink;
 
 import Model.User;
 import Model.Project;
+import Utils.AppErrorHandler;
 import database.JDBCUtil;
 
 import java.sql.*;
@@ -27,7 +28,7 @@ public class InviteLinkDAO implements InviteLinkDAOInterface {
 
             ps.executeUpdate();
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
     }
 
@@ -39,14 +40,15 @@ public class InviteLinkDAO implements InviteLinkDAOInterface {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, token);
-            ResultSet rs = ps.executeQuery();
+            try (ResultSet rs = ps.executeQuery()) {
 
-            if (rs.next()) {
-                return map(rs);
+                if (rs.next()) {
+                    return map(rs);
+                }
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return null;
     }
@@ -60,14 +62,15 @@ public class InviteLinkDAO implements InviteLinkDAOInterface {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, projectId);
-            ResultSet rs = ps.executeQuery();
+            try (ResultSet rs = ps.executeQuery()) {
 
-            while (rs.next()) {
-                list.add(map(rs));
+                while (rs.next()) {
+                    list.add(map(rs));
+                }
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
         return list;
     }
@@ -84,7 +87,7 @@ public class InviteLinkDAO implements InviteLinkDAOInterface {
             ps.executeUpdate();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
     }
 
@@ -99,7 +102,7 @@ public class InviteLinkDAO implements InviteLinkDAOInterface {
             ps.executeUpdate();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
     }
 

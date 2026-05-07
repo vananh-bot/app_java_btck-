@@ -1,6 +1,7 @@
 package DAO;
 
 import Model.Comment;
+import Utils.AppErrorHandler;
 import database.JDBCUtil;
 
 import java.sql.*;
@@ -33,27 +34,30 @@ public class CommentDAO implements CommentDAOInterface{
 
             ps.setInt(1, taskId);
 
-            ResultSet rs = ps.executeQuery();
+            try (ResultSet rs = ps.executeQuery()) {
 
-            while (rs.next()) {
-                Comment c = new Comment();
+                while (rs.next()) {
 
-                c.setId(rs.getInt("id"));
-                c.setTaskId(rs.getInt("task_id"));
-                c.setUserId(rs.getInt("user_id"));
-                c.setUserName(rs.getString("user_name")); // lấy từ users table
-                c.setContent(rs.getString("content"));
+                    Comment c = new Comment();
 
-                Timestamp ts = rs.getTimestamp("created_at");
-                if (ts != null) {
-                    c.setCreatedAt(ts.toLocalDateTime());
+                    c.setId(rs.getInt("id"));
+                    c.setTaskId(rs.getInt("task_id"));
+                    c.setUserId(rs.getInt("user_id"));
+                    c.setUserName(rs.getString("user_name"));
+                    c.setContent(rs.getString("content"));
+
+                    Timestamp ts = rs.getTimestamp("created_at");
+
+                    if (ts != null) {
+                        c.setCreatedAt(ts.toLocalDateTime());
+                    }
+
+                    list.add(c);
                 }
-
-                list.add(c);
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return list;
@@ -79,7 +83,7 @@ public class CommentDAO implements CommentDAOInterface{
             return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return false;
@@ -100,7 +104,7 @@ public class CommentDAO implements CommentDAOInterface{
             return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return false;
@@ -126,7 +130,7 @@ public class CommentDAO implements CommentDAOInterface{
             return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return false;
@@ -144,14 +148,15 @@ public class CommentDAO implements CommentDAOInterface{
 
             ps.setInt(1, taskId);
 
-            ResultSet rs = ps.executeQuery();
+            try (ResultSet rs = ps.executeQuery()) {
 
-            if (rs.next()) {
-                return rs.getInt(1);
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            AppErrorHandler.handle(e);
         }
 
         return 0;
