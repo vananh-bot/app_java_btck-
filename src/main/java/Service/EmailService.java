@@ -133,7 +133,7 @@ public class EmailService {
             </div>
 
             <p style="color: #718096; font-size: 13px; margin-bottom: 25px;">
-                Mã này có hiệu lực trong vòng 10 phút. <br>
+                Mã này có hiệu lực trong vòng 1 phút. <br>
                 Nếu bạn không yêu cầu thay đổi này, hãy bỏ qua email này.
             </p>
 
