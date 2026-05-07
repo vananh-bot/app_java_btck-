@@ -253,6 +253,7 @@ Kiến trúc ứng dụng được tổ chức theo mô hình:
 giúp hệ thống dễ bảo trì, dễ mở rộng và phù hợp với phát triển lâu dài.
 
 **Hướng phát triển tiếp theo:** 
+- Cho phép chỉnh sửa thông tin người dùng
 - Đồng bộ dữ liệu realtime giữa các thành viên
 - Tích hợp biểu đồ thống kê tiến độ công việc
 - Hỗ trợ upload file và attachment cho task
