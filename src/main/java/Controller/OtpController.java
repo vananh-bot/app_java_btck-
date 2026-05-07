@@ -3,6 +3,7 @@ package Controller;
 import Service.MailService;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -111,16 +112,39 @@ public class OtpController {
     @FXML
     void handleResend() {
         generatedOtp = String.valueOf((int) ((Math.random() * 899999) + 100000));
-        new MailService().resendOtpEmail(userEmail, generatedOtp);
 
         errorLabel.setStyle("-fx-text-fill: #008000;");
         errorLabel.setText("Đã gửi lại mã mới!");
         errorLabel.setVisible(true);
 
-        startTimer();
+        Task<Void> sendMailTask = new Task<>() {
+            @Override
+            protected Void call() {
+                new MailService().resendOtpEmail(userEmail, generatedOtp);
+                return null;
+            }
+        };
 
-        otp1.clear(); otp2.clear(); otp3.clear();
-        otp4.clear(); otp5.clear(); otp6.clear();
-        otp1.requestFocus();
+        sendMailTask.setOnSucceeded(e -> {
+            errorLabel.setText("Đã gửi lại mã mới!");
+
+            startTimer();
+
+            otp1.clear();
+            otp2.clear();
+            otp3.clear();
+            otp4.clear();
+            otp5.clear();
+            otp6.clear();
+
+            otp1.requestFocus();
+        });
+
+        sendMailTask.setOnFailed(e -> {
+            errorLabel.setStyle("-fx-text-fill: red;");
+            errorLabel.setText("Gửi OTP thất bại!");
+        });
+
+        new Thread(sendMailTask).start();
     }
 }

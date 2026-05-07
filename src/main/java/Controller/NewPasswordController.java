@@ -3,13 +3,10 @@ package Controller;
 import Service.ForgotPasswordService;
 import Utils.DialogManager;
 import Utils.ResetPasswordContext;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
@@ -30,12 +27,15 @@ public class NewPasswordController {
     @FXML private Label strengthLabel;
     @FXML private Label matchLabel;
     @FXML private Button updateButton;
+    @FXML
+    private ProgressIndicator loading;
 
     // Khai báo Service xử lý Database
     private final ForgotPasswordService forgotService = new ForgotPasswordService();
 
     @FXML
     public void initialize() {
+        showLoading(false);
         newEyeClose.setFocusTraversable(false);
         newEyeOpen.setFocusTraversable(false);
 
@@ -112,30 +112,45 @@ public class NewPasswordController {
             matchLabel.setVisible(true);
             return;
         }
-
-        updateButton.setDisable(true);
-        updateButton.setText("Đang cập nhật...");
-
+        showLoading(true);
         String currentEmail = ResetPasswordContext.getEmail();
 
-        boolean isSuccess = forgotService.resetPassword(currentEmail, pass1);
+        Task<Boolean> task = new Task<Boolean>() {
+            @Override
+            protected Boolean call() throws Exception {
+                return forgotService.resetPassword(currentEmail, pass1);
+            }
+        };
 
-        if (isSuccess) {
-            System.out.println("Đổi mật khẩu thành công!");
-
-            // Xóa cache email và đóng tất cả cửa sổ Dialog
-            ResetPasswordContext.clear();
-            DialogManager.getInstance().closeAll();
-
-        } else {
-            // Hiển thị lỗi nếu update DB thất bại
-            matchLabel.setText("Lỗi hệ thống. Không thể cập nhật mật khẩu.");
+        task.setOnSucceeded(e -> {
+            if(task.getValue()) {
+                ResetPasswordContext.clear();
+                DialogManager.getInstance().closeAll();
+            } else {
+                matchLabel.setText("Lỗi hệ thống. Không thể cập nhật mật khẩu.");
+                matchLabel.setStyle("-fx-text-fill: red;");
+                matchLabel.setVisible(true);
+            }
+            showLoading(false);
+        });
+        task.setOnFailed(e -> {
+            showLoading(false);
+            matchLabel.setText("Có lỗi xảy ra!");
             matchLabel.setStyle("-fx-text-fill: red;");
             matchLabel.setVisible(true);
 
-            // Mở lại nút bấm
-            updateButton.setDisable(false);
-            updateButton.setText("Cập nhật mật khẩu");
-        }
+            task.getException().printStackTrace();
+        });
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    private void showLoading(boolean b){
+        loading.setManaged(b);
+        loading.setProgress(-1);
+        loading.setVisible(b);
+        if(b) updateButton.setText("");
+        else updateButton.setText("Cập nhật mật khẩu");
     }
 }

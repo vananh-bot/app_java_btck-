@@ -78,3 +78,7 @@
     -fx-font-weight: bold;
     -fx-visibility: hidden;
 }
+.forgot-pass-label:hover{
+    -fx-cursor: hand;
+    -fx-underline: true;
+}
