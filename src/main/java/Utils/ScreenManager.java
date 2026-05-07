@@ -1,5 +1,6 @@
 package Utils;
 
+import Controller.MainProjectController;
 import Controller.SidebarController;
 import Enum.Screen;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +9,7 @@ import javafx.scene.layout.BorderPane;
 
 public class ScreenManager {
     private SidebarController sidebarController;
+    private MainProjectController mainProjectController;
 
 
     private Screen currentScreen;
@@ -104,5 +106,11 @@ public class ScreenManager {
         }
     }
 
+    public MainProjectController getMainProjectController() {
+        return mainProjectController;
+    }
 
+    public void setMainProjectController(MainProjectController mainProjectController) {
+        this.mainProjectController = mainProjectController;
+    }
 }

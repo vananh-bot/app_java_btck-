@@ -152,4 +152,14 @@ public class ProjectService {
     public String getDescriptionByProjectId(int projectId){
         return projectDAO.getDescriptionByProjectId(projectId);
     }
+    public void updateDescription(int projectId, String description){
+        projectDAO.updateDescription(projectId, description);
+    }
+    public String convertToPreviewDescription(String description){
+        if(description == null) {
+            return "Không có mô tả dự án";
+        }
+
+        return description.length() < 120 ? description : description.substring(0, 120) + "...";
+    }
 }

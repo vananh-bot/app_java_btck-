@@ -8,8 +8,9 @@ public class ProjectDashboardDTO {
     private int ownerId;
     private String ownerName;
     private int toDoCount, doneCount, inProgressCount;
+    private String previewDescription;
 
-    public ProjectDashboardDTO(int id, String name, int toDoCount, int inProgressCount, int doneCount, int ownerId, String ownerName){
+    public ProjectDashboardDTO(int id, String name, int toDoCount, int inProgressCount, int doneCount, int ownerId, String ownerName, String previewDescription){
         this.id = id;
         this.name = name;
         this.toDoCount = toDoCount;
@@ -17,6 +18,7 @@ public class ProjectDashboardDTO {
         this.doneCount = doneCount;
         this.ownerId = ownerId;
         this.ownerName = ownerName;
+        this.previewDescription = previewDescription;
     }
     public ProjectDashboardDTO(){}
 
@@ -78,5 +80,13 @@ public class ProjectDashboardDTO {
 
     public void setOwnerName(String ownerName) {
         this.ownerName = ownerName;
+    }
+
+    public String getPreviewDescription() {
+        return previewDescription;
+    }
+
+    public void setPreviewDescription(String previewDescription) {
+        this.previewDescription = previewDescription;
     }
 }

@@ -59,6 +59,23 @@ public class ProjectDAO implements ProjectDAOInterface {
         return false;
     }
 
+    public boolean updateDescription(int projectId, String description) {
+        String sql = "UPDATE projects SET description=? WHERE id=?";
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, description);
+            ps.setInt(2, projectId);
+
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Update description failed for projectId=" + projectId);
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
     @Override
     public boolean delete(int id) {
         String sql = "DELETE FROM projects WHERE id=?";
@@ -238,7 +255,7 @@ public class ProjectDAO implements ProjectDAOInterface {
         List<ProjectDashboardDTO> dtoList = new ArrayList<>();
 
         // Câu SQL thần thánh: Gộp 3 bảng và tự đếm số Task trong 1 lần chạy
-        String sql = "SELECT p.id, p.name, p.description, p.owner_id, u.name AS owner_name, p.invite_code, p.created_at, " +
+        String sql = "SELECT p.id, p.name,  CONCAT(LEFT(p.description, 120), '...') AS preview_description, p.owner_id, u.name AS owner_name, p.invite_code, p.created_at, " +
                 "SUM(CASE WHEN t.status = 'TODO' THEN 1 ELSE 0 END) AS todo_count, " +
                 "SUM(CASE WHEN t.status = 'IN_PROGRESS' THEN 1 ELSE 0 END) AS in_progress_count, " +
                 "SUM(CASE WHEN t.status = 'DONE' THEN 1 ELSE 0 END) AS done_count " +
@@ -247,7 +264,7 @@ public class ProjectDAO implements ProjectDAOInterface {
                 "LEFT JOIN tasks t ON p.id = t.project_id " +
                 "JOIN users u ON p.owner_id = u.id " +
                 "WHERE up.user_id = ? " +
-                "GROUP BY p.id, p.name, p.description, p.owner_id, u.name, p.invite_code, p.created_at";
+                "GROUP BY p.id, p.name, p.owner_id, u.name, p.invite_code, p.created_at";
 
         try (Connection conn = JDBCUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -260,14 +277,10 @@ public class ProjectDAO implements ProjectDAOInterface {
                     Timestamp ts = rs.getTimestamp("created_at");
                     LocalDateTime createdAt = (ts != null) ? ts.toLocalDateTime() : null;
 
-                    Project p = new Project(
-                            rs.getInt("id"),
-                            rs.getString("name"),
-                            rs.getString("description"),
-                            rs.getInt("owner_id"),
-                            rs.getString("invite_code"),
-                            createdAt
-                    );
+                    int id = rs.getInt("id");
+                    String name = rs.getString("name");
+                    String previewDescription =  rs.getString("preview_description");
+                    int ownerId = rs.getInt("owner_id");
 
                     // 2. Lấy số đếm Task đã được MySQL tính sẵn
                     int todo = rs.getInt("todo_count");
@@ -276,7 +289,7 @@ public class ProjectDAO implements ProjectDAOInterface {
                     String ownerName = rs.getString("owner_name");
 
                     // 3. Đóng gói vào DTO và ném vào danh sách
-                    dtoList.add(new ProjectDashboardDTO(p.getId(), p.getName(), todo, inProgress, done, p.getOwnerId(), ownerName));
+                    dtoList.add(new ProjectDashboardDTO(id, name, todo, inProgress, done, ownerId, ownerName, previewDescription));
                 }
             }
         } catch (SQLException e) {

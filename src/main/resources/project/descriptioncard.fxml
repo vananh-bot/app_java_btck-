@@ -6,18 +6,15 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="350.0" prefWidth="600.0" styleClass="white_pane" stylesheets="@../css/descriptioncard.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProjectDescriptionCard">
-   <padding>
-      <Insets top="15.0" />
-   </padding>
+
+<StackPane fx:id="overlay" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProjectDescriptionCard">
    <children>
-      <VBox layoutX="-2.0" prefHeight="350.0" prefWidth="600.0">
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="600.0" styleClass="white_pane" stylesheets="@../css/descriptioncard.css">
          <children>
             <HBox prefHeight="74.0" prefWidth="582.0">
                <children>
@@ -117,4 +114,4 @@
           </children>
       </VBox>
    </children>
-</AnchorPane>
+</StackPane>

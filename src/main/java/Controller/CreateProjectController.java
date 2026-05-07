@@ -72,7 +72,7 @@ public class CreateProjectController {
             int projectId = task.getValue();
 
             if(projectId > 0){
-                ProjectDashboardDTO project = new ProjectDashboardDTO(projectId, name, 0, 0, 0, currentUserId, currentUserName);
+                ProjectDashboardDTO project = new ProjectDashboardDTO(projectId, name, 0, 0, 0, currentUserId, currentUserName, projectService.convertToPreviewDescription(description));
                 projectCache.put(project);
 
                 ScreenManager.getInstance().show(Screen.MAIN_PROJECT_VIEW, projectId);

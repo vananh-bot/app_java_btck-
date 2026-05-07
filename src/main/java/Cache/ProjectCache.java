@@ -33,6 +33,11 @@ public class ProjectCache {
             put(p);
         }
     }
+    public void updateDescription(int projectId, String description){
+        ProjectDashboardDTO project = cache.get(projectId);
+
+        if(project != null) project.setPreviewDescription(description);
+    }
 
     public ProjectDashboardDTO get(int id){
         return cache.get(id);

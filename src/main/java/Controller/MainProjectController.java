@@ -19,6 +19,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import Service.helper.TaskUIHelper;
@@ -62,22 +63,21 @@ public class MainProjectController implements DataReceiver<Integer> {
         this.projectId = projectId;
 
         ProjectDashboardDTO projectCache = ProjectCache.getInstance().get(projectId);
-        if(projectCache != null)
+        if(projectCache != null){
             updateProjectLinkName(projectCache.getName());
 
+            updateDescription(projectCache.getPreviewDescription());
+        }
+
         javafx.concurrent.Task<Void> task = new javafx.concurrent.Task<>(){
-            String descriptionText;
             @Override
             protected Void call(){
-                descriptionText = projectService.getDescriptionByProjectId(projectId);
-
                 taskService.init(projectId);
                 return null;
             }
 
             @Override
             protected void succeeded(){
-                updateDescription(descriptionText);
                 init();
                 refresh();
             }
@@ -85,6 +85,11 @@ public class MainProjectController implements DataReceiver<Integer> {
 
         new Thread(task).start();
 
+    }
+
+    @FXML
+    public  void initialize(){
+        ScreenManager.getInstance().setMainProjectController(this);
     }
     // ================= INIT =================
     public void init() {
@@ -213,9 +218,13 @@ public class MainProjectController implements DataReceiver<Integer> {
             projectName.setText(name);
         }
     }
-    private void updateDescription(String descriptionText){
+    public void updateDescription(String descriptionText){
         if(descriptionText != null && !descriptionText.isBlank()){
             description.setText(descriptionText);
         }  else description.setText("Không có mô tả dự án");
+    }
+    @FXML
+    void descriptionView(MouseEvent event) {
+        DialogManager.getInstance().show(Screen.DESCRIPTION_PROJECT, projectId);
     }
 }
