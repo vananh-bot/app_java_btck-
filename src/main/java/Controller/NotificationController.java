@@ -55,12 +55,10 @@ public class NotificationController {
     private final int currentUserId = UserSession.getUserId();
 
     private void setActive(HBox selectedTab) {
-        // remove active của tất cả
         for (HBox tab : tabs) {
             tab.getStyleClass().remove("active");
         }
 
-        // add active cho tab được chọn
         if (!selectedTab.getStyleClass().contains("active")) {
             selectedTab.getStyleClass().add("active");
         }
@@ -82,18 +80,18 @@ public class NotificationController {
     private void setupTabActions() {
 
         all_list.setOnMouseClicked(e -> {
-            setActive(all_list);                  // đổi UI
-            showNotifications(notifications);     // show all
+            setActive(all_list);
+            showNotifications(notifications);
         });
 
         unread_list.setOnMouseClicked(e -> {
-            setActive(unread_list);               // đổi UI
+            setActive(unread_list);
 
             List<NotificationDTO> unread = notifications.stream()
                     .filter(n -> !n.isRead())
                     .toList();
 
-            showNotifications(unread);            // filter
+            showNotifications(unread);
         });
 
         tick_all.setOnAction(e -> {
@@ -179,10 +177,10 @@ public class NotificationController {
                     userService
             );
 
-            // CLICK PROJECT → chuyển màn hình
+
             cell.setOpenProjectHandler(this::openProject);
 
-            // CLICK ROOT ITEM → mở task detail
+
             cell.setOpenTaskHandler(this::openTaskDetail);
 
             return cell;

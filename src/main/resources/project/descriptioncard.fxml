@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="350.0" prefWidth="600.0" styleClass="white_pane" stylesheets="@../css/descriptioncard.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ProjectDescriptionCard">
+<AnchorPane prefHeight="350.0" prefWidth="600.0" styleClass="white_pane" stylesheets="@../css/descriptioncard.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProjectDescriptionCard">
    <padding>
       <Insets top="15.0" />
    </padding>
@@ -57,7 +57,7 @@
                   </HBox>
                   <StackPane alignment="TOP_RIGHT" prefHeight="40.0" prefWidth="308.0">
                      <children>
-                        <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="back_to_project" fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/back.png" />
                            </image>
@@ -81,14 +81,17 @@
             </HBox>
             <HBox prefHeight="305.0" prefWidth="582.0">
                <children>
-                  <TextArea prefHeight="286.0" prefWidth="529.0" promptText="Thêm mô tả dự án" styleClass="content" wrapText="true">
+                  <TextArea fx:id="description" prefHeight="286.0" prefWidth="529.0" promptText="Thêm mô tả dự án" styleClass="content" wrapText="true">
                      <HBox.margin>
                         <Insets left="12.0" />
                      </HBox.margin>
+                     <font>
+                        <Font name="Inter 18pt Medium" size="12.0" />
+                     </font>
                   </TextArea>
                   <VBox prefHeight="271.0" prefWidth="28.0">
                      <children>
-                        <StackPane prefHeight="26.0" prefWidth="22.0">
+                        <StackPane fx:id="editBtn" prefHeight="26.0" prefWidth="22.0">
                            <children>
                               <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
