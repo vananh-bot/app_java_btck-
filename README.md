@@ -17,22 +17,21 @@
 ### Mô hình làm việc
 
 Team hoạt động theo mô hình Scrum, sử dụng Linear để quản lý công việc. Các công việc được keep track đầy đủ trên Linear.
-- Link linear: ...
+- Link linear: [https://linear.app/hoang-uyen/project/btck-java-9f40d8e5acd6/overview](https://linear.app/hoang-uyen/project/btck-java-9f40d8e5acd6/overview)
 
 Mỗi tuần, team sẽ ngồi lại để review công việc đã làm, cùng nhau giải quyết vấn đề và đề xuất giải pháp cho tuần tiếp theo. Sau đó sẽ có buổi demo cho mentor để nhận phản hồi và hướng dẫn.
-
 ### Version Control Strategy
 
 
 Team hoạt động theo Gitflow để quản lý code. Mỗi thành viên sẽ tạo branch từ `develop` để làm việc, các branch đặt theo format `feature/ten-chuc-nang`, sau khi hoàn thành sẽ tạo Pull Request để review code và merge vào develop
 - Các nhánh chính:
-  - `master`: Chứa code ổn định, đã qua kiểm tra và test kỹ lưỡng
+  - `main`: Chứa code ổn định, đã qua kiểm tra và test kỹ lưỡng
   - `develop`: Chứa code mới nhất, đã qua review và test
   - `feature/`: Các nhánh chứa code đang phát triển, short-live, sau khi hoàn thành sẽ merge vào `develop`. 
 
-![alt text](image.png)
+![alt text](Image/image.png)
 
-Sau mỗi tuần, team sẽ merge `develop` vào `master` để release phiên bản mới.
+Sau mỗi tuần, team sẽ merge `develop` vào `main` để release phiên bản mới.
 
 
 
@@ -136,10 +135,31 @@ Chứa các class dùng để kiểm thử ứng dụng.
 ## 5. Ảnh và Video Demo
 
 **Ảnh Demo:**
-![Ảnh Demo](#)
+![alt text](Image/1.png)
+![alt text](Image/2.png)
+![alt text](Image/3.png)
+![alt text](Image/4.png)
+![alt text](Image/5.png)
+![alt text](Image/6.png)
+![alt text](Image/7.png)
+![alt text](Image/8.png)
+![alt text](Image/9.png)
+![alt text](Image/10.png)
+![alt text](Image/11.png)
+![alt text](Image/12.png)
+![alt text](Image/13.png)
+![alt text](Image/14.png)
+![alt text](Image/15.png)
+![alt text](Image/16.png)
+![alt text](Image/17.png)
+![alt text](Image/18.png)
+![alt text](Image/19.png)
+![alt text](Image/20.png)
+![alt text](Image/21.png)
+![alt text](Image/22.png)
 
 **Video Demo:**
-[Video Link](#)
+[[Video Link](#)](https://drive.google.com/file/d/1ftiefDPb-OCjbkOiZTeYA7Fh8SHm6NYL/view?usp=sharing)
 
 
 
