@@ -1,6 +1,7 @@
 
 target/
 !.mvn/wrapper/maven-wrapper.jar
+*.jar
 # Lưu ý: Các dòng !**/target/ bên dưới thường không cần thiết
 # trừ khi bạn có cấu trúc đặc biệt. Nên để target/ ở đầu là đủ.
 
